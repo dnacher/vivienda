@@ -1,5 +1,6 @@
 package viviendas;
 
+import entities.persistence.entities.Usuario;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import javafx.util.Duration;
  */
 public class Viviendas extends Application {   
     
-    public static String user;
+    public static Usuario user;
     
     @Override
     public void start(Stage stage) {        

@@ -83,8 +83,16 @@ public class UsuariosBean implements UsuariosLocal{
 
     @Override
     public Usuario traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario where IdUsuario=:id");            
+        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
         query.setParameter("id", Id);        
+        Usuario usuario=(Usuario) query.uniqueResult();
+        session.close();        
+        return usuario;
+    }
+    
+     public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
+        Query query= session.createQuery("from Usuario usuario where usuario.nombre=:nombre");            
+        query.setParameter("nombre", nombre);        
         Usuario usuario=(Usuario) query.uniqueResult();
         session.close();        
         return usuario;

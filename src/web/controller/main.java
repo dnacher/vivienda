@@ -119,7 +119,7 @@ public class main implements Initializable {
     private void aksiLogout(ActionEvent event) {
       
        // config.newStage2(stage, btnLogout, "/herudi/view/login.fxml", "Sample Apps", true, StageStyle.UNDECORATED, false);
-        Viviendas.user="";
+        Viviendas.user=null;
         
     }
     

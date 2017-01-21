@@ -25,6 +25,8 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import ejb.services.UsuariosBean;
+import exceptions.ServiceException;
 
 public class controllLogin implements Initializable {
     @FXML
@@ -66,11 +68,14 @@ public class controllLogin implements Initializable {
         });      
         
         txtPassword.setOnAction(event -> {
-            try {
-                login(event);
-            } catch (IOException ex) {
+            
+                try {
+                    login(event);
+                } catch (ServiceException ex) {
+                    Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {           
                 Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }           
         });
         
         
@@ -79,9 +84,10 @@ public class controllLogin implements Initializable {
     
 
     @FXML
-    private void login(ActionEvent event) throws IOException {
-        if (txtUsername.getText().equals("asd") && txtPassword.getText().equals("asd")) {           
-            Viviendas.user=txtUsername.getText();                    
+    private void login(ActionEvent event) throws IOException, ServiceException {
+        if (txtUsername.getText().equals("asd") && txtPassword.getText().equals("asd")) {
+            UsuariosBean ub= new UsuariosBean();
+            Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
             Stage st = new Stage();
             stage = (Stage) lblClose.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "formMenu.fxml"));
