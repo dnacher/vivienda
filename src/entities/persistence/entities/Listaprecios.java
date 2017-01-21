@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,6 +15,7 @@ public class Listaprecios  implements java.io.Serializable {
      private Integer precio;
      private Integer cantidad;
      private Date fecha;
+     private Boolean activo;
 
     public Listaprecios() {
     }
@@ -24,12 +25,13 @@ public class Listaprecios  implements java.io.Serializable {
         this.id = id;
         this.material = material;
     }
-    public Listaprecios(ListapreciosId id, Material material, Integer precio, Integer cantidad, Date fecha) {
+    public Listaprecios(ListapreciosId id, Material material, Integer precio, Integer cantidad, Date fecha, Boolean activo) {
        this.id = id;
        this.material = material;
        this.precio = precio;
        this.cantidad = cantidad;
        this.fecha = fecha;
+       this.activo = activo;
     }
    
     public ListapreciosId getId() {
@@ -66,6 +68,13 @@ public class Listaprecios  implements java.io.Serializable {
     
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+    public Boolean getActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
 

@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,21 +15,24 @@ public class Usuario  implements java.io.Serializable {
      private Tipousuario tipousuario;
      private String nombre;
      private String password;
+     private boolean activo;
      private Set audits = new HashSet(0);
 
     public Usuario() {
     }
 
 	
-    public Usuario(int idUsuario, Tipousuario tipousuario) {
+    public Usuario(int idUsuario, Tipousuario tipousuario, boolean activo) {
         this.idUsuario = idUsuario;
         this.tipousuario = tipousuario;
+        this.activo = activo;
     }
-    public Usuario(int idUsuario, Tipousuario tipousuario, String nombre, String password, Set audits) {
+    public Usuario(int idUsuario, Tipousuario tipousuario, String nombre, String password, boolean activo, Set audits) {
        this.idUsuario = idUsuario;
        this.tipousuario = tipousuario;
        this.nombre = nombre;
        this.password = password;
+       this.activo = activo;
        this.audits = audits;
     }
    
@@ -60,6 +63,13 @@ public class Usuario  implements java.io.Serializable {
     
     public void setPassword(String password) {
         this.password = password;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     public Set getAudits() {
         return this.audits;

@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,19 +19,20 @@ public class Otrosgastos  implements java.io.Serializable {
      private Integer monto_1;
      private Date fecha;
      private Boolean pago;
-     private String otrosGastoscol;
+     private boolean activo;
 
     public Otrosgastos() {
     }
 
 	
-    public Otrosgastos(OtrosgastosId id, Concepto concepto, Monto monto, Unidad unidad) {
+    public Otrosgastos(OtrosgastosId id, Concepto concepto, Monto monto, Unidad unidad, boolean activo) {
         this.id = id;
         this.concepto = concepto;
         this.monto = monto;
         this.unidad = unidad;
+        this.activo = activo;
     }
-    public Otrosgastos(OtrosgastosId id, Concepto concepto, Monto monto, Unidad unidad, Integer secuencia, String descripcion, Integer monto_1, Date fecha, Boolean pago, String otrosGastoscol) {
+    public Otrosgastos(OtrosgastosId id, Concepto concepto, Monto monto, Unidad unidad, Integer secuencia, String descripcion, Integer monto_1, Date fecha, Boolean pago, boolean activo) {
        this.id = id;
        this.concepto = concepto;
        this.monto = monto;
@@ -41,7 +42,7 @@ public class Otrosgastos  implements java.io.Serializable {
        this.monto_1 = monto_1;
        this.fecha = fecha;
        this.pago = pago;
-       this.otrosGastoscol = otrosGastoscol;
+       this.activo = activo;
     }
    
     public OtrosgastosId getId() {
@@ -107,12 +108,12 @@ public class Otrosgastos  implements java.io.Serializable {
     public void setPago(Boolean pago) {
         this.pago = pago;
     }
-    public String getOtrosGastoscol() {
-        return this.otrosGastoscol;
+    public boolean isActivo() {
+        return this.activo;
     }
     
-    public void setOtrosGastoscol(String otrosGastoscol) {
-        this.otrosGastoscol = otrosGastoscol;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
 

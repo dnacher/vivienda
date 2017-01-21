@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web.controller;
 
-
+import entities.constantes.Constantes;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import viviendas.Viviendas;
 
 public class menu implements Initializable { 
@@ -43,14 +37,7 @@ public class menu implements Initializable {
     private ListView<String> listMenu;
     @FXML
     private AnchorPane paneData;    
-    @FXML
-    private Button btnLogout;
-
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {       
         rec2 = Screen.getPrimary().getVisualBounds(); 
@@ -66,7 +53,7 @@ public class menu implements Initializable {
             listMenu.getSelectionModel().select(0);
             AnchorPane p;
             try {
-                p = FXMLLoader.load(getClass().getResource("/web/vista/main.fxml"));
+                p = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "main.fxml"));
                 paneData.getChildren().setAll(p);                
                 listMenu.requestFocus();
             } catch (IOException ex) {
@@ -74,8 +61,7 @@ public class menu implements Initializable {
             }
             
         });
-//ControlVentana cv = new ControlVentana();
-    //cv.creaVentanaNotificacion(SplashScreenWin8.user, SplashScreenWin8.user, 3, "tick");
+
     }    
     
     @FXML

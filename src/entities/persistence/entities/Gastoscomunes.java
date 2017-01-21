@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 
@@ -15,23 +15,28 @@ public class Gastoscomunes  implements java.io.Serializable {
      private Boolean isBonificacion;
      private Boolean isPago;
      private Integer monto_1;
+     private Boolean activo;
+     private String gastosComunescol;
 
     public Gastoscomunes() {
     }
 
 	
-    public Gastoscomunes(GastoscomunesId id, Monto monto, Unidad unidad) {
+    public Gastoscomunes(GastoscomunesId id, Monto monto, Unidad unidad, String gastosComunescol) {
         this.id = id;
         this.monto = monto;
         this.unidad = unidad;
+        this.gastosComunescol = gastosComunescol;
     }
-    public Gastoscomunes(GastoscomunesId id, Monto monto, Unidad unidad, Boolean isBonificacion, Boolean isPago, Integer monto_1) {
+    public Gastoscomunes(GastoscomunesId id, Monto monto, Unidad unidad, Boolean isBonificacion, Boolean isPago, Integer monto_1, Boolean activo, String gastosComunescol) {
        this.id = id;
        this.monto = monto;
        this.unidad = unidad;
        this.isBonificacion = isBonificacion;
        this.isPago = isPago;
        this.monto_1 = monto_1;
+       this.activo = activo;
+       this.gastosComunescol = gastosComunescol;
     }
    
     public GastoscomunesId getId() {
@@ -75,6 +80,20 @@ public class Gastoscomunes  implements java.io.Serializable {
     
     public void setMonto_1(Integer monto_1) {
         this.monto_1 = monto_1;
+    }
+    public Boolean getActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+    public String getGastosComunescol() {
+        return this.gastosComunescol;
+    }
+    
+    public void setGastosComunescol(String gastosComunescol) {
+        this.gastosComunescol = gastosComunescol;
     }
 
 

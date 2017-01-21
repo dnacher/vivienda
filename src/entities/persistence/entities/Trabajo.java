@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -24,6 +24,7 @@ public class Trabajo  implements java.io.Serializable {
      private Integer calificacion;
      private Integer duracionEstimada;
      private Integer duracionReal;
+     private byte activo;
      private Trabajoxmaterial trabajoxmaterial;
      private Set historialtrabajos = new HashSet(0);
 
@@ -31,15 +32,16 @@ public class Trabajo  implements java.io.Serializable {
     }
 
 	
-    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia) {
+    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, byte activo) {
         this.idTrabajo = idTrabajo;
         this.estado = estado;
         this.grupo = grupo;
         this.tipoduracion = tipoduracion;
         this.unidad = unidad;
         this.urgencia = urgencia;
+        this.activo = activo;
     }
-    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, String descripcion, Date fechaCreacion, Date fechaVisita, Integer calificacion, Integer duracionEstimada, Integer duracionReal, Trabajoxmaterial trabajoxmaterial, Set historialtrabajos) {
+    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, String descripcion, Date fechaCreacion, Date fechaVisita, Integer calificacion, Integer duracionEstimada, Integer duracionReal, byte activo, Trabajoxmaterial trabajoxmaterial, Set historialtrabajos) {
        this.idTrabajo = idTrabajo;
        this.estado = estado;
        this.grupo = grupo;
@@ -52,6 +54,7 @@ public class Trabajo  implements java.io.Serializable {
        this.calificacion = calificacion;
        this.duracionEstimada = duracionEstimada;
        this.duracionReal = duracionReal;
+       this.activo = activo;
        this.trabajoxmaterial = trabajoxmaterial;
        this.historialtrabajos = historialtrabajos;
     }
@@ -139,6 +142,13 @@ public class Trabajo  implements java.io.Serializable {
     
     public void setDuracionReal(Integer duracionReal) {
         this.duracionReal = duracionReal;
+    }
+    public byte getActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(byte activo) {
+        this.activo = activo;
     }
     public Trabajoxmaterial getTrabajoxmaterial() {
         return this.trabajoxmaterial;

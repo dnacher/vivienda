@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web.controller;
 
+import entities.constantes.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -24,6 +20,8 @@ import web.animations.FadeInLeftTransition;
 import web.animations.FadeInRightTransition;
 import web.animations.FadeInLeftTransition1;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -65,17 +63,28 @@ public class controllLogin implements Initializable {
                 Platform.exit();
                 System.exit(0);
             });
+        });      
+        
+        txtPassword.setOnAction(event -> {
+            try {
+                login(event);
+            } catch (IOException ex) {
+                Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
+        
+        
         // TODO
     }    
+    
 
     @FXML
-    private void aksiLogin(ActionEvent event) throws IOException {
+    private void login(ActionEvent event) throws IOException {
         if (txtUsername.getText().equals("asd") && txtPassword.getText().equals("asd")) {           
             Viviendas.user=txtUsername.getText();                    
             Stage st = new Stage();
             stage = (Stage) lblClose.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/web/vista/formMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "formMenu.fxml"));
             Scene scene = new Scene(root);
             st.initStyle(StageStyle.UNDECORATED);
             st.setResizable(false);

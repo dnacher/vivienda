@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,6 +18,7 @@ public class Monto  implements java.io.Serializable {
      private Date fechaActualizacion;
      private Boolean activo;
      private Set otrosgastoses = new HashSet(0);
+     private Set cuotaconvenios = new HashSet(0);
      private Set gastoscomuneses = new HashSet(0);
      private Set convenios = new HashSet(0);
      private Set historialmontos = new HashSet(0);
@@ -29,13 +30,14 @@ public class Monto  implements java.io.Serializable {
     public Monto(int idmonto) {
         this.idmonto = idmonto;
     }
-    public Monto(int idmonto, String tipoMonto, Integer valorPesos, Date fechaActualizacion, Boolean activo, Set otrosgastoses, Set gastoscomuneses, Set convenios, Set historialmontos) {
+    public Monto(int idmonto, String tipoMonto, Integer valorPesos, Date fechaActualizacion, Boolean activo, Set otrosgastoses, Set cuotaconvenios, Set gastoscomuneses, Set convenios, Set historialmontos) {
        this.idmonto = idmonto;
        this.tipoMonto = tipoMonto;
        this.valorPesos = valorPesos;
        this.fechaActualizacion = fechaActualizacion;
        this.activo = activo;
        this.otrosgastoses = otrosgastoses;
+       this.cuotaconvenios = cuotaconvenios;
        this.gastoscomuneses = gastoscomuneses;
        this.convenios = convenios;
        this.historialmontos = historialmontos;
@@ -82,6 +84,13 @@ public class Monto  implements java.io.Serializable {
     
     public void setOtrosgastoses(Set otrosgastoses) {
         this.otrosgastoses = otrosgastoses;
+    }
+    public Set getCuotaconvenios() {
+        return this.cuotaconvenios;
+    }
+    
+    public void setCuotaconvenios(Set cuotaconvenios) {
+        this.cuotaconvenios = cuotaconvenios;
     }
     public Set getGastoscomuneses() {
         return this.gastoscomuneses;

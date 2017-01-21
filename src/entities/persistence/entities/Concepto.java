@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,19 +14,22 @@ public class Concepto  implements java.io.Serializable {
      private int idconcepto;
      private String nombre;
      private String descripcion;
+     private boolean activo;
      private Set otrosgastoses = new HashSet(0);
 
     public Concepto() {
     }
 
 	
-    public Concepto(int idconcepto) {
+    public Concepto(int idconcepto, boolean activo) {
         this.idconcepto = idconcepto;
+        this.activo = activo;
     }
-    public Concepto(int idconcepto, String nombre, String descripcion, Set otrosgastoses) {
+    public Concepto(int idconcepto, String nombre, String descripcion, boolean activo, Set otrosgastoses) {
        this.idconcepto = idconcepto;
        this.nombre = nombre;
        this.descripcion = descripcion;
+       this.activo = activo;
        this.otrosgastoses = otrosgastoses;
     }
    
@@ -50,6 +53,13 @@ public class Concepto  implements java.io.Serializable {
     
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     public Set getOtrosgastoses() {
         return this.otrosgastoses;

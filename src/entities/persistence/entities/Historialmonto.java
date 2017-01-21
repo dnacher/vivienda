@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class Historialmonto  implements java.io.Serializable {
      private Monto monto;
      private Date fechaActualizacion;
      private Integer valorPesos;
+     private Boolean activo;
 
     public Historialmonto() {
     }
@@ -23,11 +24,12 @@ public class Historialmonto  implements java.io.Serializable {
         this.id = id;
         this.monto = monto;
     }
-    public Historialmonto(HistorialmontoId id, Monto monto, Date fechaActualizacion, Integer valorPesos) {
+    public Historialmonto(HistorialmontoId id, Monto monto, Date fechaActualizacion, Integer valorPesos, Boolean activo) {
        this.id = id;
        this.monto = monto;
        this.fechaActualizacion = fechaActualizacion;
        this.valorPesos = valorPesos;
+       this.activo = activo;
     }
    
     public HistorialmontoId getId() {
@@ -57,6 +59,13 @@ public class Historialmonto  implements java.io.Serializable {
     
     public void setValorPesos(Integer valorPesos) {
         this.valorPesos = valorPesos;
+    }
+    public Boolean getActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
 

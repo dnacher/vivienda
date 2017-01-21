@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,19 +14,22 @@ public class Grupo  implements java.io.Serializable {
      private int idgrupo;
      private String nombre;
      private String descripcion;
+     private boolean activo;
      private Set trabajos = new HashSet(0);
 
     public Grupo() {
     }
 
 	
-    public Grupo(int idgrupo) {
+    public Grupo(int idgrupo, boolean activo) {
         this.idgrupo = idgrupo;
+        this.activo = activo;
     }
-    public Grupo(int idgrupo, String nombre, String descripcion, Set trabajos) {
+    public Grupo(int idgrupo, String nombre, String descripcion, boolean activo, Set trabajos) {
        this.idgrupo = idgrupo;
        this.nombre = nombre;
        this.descripcion = descripcion;
+       this.activo = activo;
        this.trabajos = trabajos;
     }
    
@@ -50,6 +53,13 @@ public class Grupo  implements java.io.Serializable {
     
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     public Set getTrabajos() {
         return this.trabajos;

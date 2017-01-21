@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,20 +15,23 @@ public class Estado  implements java.io.Serializable {
      private String nombre;
      private String descripcion;
      private Integer orden;
+     private boolean activo;
      private Set trabajos = new HashSet(0);
 
     public Estado() {
     }
 
 	
-    public Estado(int idestado) {
+    public Estado(int idestado, boolean activo) {
         this.idestado = idestado;
+        this.activo = activo;
     }
-    public Estado(int idestado, String nombre, String descripcion, Integer orden, Set trabajos) {
+    public Estado(int idestado, String nombre, String descripcion, Integer orden, boolean activo, Set trabajos) {
        this.idestado = idestado;
        this.nombre = nombre;
        this.descripcion = descripcion;
        this.orden = orden;
+       this.activo = activo;
        this.trabajos = trabajos;
     }
    
@@ -59,6 +62,13 @@ public class Estado  implements java.io.Serializable {
     
     public void setOrden(Integer orden) {
         this.orden = orden;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     public Set getTrabajos() {
         return this.trabajos;

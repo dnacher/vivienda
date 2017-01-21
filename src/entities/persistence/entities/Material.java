@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -17,6 +17,7 @@ public class Material  implements java.io.Serializable {
      private Integer cantidad;
      private Integer entrada;
      private Integer salida;
+     private boolean activo;
      private Set listaprecioses = new HashSet(0);
      private Set trabajoxmaterials = new HashSet(0);
 
@@ -24,16 +25,18 @@ public class Material  implements java.io.Serializable {
     }
 
 	
-    public Material(int idmaterial) {
+    public Material(int idmaterial, boolean activo) {
         this.idmaterial = idmaterial;
+        this.activo = activo;
     }
-    public Material(int idmaterial, String nombre, String descripcion, Integer cantidad, Integer entrada, Integer salida, Set listaprecioses, Set trabajoxmaterials) {
+    public Material(int idmaterial, String nombre, String descripcion, Integer cantidad, Integer entrada, Integer salida, boolean activo, Set listaprecioses, Set trabajoxmaterials) {
        this.idmaterial = idmaterial;
        this.nombre = nombre;
        this.descripcion = descripcion;
        this.cantidad = cantidad;
        this.entrada = entrada;
        this.salida = salida;
+       this.activo = activo;
        this.listaprecioses = listaprecioses;
        this.trabajoxmaterials = trabajoxmaterials;
     }
@@ -79,6 +82,13 @@ public class Material  implements java.io.Serializable {
     
     public void setSalida(Integer salida) {
         this.salida = salida;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     public Set getListaprecioses() {
         return this.listaprecioses;

@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,20 +14,23 @@ public class Tipobonificacion  implements java.io.Serializable {
      private int idtipoBonificacion;
      private Integer tipoBonificacion;
      private Integer valor;
-     private Set convenios = new HashSet(0);
+     private boolean activo;
+     private Set cuotaconvenios = new HashSet(0);
 
     public Tipobonificacion() {
     }
 
 	
-    public Tipobonificacion(int idtipoBonificacion) {
+    public Tipobonificacion(int idtipoBonificacion, boolean activo) {
         this.idtipoBonificacion = idtipoBonificacion;
+        this.activo = activo;
     }
-    public Tipobonificacion(int idtipoBonificacion, Integer tipoBonificacion, Integer valor, Set convenios) {
+    public Tipobonificacion(int idtipoBonificacion, Integer tipoBonificacion, Integer valor, boolean activo, Set cuotaconvenios) {
        this.idtipoBonificacion = idtipoBonificacion;
        this.tipoBonificacion = tipoBonificacion;
        this.valor = valor;
-       this.convenios = convenios;
+       this.activo = activo;
+       this.cuotaconvenios = cuotaconvenios;
     }
    
     public int getIdtipoBonificacion() {
@@ -51,12 +54,19 @@ public class Tipobonificacion  implements java.io.Serializable {
     public void setValor(Integer valor) {
         this.valor = valor;
     }
-    public Set getConvenios() {
-        return this.convenios;
+    public boolean isActivo() {
+        return this.activo;
     }
     
-    public void setConvenios(Set convenios) {
-        this.convenios = convenios;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    public Set getCuotaconvenios() {
+        return this.cuotaconvenios;
+    }
+    
+    public void setCuotaconvenios(Set cuotaconvenios) {
+        this.cuotaconvenios = cuotaconvenios;
     }
 
 

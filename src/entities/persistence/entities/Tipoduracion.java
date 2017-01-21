@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,18 +13,23 @@ public class Tipoduracion  implements java.io.Serializable {
 
      private int idtipoDuracion;
      private String nombre;
+     private boolean activo;
+     private String descripcion;
      private Set trabajos = new HashSet(0);
 
     public Tipoduracion() {
     }
 
 	
-    public Tipoduracion(int idtipoDuracion) {
+    public Tipoduracion(int idtipoDuracion, boolean activo) {
         this.idtipoDuracion = idtipoDuracion;
+        this.activo = activo;
     }
-    public Tipoduracion(int idtipoDuracion, String nombre, Set trabajos) {
+    public Tipoduracion(int idtipoDuracion, String nombre, boolean activo, String descripcion, Set trabajos) {
        this.idtipoDuracion = idtipoDuracion;
        this.nombre = nombre;
+       this.activo = activo;
+       this.descripcion = descripcion;
        this.trabajos = trabajos;
     }
    
@@ -41,6 +46,20 @@ public class Tipoduracion  implements java.io.Serializable {
     
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     public Set getTrabajos() {
         return this.trabajos;

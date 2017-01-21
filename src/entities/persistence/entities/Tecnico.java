@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -21,6 +21,7 @@ public class Tecnico  implements java.io.Serializable {
      private Integer estado;
      private Date fechaInicioEstado;
      private Date fechaFinEstado;
+     private Boolean activo;
      private Set historialtrabajos = new HashSet(0);
 
     public Tecnico() {
@@ -30,7 +31,7 @@ public class Tecnico  implements java.io.Serializable {
     public Tecnico(int idTecnico) {
         this.idTecnico = idTecnico;
     }
-    public Tecnico(int idTecnico, String nombre, String apellido, Integer telefono, String mail, Integer calificacion, Integer estado, Date fechaInicioEstado, Date fechaFinEstado, Set historialtrabajos) {
+    public Tecnico(int idTecnico, String nombre, String apellido, Integer telefono, String mail, Integer calificacion, Integer estado, Date fechaInicioEstado, Date fechaFinEstado, Boolean activo, Set historialtrabajos) {
        this.idTecnico = idTecnico;
        this.nombre = nombre;
        this.apellido = apellido;
@@ -40,6 +41,7 @@ public class Tecnico  implements java.io.Serializable {
        this.estado = estado;
        this.fechaInicioEstado = fechaInicioEstado;
        this.fechaFinEstado = fechaFinEstado;
+       this.activo = activo;
        this.historialtrabajos = historialtrabajos;
     }
    
@@ -105,6 +107,13 @@ public class Tecnico  implements java.io.Serializable {
     
     public void setFechaFinEstado(Date fechaFinEstado) {
         this.fechaFinEstado = fechaFinEstado;
+    }
+    public Boolean getActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
     public Set getHistorialtrabajos() {
         return this.historialtrabajos;

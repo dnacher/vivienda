@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 20-ene-2017 21:32:25 by Hibernate Tools 4.3.1
+// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,19 +14,22 @@ public class Reglabonificacion  implements java.io.Serializable {
      private int idreglaBonificacion;
      private String descripcion;
      private Integer diaApagar;
+     private boolean activo;
      private Set convenios = new HashSet(0);
 
     public Reglabonificacion() {
     }
 
 	
-    public Reglabonificacion(int idreglaBonificacion) {
+    public Reglabonificacion(int idreglaBonificacion, boolean activo) {
         this.idreglaBonificacion = idreglaBonificacion;
+        this.activo = activo;
     }
-    public Reglabonificacion(int idreglaBonificacion, String descripcion, Integer diaApagar, Set convenios) {
+    public Reglabonificacion(int idreglaBonificacion, String descripcion, Integer diaApagar, boolean activo, Set convenios) {
        this.idreglaBonificacion = idreglaBonificacion;
        this.descripcion = descripcion;
        this.diaApagar = diaApagar;
+       this.activo = activo;
        this.convenios = convenios;
     }
    
@@ -50,6 +53,13 @@ public class Reglabonificacion  implements java.io.Serializable {
     
     public void setDiaApagar(Integer diaApagar) {
         this.diaApagar = diaApagar;
+    }
+    public boolean isActivo() {
+        return this.activo;
+    }
+    
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     public Set getConvenios() {
         return this.convenios;

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package exceptions;
 
 import java.util.ArrayList;
@@ -5,11 +10,11 @@ import java.util.List;
 
 /**
  *
- * @author Daniel
+ * @author Dani-Fla-Mathi
  */
-public class DAOException extends Exception{
+public class ServiceException extends Exception{
     
-    public static final   String CODIGO_OK = "OK";
+     public static final   String CODIGO_OK = "OK";
     public static final   String CODIGO_ERROR="ERR";
     public static final   String EJB_NO_ENCONTRADO="EJB_NO_ENCONTRADO";
     
@@ -19,11 +24,11 @@ public class DAOException extends Exception{
     private Exception ex;
     List<String> errores=new ArrayList();
     
-    public DAOException() {
-        super("error en generalException");
+    public ServiceException() {
+        super("error en ServiceException");
     }
     
-    public DAOException(String msg) {
+    public ServiceException(String msg) {
         super(msg);
     }
 
