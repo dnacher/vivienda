@@ -573,7 +573,7 @@ and open the template in the editor.
  ******************************************************************************/
 
 .text-field{
-    -fx-skin: "style.MetroTextFieldSkin";
+    -fx-skin: "web.style.MetroTextFieldSkin";
 }
 
 .text-input{
@@ -648,7 +648,7 @@ and open the template in the editor.
  ******************************************************************************/
 
 .password-field {
-    -fx-skin: "style.MetroPasswordFieldSkin";
+    -fx-skin: "web.style.MetroPasswordFieldSkin";
 }
 
 .password-field > .right-button > .right-button-graphic {

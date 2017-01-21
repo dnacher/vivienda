@@ -75,7 +75,7 @@ public class controllLogin implements Initializable {
             Viviendas.user=txtUsername.getText();                    
             Stage st = new Stage();
             stage = (Stage) lblClose.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/vista/formMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/web/vista/formMenu.fxml"));
             Scene scene = new Scene(root);
             st.initStyle(StageStyle.UNDECORATED);
             st.setResizable(false);

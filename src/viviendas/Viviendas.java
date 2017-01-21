@@ -28,7 +28,7 @@ public class Viviendas extends Application {
               
         try {    
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/vista/splash.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/web/vista/splash.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.UNDECORATED);
@@ -42,7 +42,7 @@ public class Viviendas extends Application {
                 stage.hide();
                 Parent root;
                 try {                 
-                    root = FXMLLoader.load(getClass().getResource("/vista/login.fxml"));
+                    root = FXMLLoader.load(getClass().getResource("/web/vista/login.fxml"));
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();

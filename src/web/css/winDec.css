@@ -126,12 +126,12 @@ and open the template in the editor.
     -fx-background-radius: 0;
     -fx-border-style: null;
     -fx-background-color: null;
-    -fx-background-image:url("../images/unfullscreen.png");
+    -fx-background-image:url("../web/images/unfullscreen.png");
     -fx-background-repeat:no-repeat;
 }
 .decoration-button-unfullscreen:hover{
     -fx-background-color: null;
-    -fx-background-image:url("../images/unfullscreen-hover.png");
+    -fx-background-image:url("../web/images/unfullscreen-hover.png");
     -fx-background-repeat:no-repeat;
 }
 /*

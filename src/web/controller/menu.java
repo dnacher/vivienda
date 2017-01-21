@@ -66,7 +66,7 @@ public class menu implements Initializable {
             listMenu.getSelectionModel().select(0);
             AnchorPane p;
             try {
-                p = FXMLLoader.load(getClass().getResource("/vista/main.fxml"));
+                p = FXMLLoader.load(getClass().getResource("/web/vista/main.fxml"));
                 paneData.getChildren().setAll(p);                
                 listMenu.requestFocus();
             } catch (IOException ex) {
