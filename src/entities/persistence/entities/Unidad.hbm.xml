@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ene-2017 21:32:31 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entities.persistence.entities.Unidad" table="unidad" catalog="vivienda" optimistic-lock="version">
+        <id name="idUnidad" type="int">
+            <column name="idUnidad" />
+            <generator class="assigned" />
+        </id>
+        <property name="block" type="string">
+            <column name="Block" length="2" />
+        </property>
+        <property name="torre" type="java.lang.Integer">
+            <column name="Torre" />
+        </property>
+        <property name="puerta" type="java.lang.Integer">
+            <column name="Puerta" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="Nombre" length="45" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="Apellido" length="45" />
+        </property>
+        <property name="telefono" type="java.lang.Integer">
+            <column name="Telefono" />
+        </property>
+        <property name="mail" type="string">
+            <column name="Mail" length="45" />
+        </property>
+        <property name="propietarioInquilino" type="java.lang.Boolean">
+            <column name="PropietarioInquilino" />
+        </property>
+        <property name="fechaIngreso" type="date">
+            <column name="FechaIngreso" length="10" />
+        </property>
+        <property name="activo" type="java.lang.Boolean">
+            <column name="Activo" />
+        </property>
+        <set name="gastoscomuneses" table="gastoscomunes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="unidad_idUnidad" not-null="true" />
+            </key>
+            <one-to-many class="entities.persistence.entities.Gastoscomunes" />
+        </set>
+        <set name="convenios" table="convenio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="unidad_idUnidad" not-null="true" />
+            </key>
+            <one-to-many class="entities.persistence.entities.Convenio" />
+        </set>
+        <set name="otrosgastoses" table="otrosgastos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="unidad_idUnidad" not-null="true" />
+            </key>
+            <one-to-many class="entities.persistence.entities.Otrosgastos" />
+        </set>
+        <set name="trabajos" table="trabajo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Unidad_idUnidad" not-null="true" />
+            </key>
+            <one-to-many class="entities.persistence.entities.Trabajo" />
+        </set>
+    </class>
+</hibernate-mapping>
