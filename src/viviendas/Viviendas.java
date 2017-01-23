@@ -1,5 +1,6 @@
 package viviendas;
 
+import entities.constantes.Constantes;
 import entities.persistence.entities.Usuario;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -29,7 +30,7 @@ public class Viviendas extends Application {
               
         try {    
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/web/vista/splash.fxml"));
+            root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "splash.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.UNDECORATED);
@@ -43,7 +44,7 @@ public class Viviendas extends Application {
                 stage.hide();
                 Parent root;
                 try {                 
-                    root = FXMLLoader.load(getClass().getResource("/web/vista/login.fxml"));
+                    root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "login.fxml"));
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();

@@ -1,7 +1,7 @@
 package ejb.services;
 
 import entities.hibernate.SessionConnection;
-import entities.persistence.entities.Usuario;
+import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
@@ -10,25 +10,25 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author Dani-Fla-Mathi
+ * @author Daniel
  */
-public class UsuariosBean implements UsuariosLocal{
+public class UrgenciaBean implements UrgenciaLocal{
     
     public Session session;
     public Transaction tx;
     public boolean correcto;
     
-    public UsuariosBean(){
+    public UrgenciaBean(){
         session = SessionConnection.getConnection().useSession();
         tx= session.beginTransaction();
         correcto=false;
     }
 
     @Override
-    public boolean guardar(Usuario usuario) throws ServiceException {
+    public boolean guardar(Urgencia urgencia) throws ServiceException {
         correcto=false;
         try{            
-            session.save(usuario);
+            session.save(urgencia);
             tx.commit();
             session.close();
             correcto=true;
@@ -40,10 +40,10 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public boolean eliminar(Usuario usuario) throws ServiceException {
+    public boolean eliminar(Urgencia urgencia) throws ServiceException {
         try{
-            usuario.setActivo(false);
-            session.update(usuario);
+            urgencia.setActivo(false);
+            session.update(urgencia);
             tx.commit();
             session.close();
             correcto=true;
@@ -55,9 +55,9 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public boolean modificar(Usuario usuario) throws ServiceException {
+    public boolean modificar(Urgencia urgencia) throws ServiceException {
         try{            
-            session.update(usuario);
+            session.update(urgencia);
             tx.commit();
             session.close();
             correcto=true;
@@ -69,12 +69,12 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public List<Usuario> traerTodos() throws ServiceException {
+    public List<Urgencia> traerTodos() throws ServiceException {
         try{
             Query query= session.createQuery("from Usuario");         
-            List<Usuario> usuarios=query.list();
+            List<Urgencia> urgencias=query.list();
             session.close();        
-            return usuarios;
+            return urgencias;
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());
@@ -82,25 +82,12 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public Usuario traerUsuarioXId(int Id) throws ServiceException {
+    public Urgencia traerUsuarioXId(int Id) throws ServiceException {
         Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
         query.setParameter("id", Id);        
-        Usuario usuario=(Usuario) query.uniqueResult();
-        session.close();        
-        return usuario;
+        Urgencia urgencias=(Urgencia) query.uniqueResult();
+        session.close();
+        return urgencias;
     }
-    
-    @Override
-     public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
-       Query query= session.createQuery("from Usuario usuario where usuario.nombre=:nombre");            
-        query.setParameter("nombre", nombre);        
-        Usuario usuario=(Usuario) query.uniqueResult();
-        session.close();        
-        return usuario;
-    //  Usuario usuario= new Usuario();
-     // ObjetosBean ob= new ObjetosBean(usuario);
-      
-    }
-    
     
 }

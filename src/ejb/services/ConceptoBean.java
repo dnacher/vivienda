@@ -1,7 +1,7 @@
 package ejb.services;
 
 import entities.hibernate.SessionConnection;
-import entities.persistence.entities.Usuario;
+import entities.persistence.entities.Concepto;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
@@ -10,25 +10,25 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author Dani-Fla-Mathi
+ * @author Daniel
  */
-public class UsuariosBean implements UsuariosLocal{
+public class ConceptoBean implements ConceptoLocal{
     
     public Session session;
     public Transaction tx;
     public boolean correcto;
     
-    public UsuariosBean(){
+    public ConceptoBean(){
         session = SessionConnection.getConnection().useSession();
         tx= session.beginTransaction();
         correcto=false;
     }
 
     @Override
-    public boolean guardar(Usuario usuario) throws ServiceException {
+    public boolean guardar(Concepto concepto) throws ServiceException {
         correcto=false;
         try{            
-            session.save(usuario);
+            session.save(concepto);
             tx.commit();
             session.close();
             correcto=true;
@@ -40,10 +40,10 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public boolean eliminar(Usuario usuario) throws ServiceException {
+    public boolean eliminar(Concepto concepto) throws ServiceException {
         try{
-            usuario.setActivo(false);
-            session.update(usuario);
+            concepto.setActivo(false);
+            session.update(concepto);
             tx.commit();
             session.close();
             correcto=true;
@@ -55,9 +55,9 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public boolean modificar(Usuario usuario) throws ServiceException {
+    public boolean modificar(Concepto concepto) throws ServiceException {
         try{            
-            session.update(usuario);
+            session.update(concepto);
             tx.commit();
             session.close();
             correcto=true;
@@ -69,12 +69,12 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public List<Usuario> traerTodos() throws ServiceException {
+    public List<Concepto> traerTodos() throws ServiceException {
         try{
             Query query= session.createQuery("from Usuario");         
-            List<Usuario> usuarios=query.list();
+            List<Concepto> conceptos=query.list();
             session.close();        
-            return usuarios;
+            return conceptos;
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());
@@ -82,25 +82,12 @@ public class UsuariosBean implements UsuariosLocal{
     }
 
     @Override
-    public Usuario traerUsuarioXId(int Id) throws ServiceException {
+    public Concepto traerConceptoXId(int Id) throws ServiceException {
         Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
         query.setParameter("id", Id);        
-        Usuario usuario=(Usuario) query.uniqueResult();
+        Concepto concepto=(Concepto) query.uniqueResult();
         session.close();        
-        return usuario;
+        return concepto;
     }
-    
-    @Override
-     public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
-       Query query= session.createQuery("from Usuario usuario where usuario.nombre=:nombre");            
-        query.setParameter("nombre", nombre);        
-        Usuario usuario=(Usuario) query.uniqueResult();
-        session.close();        
-        return usuario;
-    //  Usuario usuario= new Usuario();
-     // ObjetosBean ob= new ObjetosBean(usuario);
-      
-    }
-    
     
 }

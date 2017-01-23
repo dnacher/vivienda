@@ -14,6 +14,6 @@ public interface ConvenioLocal {
     public boolean eliminar(Convenio convenio)throws ServiceException;
     public boolean modificar(Convenio convenio)throws ServiceException;
     public List<Convenio> traerTodos()throws ServiceException;
-    public Convenio traerUsuarioXId(int Id)throws ServiceException;
+    public Convenio traerConvenioXId(int Id)throws ServiceException;
     
 }

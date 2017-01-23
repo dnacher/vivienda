@@ -15,5 +15,5 @@ public interface UsuariosLocal {
     public boolean modificar(Usuario usuario)throws ServiceException;
     public List<Usuario> traerTodos()throws ServiceException;
     public Usuario traerUsuarioXId(int Id)throws ServiceException;
-  
+    public Usuario traerUsuarioXNombre(String nombre) throws ServiceException;
 }

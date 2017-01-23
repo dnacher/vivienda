@@ -85,9 +85,11 @@ public class controllLogin implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, ServiceException {
-        if (txtUsername.getText().equals("asd") && txtPassword.getText().equals("asd")) {
-            UsuariosBean ub= new UsuariosBean();
-            Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
+        UsuariosBean ub= new UsuariosBean();
+        Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
+        if(Viviendas.user!=null){
+        if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
+            Viviendas.user.getPassword().equals(txtPassword.getText()))/*txtUsername.getText().equals("asd") && txtPassword.getText().equals("asd")*/{
             Stage st = new Stage();
             stage = (Stage) lblClose.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "formMenu.fxml"));
@@ -99,7 +101,11 @@ public class controllLogin implements Initializable {
             st.show();
             stage.close();
         }else{
-           
+            System.out.println("error de logueo");            
+        }
+        }
+        else{
+            System.out.println("error de logueo");
         }
     }
     

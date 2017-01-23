@@ -11,9 +11,9 @@ import java.util.List;
 public interface ConceptoLocal {
     
     public boolean guardar(Concepto concepto)throws ServiceException;
-    public boolean eliminar(Concepto usuario)throws ServiceException;
-    public boolean modificar(Concepto usuario)throws ServiceException;
+    public boolean eliminar(Concepto concepto)throws ServiceException;
+    public boolean modificar(Concepto concepto)throws ServiceException;
     public List<Concepto> traerTodos()throws ServiceException;
-    public Concepto traerUsuarioXId(int Id)throws ServiceException;
+    public Concepto traerConceptoXId(int Id)throws ServiceException;
     
 }
