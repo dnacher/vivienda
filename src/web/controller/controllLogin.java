@@ -1,5 +1,6 @@
 package web.controller;
 
+import control.ControlVentana;
 import entities.constantes.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -89,7 +90,9 @@ public class controllLogin implements Initializable {
         Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
         if(Viviendas.user!=null){
         if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
-            Viviendas.user.getPassword().equals(txtPassword.getText()))/*txtUsername.getText().equals("asd") && txtPassword.getText().equals("asd")*/{
+            Viviendas.user.getPassword().equals(txtPassword.getText())){
+            ControlVentana cv= new ControlVentana();
+            cv.creaVentanaNotificacionCorrecto();
             Stage st = new Stage();
             stage = (Stage) lblClose.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "formMenu.fxml"));
