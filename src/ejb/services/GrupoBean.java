@@ -71,7 +71,7 @@ public class GrupoBean implements GrupoLocal{
     @Override
     public List<Grupo> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Grupo");         
             List<Grupo> grupos=query.list();
             session.close();        
             return grupos;
@@ -82,8 +82,8 @@ public class GrupoBean implements GrupoLocal{
     }
 
     @Override
-    public Grupo traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Grupo traerGrupoXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Grupo grupo where grupo.IdGrupo=:id");            
         query.setParameter("id", Id);        
         Grupo grupo=(Grupo) query.uniqueResult();
         session.close();

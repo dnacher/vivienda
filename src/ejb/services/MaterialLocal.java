@@ -14,5 +14,5 @@ public interface MaterialLocal {
     public boolean eliminar(Material material)throws ServiceException;
     public boolean modificar(Material material)throws ServiceException;
     public List<Material> traerTodos()throws ServiceException;
-    public Material traerUsuarioXId(int Id)throws ServiceException;
+    public Material traerMaterialXId(int Id)throws ServiceException;
 }

@@ -14,5 +14,5 @@ public interface TecnicoLocal {
     public boolean eliminar(Tecnico tecnico)throws ServiceException;
     public boolean modificar(Tecnico tecnico)throws ServiceException;
     public List<Tecnico> traerTodos()throws ServiceException;
-    public Tecnico traerUsuarioXId(int Id)throws ServiceException;
+    public Tecnico traerTecnicoXId(int Id)throws ServiceException;
 }

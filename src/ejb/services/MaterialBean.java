@@ -71,7 +71,7 @@ public class MaterialBean implements MaterialLocal{
     @Override
     public List<Material> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Material");         
             List<Material> listaMateriales=query.list();
             session.close();        
             return listaMateriales;
@@ -82,8 +82,8 @@ public class MaterialBean implements MaterialLocal{
     }
 
     @Override
-    public Material traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Material traerMaterialXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Material material where material.IdMaterial=:id");            
         query.setParameter("id", Id);        
         Material listaMateriales=(Material) query.uniqueResult();
         session.close();

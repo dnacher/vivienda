@@ -14,5 +14,5 @@ public interface OtrosGastosLocal {
     public boolean eliminar(Otrosgastos otrosGastos)throws ServiceException;
     public boolean modificar(Otrosgastos otrosGastos)throws ServiceException;
     public List<Otrosgastos> traerTodos()throws ServiceException;
-    public Otrosgastos traerUsuarioXId(int Id)throws ServiceException;
+    public Otrosgastos traerOtrosgastosXId(int Id)throws ServiceException;
 }

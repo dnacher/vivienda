@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ejb.services;
 
 import entities.hibernate.SessionConnection;
@@ -76,7 +71,7 @@ public class EstadoBean implements EstadoLocal{
     @Override
     public List<Estado> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Estado");         
             List<Estado> estados=query.list();
             session.close();        
             return estados;
@@ -88,7 +83,7 @@ public class EstadoBean implements EstadoLocal{
 
     @Override
     public Estado traerEstadoBeanXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+        Query query= session.createQuery("from Estado estado where estado.IdEstado=:id");            
         query.setParameter("id", Id);        
         Estado estado=(Estado) query.uniqueResult();
         session.close();        

@@ -14,5 +14,5 @@ public interface HistorialMontoLocal {
     public boolean eliminar(Historialmonto historialMonto)throws ServiceException;
     public boolean modificar(Historialmonto historialMonto)throws ServiceException;
     public List<Historialmonto> traerTodos()throws ServiceException;
-    public Historialmonto traerUsuarioXId(int Id)throws ServiceException;
+    public Historialmonto traerHistorialmontoXId(int Id)throws ServiceException;
 }

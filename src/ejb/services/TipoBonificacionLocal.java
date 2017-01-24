@@ -14,5 +14,5 @@ public interface TipoBonificacionLocal {
     public boolean eliminar(Tipobonificacion tipoBonificacion)throws ServiceException;
     public boolean modificar(Tipobonificacion tipoBonificacion)throws ServiceException;
     public List<Tipobonificacion> traerTodos()throws ServiceException;
-    public Tipobonificacion traerUsuarioXId(int Id)throws ServiceException;
+    public Tipobonificacion traerTipobonificacionXId(int Id)throws ServiceException;
 }

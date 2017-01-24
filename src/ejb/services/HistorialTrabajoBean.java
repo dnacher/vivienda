@@ -56,7 +56,7 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
     @Override
     public List<Historialtrabajo> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Historialtrabajo");         
             List<Historialtrabajo> historialTrabajos=query.list();
             session.close();        
             return historialTrabajos;
@@ -67,8 +67,8 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
     }
 
     @Override
-    public Historialtrabajo traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Historialtrabajo traerHistorialtrabajoXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Historialtrabajo historialTrabajo where historialTrabajo.IdHistorialtrabajo=:id");            
         query.setParameter("id", Id);        
         Historialtrabajo historialTrabajo=(Historialtrabajo) query.uniqueResult();
         session.close();

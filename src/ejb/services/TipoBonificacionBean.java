@@ -71,7 +71,7 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
     @Override
     public List<Tipobonificacion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Tipobonificacion");         
             List<Tipobonificacion> tipoBonificaciones=query.list();
             session.close();        
             return tipoBonificaciones;
@@ -82,8 +82,8 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
     }
 
     @Override
-    public Tipobonificacion traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Tipobonificacion traerTipobonificacionXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Tipobonificacion tipoBonificaciones where tipoBonificaciones.IdUsuario=:id");            
         query.setParameter("id", Id);        
         Tipobonificacion tipoBonificaciones=(Tipobonificacion) query.uniqueResult();
         session.close();

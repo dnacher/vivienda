@@ -14,5 +14,5 @@ public interface UnidadLocal {
     public boolean eliminar(Unidad unidad)throws ServiceException;
     public boolean modificar(Unidad unidad)throws ServiceException;
     public List<Unidad> traerTodos()throws ServiceException;
-    public Unidad traerUsuarioXId(int Id)throws ServiceException;
+    public Unidad traerUnidadXId(int Id)throws ServiceException;
 }

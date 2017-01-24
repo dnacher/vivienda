@@ -14,5 +14,5 @@ public interface TipoDuracionLocal {
     public boolean eliminar(Tipoduracion tipoDuracion)throws ServiceException;
     public boolean modificar(Tipoduracion tipoDuracion)throws ServiceException;
     public List<Tipoduracion> traerTodos()throws ServiceException;
-    public Tipoduracion traerUsuarioXId(int Id)throws ServiceException;
+    public Tipoduracion traerTipoduracionXId(int Id)throws ServiceException;
 }

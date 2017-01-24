@@ -14,5 +14,5 @@ public interface UrgenciaLocal {
     public boolean eliminar(Urgencia urgencia)throws ServiceException;
     public boolean modificar(Urgencia urgencia)throws ServiceException;
     public List<Urgencia> traerTodos()throws ServiceException;
-    public Urgencia traerUsuarioXId(int Id)throws ServiceException;
+    public Urgencia traerUrgenciaXId(int Id)throws ServiceException;
 }

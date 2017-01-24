@@ -71,7 +71,7 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     @Override
     public List<Tipousuario> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Tipousuario");         
             List<Tipousuario> tipoUsuario=query.list();
             session.close();        
             return tipoUsuario;
@@ -82,8 +82,8 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     }
 
     @Override
-    public Tipousuario traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Tipousuario traerTipousuarioXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");            
         query.setParameter("id", Id);        
         Tipousuario tipoUsuario=(Tipousuario) query.uniqueResult();
         session.close();

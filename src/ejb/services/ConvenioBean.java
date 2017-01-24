@@ -71,7 +71,7 @@ public class ConvenioBean implements ConvenioLocal{
     @Override
     public List<Convenio> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Convenio");         
             List<Convenio> convenios=query.list();
             session.close();        
             return convenios;
@@ -83,7 +83,7 @@ public class ConvenioBean implements ConvenioLocal{
 
     @Override
     public Convenio traerConvenioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+        Query query= session.createQuery("from Convenio convenio where convenio.IdConvenio=:id");            
         query.setParameter("id", Id);        
         Convenio convenio=(Convenio) query.uniqueResult();
         session.close();        

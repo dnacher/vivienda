@@ -71,7 +71,7 @@ public class ConceptoBean implements ConceptoLocal{
     @Override
     public List<Concepto> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Concepto");         
             List<Concepto> conceptos=query.list();
             session.close();        
             return conceptos;
@@ -83,7 +83,7 @@ public class ConceptoBean implements ConceptoLocal{
 
     @Override
     public Concepto traerConceptoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+        Query query= session.createQuery("from Concepto concepto where concepto.IdConcepto=:id");            
         query.setParameter("id", Id);        
         Concepto concepto=(Concepto) query.uniqueResult();
         session.close();        

@@ -71,7 +71,7 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     @Override
     public List<Reglabonificacion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Reglabonificacion");         
             List<Reglabonificacion> reglaBonificacion=query.list();
             session.close();        
             return reglaBonificacion;
@@ -82,8 +82,8 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     }
 
     @Override
-    public Reglabonificacion traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Reglabonificacion traerReglabonificacionXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Reglabonificacion reglaBonificacion where reglaBonificacion.IdReglaBonificacion=:id");            
         query.setParameter("id", Id);        
         Reglabonificacion reglaBonificacion=(Reglabonificacion) query.uniqueResult();
         session.close();

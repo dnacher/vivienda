@@ -13,5 +13,5 @@ public interface HistorialTrabajoLocal {
     public boolean guardar(Historialtrabajo historialTrabajo)throws ServiceException;
     public boolean modificar(Historialtrabajo historialTrabajo)throws ServiceException;
     public List<Historialtrabajo> traerTodos()throws ServiceException;
-    public Historialtrabajo traerUsuarioXId(int Id)throws ServiceException;
+    public Historialtrabajo traerHistorialtrabajoXId(int Id)throws ServiceException;
 }

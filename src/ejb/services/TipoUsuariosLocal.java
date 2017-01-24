@@ -14,5 +14,5 @@ public interface TipoUsuariosLocal {
     public boolean eliminar(Tipousuario tipoUsuario)throws ServiceException;
     public boolean modificar(Tipousuario tipoUsuario)throws ServiceException;
     public List<Tipousuario> traerTodos()throws ServiceException;
-    public Tipousuario traerUsuarioXId(int Id)throws ServiceException;
+    public Tipousuario traerTipousuarioXId(int Id)throws ServiceException;
 }

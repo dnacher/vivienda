@@ -71,7 +71,7 @@ public class GastosComunesBean implements GastosComunesLocal{
     @Override
     public List<Gastoscomunes> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Gastoscomunes");         
             List<Gastoscomunes> gastosComunes=query.list();
             session.close();        
             return gastosComunes;
@@ -83,7 +83,7 @@ public class GastosComunesBean implements GastosComunesLocal{
 
     @Override
     public Gastoscomunes traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+        Query query= session.createQuery("from Gastoscomunes gastosComunes where gastosComunes.IdGastoscomunes=:id");            
         query.setParameter("id", Id);        
         Gastoscomunes gastosComunes=(Gastoscomunes) query.uniqueResult();
         session.close();

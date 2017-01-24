@@ -71,7 +71,7 @@ public class TipoDuracionBean implements TipoDuracionLocal{
     @Override
     public List<Tipoduracion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Tipoduracion");         
             List<Tipoduracion> tipoduracion=query.list();
             session.close();        
             return tipoduracion;
@@ -82,8 +82,8 @@ public class TipoDuracionBean implements TipoDuracionLocal{
     }
 
     @Override
-    public Tipoduracion traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Tipoduracion traerTipoduracionXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Tipoduracion tipoduracion where tipoduracion.IdTipoduracion=:id");            
         query.setParameter("id", Id);        
         Tipoduracion tipoduracion=(Tipoduracion) query.uniqueResult();
         session.close();

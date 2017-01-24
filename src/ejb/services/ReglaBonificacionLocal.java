@@ -14,5 +14,5 @@ public interface ReglaBonificacionLocal {
     public boolean eliminar(Reglabonificacion reglaBonificacion)throws ServiceException;
     public boolean modificar(Reglabonificacion reglaBonificacion)throws ServiceException;
     public List<Reglabonificacion> traerTodos()throws ServiceException;
-    public Reglabonificacion traerUsuarioXId(int Id)throws ServiceException;
+    public Reglabonificacion traerReglabonificacionXId(int Id)throws ServiceException;
 }

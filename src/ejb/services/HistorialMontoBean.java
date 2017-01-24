@@ -71,7 +71,7 @@ public class HistorialMontoBean implements HistorialMontoLocal{
     @Override
     public List<Historialmonto> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Historialmonto");         
             List<Historialmonto> historialMontos=query.list();
             session.close();        
             return historialMontos;
@@ -82,8 +82,8 @@ public class HistorialMontoBean implements HistorialMontoLocal{
     }
 
     @Override
-    public Historialmonto traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Historialmonto traerHistorialmontoXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Historialmonto historialMonto where historialMonto.IdHistorialmonto=:id");            
         query.setParameter("id", Id);        
         Historialmonto historialMonto=(Historialmonto) query.uniqueResult();
         session.close();

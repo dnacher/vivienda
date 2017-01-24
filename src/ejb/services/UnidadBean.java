@@ -71,7 +71,7 @@ public class UnidadBean implements UnidadLocal{
     @Override
     public List<Unidad> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Unidad");         
             List<Unidad> unidades=query.list();
             session.close();        
             return unidades;
@@ -82,8 +82,8 @@ public class UnidadBean implements UnidadLocal{
     }
 
     @Override
-    public Unidad traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Unidad traerUnidadXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Unidad unidad where unidad.IdUnidad=:id");            
         query.setParameter("id", Id);        
         Unidad unidades=(Unidad) query.uniqueResult();
         session.close();

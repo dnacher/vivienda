@@ -57,9 +57,9 @@ public class CuotaConvenioBean implements CuotaConvenioLocal{
     public List<Cuotaconvenio> traerTodos() throws ServiceException {
         try{
             Query query= session.createQuery("from Cuotaconvenio");         
-            List<Cuotaconvenio> convenios=query.list();
+            List<Cuotaconvenio> cuotaConvenios=query.list();
             session.close();        
-            return convenios;
+            return cuotaConvenios;
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());
@@ -68,7 +68,7 @@ public class CuotaConvenioBean implements CuotaConvenioLocal{
 
     @Override
     public Cuotaconvenio traerCuotaconvenioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+        Query query= session.createQuery("from Cuotaconvenio cuotaConvenio where cuotaConvenio.IdCuotaconvenio=:id");            
         query.setParameter("id", Id);        
         Cuotaconvenio cuotaConvenio=(Cuotaconvenio) query.uniqueResult();
         session.close();        

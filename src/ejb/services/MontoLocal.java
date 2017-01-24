@@ -14,5 +14,5 @@ public interface MontoLocal {
     public boolean eliminar(Monto monto)throws ServiceException;
     public boolean modificar(Monto monto)throws ServiceException;
     public List<Monto> traerTodos()throws ServiceException;
-    public Monto traerUsuarioXId(int Id)throws ServiceException;
+    public Monto traerMontoXId(int Id)throws ServiceException;
 }

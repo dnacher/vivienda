@@ -71,7 +71,7 @@ public class UrgenciaBean implements UrgenciaLocal{
     @Override
     public List<Urgencia> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Urgencia");         
             List<Urgencia> urgencias=query.list();
             session.close();        
             return urgencias;
@@ -82,8 +82,8 @@ public class UrgenciaBean implements UrgenciaLocal{
     }
 
     @Override
-    public Urgencia traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Urgencia traerUrgenciaXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Urgencia urgencia where urgencia.IdUrgencia=:id");            
         query.setParameter("id", Id);        
         Urgencia urgencias=(Urgencia) query.uniqueResult();
         session.close();

@@ -56,7 +56,7 @@ public class TrabajoBean implements TrabajoLocal{
     @Override
     public List<Trabajo> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Trabajo");         
             List<Trabajo> trabajos=query.list();
             session.close();        
             return trabajos;
@@ -67,8 +67,8 @@ public class TrabajoBean implements TrabajoLocal{
     }
 
     @Override
-    public Trabajo traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Trabajo traerTrabajoXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Trabajo trabajo where trabajo.IdTrabajo=:id");            
         query.setParameter("id", Id);        
         Trabajo trabajos=(Trabajo) query.uniqueResult();
         session.close();

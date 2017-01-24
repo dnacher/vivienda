@@ -71,7 +71,7 @@ public class MontoBean implements MontoLocal{
     @Override
     public List<Monto> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Usuario");         
+            Query query= session.createQuery("from Monto");         
             List<Monto> listaMontos=query.list();
             session.close();        
             return listaMontos;
@@ -82,8 +82,8 @@ public class MontoBean implements MontoLocal{
     }
 
     @Override
-    public Monto traerUsuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
+    public Monto traerMontoXId(int Id) throws ServiceException {
+        Query query= session.createQuery("from Monto monto where monto.IdMonto=:id");            
         query.setParameter("id", Id);        
         Monto listaMontos=(Monto) query.uniqueResult();
         session.close();

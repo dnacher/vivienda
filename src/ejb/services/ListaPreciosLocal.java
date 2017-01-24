@@ -14,5 +14,5 @@ public interface ListaPreciosLocal {
     public boolean eliminar(Listaprecios listaPrecios)throws ServiceException;
     public boolean modificar(Listaprecios listaPrecios)throws ServiceException;
     public List<Listaprecios> traerTodos()throws ServiceException;
-    public Listaprecios traerUsuarioXId(int Id)throws ServiceException;
+    public Listaprecios traerListapreciosXId(int Id)throws ServiceException;
 }
