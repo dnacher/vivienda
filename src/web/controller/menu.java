@@ -1,5 +1,6 @@
 package web.controller;
 
+import UtilsGeneral.UtilsVentanas;
 import entities.constantes.Constantes;
 import java.io.IOException;
 import java.net.URL;
@@ -51,15 +52,9 @@ public class menu implements Initializable {
             maximize.getStyleClass().add("decoration-button-restore");
             resize.setVisible(false);
             listMenu.getSelectionModel().select(0);
-            AnchorPane p;
-            try {
-                p = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "main.fxml"));
-                paneData.getChildren().setAll(p);                
-                listMenu.requestFocus();
-            } catch (IOException ex) {
-                Logger.getLogger(menu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            UtilsVentanas uv= new UtilsVentanas();
+            uv.loadAnchorPane(paneData, Constantes.PAGINA_MAIN);
+            listMenu.requestFocus();
         });
 
     }    
@@ -131,7 +126,8 @@ public class menu implements Initializable {
     private void aksiKlikListMenu(MouseEvent event) {
         switch(listMenu.getSelectionModel().getSelectedIndex()){
             case 0:{
-             //   con.loadAnchorPane(paneData, "customer.fxml");
+                UtilsVentanas uv= new UtilsVentanas();
+                uv.loadAnchorPane(paneData, "web/vista/customer.fxml");
             }break;
             case 1:{
               //  con.loadAnchorPane(paneData, "product.fxml");

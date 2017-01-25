@@ -1,5 +1,7 @@
 package web.controller;
 
+import UtilsGeneral.UtilsVentanas;
+import entities.constantes.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -9,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -24,7 +25,8 @@ public class main implements Initializable {
     private Button resize;
     @FXML
     private Button fullscreen;   
-    
+    @FXML
+    private AnchorPane paneData;
     Stage stage;
     Rectangle2D rec2;
     Double w,h;
@@ -33,7 +35,7 @@ public class main implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {     
-   
+        System.out.println("listmenu" + listMenu.getItems().size());
     };    
         
     
@@ -101,10 +103,12 @@ public class main implements Initializable {
     }
 
     @FXML
-    private void aksiKlikListMenu(MouseEvent event) {
+    private void theListMenu(MouseEvent event) {
+        System.out.println("entre");
         switch(listMenu.getSelectionModel().getSelectedIndex()){
             case 0:{
-               // con.loadAnchorPane(paneData, "customer.fxml");
+               UtilsVentanas uv= new UtilsVentanas();
+               uv.loadAnchorPane(paneData, Constantes.PAGINA_URGENCIA);
             }break;
             case 1:{
               //  con.loadAnchorPane(paneData, "product.fxml");

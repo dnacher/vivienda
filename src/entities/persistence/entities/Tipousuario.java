@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
+// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,6 +15,7 @@ public class Tipousuario  implements java.io.Serializable {
      private String nombre;
      private String descripcion;
      private boolean activo;
+     private Set permisosusuarios = new HashSet(0);
      private Set usuarios = new HashSet(0);
 
     public Tipousuario() {
@@ -25,11 +26,12 @@ public class Tipousuario  implements java.io.Serializable {
         this.id = id;
         this.activo = activo;
     }
-    public Tipousuario(int id, String nombre, String descripcion, boolean activo, Set usuarios) {
+    public Tipousuario(int id, String nombre, String descripcion, boolean activo, Set permisosusuarios, Set usuarios) {
        this.id = id;
        this.nombre = nombre;
        this.descripcion = descripcion;
        this.activo = activo;
+       this.permisosusuarios = permisosusuarios;
        this.usuarios = usuarios;
     }
    
@@ -60,6 +62,13 @@ public class Tipousuario  implements java.io.Serializable {
     
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+    public Set getPermisosusuarios() {
+        return this.permisosusuarios;
+    }
+    
+    public void setPermisosusuarios(Set permisosusuarios) {
+        this.permisosusuarios = permisosusuarios;
     }
     public Set getUsuarios() {
         return this.usuarios;

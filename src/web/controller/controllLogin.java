@@ -27,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import ejb.services.UsuariosBean;
+import ejb.services.UsuariosLocal;
 import exceptions.ServiceException;
 
 public class controllLogin implements Initializable {
@@ -47,6 +48,8 @@ public class controllLogin implements Initializable {
     @FXML 
     private Label lblClose;        
     Stage stage;
+   
+    private UsuariosLocal ul;
     /**
      * Initializes the controller class.
      * @param url
@@ -68,19 +71,15 @@ public class controllLogin implements Initializable {
             });
         });      
         
-        txtPassword.setOnAction(event -> {
-            
+        txtPassword.setOnAction(event -> {            
                 try {
                     login(event);
                 } catch (ServiceException ex) {
                     Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {           
                 Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
-            }           
-        });
-        
-        
-        // TODO
+                }           
+        });      
     }    
     
 
@@ -88,6 +87,7 @@ public class controllLogin implements Initializable {
     private void login(ActionEvent event) throws IOException, ServiceException {
         UsuariosBean ub= new UsuariosBean();
         Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
+        //Viviendas.user=ul.traerUsuarioXNombre(txtUsername.getText());
         if(Viviendas.user!=null){
         if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
             Viviendas.user.getPassword().equals(txtPassword.getText())){
@@ -95,7 +95,7 @@ public class controllLogin implements Initializable {
             cv.creaVentanaNotificacionCorrecto();
             Stage st = new Stage();
             stage = (Stage) lblClose.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "formMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
             Scene scene = new Scene(root);
             st.initStyle(StageStyle.UNDECORATED);
             st.setResizable(false);

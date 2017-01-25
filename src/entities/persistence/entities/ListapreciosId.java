@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 21-ene-2017 0:24:10 by Hibernate Tools 4.3.1
+// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
 
 
 

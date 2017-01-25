@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24-ene-2017 23:29:41 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entities.persistence.entities.Permisosusuario" table="permisosusuario" catalog="vivienda" optimistic-lock="version">
+        <id name="pagina" type="string">
+            <column name="pagina" length="80" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipousuario" class="entities.persistence.entities.Tipousuario" fetch="select">
+            <column name="tipousuario_id" not-null="true" />
+        </many-to-one>
+        <property name="permiso" type="int">
+            <column name="permiso" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -30,6 +30,7 @@
     <mapping resource="entities/persistence/entities/Tipobonificacion.hbm.xml"/>
     <mapping resource="entities/persistence/entities/Cuotaconvenio.hbm.xml"/>
     <mapping resource="entities/persistence/entities/Trabajoxmaterial.hbm.xml"/>
+    <mapping resource="entities/persistence/entities/Permisosusuario.hbm.xml"/>
     <mapping resource="entities/persistence/entities/Audit.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

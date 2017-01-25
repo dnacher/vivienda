@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 21-ene-2017 0:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated 24-ene-2017 23:29:41 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="entities.persistence.entities.Trabajoxmaterial" table="trabajoxmaterial" catalog="vivienda" optimistic-lock="version">
         <id name="trabajoIdTrabajo" type="int">
