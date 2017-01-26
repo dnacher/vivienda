@@ -2,17 +2,14 @@ package web.controller;
 
 import UtilsGeneral.UtilsVentanas;
 import entities.constantes.Constantes;
-import java.io.IOException;
+import entities.enums.Paginas;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
@@ -48,11 +45,7 @@ public class menu implements Initializable {
         rec2 = Screen.getPrimary().getVisualBounds(); 
         w = 0.1;
         h = 0.1;
-        List<String> lista=new ArrayList();
-        lista.add("uno");
-        lista.add("customer");
-        lista.add("urgencia");
-        lista.add("cuatro");
+        List<String> lista=cargaLista();
         listMenu.getItems().addAll(lista);
         Platform.runLater(() -> {
             stage = (Stage) maximize.getScene().getWindow();
@@ -145,9 +138,18 @@ public class menu implements Initializable {
     }
     
     public String creaRuta(String ruta){
-        String rutanueva="";        
-        rutanueva=Constantes.PAGINA_ROOT + ruta + Constantes.EXTENSION_FXML;
-        return rutanueva;
+        String rutaNueva="";        
+        rutaNueva=Constantes.PAGINA_ROOT + ruta.trim() + Constantes.EXTENSION_FXML;
+        return rutaNueva;
     }
     
+    public List<String> cargaLista(){
+        List<String> lista=new ArrayList<>();
+        for(Paginas p: Paginas.values()){
+            lista.add(p.getMenu());
+        }        
+        return lista;
+    }
+    
+        
 }

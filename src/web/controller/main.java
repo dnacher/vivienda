@@ -104,19 +104,16 @@ public class main implements Initializable {
 
     @FXML
     private void theListMenu(MouseEvent event) {
-        System.out.println("entre");
-        switch(listMenu.getSelectionModel().getSelectedIndex()){
-            case 0:{
-               UtilsVentanas uv= new UtilsVentanas();
-               uv.loadAnchorPane(paneData, Constantes.PAGINA_URGENCIA);
-            }break;
-            case 1:{
-              //  con.loadAnchorPane(paneData, "product.fxml");
-            }break;
-            case 2:{
-              //  con.loadAnchorPane(paneData, "micro.fxml");
-            }break;
-        }
+        UtilsVentanas uv= new UtilsVentanas();
+        creaRuta(listMenu.getSelectionModel().getSelectedItem());
+        //uv.loadAnchorPane(paneData, creaRuta(listMenu.getSelectionModel().getSelectedItem()));           
+    }
+    
+    public String creaRuta(String ruta){
+        String rutaNueva="";
+        rutaNueva=Constantes.PAGINA_ROOT + ruta.trim() + Constantes.EXTENSION_FXML;
+        System.out.println(rutaNueva);
+        return rutaNueva;
     }
 
     @FXML
