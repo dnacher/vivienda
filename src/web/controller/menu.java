@@ -4,6 +4,8 @@ import UtilsGeneral.UtilsVentanas;
 import entities.constantes.Constantes;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import viviendas.Viviendas;
 
 public class menu implements Initializable { 
@@ -30,7 +33,8 @@ public class menu implements Initializable {
     private Button resize;
     @FXML
     private Button fullscreen;   
-    
+    @FXML
+    private Button btnLogout;
     Stage stage;
     Rectangle2D rec2;
     Double w,h;
@@ -44,19 +48,22 @@ public class menu implements Initializable {
         rec2 = Screen.getPrimary().getVisualBounds(); 
         w = 0.1;
         h = 0.1;
-        listMenu.getItems().addAll("  Customer", "  Product","  Micro Market","  Manufacturer","  Product Code","  Purchase Order");
+        List<String> lista=new ArrayList();
+        lista.add("uno");
+        lista.add("customer");
+        lista.add("urgencia");
+        lista.add("cuatro");
+        listMenu.getItems().addAll(lista);
         Platform.runLater(() -> {
             stage = (Stage) maximize.getScene().getWindow();
             stage.setMaximized(true);
             stage.setHeight(rec2.getHeight());
             maximize.getStyleClass().add("decoration-button-restore");
-            resize.setVisible(false);
-            listMenu.getSelectionModel().select(0);
+            resize.setVisible(false);         
             UtilsVentanas uv= new UtilsVentanas();
             uv.loadAnchorPane(paneData, Constantes.PAGINA_MAIN);
             listMenu.requestFocus();
         });
-
     }    
     
     @FXML
@@ -124,25 +131,23 @@ public class menu implements Initializable {
 
     @FXML
     private void aksiKlikListMenu(MouseEvent event) {
-        switch(listMenu.getSelectionModel().getSelectedIndex()){
-            case 0:{
-                UtilsVentanas uv= new UtilsVentanas();
-                uv.loadAnchorPane(paneData, "web/vista/customer.fxml");
-            }break;
-            case 1:{
-              //  con.loadAnchorPane(paneData, "product.fxml");
-            }break;
-            case 2:{
-              //  con.loadAnchorPane(paneData, "micro.fxml");
-            }break;
-        }
+        UtilsVentanas uv= new UtilsVentanas();
+        String str=creaRuta(listMenu.getSelectionModel().getSelectedItem());
+        uv.loadAnchorPane(paneData,str);
     }
 
     @FXML
-    private void aksiLogout(ActionEvent event) {       
-      //  config.newStage2(stage, btnLogout, "/herudi/view/login.fxml", "Sample Apps", true, StageStyle.UNDECORATED, false);
+    private void aksiLogout(ActionEvent event) {  
+        UtilsVentanas uv= new UtilsVentanas();
+        uv.newStage2(stage, btnLogout, "/web/vista/login.fxml", "Sample Apps", true, StageStyle.UNDECORATED, false);
         Viviendas.user=null;
         
+    }
+    
+    public String creaRuta(String ruta){
+        String rutanueva="";        
+        rutanueva=Constantes.PAGINA_ROOT + ruta + Constantes.EXTENSION_FXML;
+        return rutanueva;
     }
     
 }
