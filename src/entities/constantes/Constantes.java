@@ -7,8 +7,7 @@ package entities.constantes;
 public class Constantes {
     
     public static String PAGINA_ROOT="/web/vista/";
-    public static String CSS="";
-    
+    public static String CSS="";    
     public static String EXTENSION_FXML=".fxml";
     
     public static String PAGINA_LOGIN=Constantes.PAGINA_ROOT + "login" + Constantes.EXTENSION_FXML;
