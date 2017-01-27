@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
@@ -28,7 +29,49 @@ import web.animations.FadeInUpTransition;
 
 
 public class urgenciaController implements Initializable {
+  
     @FXML
+    private Button btnBack;
+
+    @FXML
+    private AnchorPane paneCrud;
+
+    @FXML
+    private AnchorPane paneTabel;
+
+    @FXML
+    private TableView<?> tableData;
+
+    @FXML
+    private TableColumn<?, ?> colNombre;
+
+    @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private ProgressBar bar;
+
+    @FXML
+    private TableColumn<?, ?> colDescripcion;
+
+    @FXML
+    private Button btnGuardar;
+
+    @FXML
+    private Button btnNew;
+
+    @FXML
+    private ImageView imgLoad;
+
+    @FXML
+    private TextArea TxtDescripcion;
+    
+    @FXML
+    private CheckBox ChkActivo;
+
+    @FXML
+    private TableColumn<?, ?> colActivo;
+    /*@FXML
     private TableView<?> tableData;
     @FXML
     private TableColumn colAction;
@@ -93,7 +136,7 @@ public class urgenciaController implements Initializable {
     private ImageView imgLoad;
     @FXML
     private ProgressBar bar;
-    private ObservableList<?> listData;
+    private ObservableList<?> listData;*/
     /**
      * Initializes the controller class.
      * @param url
@@ -139,17 +182,9 @@ public class urgenciaController implements Initializable {
     }   
     
     private void clear(){
-        txtAddress1.clear();
-        txtAddress2.clear();
-        txtCity.clear();
-        txtCredit.clear();
-        cbDiscount.setValue("");
-        txtEmail.clear();
-        txtFax.clear();
-        txtName.clear();
-        txtPhone.clear();
-        txtState.clear();
-        cbZip.setValue("");
+        txtNombre.clear();
+        TxtDescripcion.clear();
+        
     }
     
     private void displayDiscountCode(){
@@ -295,8 +330,8 @@ public class urgenciaController implements Initializable {
     private void aksiSave(ActionEvent event) {
         Urgencia urgencia=new Urgencia();
         urgencia.setActivo(true);
-        urgencia.setDescripcion(txtPhone.getText());
-        urgencia.setNombre(txtState.getText());
+        urgencia.setDescripcion(TxtDescripcion.getText());
+        urgencia.setNombre(txtNombre.getText());       
         urgencia.setIdurgencia(0);
         UrgenciaBean ub=new UrgenciaBean();
         try {
