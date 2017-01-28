@@ -103,10 +103,8 @@ public class main implements Initializable {
     }
 
     @FXML
-    private void theListMenu(MouseEvent event) {
-        UtilsVentanas uv= new UtilsVentanas();
-        creaRuta(listMenu.getSelectionModel().getSelectedItem());
-        //uv.loadAnchorPane(paneData, creaRuta(listMenu.getSelectionModel().getSelectedItem()));           
+    private void theListMenu(MouseEvent event) {        
+        creaRuta(listMenu.getSelectionModel().getSelectedItem());        
     }
     
     public String creaRuta(String ruta){

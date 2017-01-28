@@ -39,9 +39,6 @@ public class Configuracion  implements java.io.Serializable {
         this.index = index;
     }
 
-
-
-
 }
 
 

@@ -1,5 +1,6 @@
 package web.controller;
 
+import ejb.services.ConfiguracionBean;
 import ejb.services.UrgenciaBean;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
@@ -327,12 +328,13 @@ public class urgenciaController implements Initializable {
     }
     
     @FXML
-    private void aksiSave(ActionEvent event) {
+    private void aksiSave(ActionEvent event) throws ServiceException {
         Urgencia urgencia=new Urgencia();
         urgencia.setActivo(true);
         urgencia.setDescripcion(TxtDescripcion.getText());
-        urgencia.setNombre(txtNombre.getText());       
-        urgencia.setIdurgencia(0);
+        urgencia.setNombre(txtNombre.getText());
+        ConfiguracionBean cb=new ConfiguracionBean();
+        urgencia.setIdurgencia(cb.traerConfiguracionXTabla("Urgencia").getIndex());
         UrgenciaBean ub=new UrgenciaBean();
         try {
             ub.guardar(urgencia);

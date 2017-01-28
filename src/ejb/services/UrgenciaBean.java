@@ -31,6 +31,8 @@ public class UrgenciaBean implements UrgenciaLocal{
             session.save(urgencia);
             tx.commit();
             session.close();
+            ConfiguracionBean cb=new ConfiguracionBean();
+            cb.actualizaConfiguracionXTabla("Urgencia");
             correcto=true;
         }
         catch(Exception ex){

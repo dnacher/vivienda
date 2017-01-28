@@ -1,8 +1,13 @@
 package viviendas;
 
+import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
+import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Usuario;
+import exceptions.ServiceException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
@@ -24,9 +29,10 @@ import javafx.util.Duration;
 public class Viviendas extends Application {   
     
     public static Usuario user;
+    public static List<Configuracion> listaConfiguracion;
     
     @Override
-    public void start(Stage stage) {        
+    public void start(Stage stage) throws ServiceException {        
               
         try {    
             Parent root;
@@ -34,7 +40,7 @@ public class Viviendas extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.show();
+            stage.show();            
             Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(3),
         new EventHandler<ActionEvent>() {

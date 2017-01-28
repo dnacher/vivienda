@@ -1,6 +1,7 @@
 package web.controller;
 
 import control.ControlVentana;
+import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +29,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import ejb.services.UsuariosBean;
 import ejb.services.UsuariosLocal;
+import entities.persistence.entities.Configuracion;
 import exceptions.ServiceException;
+import static viviendas.Viviendas.listaConfiguracion;
 
 public class controllLogin implements Initializable {
     @FXML
@@ -85,12 +88,14 @@ public class controllLogin implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, ServiceException {
-       // UsuariosBean ub= new UsuariosBean();
-        //Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
+        UsuariosBean ub= new UsuariosBean();
+        Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());
         //Viviendas.user=ul.traerUsuarioXNombre(txtUsername.getText());
-        if(true/*Viviendas.user!=null*/){
-        if (true/*Viviendas.user.getNombre().equals(txtUsername.getText()) &&
-            Viviendas.user.getPassword().equals(txtPassword.getText())*/){
+        if(Viviendas.user!=null){
+        if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
+            Viviendas.user.getPassword().equals(txtPassword.getText())){
+            ConfiguracionBean cb=new ConfiguracionBean();
+            listaConfiguracion=cb.traerTodos();
             ControlVentana cv= new ControlVentana();
             cv.creaVentanaNotificacionCorrecto();
             Stage st = new Stage();

@@ -134,7 +134,7 @@ public class menu implements Initializable {
         UtilsVentanas uv= new UtilsVentanas();
         uv.newStage2(stage, btnLogout, "/web/vista/login.fxml", "Sample Apps", true, StageStyle.UNDECORATED, false);
         Viviendas.user=null;
-        
+        //aqui debe actualizar la lista de configuracion.
     }
     
     public String creaRuta(String ruta){
