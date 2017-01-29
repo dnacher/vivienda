@@ -2,16 +2,29 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConceptoBean;
 import ejb.services.ConfiguracionBean;
+import ejb.services.GrupoBean;
+import ejb.services.TipoDuracionBean;
+import ejb.services.TipoUsuarioBean;
 import ejb.services.UrgenciaBean;
+import ejb.services.UsuariosBean;
+import static entities.enums.Paginas.TipoDuracion;
+import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Grupo;
+import entities.persistence.entities.Tipoduracion;
+import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Urgencia;
+import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -33,8 +47,11 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class urgenciaController implements Initializable {
-  
+public class usuarioController implements Initializable {
+
+     @FXML
+    private PasswordField txtPass;
+
     @FXML
     private Button btnBack;
 
@@ -43,6 +60,9 @@ public class urgenciaController implements Initializable {
 
     @FXML
     private AnchorPane paneTabel;
+
+    @FXML
+    private PasswordField txtPass2;
 
     @FXML
     private TableView<?> tableData;
@@ -60,13 +80,41 @@ public class urgenciaController implements Initializable {
     private TableColumn<?, ?> colDescripcion;
 
     @FXML
-    private TextArea TxtDescripcion;
+    private Button btnGuardar;
+
+    @FXML
+    private Button btnNew;
+
+    @FXML
+    private CheckBox chkActivo;
+
+    @FXML
+    private ImageView imgLoad;
+
+    @FXML
+    private ComboBox<Tipousuario> cmbTipoUsuario;
+
+    @FXML
+    private TableColumn<?, ?> colActivo;
+
+    /*    @FXML
+    private AnchorPane paneCrud;
+
+    @FXML
+    private AnchorPane paneTabel;
+
+    @FXML
+    private TableView<?> tableData;
+
+    @FXML
+    private TableColumn<?, ?> colNombre;
+
     
     @FXML
-    private CheckBox ChkActivo;
-    
+    private ProgressBar bar;
+
     @FXML
-    private Label LblNombre;
+    private TableColumn<?, ?> colDescripcion;
 
     @FXML
     private TableColumn<?, ?> colActivo;
@@ -145,6 +193,16 @@ public class urgenciaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         aksiNew(null);
+        TipoUsuarioBean tb=new TipoUsuarioBean();
+        List<Tipousuario> lista;
+         try {
+             lista = tb.traerTodos();
+             ObservableList<Tipousuario> listaTipoUsuario = FXCollections.observableList(lista);
+             cmbTipoUsuario.setItems(listaTipoUsuario);
+         } catch (ServiceException ex) {
+             Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        
        /* Platform.runLater(() -> {
             ApplicationContext ctx = config.getInstance().getApplicationContext();
             crud = ctx.getBean(interCustomer.class);
@@ -183,8 +241,8 @@ public class urgenciaController implements Initializable {
     
     private void clear(){
         txtNombre.clear();
-        TxtDescripcion.clear();
-        
+        txtPass.clear();
+        txtPass2.clear();
     }
     
     private void displayDiscountCode(){
@@ -328,22 +386,22 @@ public class urgenciaController implements Initializable {
     
     @FXML
     private void aksiSave(ActionEvent event){
-        LblNombre.setText("");
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-            LblNombre.setText("El campo nombre no puede estar vacio");
+           
         }
         else{
             try{
-                Urgencia urgencia=new Urgencia();
-                int ind=ConfiguracionControl.traeUltimoId("Urgencia");
-                urgencia.setIdurgencia(ind);
-                urgencia.setActivo(ChkActivo.isSelected());
-                urgencia.setNombre(txtNombre.getText());
-                urgencia.setDescripcion(TxtDescripcion.getText());
-                UrgenciaBean ub=new UrgenciaBean();
-                ub.guardar(urgencia);
-                ConfiguracionControl.ActualizaId("Urgencia");
+                Usuario usuario=new Usuario();
+                int ind=ConfiguracionControl.traeUltimoId("Usuario");
+                usuario.setIdUsuario(ind);
+                usuario.setTipousuario(cmbTipoUsuario.getSelectionModel().getSelectedItem());
+                usuario.setActivo(chkActivo.isSelected());
+                usuario.setNombre(txtNombre.getText());
+                usuario.setPassword(txtPass.getText());
+                UsuariosBean tb=new UsuariosBean();
+                tb.guardar(usuario);
+                ConfiguracionControl.ActualizaId("Usuario");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

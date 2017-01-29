@@ -1,5 +1,6 @@
 package web.controller;
 
+import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
@@ -59,7 +60,7 @@ public class controllLogin implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {        
         Platform.runLater(() -> {
             new FadeInRightTransition(lblUserLogin).play();
             new FadeInLeftTransition(lblWelcome).play();

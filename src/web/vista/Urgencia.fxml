@@ -14,10 +14,11 @@
          <children>
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="*Nombre" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
-            <Label layoutX="62.0" layoutY="243.0" text="Activo" />
+            <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
+            <Label layoutX="148.0" layoutY="243.0" text="Activo" />
             <TextField fx:id="txtNombre" layoutX="193.0" layoutY="66.0" onKeyReleased="#keyState" prefHeight="27.0" prefWidth="200.0" promptText="Nombre" />
             <TextArea fx:id="TxtDescripcion" layoutX="193.0" layoutY="102.0" prefHeight="128.0" prefWidth="256.0" />
-            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="239.0" mnemonicParsing="false" text="CheckBox" />
+            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="239.0" mnemonicParsing="false" selected="true" />
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#aksiSave" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#aksiBack" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>

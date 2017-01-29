@@ -125,8 +125,20 @@ public class menu implements Initializable {
     @FXML
     private void aksiKlikListMenu(MouseEvent event) {
         UtilsVentanas uv= new UtilsVentanas();
-        String str=creaRuta(listMenu.getSelectionModel().getSelectedItem());
-        uv.loadAnchorPane(paneData,str);
+        String ruta=traeNombrePagina(listMenu.getSelectionModel().getSelectedItem());
+        String str=creaRuta(ruta);        
+        uv.loadAnchorPane(paneData,str.trim());
+    }
+    
+    public String traeNombrePagina(String str){
+        String pagina="";
+        for(Paginas p: Paginas.values()){
+            if(str.equals(p.getMenu())){
+                pagina=p.getPagina();
+                break;
+            }
+        }
+        return pagina;
     }
 
     @FXML
@@ -138,8 +150,8 @@ public class menu implements Initializable {
     }
     
     public String creaRuta(String ruta){
-        String rutaNueva="";        
-        rutaNueva=Constantes.PAGINA_ROOT + ruta.trim() + Constantes.EXTENSION_FXML;
+        String rutaNueva="";            
+        rutaNueva=Constantes.PAGINA_ROOT + ruta + Constantes.EXTENSION_FXML;
         return rutaNueva;
     }
     

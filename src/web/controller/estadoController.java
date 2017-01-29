@@ -2,9 +2,21 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConceptoBean;
 import ejb.services.ConfiguracionBean;
+import ejb.services.EstadoBean;
+import ejb.services.GrupoBean;
+import ejb.services.TipoDuracionBean;
+import ejb.services.TipoUsuarioBean;
 import ejb.services.UrgenciaBean;
+import ejb.utils.UtilsConfiguracion;
+import static entities.enums.Paginas.TipoDuracion;
+import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Estado;
+import entities.persistence.entities.Grupo;
+import entities.persistence.entities.Tipoduracion;
+import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -33,8 +45,14 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class urgenciaController implements Initializable {
-  
+public class estadoController implements Initializable {
+    
+    @FXML
+    private TextField TxtOrden;
+
+    @FXML
+    private Label LblOrden;
+        
     @FXML
     private Button btnBack;
 
@@ -333,17 +351,21 @@ public class urgenciaController implements Initializable {
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");
         }
+        else if(!UtilsConfiguracion.esNumero(TxtOrden.getText())){
+            LblOrden.setText("El campo Orden debe ser numerico");
+        }
         else{
             try{
-                Urgencia urgencia=new Urgencia();
-                int ind=ConfiguracionControl.traeUltimoId("Urgencia");
-                urgencia.setIdurgencia(ind);
-                urgencia.setActivo(ChkActivo.isSelected());
-                urgencia.setNombre(txtNombre.getText());
-                urgencia.setDescripcion(TxtDescripcion.getText());
-                UrgenciaBean ub=new UrgenciaBean();
-                ub.guardar(urgencia);
-                ConfiguracionControl.ActualizaId("Urgencia");
+                Estado estado=new Estado();
+                int ind=ConfiguracionControl.traeUltimoId("Estado");
+                estado.setIdestado(ind);
+                estado.setActivo(ChkActivo.isSelected());
+                estado.setNombre(txtNombre.getText());
+                estado.setDescripcion(TxtDescripcion.getText());
+                estado.setOrden(Integer.valueOf(TxtOrden.getText()));
+                EstadoBean eb=new EstadoBean();
+                eb.guardar(estado);
+                ConfiguracionControl.ActualizaId("Estado");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

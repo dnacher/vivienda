@@ -31,4 +31,17 @@ public class UtilsConfiguracion {
             }
         }
     }
+    
+    public static boolean esNumero(String s){
+        boolean esNumero=false;
+        int num;
+        try{
+            num=Integer.valueOf(s);
+            esNumero=true;
+        }
+        catch(Exception ex){
+            esNumero=false;
+        }
+        return esNumero;
+    }
 }

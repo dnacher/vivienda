@@ -9,7 +9,7 @@
             <generator class="assigned" />
         </id>
         <property name="index" type="java.lang.Integer">
-            <column name="Index" />
+            <column name="id" />
         </property>
     </class>
 </hibernate-mapping>

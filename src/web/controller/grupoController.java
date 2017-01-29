@@ -2,9 +2,13 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConceptoBean;
 import ejb.services.ConfiguracionBean;
+import ejb.services.GrupoBean;
 import ejb.services.UrgenciaBean;
+import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Grupo;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -33,7 +37,7 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class urgenciaController implements Initializable {
+public class grupoController implements Initializable {
   
     @FXML
     private Button btnBack;
@@ -335,15 +339,15 @@ public class urgenciaController implements Initializable {
         }
         else{
             try{
-                Urgencia urgencia=new Urgencia();
-                int ind=ConfiguracionControl.traeUltimoId("Urgencia");
-                urgencia.setIdurgencia(ind);
-                urgencia.setActivo(ChkActivo.isSelected());
-                urgencia.setNombre(txtNombre.getText());
-                urgencia.setDescripcion(TxtDescripcion.getText());
-                UrgenciaBean ub=new UrgenciaBean();
-                ub.guardar(urgencia);
-                ConfiguracionControl.ActualizaId("Urgencia");
+                Grupo grupo=new Grupo();
+                int ind=ConfiguracionControl.traeUltimoId("Grupo");
+                grupo.setIdgrupo(ind);
+                grupo.setActivo(ChkActivo.isSelected());
+                grupo.setNombre(txtNombre.getText());
+                grupo.setDescripcion(TxtDescripcion.getText());
+                GrupoBean gb=new GrupoBean();
+                gb.guardar(grupo);
+                ConfiguracionControl.ActualizaId("Grupo");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

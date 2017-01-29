@@ -2,9 +2,21 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConceptoBean;
 import ejb.services.ConfiguracionBean;
+import ejb.services.GrupoBean;
+import ejb.services.ReglaBonificacionBean;
+import ejb.services.TipoDuracionBean;
+import ejb.services.TipoUsuarioBean;
 import ejb.services.UrgenciaBean;
+import ejb.utils.UtilsConfiguracion;
+import static entities.enums.Paginas.TipoDuracion;
+import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Grupo;
+import entities.persistence.entities.Reglabonificacion;
+import entities.persistence.entities.Tipoduracion;
+import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -33,7 +45,7 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class urgenciaController implements Initializable {
+public class reglaBonificacionController implements Initializable {
   
     @FXML
     private Button btnBack;
@@ -60,10 +72,13 @@ public class urgenciaController implements Initializable {
     private TableColumn<?, ?> colDescripcion;
 
     @FXML
-    private TextArea TxtDescripcion;
+    private TextField TxtDescripcion;
     
     @FXML
     private CheckBox ChkActivo;
+    
+    @FXML
+    private TextField TxtDiasaPagar;
     
     @FXML
     private Label LblNombre;
@@ -182,7 +197,7 @@ public class urgenciaController implements Initializable {
     }   
     
     private void clear(){
-        txtNombre.clear();
+        TxtDiasaPagar.clear();
         TxtDescripcion.clear();
         
     }
@@ -330,20 +345,20 @@ public class urgenciaController implements Initializable {
     private void aksiSave(ActionEvent event){
         LblNombre.setText("");
         ControlVentana cv=new ControlVentana();
-        if(txtNombre.getText().isEmpty()){
-            LblNombre.setText("El campo nombre no puede estar vacio");
+        if(!UtilsConfiguracion.esNumero(TxtDiasaPagar.getText())){
+            LblNombre.setText("El campo dias a pagar debe ser numerico");
         }
         else{
             try{
-                Urgencia urgencia=new Urgencia();
-                int ind=ConfiguracionControl.traeUltimoId("Urgencia");
-                urgencia.setIdurgencia(ind);
-                urgencia.setActivo(ChkActivo.isSelected());
-                urgencia.setNombre(txtNombre.getText());
-                urgencia.setDescripcion(TxtDescripcion.getText());
-                UrgenciaBean ub=new UrgenciaBean();
-                ub.guardar(urgencia);
-                ConfiguracionControl.ActualizaId("Urgencia");
+                Reglabonificacion reglaBonificacion=new Reglabonificacion();
+                int ind=ConfiguracionControl.traeUltimoId("ReglaBonificacion");
+                reglaBonificacion.setIdreglaBonificacion(ind);                
+                reglaBonificacion.setDiaApagar(Integer.valueOf(TxtDiasaPagar.getText()));
+                reglaBonificacion.setDescripcion(TxtDescripcion.getText());
+                reglaBonificacion.setActivo(ChkActivo.isSelected());
+                ReglaBonificacionBean rb=new ReglaBonificacionBean();
+                rb.guardar(reglaBonificacion);
+                ConfiguracionControl.ActualizaId("ReglaBonificacion");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

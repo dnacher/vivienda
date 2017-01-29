@@ -35,7 +35,7 @@ public class main implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {     
-        System.out.println("listmenu" + listMenu.getItems().size());
+        
     };    
         
     

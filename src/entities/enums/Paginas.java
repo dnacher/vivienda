@@ -15,20 +15,23 @@ public enum Paginas {
          CotizacionTrabajo("CotizacionTrabajo","Cotizacion Trabajo"),
                      BajaTecnico("BajaTecnico","      Baja Tecnico"),
                            Licencia("Licencia","          Licencia"),
-
+         ReglaBonificacion("ReglaBonificacion","Regla Bonificacion"),
                        Materiales("Materiales","        Materiales"),
-
+                               Estado("Estado","            Estado"),
                            Reportes("Reportes","          Reportes"),
-
+                                 Grupo("Grupo","             Grupo"),
                            Urgencia("Urgencia","          Urgencia"),
-
-                 Configuracion("Configuracion","Configuracion     ");
+                           Concepto("Concepto","          Concepto"),
+                            Usuarios("Usuario","          Usuarios"),
+                     TipoUsuario("TipoUsuario","      Tipo Usuario"),
+                   TipoDuracion("TipoDuracion","     Tipo Duracion"),
+                 Configuracion("Configuracion","     Configuracion");
     /*ListaPrecios("ListaPrecios","Lista Precios"),
-    TipoDuracion("TipoDuracion","Tipo Duracion"),
+    
     Usuarios("Usuarios","Usuarios"),
-    TipoUsuario("TipoUsuario","Tipo Usuario"),
+    
     CargarMasivas("CargarMasivas","Cargar Masivas"),
-    Concepto("Concepto","Concepto"),
+    
     Grupo("Grupo","Grupo");*/
     
     private final String pagina;

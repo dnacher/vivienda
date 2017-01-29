@@ -2,8 +2,10 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConceptoBean;
 import ejb.services.ConfiguracionBean;
 import ejb.services.UrgenciaBean;
+import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
@@ -33,7 +35,7 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class urgenciaController implements Initializable {
+public class conceptoController implements Initializable {
   
     @FXML
     private Button btnBack;
@@ -335,15 +337,15 @@ public class urgenciaController implements Initializable {
         }
         else{
             try{
-                Urgencia urgencia=new Urgencia();
-                int ind=ConfiguracionControl.traeUltimoId("Urgencia");
-                urgencia.setIdurgencia(ind);
-                urgencia.setActivo(ChkActivo.isSelected());
-                urgencia.setNombre(txtNombre.getText());
-                urgencia.setDescripcion(TxtDescripcion.getText());
-                UrgenciaBean ub=new UrgenciaBean();
-                ub.guardar(urgencia);
-                ConfiguracionControl.ActualizaId("Urgencia");
+                Concepto concepto=new Concepto();
+                int ind=ConfiguracionControl.traeUltimoId("Concepto");
+                concepto.setIdconcepto(ind);
+                concepto.setActivo(ChkActivo.isSelected());
+                concepto.setNombre(txtNombre.getText());
+                concepto.setDescripcion(TxtDescripcion.getText());
+                ConceptoBean cb=new ConceptoBean();
+                cb.guardar(concepto);
+                ConfiguracionControl.ActualizaId("Concepto");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }
