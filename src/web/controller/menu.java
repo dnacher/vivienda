@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import viviendas.Viviendas;
+import web.animations.FadeInUpTransition;
 
 public class menu implements Initializable { 
     @FXML
@@ -32,6 +34,10 @@ public class menu implements Initializable {
     private Button fullscreen;   
     @FXML
     private Button btnLogout;
+    
+    @FXML
+    private AnchorPane menuPane;
+    
     Stage stage;
     Rectangle2D rec2;
     Double w,h;
@@ -126,8 +132,19 @@ public class menu implements Initializable {
     private void aksiKlikListMenu(MouseEvent event) {
         UtilsVentanas uv= new UtilsVentanas();
         String ruta=traeNombrePagina(listMenu.getSelectionModel().getSelectedItem());
+        if(ruta.equals("Inicio")){
+            List<String> lista=new ArrayList<>();
+            lista.add("prueba1");
+            lista.add("prueba2");
+            lista.add("prueba3");
+            listMenu.getItems().clear();
+            listMenu.getItems().addAll(lista);
+            new FadeInUpTransition(menuPane).play();    
+        }
+        else{
         String str=creaRuta(ruta);        
         uv.loadAnchorPane(paneData,str.trim());
+        }
     }
     
     public String traeNombrePagina(String str){
@@ -150,9 +167,14 @@ public class menu implements Initializable {
     }
     
     public String creaRuta(String ruta){
+        if(ruta.equals("Inicio")){
+            return "Inicio";
+        }
+        else{
         String rutaNueva="";            
         rutaNueva=Constantes.PAGINA_ROOT + ruta + Constantes.EXTENSION_FXML;
         return rutaNueva;
+        }
     }
     
     public List<String> cargaLista(){
