@@ -13,28 +13,28 @@
       <AnchorPane fx:id="paneCrud" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Block" />
-            <ComboBox layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
+            <ComboBox fx:id="cmbBlock" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Torre" />
-            <ComboBox layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="72.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Puerta" />
-            <TextField layoutX="193.0" layoutY="138.0" />
-            <Label layoutX="62.0" layoutY="177.0" text="Nombre" />
-            <TextField layoutX="193.0" layoutY="174.0" />
-            <Label layoutX="62.0" layoutY="212.0" text="Apellido" />
-            <TextField layoutX="193.0" layoutY="210.0" />
-            <Label layoutX="62.0" layoutY="247.0" text="Telefono" />
-            <TextField layoutX="193.0" layoutY="246.0" />
-            <Label layoutX="62.0" layoutY="282.0" text="Email" />
-            <TextField layoutX="193.0" layoutY="282.0" />
-            <Label layoutX="62.0" layoutY="317.0" text="Propietario/Inquilino" />
-            <ComboBox layoutX="193.0" layoutY="318.0" prefWidth="150.0" />
-            <Label layoutX="62.0" layoutY="352.0" text="Fecha Ingreso" />
-            <DatePicker layoutX="193.0" layoutY="354.0" />
-            <Label layoutX="148.0" layoutY="387.0" text="Activo" />
+            <ComboBox fx:id="cmbTorre" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Puerta" />
+            <TextField fx:id="txtPuerta" layoutX="193.0" layoutY="138.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Nombre" />
+            <TextField fx:id="txtNombre" layoutX="193.0" layoutY="174.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Apellido" />
+            <TextField fx:id="txtApellido" layoutX="193.0" layoutY="210.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="247.0" prefHeight="17.0" prefWidth="122.0" text="Telefono" />
+            <TextField fx:id="txtTelefono" layoutX="193.0" layoutY="246.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="282.0" prefHeight="17.0" prefWidth="122.0" text="Email" />
+            <TextField fx:id="txtMail" layoutX="193.0" layoutY="282.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="321.0" prefHeight="17.0" prefWidth="122.0" text="Propietario/Inquilino" />
+            <ComboBox fx:id="cmbPropietarioInquilino" layoutX="193.0" layoutY="318.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="359.0" prefHeight="17.0" prefWidth="122.0" text="Fecha Ingreso" />
+            <DatePicker fx:id="cmbFechaIngreso" layoutX="193.0" layoutY="354.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="148.0" layoutY="389.0" text="Activo" />
             <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
             <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="390.0" mnemonicParsing="false" selected="true" />
-            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#aksiSave" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
-            <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#aksiBack" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
+            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+            <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>
                   <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -46,7 +46,7 @@
       </AnchorPane>
       <AnchorPane fx:id="paneTabel" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
          <children>
-            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" onMouseClicked="#aksiKlikTableData" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
+            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -55,7 +55,7 @@
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
       </Text>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#aksiNew" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#nuevaUnidad" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />

@@ -185,8 +185,7 @@ public class conceptoController implements Initializable {
     
     private void clear(){
         txtNombre.clear();
-        TxtDescripcion.clear();
-        
+        TxtDescripcion.clear();        
     }
     
     private void displayDiscountCode(){

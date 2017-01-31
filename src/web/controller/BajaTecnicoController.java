@@ -1,5 +1,6 @@
 package web.controller;
 
+import entities.persistence.entities.Tecnico;
 import entities.persistence.entities.Unidad;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,8 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
-public class UnidadesController implements Initializable {
-    
+public class BajaTecnicoController implements Initializable {
+
     @FXML
     private AnchorPane paneCrud;
 
@@ -25,50 +26,28 @@ public class UnidadesController implements Initializable {
     private AnchorPane paneTabel;
 
     @FXML
-    private CheckBox ChkActivo;
-
-    @FXML
-    private ComboBox<String> cmbPropietarioInquilino;
-
-    @FXML
-    private TextField txtPuerta;
-
-    @FXML
-    private TableView<Unidad> tableData;
-
-    @FXML
-    private DatePicker cmbFechaIngreso;
-
-    @FXML
-    private Label LblNombre;
-
-    @FXML
-    private TextField txtNombre;
-
-    @FXML
     private ProgressBar bar;
-    
-    @FXML
-    private TextField txtTelefono;
-    
-    @FXML
-    private ComboBox<String> cmbBlock;
 
     @FXML
-    private ComboBox<Integer> cmbTorre;
+    private ComboBox<Tecnico> cmbTecnico;
 
     @FXML
-    private TextField txtMail;
+    private TableView<Tecnico> tableData;
 
     @FXML
-    private TextField txtApellido;
+    private DatePicker cmbFechaBaja;
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     
     }      
     
-    public void nuevaUnidad(){
+    public void bajaTecnico(){
+        
+    }
+    
+    public void darBaja(){
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
