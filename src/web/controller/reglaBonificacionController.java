@@ -10,7 +10,6 @@ import ejb.services.TipoDuracionBean;
 import ejb.services.TipoUsuarioBean;
 import ejb.services.UrgenciaBean;
 import ejb.utils.UtilsConfiguracion;
-import static entities.enums.Paginas.TipoDuracion;
 import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Grupo;

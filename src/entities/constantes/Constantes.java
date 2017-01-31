@@ -9,9 +9,16 @@ public class Constantes {
     public static String PAGINA_ROOT="/web/vista/";
     public static String CSS="";    
     public static String EXTENSION_FXML=".fxml";
+    public static String MENU_ADMINISTRACION="MenuAdministracion";
+    public static String MENU_MANTENIMIENTO="MenuMantenimiento";
+    public static String MENU_CONFIGURACION="MenuConfiguracion";
+    public static String MENU_PRINCIPAL="MenuPrincipal";
     
     public static String PAGINA_LOGIN=Constantes.PAGINA_ROOT + "login" + Constantes.EXTENSION_FXML;
     public static String PAGINA_URGENCIA=Constantes.PAGINA_ROOT + "urgencia" + Constantes.EXTENSION_FXML;
+    
+    
+    
     
     public static String PAGINA_BAJA_TRABAJADOR=Constantes.PAGINA_ROOT + "bajaTrabajador" + Constantes.EXTENSION_FXML;
     public static String PAGINA_LICENCIA=Constantes.PAGINA_ROOT + "licencia" + Constantes.EXTENSION_FXML;

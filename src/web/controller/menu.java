@@ -2,7 +2,10 @@ package web.controller;
 
 import UtilsGeneral.UtilsVentanas;
 import entities.constantes.Constantes;
-import entities.enums.Paginas;
+import entities.enums.MenuAdministracion;
+import entities.enums.MenuConfiguracion;
+import entities.enums.MenuMantenimiento;
+import entities.enums.MenuPrincipal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.xml.bind.annotation.XmlElement;
 import viviendas.Viviendas;
 import web.animations.FadeInUpTransition;
 
@@ -46,12 +50,14 @@ public class menu implements Initializable {
     @FXML
     private AnchorPane paneData;    
     
+    public String menuActual="";
     @Override
     public void initialize(URL url, ResourceBundle rb) {       
         rec2 = Screen.getPrimary().getVisualBounds(); 
         w = 0.1;
         h = 0.1;
-        List<String> lista=cargaLista();
+        List<String> lista=cargaLista(Constantes.MENU_PRINCIPAL);
+        menuActual=Constantes.MENU_PRINCIPAL;
         listMenu.getItems().addAll(lista);
         Platform.runLater(() -> {
             stage = (Stage) maximize.getScene().getWindow();
@@ -129,31 +135,79 @@ public class menu implements Initializable {
     }
 
     @FXML
-    private void aksiKlikListMenu(MouseEvent event) {
-        UtilsVentanas uv= new UtilsVentanas();
-        String ruta=traeNombrePagina(listMenu.getSelectionModel().getSelectedItem());
-        if(ruta.equals("Inicio")){
-            List<String> lista=new ArrayList<>();
-            lista.add("prueba1");
-            lista.add("prueba2");
-            lista.add("prueba3");
-            listMenu.getItems().clear();
-            listMenu.getItems().addAll(lista);
-            new FadeInUpTransition(menuPane).play();    
-        }
-        else{
-        String str=creaRuta(ruta);        
-        uv.loadAnchorPane(paneData,str.trim());
-        }
+    private void aksiKlikListMenu(MouseEvent event) {        
+        String ruta=traeNombrePagina(listMenu.getSelectionModel().getSelectedItem());       
+        String str=creaRuta(ruta);
+        cargaMenu(ruta);       
+    }
+    
+    public void cargaMenu(String ruta){    
+        boolean flag=false;
+        List<String> listaMenu=new ArrayList<>();
+        listMenu.getItems().clear();
+        switch(ruta){            
+            case "Inicio":                             
+                listaMenu=cargaLista(Constantes.MENU_PRINCIPAL);
+                menuActual=Constantes.MENU_PRINCIPAL;
+                break;
+            case "Administracion":
+                listaMenu=cargaLista(Constantes.MENU_ADMINISTRACION);
+                menuActual=Constantes.MENU_ADMINISTRACION;
+                break;
+            case "Mantenimiento":
+                listaMenu=cargaLista(Constantes.MENU_MANTENIMIENTO);
+                menuActual=Constantes.MENU_MANTENIMIENTO;
+                break;
+            case "Configuracion":
+                listaMenu=cargaLista(Constantes.MENU_CONFIGURACION);
+                menuActual=Constantes.MENU_CONFIGURACION;
+                break;
+            default:
+                UtilsVentanas uv= new UtilsVentanas();
+                ruta=creaRuta(ruta);
+                uv.loadAnchorPane(paneData,ruta);
+                listaMenu=cargaLista(Constantes.MENU_PRINCIPAL);
+                menuActual=Constantes.MENU_PRINCIPAL;               
+        }        
+            listMenu.getItems().addAll(listaMenu);
+            new FadeInUpTransition(menuPane).play();
+        
     }
     
     public String traeNombrePagina(String str){
         String pagina="";
-        for(Paginas p: Paginas.values()){
-            if(str.equals(p.getMenu())){
-                pagina=p.getPagina();
+        switch(menuActual){
+            case "MenuAdministracion":
+                for(MenuAdministracion p: MenuAdministracion.values()){
+                    if(str.equals(p.getMenu())){
+                        pagina=p.getPagina();
+                        break;
+                    }
+                }
                 break;
-            }
+            case "MenuConfiguracion":
+                for(MenuConfiguracion p: MenuConfiguracion.values()){
+                    if(str.equals(p.getMenu())){
+                        pagina=p.getPagina();
+                        break;
+                    }
+                }
+                break;
+            case "MenuMantenimiento":
+                for(MenuMantenimiento p: MenuMantenimiento.values()){
+                    if(str.equals(p.getMenu())){
+                        pagina=p.getPagina();
+                        break;
+                    }
+                }
+                break;            
+            case "MenuPrincipal":
+                for(MenuPrincipal p: MenuPrincipal.values()){
+                    if(str.equals(p.getMenu())){
+                        pagina=p.getPagina();
+                        break;
+                    }
+                }
         }
         return pagina;
     }
@@ -166,22 +220,36 @@ public class menu implements Initializable {
         //aqui debe actualizar la lista de configuracion.
     }
     
-    public String creaRuta(String ruta){
-        if(ruta.equals("Inicio")){
-            return "Inicio";
-        }
-        else{
+    public String creaRuta(String ruta){        
         String rutaNueva="";            
         rutaNueva=Constantes.PAGINA_ROOT + ruta + Constantes.EXTENSION_FXML;
-        return rutaNueva;
-        }
+        return rutaNueva;     
     }
     
-    public List<String> cargaLista(){
+    public List<String> cargaLista(String str){
         List<String> lista=new ArrayList<>();
-        for(Paginas p: Paginas.values()){
-            lista.add(p.getMenu());
-        }        
+        switch(str){
+            case "MenuAdministracion":
+                for(MenuAdministracion p: MenuAdministracion.values()){
+                    lista.add(p.getMenu());
+                }
+                break;
+            case "MenuConfiguracion":
+                for(MenuConfiguracion p: MenuConfiguracion.values()){
+                    lista.add(p.getMenu());
+                }
+                break;
+            case "MenuMantenimiento":
+                for(MenuMantenimiento p: MenuMantenimiento.values()){
+                    lista.add(p.getMenu());
+                }
+                break;
+            case "MenuPrincipal":
+                for(MenuPrincipal p: MenuPrincipal.values()){
+                   lista.add(p.getMenu());
+                }
+                break;
+        }                
         return lista;
     }
     

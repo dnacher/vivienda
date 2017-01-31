@@ -2,24 +2,18 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
-import ejb.services.ConceptoBean;
 import ejb.services.ConfiguracionBean;
-import ejb.services.GrupoBean;
-import ejb.services.TipoDuracionBean;
-import ejb.services.TipoUsuarioBean;
 import ejb.services.UrgenciaBean;
-import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Configuracion;
-import entities.persistence.entities.Grupo;
-import entities.persistence.entities.Tipoduracion;
-import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -41,9 +36,9 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class tipoUsuarioController implements Initializable {
+public class UnidadesController implements Initializable {
   
-    @FXML
+  /*  @FXML
     private Button btnBack;
 
     @FXML
@@ -53,7 +48,7 @@ public class tipoUsuarioController implements Initializable {
     private AnchorPane paneTabel;
 
     @FXML
-    private TableView<?> tableData;
+    private TableView<Urgencia> tableData;
 
     @FXML
     private TableColumn<?, ?> colNombre;
@@ -82,30 +77,6 @@ public class tipoUsuarioController implements Initializable {
     private TableView<?> tableData;
     @FXML
     private TableColumn colAction;
-    @FXML
-    private TableColumn<?, String> colCustomerId;
-    @FXML
-    private TableColumn<?, String> colDiscountCode;
-    @FXML
-    private TableColumn<?, String> colZip;
-    @FXML
-    private TableColumn<?, String> colName;
-    @FXML
-    private TableColumn<?, String> colAdderss1;
-    @FXML
-    private TableColumn<?, String> colAddress2;
-    @FXML
-    private TableColumn<?, String> colCity;
-    @FXML
-    private TableColumn<?, String> colState;
-    @FXML
-    private TableColumn<?, String> colPhone;
-    @FXML
-    private TableColumn<?, String> colFax;
-    @FXML
-    private TableColumn<?, String> colEmail;
-    @FXML
-    private TableColumn<?, String> colCreditLimit;
     @FXML
     private Button btnNew;
     @FXML
@@ -149,50 +120,59 @@ public class tipoUsuarioController implements Initializable {
      * @param url
      * @param rb
      */
-
+        UrgenciaBean ub=new UrgenciaBean();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        aksiNew(null);
-       /* Platform.runLater(() -> {
+    /*    aksiNew(null);
+        
+        try {
+            List<Urgencia> lista=ub.traerTodos();
+            ObservableList<Urgencia> listaUrgencia = FXCollections.observableList(lista);
+            TableColumn id = new TableColumn("# Id");
+            TableColumn Nombre = new TableColumn("# Nombre");
+            TableColumn Descripcion = new TableColumn("# Descripcion");
+            
+            id.setMinWidth(100);
+            id.setCellValueFactory(new PropertyValueFactory<>("idurgencia"));
+   
+            Nombre.setMinWidth(100);
+            Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            Descripcion.setMinWidth(100);
+            Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            tableData.getColumns().addAll(id,Nombre,Descripcion);
+            tableData.setItems(listaUrgencia);
+            /* Platform.runLater(() -> {
             ApplicationContext ctx = config.getInstance().getApplicationContext();
             crud = ctx.getBean(interCustomer.class);
             listData = FXCollections.observableArrayList();
             status = 0;
-            UtilsVentanas.setModelColumn(colAdderss1, "addressline1");
-            UtilsVentanas.setModelColumn(colAddress2, "addressline2");
-            UtilsVentanas.setModelColumn(colCity, "city");
-            UtilsVentanas.setModelColumn(colCreditLimit, "creditLimit");
-            UtilsVentanas.setModelColumn(colCustomerId, "customerId");
-            UtilsVentanas.setModelColumn(colDiscountCode, "discountCode");
-            UtilsVentanas.setModelColumn(colEmail, "email");
-            UtilsVentanas.setModelColumn(colFax, "fax");
-            UtilsVentanas.setModelColumn(colName, "name");
-            UtilsVentanas.setModelColumn(colPhone, "phone");
-            UtilsVentanas.setModelColumn(colState, "state");
             UtilsVentanas.setModelColumn(colZip, "zip");
             colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Object, Boolean>,ObservableValue<Boolean>>() {
-                @Override
-                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Object, Boolean> p) {
-                    return new SimpleBooleanProperty(p.getValue() != null);
-                }
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Object, Boolean> p) {
+            return new SimpleBooleanProperty(p.getValue() != null);
+            }
             });
             colAction.setCellFactory(new Callback<TableColumn<Object, Boolean>, TableCell<Object, Boolean>>() {
-                @Override
-                public TableCell<Object, Boolean> call(TableColumn<Object, Boolean> p) {
-                    return new ButtonCell(tableData);
-                }
+            @Override
+            public TableCell<Object, Boolean> call(TableColumn<Object, Boolean> p) {
+            return new ButtonCell(tableData);
+            }
             });
             selectWithService();
             displayDiscountCode();
             displayZip();
-        });*/
+            });*/
 // TODO
+      /*  } catch (ServiceException ex) {
+            Logger.getLogger(UnidadesController.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }   
     
     private void clear(){
-        txtNombre.clear();
+       /* txtNombre.clear();
         TxtDescripcion.clear();
-        
+        */
     }
     
     private void displayDiscountCode(){
@@ -326,38 +306,38 @@ public class tipoUsuarioController implements Initializable {
 
     @FXML
     private void aksiNew(ActionEvent event) {
-        paneTabel.setOpacity(0);
+      /*  paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
             clear();
             auto();
-        });
+        });*/
     }
     
     @FXML
     private void aksiSave(ActionEvent event){
-        LblNombre.setText("");
+       /* LblNombre.setText("");
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");
         }
         else{
             try{
-                Tipousuario tipoUsuario=new Tipousuario();
-                int ind=ConfiguracionControl.traeUltimoId("TipoUsuario");
-                tipoUsuario.setId(ind);
-                tipoUsuario.setActivo(ChkActivo.isSelected());
-                tipoUsuario.setNombre(txtNombre.getText());
-                tipoUsuario.setDescripcion(TxtDescripcion.getText());
-                TipoUsuarioBean tb=new TipoUsuarioBean();
-                tb.guardar(tipoUsuario);
-                ConfiguracionControl.ActualizaId("TipoUsuario");
+                Urgencia urgencia=new Urgencia();
+                int ind=ConfiguracionControl.traeUltimoId("Urgencia");
+                urgencia.setIdurgencia(ind);
+                urgencia.setActivo(ChkActivo.isSelected());
+                urgencia.setNombre(txtNombre.getText());
+                urgencia.setDescripcion(TxtDescripcion.getText());
+                UrgenciaBean ub=new UrgenciaBean();
+                ub.guardar(urgencia);
+                ConfiguracionControl.ActualizaId("Urgencia");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());
-            }       
+            } */      
         }
         
         
@@ -385,13 +365,13 @@ public class tipoUsuarioController implements Initializable {
         
     }
 
-    @FXML
-    private void aksiBack(ActionEvent event) {
-        paneCrud.setOpacity(0);
-        new FadeInUpTransition(paneTabel).play();
-    }
+   /* @FXML
+    private void aksiBack(ActionEvent event) throws ServiceException {
+       /* paneCrud.setOpacity(0);
+        new FadeInUpTransition(paneTabel).play();       
+    }*/
     
-    private class ButtonCell extends TableCell<Object, Boolean> {
+/*    private class ButtonCell extends TableCell<Object, Boolean> {
        /* final Hyperlink cellButtonDelete = new Hyperlink("Delete");
         final Hyperlink cellButtonEdit = new Hyperlink("Edit");
         final HBox hb = new HBox(cellButtonDelete,cellButtonEdit);
@@ -426,15 +406,15 @@ public class tipoUsuarioController implements Initializable {
                 paneTabel.setOpacity(0);
                 new FadeInUpTransition(paneCrud).play();
                 status = 0;
-            });*/
-        }
+            });
+        }*/
 
-        protected void updateItem(Boolean t, boolean empty) {
+        /*protected void updateItem(Boolean t, boolean empty) {
           /*  super.updateItem(t, empty);
             if(!empty){
                 setGraphic(hb);
             }else{
                 setGraphic(null);
-            }*/
-        }
-    }
+            }
+        }*/
+    
