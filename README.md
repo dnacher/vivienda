@@ -19,3 +19,16 @@ se necesita el trayNotification.jar
 
 * Daniel Nacher
 * Software soluciones
+
+## Para concatenar periodos ##
+
+public static int concatenar(int y, int m){
+        int periodo=0;
+        if(m>9){
+            periodo=Integer.valueOf(String.valueOf(y) + String.valueOf(m));
+        }
+        else{
+            periodo=Integer.valueOf(String.valueOf(y) + "0" + String.valueOf(m));
+        }        
+        return periodo;
+    }
