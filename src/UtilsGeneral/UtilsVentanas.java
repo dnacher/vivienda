@@ -24,6 +24,7 @@ public class UtilsVentanas {
             AnchorPane p = FXMLLoader.load(getClass().getResource(a));
             ap.getChildren().setAll(p);
         } catch (IOException e) {
+            System.out.println(e.getMessage());
         }   
     }
     
