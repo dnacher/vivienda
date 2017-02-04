@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
+// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
 
 
@@ -10,7 +10,7 @@ public class Configuracion  implements java.io.Serializable {
 
 
      private String nombreTabla;
-     private Integer index;
+     private Integer id;
 
     public Configuracion() {
     }
@@ -19,9 +19,9 @@ public class Configuracion  implements java.io.Serializable {
     public Configuracion(String nombreTabla) {
         this.nombreTabla = nombreTabla;
     }
-    public Configuracion(String nombreTabla, Integer index) {
+    public Configuracion(String nombreTabla, Integer id) {
        this.nombreTabla = nombreTabla;
-       this.index = index;
+       this.id = id;
     }
    
     public String getNombreTabla() {
@@ -31,13 +31,16 @@ public class Configuracion  implements java.io.Serializable {
     public void setNombreTabla(String nombreTabla) {
         this.nombreTabla = nombreTabla;
     }
-    public Integer getIndex() {
-        return this.index;
+    public Integer getId() {
+        return this.id;
     }
     
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setId(Integer id) {
+        this.id = id;
     }
+
+
+
 
 }
 

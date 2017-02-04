@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24-ene-2017 23:29:41 by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2017 21:29:16 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="entities.persistence.entities.Configuracion" table="configuracion" catalog="vivienda" optimistic-lock="version">
         <id name="nombreTabla" type="string">
-            <column name="nombreTabla" length="25" />
+            <column name="nombreTabla" length="45" />
             <generator class="assigned" />
         </id>
-        <property name="index" type="java.lang.Integer">
+        <property name="id" type="java.lang.Integer">
             <column name="id" />
         </property>
     </class>

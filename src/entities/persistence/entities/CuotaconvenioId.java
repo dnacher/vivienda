@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
+// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
 
 
@@ -12,14 +12,16 @@ public class CuotaconvenioId  implements java.io.Serializable {
      private int idcuotaConvenio;
      private int convenioIdconvenio;
      private int convenioUnidadIdUnidad;
+     private int montoIdmonto;
 
     public CuotaconvenioId() {
     }
 
-    public CuotaconvenioId(int idcuotaConvenio, int convenioIdconvenio, int convenioUnidadIdUnidad) {
+    public CuotaconvenioId(int idcuotaConvenio, int convenioIdconvenio, int convenioUnidadIdUnidad, int montoIdmonto) {
        this.idcuotaConvenio = idcuotaConvenio;
        this.convenioIdconvenio = convenioIdconvenio;
        this.convenioUnidadIdUnidad = convenioUnidadIdUnidad;
+       this.montoIdmonto = montoIdmonto;
     }
    
     public int getIdcuotaConvenio() {
@@ -43,6 +45,13 @@ public class CuotaconvenioId  implements java.io.Serializable {
     public void setConvenioUnidadIdUnidad(int convenioUnidadIdUnidad) {
         this.convenioUnidadIdUnidad = convenioUnidadIdUnidad;
     }
+    public int getMontoIdmonto() {
+        return this.montoIdmonto;
+    }
+    
+    public void setMontoIdmonto(int montoIdmonto) {
+        this.montoIdmonto = montoIdmonto;
+    }
 
 
    public boolean equals(Object other) {
@@ -53,7 +62,8 @@ public class CuotaconvenioId  implements java.io.Serializable {
          
 		 return (this.getIdcuotaConvenio()==castOther.getIdcuotaConvenio())
  && (this.getConvenioIdconvenio()==castOther.getConvenioIdconvenio())
- && (this.getConvenioUnidadIdUnidad()==castOther.getConvenioUnidadIdUnidad());
+ && (this.getConvenioUnidadIdUnidad()==castOther.getConvenioUnidadIdUnidad())
+ && (this.getMontoIdmonto()==castOther.getMontoIdmonto());
    }
    
    public int hashCode() {
@@ -62,6 +72,7 @@ public class CuotaconvenioId  implements java.io.Serializable {
          result = 37 * result + this.getIdcuotaConvenio();
          result = 37 * result + this.getConvenioIdconvenio();
          result = 37 * result + this.getConvenioUnidadIdUnidad();
+         result = 37 * result + this.getMontoIdmonto();
          return result;
    }   
 

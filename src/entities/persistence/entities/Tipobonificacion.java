@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
+// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,7 +15,7 @@ public class Tipobonificacion  implements java.io.Serializable {
      private Integer tipoBonificacion;
      private Integer valor;
      private boolean activo;
-     private Set cuotaconvenios = new HashSet(0);
+     private Set convenios = new HashSet(0);
 
     public Tipobonificacion() {
     }
@@ -25,12 +25,12 @@ public class Tipobonificacion  implements java.io.Serializable {
         this.idtipoBonificacion = idtipoBonificacion;
         this.activo = activo;
     }
-    public Tipobonificacion(int idtipoBonificacion, Integer tipoBonificacion, Integer valor, boolean activo, Set cuotaconvenios) {
+    public Tipobonificacion(int idtipoBonificacion, Integer tipoBonificacion, Integer valor, boolean activo, Set convenios) {
        this.idtipoBonificacion = idtipoBonificacion;
        this.tipoBonificacion = tipoBonificacion;
        this.valor = valor;
        this.activo = activo;
-       this.cuotaconvenios = cuotaconvenios;
+       this.convenios = convenios;
     }
    
     public int getIdtipoBonificacion() {
@@ -61,12 +61,12 @@ public class Tipobonificacion  implements java.io.Serializable {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    public Set getCuotaconvenios() {
-        return this.cuotaconvenios;
+    public Set getConvenios() {
+        return this.convenios;
     }
     
-    public void setCuotaconvenios(Set cuotaconvenios) {
-        this.cuotaconvenios = cuotaconvenios;
+    public void setConvenios(Set convenios) {
+        this.convenios = convenios;
     }
 
 

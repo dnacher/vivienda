@@ -1,9 +1,12 @@
 package ejb.services;
 
+import ejb.utils.UtilsConfiguracion;
+import entities.hibernate.NewHibernateUtil;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import static java.lang.Math.toIntExact;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -20,9 +23,15 @@ public class UnidadBean implements UnidadLocal{
     public boolean correcto;
     
     public UnidadBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
-        correcto=false;
+        try{      
+            session = SessionConnection.getConnection().useSession();
+            tx= session.beginTransaction();
+            correcto=false;
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        
     }
 
     @Override
@@ -97,6 +106,7 @@ public class UnidadBean implements UnidadLocal{
             Query query = session.createQuery("select count(*) from Unidad unidad");
             Long count = (Long)query.uniqueResult();       
             int retorno=toIntExact(count);
+            session.close();
             return retorno;
         }
         else{
@@ -105,8 +115,58 @@ public class UnidadBean implements UnidadLocal{
             query.setParameter("laTorre", torre);
             Long count = (Long)query.uniqueResult();       
             int retorno=toIntExact(count);
+            session.close();
             return retorno;
          }
-     }
+    }
+    
+    public List<Unidad> TraeUnidadesGastosComunesNoPago(){        
+        List<Unidad> list= new ArrayList<>();
+        Session session = SessionConnection.getConnection().useSession();
+        try{                
+        Query query= session.createQuery("SELECT unidad FROM Unidad unidad "
+                                       + "WHERE unidad.idUnidad NOT IN ("
+                                                                  + "SELECT gastoscomunes.unidad "
+                                                                  + "FROM Gastoscomunes gastoscomunes "
+                                                                  + "WHERE gastoscomunes.periodo=:periodo "
+                                                                  + "AND gastoscomunes.estado=:est)");
+        query.setParameter("est", 2);
+        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        list= query.list();
+                       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{           
+            session.close();
+        }
+        return list;
+    }
+    
+    public List<Unidad> TraeUnidadesXBlockTorreNoPago(String block, int torre){        
+        List<Unidad> lista=new ArrayList<>();
+        Session session = SessionConnection.getConnection().useSession();
+        try{
+        Query query= session.createQuery("SELECT unidad FROM Unidad unidad "
+                                       + "WHERE Block=:block "
+                                       + "AND Torre=:torre "
+                                       + "AND unidad.idUnidad NOT IN (SELECT gastoscomunes.unidad "
+                                                               + "FROM Gastoscomunes gastoscomunes "
+                                                               + "WHERE gastoscomunes.periodo=:periodo "
+                                                               + "AND gastoscomunes.estado=:est)");            
+        query.setParameter("block", block);
+        query.setParameter("torre", torre);
+        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        //estado 2 pago al estar en el "not in" trae los que estan pagos
+        query.setParameter("est", 2);
+        lista=query.list();           
+        session.close();       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return lista;
+    }
     
 }

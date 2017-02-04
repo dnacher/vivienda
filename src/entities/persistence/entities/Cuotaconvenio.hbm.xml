@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24-ene-2017 23:29:41 by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2017 21:29:16 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="entities.persistence.entities.Cuotaconvenio" table="cuotaconvenio" catalog="vivienda" optimistic-lock="version">
         <composite-id name="id" class="entities.persistence.entities.CuotaconvenioId">
@@ -14,16 +14,16 @@
             <key-property name="convenioUnidadIdUnidad" type="int">
                 <column name="convenio_unidad_idUnidad" />
             </key-property>
+            <key-property name="montoIdmonto" type="int">
+                <column name="monto_idmonto" />
+            </key-property>
         </composite-id>
         <many-to-one name="convenio" class="entities.persistence.entities.Convenio" update="false" insert="false" fetch="select">
             <column name="convenio_idconvenio" not-null="true" />
             <column name="convenio_unidad_idUnidad" not-null="true" />
         </many-to-one>
-        <many-to-one name="monto" class="entities.persistence.entities.Monto" fetch="select">
+        <many-to-one name="monto" class="entities.persistence.entities.Monto" update="false" insert="false" fetch="select">
             <column name="monto_idmonto" not-null="true" />
-        </many-to-one>
-        <many-to-one name="tipobonificacion" class="entities.persistence.entities.Tipobonificacion" fetch="select">
-            <column name="tipoBonificacion_idtipoBonificacion" not-null="true" />
         </many-to-one>
         <property name="numeroCuota" type="java.lang.Integer">
             <column name="numeroCuota" />
@@ -33,6 +33,9 @@
         </property>
         <property name="pago" type="java.lang.Boolean">
             <column name="pago" />
+        </property>
+        <property name="tieneBonificacion" type="java.lang.Boolean">
+            <column name="tieneBonificacion" />
         </property>
     </class>
 </hibernate-mapping>

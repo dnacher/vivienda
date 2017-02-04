@@ -83,8 +83,8 @@ public class ConfiguracionBean implements ConfiguracionLocal{
                 Query query= session.createQuery("from Configuracion configuracion where configuracion.nombreTabla=:tabla");
                 query.setParameter("tabla", tabla);
                 Configuracion configuracion=(Configuracion)query.uniqueResult();
-                int nuevoindex=configuracion.getIndex()+1;
-                configuracion.setIndex(nuevoindex);
+                int nuevoindex=configuracion.getId()+1;
+                configuracion.setId(nuevoindex);
                 modificar(configuracion);
             }
             catch(Exception ex){

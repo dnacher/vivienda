@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24-ene-2017 23:29:41 by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2017 21:29:16 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="entities.persistence.entities.Gastoscomunes" table="gastoscomunes" catalog="vivienda" optimistic-lock="version">
         <composite-id name="id" class="entities.persistence.entities.GastoscomunesId">
-            <key-property name="idtable1" type="int">
-                <column name="idtable1" />
+            <key-property name="idGastosComunes" type="int">
+                <column name="idGastosComunes" />
             </key-property>
             <key-property name="unidadIdUnidad" type="int">
                 <column name="unidad_idUnidad" />
@@ -18,20 +18,23 @@
         <many-to-one name="unidad" class="entities.persistence.entities.Unidad" update="false" insert="false" fetch="select">
             <column name="unidad_idUnidad" not-null="true" />
         </many-to-one>
-        <property name="isBonificacion" type="java.lang.Boolean">
-            <column name="isBonificacion" />
-        </property>
-        <property name="isPago" type="java.lang.Boolean">
-            <column name="isPago" />
-        </property>
         <property name="monto_1" type="java.lang.Integer">
             <column name="monto" />
         </property>
+        <property name="isBonificacion" type="java.lang.Boolean">
+            <column name="isBonificacion" />
+        </property>
+        <property name="estado" type="java.lang.Integer">
+            <column name="estado" />
+        </property>
+        <property name="fechaPago" type="date">
+            <column name="fechaPago" length="10" not-null="true" />
+        </property>
+        <property name="periodo" type="java.lang.Integer">
+            <column name="periodo" />
+        </property>
         <property name="activo" type="java.lang.Boolean">
             <column name="activo" />
-        </property>
-        <property name="gastosComunescol" type="string">
-            <column name="gastosComunescol" length="45" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

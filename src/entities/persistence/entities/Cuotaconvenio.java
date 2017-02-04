@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
+// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
 
 
@@ -12,29 +12,28 @@ public class Cuotaconvenio  implements java.io.Serializable {
      private CuotaconvenioId id;
      private Convenio convenio;
      private Monto monto;
-     private Tipobonificacion tipobonificacion;
      private Integer numeroCuota;
      private String descripcion;
      private Boolean pago;
+     private Boolean tieneBonificacion;
 
     public Cuotaconvenio() {
     }
 
 	
-    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Tipobonificacion tipobonificacion) {
+    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto) {
         this.id = id;
         this.convenio = convenio;
         this.monto = monto;
-        this.tipobonificacion = tipobonificacion;
     }
-    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Tipobonificacion tipobonificacion, Integer numeroCuota, String descripcion, Boolean pago) {
+    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Integer numeroCuota, String descripcion, Boolean pago, Boolean tieneBonificacion) {
        this.id = id;
        this.convenio = convenio;
        this.monto = monto;
-       this.tipobonificacion = tipobonificacion;
        this.numeroCuota = numeroCuota;
        this.descripcion = descripcion;
        this.pago = pago;
+       this.tieneBonificacion = tieneBonificacion;
     }
    
     public CuotaconvenioId getId() {
@@ -58,13 +57,6 @@ public class Cuotaconvenio  implements java.io.Serializable {
     public void setMonto(Monto monto) {
         this.monto = monto;
     }
-    public Tipobonificacion getTipobonificacion() {
-        return this.tipobonificacion;
-    }
-    
-    public void setTipobonificacion(Tipobonificacion tipobonificacion) {
-        this.tipobonificacion = tipobonificacion;
-    }
     public Integer getNumeroCuota() {
         return this.numeroCuota;
     }
@@ -85,6 +77,13 @@ public class Cuotaconvenio  implements java.io.Serializable {
     
     public void setPago(Boolean pago) {
         this.pago = pago;
+    }
+    public Boolean getTieneBonificacion() {
+        return this.tieneBonificacion;
+    }
+    
+    public void setTieneBonificacion(Boolean tieneBonificacion) {
+        this.tieneBonificacion = tieneBonificacion;
     }
 
 

@@ -19,7 +19,7 @@ public class ConfiguracionControl {
         c=(Configuracion)query.uniqueResult();           
         session.close();
         if(c!=null){
-            i=c.getIndex();
+            i=c.getId();
         }
         return i;
     }
@@ -33,7 +33,7 @@ public class ConfiguracionControl {
             query.setParameter("name", tabla);
             c=(Configuracion)query.uniqueResult(); 
             i++;
-            c.setIndex(i);
+            c.setId(i);
             Transaction tx= session.beginTransaction(); 
             session.update(c);
             tx.commit();
@@ -48,7 +48,7 @@ public class ConfiguracionControl {
             Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
             query.setParameter("name", tabla);
             c=(Configuracion)query.uniqueResult();             
-            c.setIndex(id);
+            c.setId(id);
             Transaction tx= session.beginTransaction(); 
             session.update(c);
             tx.commit();

@@ -15,10 +15,19 @@
          <children>
             <ComboBox fx:id="cmbBlock" layoutX="80.0" layoutY="13.0" prefWidth="150.0" promptText="Block" />
             <ComboBox fx:id="cmbTorre" layoutX="80.0" layoutY="48.0" prefWidth="150.0" promptText="Torre" />
-            <Button fx:id="btnMostrar" layoutX="240.0" layoutY="13.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Mostrar" />
-            <Button layoutX="370.0" layoutY="13.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="151.0" styleClass="btn" text="Mostrar Todos" />
+            <Button fx:id="btnMostrar" layoutX="240.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrar" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Mostrar" />
+            <Button layoutX="370.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrarTodos" prefHeight="62.0" prefWidth="151.0" styleClass="btn" text="Mostrar Todos" />
             <PieChart fx:id="chartGastosComunes" layoutX="700.0" layoutY="92.0" maxHeight="396.0" />
+            <Label fx:id="lblInfoPieChart" layoutX="700.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
             <TableView fx:id="tableGastosComunes" layoutX="29.0" layoutY="92.0" prefHeight="396.0" prefWidth="633.0" />
+            <Label fx:id="lblInfo" layoutX="29.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneFormulario" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
@@ -32,14 +41,18 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label layoutX="62.0" layoutY="72.0" minWidth="65.0" prefWidth="0.0" text="Monto" />
-            <TextField fx:id="txtMonto" layoutX="193.0" layoutY="66.0" prefWidth="177.0" />
-            <Label layoutX="62.0" layoutY="107.0" text="Bonificacion" />
-            <CheckBox fx:id="chkBonificacion" layoutX="193.0" layoutY="102.0" mnemonicParsing="false" />
-            <Label layoutX="62.0" layoutY="142.0" maxWidth="0.0" minWidth="65.0" text="Moneda" />
-            <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="138.0" prefWidth="177.0" />
-            <Label layoutX="62.0" layoutY="177.0" maxWidth="0.0" minWidth="65.0" prefWidth="0.0" text="Fecha" />
-            <DatePicker fx:id="cmbFecha" layoutX="193.0" layoutY="174.0" />
+            <Label fx:id="lblInfoUnidad" layoutX="62.0" layoutY="60.0" prefHeight="29.0" prefWidth="459.0" textFill="#2b579a">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <Label layoutX="62.0" layoutY="107.0" minWidth="65.0" prefWidth="0.0" text="Monto" />
+            <TextField fx:id="txtMonto" layoutX="193.0" layoutY="102.0" prefWidth="177.0" />
+            <Label layoutX="62.0" layoutY="142.0" text="Bonificacion" />
+            <CheckBox fx:id="chkBonificacion" layoutX="193.0" layoutY="138.0" mnemonicParsing="false" />
+            <Label layoutX="62.0" layoutY="177.0" maxWidth="0.0" minWidth="65.0" text="Moneda" />
+            <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="174.0" prefWidth="177.0" />
+            <Label layoutX="62.0" layoutY="212.0" maxWidth="0.0" minWidth="65.0" prefWidth="0.0" text="Fecha" />
+            <DatePicker fx:id="cmbFecha" layoutX="193.0" layoutY="210.0" />
             <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" styleClass="btn" text="Guardar" />
          </children>
       </AnchorPane>
@@ -49,7 +62,7 @@
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
       </Text>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#agregarGastosComunes" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#agregarGastosComunes" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Pagar" />
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />

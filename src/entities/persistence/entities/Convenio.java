@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
+// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,9 +14,9 @@ public class Convenio  implements java.io.Serializable {
      private ConvenioId id;
      private Monto monto;
      private Reglabonificacion reglabonificacion;
+     private Tipobonificacion tipobonificacion;
      private Unidad unidad;
      private Integer deudaTotal;
-     private Boolean tieneBonificacion;
      private Integer cuotas;
      private Integer saldoInicial;
      private String descripcion;
@@ -33,13 +33,13 @@ public class Convenio  implements java.io.Serializable {
         this.reglabonificacion = reglabonificacion;
         this.unidad = unidad;
     }
-    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Unidad unidad, Integer deudaTotal, Boolean tieneBonificacion, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo, Set cuotaconvenios) {
+    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Tipobonificacion tipobonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo, Set cuotaconvenios) {
        this.id = id;
        this.monto = monto;
        this.reglabonificacion = reglabonificacion;
+       this.tipobonificacion = tipobonificacion;
        this.unidad = unidad;
        this.deudaTotal = deudaTotal;
-       this.tieneBonificacion = tieneBonificacion;
        this.cuotas = cuotas;
        this.saldoInicial = saldoInicial;
        this.descripcion = descripcion;
@@ -68,6 +68,13 @@ public class Convenio  implements java.io.Serializable {
     public void setReglabonificacion(Reglabonificacion reglabonificacion) {
         this.reglabonificacion = reglabonificacion;
     }
+    public Tipobonificacion getTipobonificacion() {
+        return this.tipobonificacion;
+    }
+    
+    public void setTipobonificacion(Tipobonificacion tipobonificacion) {
+        this.tipobonificacion = tipobonificacion;
+    }
     public Unidad getUnidad() {
         return this.unidad;
     }
@@ -81,13 +88,6 @@ public class Convenio  implements java.io.Serializable {
     
     public void setDeudaTotal(Integer deudaTotal) {
         this.deudaTotal = deudaTotal;
-    }
-    public Boolean getTieneBonificacion() {
-        return this.tieneBonificacion;
-    }
-    
-    public void setTieneBonificacion(Boolean tieneBonificacion) {
-        this.tieneBonificacion = tieneBonificacion;
     }
     public Integer getCuotas() {
         return this.cuotas;

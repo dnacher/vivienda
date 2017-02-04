@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 24-ene-2017 23:29:40 by Hibernate Tools 4.3.1
+// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
 
 
@@ -9,23 +9,23 @@ package entities.persistence.entities;
 public class GastoscomunesId  implements java.io.Serializable {
 
 
-     private int idtable1;
+     private int idGastosComunes;
      private int unidadIdUnidad;
 
     public GastoscomunesId() {
     }
 
-    public GastoscomunesId(int idtable1, int unidadIdUnidad) {
-       this.idtable1 = idtable1;
+    public GastoscomunesId(int idGastosComunes, int unidadIdUnidad) {
+       this.idGastosComunes = idGastosComunes;
        this.unidadIdUnidad = unidadIdUnidad;
     }
    
-    public int getIdtable1() {
-        return this.idtable1;
+    public int getIdGastosComunes() {
+        return this.idGastosComunes;
     }
     
-    public void setIdtable1(int idtable1) {
-        this.idtable1 = idtable1;
+    public void setIdGastosComunes(int idGastosComunes) {
+        this.idGastosComunes = idGastosComunes;
     }
     public int getUnidadIdUnidad() {
         return this.unidadIdUnidad;
@@ -42,14 +42,14 @@ public class GastoscomunesId  implements java.io.Serializable {
 		 if ( !(other instanceof GastoscomunesId) ) return false;
 		 GastoscomunesId castOther = ( GastoscomunesId ) other; 
          
-		 return (this.getIdtable1()==castOther.getIdtable1())
+		 return (this.getIdGastosComunes()==castOther.getIdGastosComunes())
  && (this.getUnidadIdUnidad()==castOther.getUnidadIdUnidad());
    }
    
    public int hashCode() {
          int result = 17;
          
-         result = 37 * result + this.getIdtable1();
+         result = 37 * result + this.getIdGastosComunes();
          result = 37 * result + this.getUnidadIdUnidad();
          return result;
    }   
