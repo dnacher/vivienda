@@ -1,10 +1,15 @@
 package web.controller;
 
+import UtilsGeneral.ConfiguracionControl;
+import control.ControlVentana;
+import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
 import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
+import entities.persistence.entities.Gastoscomunes;
+import entities.persistence.entities.GastoscomunesId;
 import exceptions.ServiceException;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -17,6 +22,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,6 +51,9 @@ public class GastosComunesController implements Initializable {
 
     @FXML
     private ComboBox<Monto> cmbMoneda;
+    
+    @FXML
+    private Label lblSimbolo;
 
     @FXML
     private TableView<Unidad> tableGastosComunes;
@@ -82,30 +92,48 @@ public class GastosComunesController implements Initializable {
     private Label lblInfo;
     
     @FXML
-    private Label lblInfoUnidad;
+    private Label lblPeriodo;
     
+    @FXML
+    private Label lblUnidadNombre;
     
-    ObservableList<Unidad> retorno;
-    
+    @FXML
+    private Label lblUnidadDireccion;
+     
+    ObservableList<Unidad> unidadesGastosComunesNoPago;
+    int periodo;
+    Unidad unidad;
+    boolean guardado=false;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        UnidadBean ub=new UnidadBean();
-       
-        try {
-            
-            retorno=FXCollections.observableArrayList(ub.traerTodos());
-             MontoBean mb=new MontoBean();
-             ObservableList<Monto> montos=FXCollections.observableArrayList(mb.traerTodos());
-            cmbMoneda.setItems(montos);
+        UnidadBean ub=new UnidadBean();       
+        try {            
+            unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
+            cargaComboMonto();
+            cargarComboBlock();
+            cargarComboTorre();
+            cargaHoy();
+            cargaTabla();
+            atras();
         } catch (ServiceException ex) {
             Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        atras();         
-        cargaHoy();
-        cargarComboBlock();
-        cargarComboTorre();
-        cargaTabla();
+        }            
+        
+        cmbMoneda.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                monedaCombo();
+            }
+            
+        });  
+        cmbMoneda.getSelectionModel().selectFirst();
+    }
+    
+    public void cargaComboMonto() throws ServiceException{
+        MontoBean mb=new MontoBean();
+        ObservableList<Monto> montos=FXCollections.observableArrayList(mb.traerTodos());             
+        cmbMoneda.setItems(montos);
     }
     
     public void cargaHoy(){
@@ -114,21 +142,28 @@ public class GastosComunesController implements Initializable {
         cmbFecha.setValue(ld);
     }
     
+    public void monedaCombo(){        
+            Monto monto=cmbMoneda.getSelectionModel().getSelectedItem();
+            lblSimbolo.setText(monto.getSimbolo());   
+    }
+    
     public void agregarGastosComunes(){
         try{
-            lblInfoUnidad.setText("");
-            Unidad uni=tableGastosComunes.getSelectionModel().getSelectedItem();
-            lblInfoUnidad.setText(uni.getNombre()+ " " 
-                                + uni.getApellido()+ " " 
-                                + uni.getBlock() 
-                                + uni.getTorre() + " " 
-                                + uni.getPuerta() + "- Periodo: " 
-                                + UtilsConfiguracion.devuelvePeriodoActual());
+            lblPeriodo.setText("");
+            lblUnidadNombre.setText("");
+            lblUnidadDireccion.setText("");
+            periodo=UtilsConfiguracion.devuelvePeriodoActual();
+            unidad=tableGastosComunes.getSelectionModel().getSelectedItem();
+            lblPeriodo.setText(String.valueOf(periodo));
+            lblUnidadNombre.setText(unidad.getNombre()+ " " 
+                                + unidad.getApellido());
+            lblUnidadDireccion.setText(unidad.getBlock()
+                                + unidad.getTorre() + "/ " 
+                                + unidad.getPuerta());
             paneGastosComunes.setOpacity(0);
             new FadeInUpTransition(paneFormulario).play();
             Platform.runLater(() -> {
-                clear();
-                auto();
+                         
             });
         }
         catch(Exception ex){
@@ -138,24 +173,15 @@ public class GastosComunesController implements Initializable {
         
     }
     
-    public void atras(){
+    public void atras(){        
         paneFormulario.setOpacity(0);
         new FadeInUpTransition(paneGastosComunes).play();
-        Platform.runLater(() -> {
-            clear();
-            auto();
+        Platform.runLater(() -> {            
         });   
     }
-    
-     private void clear(){
-        
-    }
      
-     private void auto(){
-      
-    }
      
-     public void cargarComboBlock(){
+    public void cargarComboBlock(){
        ObservableList<String> options = 
        FXCollections.observableArrayList("A","B","C","D","E");
        cmbBlock.setItems(options);
@@ -174,10 +200,10 @@ public class GastosComunesController implements Initializable {
        TableColumn Torre = new TableColumn("Torre");
        TableColumn Puerta= new TableColumn("Puerta");
 
-       Nombre.setMinWidth(200);
+       Nombre.setMinWidth(150);
        Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
-       Apellido.setMinWidth(200);
+       Apellido.setMinWidth(150);
        Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
 
        Block.setMinWidth(100);
@@ -190,21 +216,29 @@ public class GastosComunesController implements Initializable {
        Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
 
        tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
-       tableGastosComunes.setItems(retorno);
+       tableGastosComunes.setItems(unidadesGastosComunesNoPago);
        cargaGrafica("",0);
     }
     
     public void llenaTabla(){
-        lblInfo.setText("Se muestran " + retorno.size() + " registros.");
-        tableGastosComunes.setItems(retorno);     
-        cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
+        lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " registros.");
+        tableGastosComunes.setItems(unidadesGastosComunesNoPago);
+        if(guardado){
+            cargaGrafica("", 0);
+        }else{
+            if(cmbBlock.getValue()!=null && cmbTorre.getValue()!=null){
+                cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
+            }else{
+                cargaGrafica("", 0);
+            }      
+        }
     }
     
     public void cargaGrafica(String block, int torre){
         lblInfoPieChart.setText("");
         UnidadBean ub=new UnidadBean();
         int total=ub.totalUnidades(block,torre);
-        int totalPago=total-retorno.size();
+        int totalPago=total-unidadesGastosComunesNoPago.size();
         int totalNoPago=total-totalPago;
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
                 new PieChart.Data("No pagó", totalNoPago),
@@ -229,7 +263,7 @@ public class GastosComunesController implements Initializable {
             lblInfo.setText("");
             UnidadBean ub= new UnidadBean();
             List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
-            retorno = FXCollections.observableList(listaTorreBlock);
+            unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
             llenaTabla();
             cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
             }
@@ -241,11 +275,48 @@ public class GastosComunesController implements Initializable {
         public void mostrarTodos() {
             UnidadBean ub=new UnidadBean();
             List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();            
-            retorno = FXCollections.observableList(listaTotal);
-            llenaTabla();
-            cargaGrafica("",0);
+            unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
+            llenaTabla();           
         }
-    
-    
+        
+        public boolean validar(){
+            boolean correcto=false;
+            if(!txtMonto.getText().isEmpty()){
+                correcto=true;
+            }
+            return correcto;
+        }
+        
+        public void guardar(){
+            if(validar()){
+                try{
+                GastoscomunesId gcId=new GastoscomunesId();
+                gcId.setIdGastosComunes(ConfiguracionControl.traeUltimoId("GastosComunes"));
+                gcId.setUnidadIdUnidad(unidad.getIdUnidad());
+                Gastoscomunes gc=new Gastoscomunes();
+                gc.setActivo(true);
+                gc.setEstado(2);
+                gc.setFechaPago(ConfiguracionControl.TraeFecha(cmbFecha.getValue()));
+                gc.setId(gcId);
+                gc.setIsBonificacion(chkBonificacion.isSelected());
+                gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
+                gc.setMonto_1(Integer.valueOf(txtMonto.getText()));
+                gc.setPeriodo(periodo);
+                gc.setUnidad(unidad);
+                GastosComunesBean gcb=new GastosComunesBean();
+                gcb.guardar(gc);
+                ControlVentana cv=new ControlVentana();
+                cv.creaVentanaNotificacionCorrecto();  
+                UnidadBean ub=new UnidadBean();   
+                guardado=true;
+                mostrarTodos();
+                atras();
+                }
+                catch(Exception ex){
+                    ex.getMessage();
+                }
+                
+            }
+        }
 }
 

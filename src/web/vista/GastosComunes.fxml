@@ -41,19 +41,45 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label fx:id="lblInfoUnidad" layoutX="62.0" layoutY="60.0" prefHeight="29.0" prefWidth="459.0" textFill="#2b579a">
+            <Label fx:id="lblPeriodo" layoutX="193.0" layoutY="70.0" prefHeight="29.0" prefWidth="100.0" textFill="#2b579a">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblUnidadNombre" layoutX="193.0" layoutY="107.0" prefHeight="29.0" prefWidth="100.0" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblUnidadDireccion" layoutX="193.0" layoutY="142.0" prefHeight="29.0" prefWidth="100.0" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
                </font></Label>
-            <Label layoutX="62.0" layoutY="107.0" minWidth="65.0" prefWidth="0.0" text="Monto" />
-            <TextField fx:id="txtMonto" layoutX="193.0" layoutY="102.0" prefWidth="177.0" />
-            <Label layoutX="62.0" layoutY="142.0" text="Bonificacion" />
-            <CheckBox fx:id="chkBonificacion" layoutX="193.0" layoutY="138.0" mnemonicParsing="false" />
-            <Label layoutX="62.0" layoutY="177.0" maxWidth="0.0" minWidth="65.0" text="Moneda" />
-            <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="174.0" prefWidth="177.0" />
-            <Label layoutX="62.0" layoutY="212.0" maxWidth="0.0" minWidth="65.0" prefWidth="0.0" text="Fecha" />
-            <DatePicker fx:id="cmbFecha" layoutX="193.0" layoutY="210.0" />
-            <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" styleClass="btn" text="Guardar" />
+            <Label layoutX="62.0" layoutY="177.0" minWidth="65.0" prefWidth="0.0" text="Monto" />
+            <Label fx:id="lblSimbolo" layoutX="160.0" layoutY="177.0" />
+            <TextField fx:id="txtMonto" layoutX="193.0" layoutY="174.0" prefWidth="177.0" />
+            <Label layoutX="62.0" layoutY="212.0" text="Bonificacion" />
+            <CheckBox fx:id="chkBonificacion" layoutX="193.0" layoutY="210.0" mnemonicParsing="false" />
+            <Label layoutX="62.0" layoutY="247.0" maxWidth="0.0" minWidth="65.0" text="Moneda" />
+            <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="246.0" prefWidth="177.0" />
+            <Label layoutX="62.0" layoutY="282.0" maxWidth="0.0" minWidth="65.0" prefWidth="0.0" text="Fecha" />
+            <DatePicker fx:id="cmbFecha" layoutX="193.0" layoutY="282.0" />
+            <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" styleClass="btn" text="Guardar" />
+            <Label fx:id="lblUnidadDireccion1" layoutX="62.0" layoutY="142.0" prefHeight="29.0" prefWidth="100.0" text="Block/Torre" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblUnidadNombre1" layoutX="62.0" layoutY="107.0" prefHeight="29.0" prefWidth="100.0" text="Nombre" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPeriodo1" layoutX="62.0" layoutY="72.0" prefHeight="29.0" prefWidth="100.0" text="Periodo" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

@@ -2,6 +2,9 @@ package UtilsGeneral;
 
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,8 +14,6 @@ public class ConfiguracionControl {
     public static int traeUltimoId(String tabla){
         Configuracion c;
         int i=-1;
-        //SessionFactory sf= NewHibernateUtil.getSessionFactory();
-        //Session session;
         Session session = SessionConnection.getConnection().useSession();
         Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
         query.setParameter("name", tabla);
@@ -55,6 +56,11 @@ public class ConfiguracionControl {
         }
     }
     
+    public static Date TraeFecha(LocalDate localDate){         
+         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+         return date;
+    }
+    
   /*  public static void actualizaBonificacion(String tabla, int bonificacion){
         Configuracion c;
             /*SessionFactory sf= NewHibernateUtil.getSessionFactory();
@@ -80,10 +86,7 @@ public class ConfiguracionControl {
         return num;
     }
     
-    public static Date TraeFecha(LocalDate localDate){         
-         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-         return date;
-     }
+   
     
     public void generarReporte(String reporte){
        

@@ -8,6 +8,12 @@
             <column name="idmonto" />
             <generator class="assigned" />
         </id>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" />
+        </property>
+        <property name="simbolo" type="string">
+            <column name="simbolo" length="45" />
+        </property>        
         <property name="tipoMonto" type="string">
             <column name="tipoMonto" length="45" />
         </property>

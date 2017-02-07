@@ -1,7 +1,6 @@
 package ejb.services;
 
 import ejb.utils.UtilsConfiguracion;
-import entities.hibernate.NewHibernateUtil;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
@@ -111,6 +110,35 @@ public class UnidadBean implements UnidadLocal{
         }
         else{
             Query query = session.createQuery("select count(*) from Unidad unidad where unidad.block=:elBlock and unidad.torre=:laTorre");
+            query.setParameter("elBlock", block);
+            query.setParameter("laTorre", torre);
+            Long count = (Long)query.uniqueResult();       
+            int retorno=toIntExact(count);
+            session.close();
+            return retorno;
+         }
+    }
+    
+    public int totalUnidadesNoPago(String block, int torre){
+        Session session = SessionConnection.getConnection().useSession();
+        if(block.equals("") && torre==0){        
+            Query query = session.createQuery("select count(*) from Unidad unidad");
+            Long count = (Long)query.uniqueResult();       
+            int retorno=toIntExact(count);
+            session.close();
+            return retorno;
+        }
+        else{
+            Query query = session.createQuery("select count(*) from Unidad unidad "
+                                            + "where unidad.block=:elBlock "
+                                            + "and unidad.torre=:laTorre "
+                                            + "and unidad.idUnidad NOT IN ("
+                                                                  + "SELECT gastoscomunes.unidad "
+                                                                  + "FROM Gastoscomunes gastoscomunes "
+                                                                  + "WHERE gastoscomunes.periodo=:periodo "
+                                                                  + "AND gastoscomunes.estado=:est)");
+            query.setParameter("est", 2);
+            query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
             query.setParameter("elBlock", block);
             query.setParameter("laTorre", torre);
             Long count = (Long)query.uniqueResult();       

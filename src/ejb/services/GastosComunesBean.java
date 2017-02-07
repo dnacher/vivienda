@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Gastoscomunes;
 import exceptions.ServiceException;
@@ -31,6 +32,7 @@ public class GastosComunesBean implements GastosComunesLocal{
             session.save(gastosComunes);
             tx.commit();
             session.close();
+            ConfiguracionControl.ActualizaId("GastosComunes");
             correcto=true;
         }
         catch(Exception ex){

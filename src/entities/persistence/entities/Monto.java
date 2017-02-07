@@ -13,6 +13,8 @@ public class Monto  implements java.io.Serializable {
 
 
      private int idmonto;
+     private String descripcion;
+     private String simbolo;
      private String tipoMonto;
      private Integer valorPesos;
      private Date fechaActualizacion;
@@ -30,17 +32,14 @@ public class Monto  implements java.io.Serializable {
     public Monto(int idmonto) {
         this.idmonto = idmonto;
     }
-    public Monto(int idmonto, String tipoMonto, Integer valorPesos, Date fechaActualizacion, Boolean activo, Set otrosgastoses, Set cuotaconvenios, Set gastoscomuneses, Set convenios, Set historialmontos) {
+    public Monto(int idmonto, String descripcion, String simbolo, String tipoMonto, Integer valorPesos, Date fechaActualizacion, Boolean activo) {
        this.idmonto = idmonto;
        this.tipoMonto = tipoMonto;
        this.valorPesos = valorPesos;
        this.fechaActualizacion = fechaActualizacion;
        this.activo = activo;
-       this.otrosgastoses = otrosgastoses;
-       this.cuotaconvenios = cuotaconvenios;
-       this.gastoscomuneses = gastoscomuneses;
-       this.convenios = convenios;
-       this.historialmontos = historialmontos;
+       this.descripcion=descripcion;
+       this.simbolo=simbolo;
     }
    
     public int getIdmonto() {
@@ -50,6 +49,23 @@ public class Monto  implements java.io.Serializable {
     public void setIdmonto(int idmonto) {
         this.idmonto = idmonto;
     }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
+    }   
+    
     public String getTipoMonto() {
         return this.tipoMonto;
     }
@@ -114,7 +130,12 @@ public class Monto  implements java.io.Serializable {
         this.historialmontos = historialmontos;
     }
 
+    @Override
+    public String toString() {
+        return descripcion;
+    }
 
+    
 
 
 }
