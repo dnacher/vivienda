@@ -21,12 +21,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
@@ -42,6 +47,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
+import viviendas.Viviendas;
 import web.animations.FadeInUpTransition;
 
 public class GastosComunesController implements Initializable {
@@ -100,26 +107,25 @@ public class GastosComunesController implements Initializable {
     @FXML
     private Label lblUnidadDireccion;
      
-    ObservableList<Unidad> unidadesGastosComunesNoPago;
+    
     int periodo;
     Unidad unidad;
     boolean guardado=false;
+    Viviendas viviendas=new Viviendas();
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        UnidadBean ub=new UnidadBean();       
-        try {            
-            unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
+    public void initialize(URL url, ResourceBundle rb) {             
+            task(); 
+        try {
             cargaComboMonto();
             cargarComboBlock();
             cargarComboTorre();
             cargaHoy();
-            cargaTabla();
-            atras();
         } catch (ServiceException ex) {
             Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
-        }            
-        
+        }
+           
+
         cmbMoneda.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -128,6 +134,36 @@ public class GastosComunesController implements Initializable {
             
         });  
         cmbMoneda.getSelectionModel().selectFirst();
+    }
+    
+    public void task(){
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);                    
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+               UnidadBean ub=new UnidadBean();       
+                    viviendas.unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
+                    cargaTabla();
+                    atras();
+                    
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());        
+        new Thread(longTask).start();
     }
     
     public void cargaComboMonto() throws ServiceException{
@@ -216,13 +252,13 @@ public class GastosComunesController implements Initializable {
        Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
 
        tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
-       tableGastosComunes.setItems(unidadesGastosComunesNoPago);
+       tableGastosComunes.setItems(viviendas.unidadesGastosComunesNoPago);
        cargaGrafica("",0);
     }
     
     public void llenaTabla(){
-        lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " registros.");
-        tableGastosComunes.setItems(unidadesGastosComunesNoPago);
+        lblInfo.setText("Se muestran " + viviendas.unidadesGastosComunesNoPago.size() + " registros.");
+        tableGastosComunes.setItems(viviendas.unidadesGastosComunesNoPago);
         if(guardado){
             cargaGrafica("", 0);
         }else{
@@ -238,7 +274,7 @@ public class GastosComunesController implements Initializable {
         lblInfoPieChart.setText("");
         UnidadBean ub=new UnidadBean();
         int total=ub.totalUnidades(block,torre);
-        int totalPago=total-unidadesGastosComunesNoPago.size();
+        int totalPago=total-viviendas.unidadesGastosComunesNoPago.size();
         int totalNoPago=total-totalPago;
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
                 new PieChart.Data("No pagó", totalNoPago),
@@ -263,7 +299,7 @@ public class GastosComunesController implements Initializable {
             lblInfo.setText("");
             UnidadBean ub= new UnidadBean();
             List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
-            unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
+            viviendas.unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
             llenaTabla();
             cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
             }
@@ -275,7 +311,7 @@ public class GastosComunesController implements Initializable {
         public void mostrarTodos() {
             UnidadBean ub=new UnidadBean();
             List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();            
-            unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
+            viviendas.unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
             llenaTabla();           
         }
         
