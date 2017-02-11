@@ -69,6 +69,11 @@ public class Reglabonificacion  implements java.io.Serializable {
         this.convenios = convenios;
     }
 
+    @Override
+    public String toString() {
+        return descripcion;
+    }
+
 
 
 

@@ -69,6 +69,11 @@ public class Tipobonificacion  implements java.io.Serializable {
         this.convenios = convenios;
     }
 
+    @Override
+    public String toString() {
+        return valor.toString();
+    }
+
 
 
 

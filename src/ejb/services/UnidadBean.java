@@ -137,7 +137,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
-            query.setParameter("est", 2);
+            query.setParameter("est", 1);
             query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
             query.setParameter("elBlock", block);
             query.setParameter("laTorre", torre);
@@ -158,7 +158,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
-        query.setParameter("est", 2);
+        query.setParameter("est", 1);
         query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
         list= query.list();
                        
@@ -187,7 +187,7 @@ public class UnidadBean implements UnidadLocal{
         query.setParameter("torre", torre);
         query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
         //estado 2 pago al estar en el "not in" trae los que estan pagos
-        query.setParameter("est", 2);
+        query.setParameter("est", 1);
         lista=query.list();           
         session.close();       
         }
@@ -195,6 +195,51 @@ public class UnidadBean implements UnidadLocal{
             System.out.println(ex.getMessage());
         }
         return lista;
+    }
+    
+    public List<Unidad> TraeUnidadesConvenio(){        
+        List<Unidad> list= new ArrayList<>();
+        Session session = SessionConnection.getConnection().useSession();
+        try{                
+        Query query= session.createQuery("SELECT unidad FROM Unidad unidad "
+                                       + "WHERE unidad.idUnidad IN ("
+                                                                  + "SELECT gastoscomunes.unidad "
+                                                                  + "FROM Gastoscomunes gastoscomunes "
+                                                                  + "WHERE gastoscomunes.periodo<:periodo "
+                                                                  + "AND gastoscomunes.estado=:est)");
+        query.setParameter("est", 1);
+        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        list= query.list();                       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{           
+            session.close();
+        }
+        return list;
+    }
+    
+    public Long TraeTotalImporteXUnidadParaConvenio(Unidad unidad){
+        Long total = 0L;
+        Session session = SessionConnection.getConnection().useSession();
+        try{                
+        Query query= session.createQuery("SELECT sum(gc.monto_1) as total FROM Gastoscomunes gc "
+                                       + "WHERE gc.unidad=:unidad "
+                                       + "AND gc.periodo<:periodo "
+                                       + "AND gc.estado=:est)");
+        query.setParameter("unidad", unidad);
+        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        query.setParameter("est", 1);
+        total= (Long) query.uniqueResult();                       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{           
+            session.close();
+        }
+        return total;
     }
     
 }
