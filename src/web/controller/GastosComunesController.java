@@ -346,6 +346,6 @@ public class GastosComunesController implements Initializable {
                 }
                 
             }
-        }
+        }             
 }
 

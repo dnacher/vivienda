@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import ejb.utils.UtilsConfiguracion;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Unidad;
@@ -99,8 +100,7 @@ public class UnidadBean implements UnidadLocal{
         return unidades;
     }
     
-    public int totalUnidades(String block, int torre){
-        Session session = SessionConnection.getConnection().useSession();
+    public int totalUnidades(String block, int torre){        
         if(block.equals("") && torre==0){        
             Query query = session.createQuery("select count(*) from Unidad unidad");
             Long count = (Long)query.uniqueResult();       
@@ -119,8 +119,7 @@ public class UnidadBean implements UnidadLocal{
          }
     }
     
-    public int totalUnidadesNoPago(String block, int torre){
-        Session session = SessionConnection.getConnection().useSession();
+    public int totalUnidadesNoPago(String block, int torre){        
         if(block.equals("") && torre==0){        
             Query query = session.createQuery("select count(*) from Unidad unidad");
             Long count = (Long)query.uniqueResult();       
@@ -149,8 +148,7 @@ public class UnidadBean implements UnidadLocal{
     }
     
     public List<Unidad> TraeUnidadesGastosComunesNoPago(){        
-        List<Unidad> list= new ArrayList<>();
-        Session session = SessionConnection.getConnection().useSession();
+        List<Unidad> list= new ArrayList<>();        
         try{                
         Query query= session.createQuery("SELECT unidad FROM Unidad unidad "
                                        + "WHERE unidad.idUnidad NOT IN ("
@@ -173,8 +171,7 @@ public class UnidadBean implements UnidadLocal{
     }
     
     public List<Unidad> TraeUnidadesXBlockTorreNoPago(String block, int torre){        
-        List<Unidad> lista=new ArrayList<>();
-        Session session = SessionConnection.getConnection().useSession();
+        List<Unidad> lista=new ArrayList<>();        
         try{
         Query query= session.createQuery("SELECT unidad FROM Unidad unidad "
                                        + "WHERE Block=:block "
@@ -198,8 +195,7 @@ public class UnidadBean implements UnidadLocal{
     }
     
     public List<Unidad> TraeUnidadesConvenio(){        
-        List<Unidad> list= new ArrayList<>();
-        Session session = SessionConnection.getConnection().useSession();
+        List<Unidad> list= new ArrayList<>();        
         try{                
         Query query= session.createQuery("SELECT unidad FROM Unidad unidad "
                                        + "WHERE unidad.idUnidad IN ("
@@ -220,9 +216,48 @@ public class UnidadBean implements UnidadLocal{
         return list;
     }
     
+    public List<Unidad> TraeUnidadesConvenioXBlockTorre(String block, int torre){        
+        List<Unidad> list= new ArrayList<>();        
+        String consulta="";
+        Query query=session.createQuery("");
+        try{
+            consulta="SELECT unidad "
+                   + "FROM Unidad unidad ";
+            if(!block.isEmpty()){
+                    consulta+="WHERE unidad.block=:block ";
+                    query.setParameter("block", block);
+                if(torre!=0){
+                    consulta+="AND unidad.torre=:torre ";
+                    query.setParameter("torre", torre);
+                }
+            }else{
+                if(torre!=0){
+                    consulta+="WHERE unidad.torre=:torre ";
+                    query.setParameter("torre", torre);
+                }
+            }
+            
+            consulta+="AND unidad.idUnidad IN ("
+                                             + "SELECT gastoscomunes.unidad "
+                                             + "FROM Gastoscomunes gastoscomunes "
+                                             + "WHERE gastoscomunes.periodo<:periodo "
+                                             + "AND gastoscomunes.estado=:est)";
+        query=session.createQuery(consulta);
+        query.setParameter("est", 1);
+        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        list= query.list();                       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{           
+            session.close();
+        }
+        return list;
+    }
+    
     public Long TraeTotalImporteXUnidadParaConvenio(Unidad unidad){
-        Long total = 0L;
-        Session session = SessionConnection.getConnection().useSession();
+        Long total = 0L;        
         try{                
         Query query= session.createQuery("SELECT sum(gc.monto_1) as total FROM Gastoscomunes gc "
                                        + "WHERE gc.unidad=:unidad "
@@ -242,4 +277,18 @@ public class UnidadBean implements UnidadLocal{
         return total;
     }
     
+       
+        public void actualizaGastosComunesAConvenios(Unidad unidad){
+            Query query= session.createQuery("update Gastoscomunes set estado = :nuevoEstado "
+                             + "where estado = :elEstado "
+                             + "and unidad=:laUnidad "
+                             + "and periodo<:elPeriodo");
+            query.setInteger("nuevoEstado", 3 );
+            query.setInteger( "elEstado", 1 );
+            query.setInteger("elPeriodo", UtilsConfiguracion.devuelvePeriodoActual());
+            query.setParameter("laUnidad", unidad);
+            query.executeUpdate();
+            tx.commit();
+            session.close();         
+        }   
 }

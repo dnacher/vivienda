@@ -72,13 +72,25 @@
             </Button>
             <Label layoutX="62.0" layoutY="72.0" text="Tipo de Convenio" />
             <ComboBox fx:id="cmbTipoConvenio" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
+            <Label fx:id="lblTipoConvenio" layoutX="410.0" layoutY="72.0" prefHeight="17.0" prefWidth="62.0" />
+            <DatePicker fx:id="cmbFechaTipoConvenio" layoutX="490.0" layoutY="64.0" />
+            <TextField fx:id="txtTipoConvenio" layoutX="490.0" layoutY="65.0" prefWidth="177.0" />
+            <Button fx:id="btnRefresh" layoutX="680.0" layoutY="62.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#calculaTipoConveniotext" prefHeight="32.0" prefWidth="32.0">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="66.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/refresh.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
             <Label layoutX="62.0" layoutY="107.0" text="Cuotas" />
             <Label fx:id="lblCuotas" layoutX="193.0" layoutY="107.0" prefWidth="100.0" />
             <Label layoutX="62.0" layoutY="142.0" text="Descripcion" />
             <TextArea layoutX="193.0" layoutY="138.0" prefHeight="112.0" prefWidth="200.0" />
             <Label layoutX="62.0" layoutY="265.0" text="Activo" />
             <CheckBox layoutX="193.0" layoutY="265.0" mnemonicParsing="false" />
-            <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" styleClass="btn" text="Guardar" />
+            <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardaConvenio" styleClass="btn" text="Guardar" />
          </children></AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Convenios">
