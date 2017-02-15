@@ -2,7 +2,6 @@ package ejb.utils;
 
 import entities.persistence.entities.Configuracion;
 import java.util.Calendar;
-import java.util.Date;
 import viviendas.Viviendas;
 /**
  *
@@ -62,5 +61,36 @@ public class UtilsConfiguracion {
         int month=Calendar.getInstance().get(Calendar.MONTH)+1;        
         periodoActual=traePeriodo(year, month);
         return periodoActual;
+    }
+    
+    public int devuelveCuotas(int mesInicial, int mesFinal, int anioInicial, int anioFinal){
+        int cuotas=0;
+        boolean flagMesInicial=true;
+        for(int y=anioInicial;y<=anioFinal;y++){
+            if(anioFinal!=y){
+                if(flagMesInicial){
+                    for(int m=mesInicial;m<=12;m++){
+                        cuotas++;
+                    }
+                    flagMesInicial=false;
+                }else{
+                    for(int m=1;m<=12;m++){
+                        cuotas++;
+                    }
+                }
+            }else{
+                if(flagMesInicial){
+                    for(int m=mesInicial;m<=mesFinal;m++){
+                        cuotas++;
+                    }
+                    flagMesInicial=false;
+                }else{
+                    for(int m=1;m<=mesFinal;m++){
+                        cuotas++;
+                    }
+                }
+            }
+            }           
+        return cuotas;    
     }
 }

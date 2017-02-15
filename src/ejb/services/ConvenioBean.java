@@ -31,6 +31,8 @@ public class ConvenioBean implements ConvenioLocal{
             session.save(convenio);
             tx.commit();
             session.close();
+            UnidadBean ub=new UnidadBean();
+            ub.actualizaGastosComunesAConvenios(convenio.getUnidad());
             correcto=true;
         }
         catch(Exception ex){

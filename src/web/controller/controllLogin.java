@@ -1,6 +1,5 @@
 package web.controller;
 
-import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
@@ -30,7 +29,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import ejb.services.UsuariosBean;
 import ejb.services.UsuariosLocal;
-import entities.persistence.entities.Configuracion;
 import exceptions.ServiceException;
 import static viviendas.Viviendas.listaConfiguracion;
 

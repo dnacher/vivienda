@@ -27,12 +27,19 @@ public class Convenio  implements java.io.Serializable {
     }
 
 	
-    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Unidad unidad) {
-        this.id = id;
-        this.monto = monto;
-        this.reglabonificacion = reglabonificacion;
-        this.unidad = unidad;
+    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Tipobonificacion tipobonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo) {
+       this.id = id;
+       this.monto = monto;
+       this.reglabonificacion = reglabonificacion;
+       this.tipobonificacion = tipobonificacion;
+       this.unidad = unidad;
+       this.deudaTotal = deudaTotal;
+       this.cuotas = cuotas;
+       this.saldoInicial = saldoInicial;
+       this.descripcion = descripcion;
+       this.activo = activo;
     }
+    
     public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Tipobonificacion tipobonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo, Set cuotaconvenios) {
        this.id = id;
        this.monto = monto;
@@ -124,10 +131,7 @@ public class Convenio  implements java.io.Serializable {
     public void setCuotaconvenios(Set cuotaconvenios) {
         this.cuotaconvenios = cuotaconvenios;
     }
-
-
-
-
+    
 }
 
 

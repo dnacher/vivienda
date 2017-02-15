@@ -16,7 +16,7 @@ public class Monto  implements java.io.Serializable {
      private String descripcion;
      private String simbolo;
      private String tipoMonto;
-     private Integer valorPesos;
+     private double valorPesos;
      private Date fechaActualizacion;
      private Boolean activo;
      private Set otrosgastoses = new HashSet(0);
@@ -32,7 +32,7 @@ public class Monto  implements java.io.Serializable {
     public Monto(int idmonto) {
         this.idmonto = idmonto;
     }
-    public Monto(int idmonto, String descripcion, String simbolo, String tipoMonto, Integer valorPesos, Date fechaActualizacion, Boolean activo) {
+    public Monto(int idmonto, String descripcion, String simbolo, String tipoMonto, double valorPesos, Date fechaActualizacion, Boolean activo) {
        this.idmonto = idmonto;
        this.tipoMonto = tipoMonto;
        this.valorPesos = valorPesos;
@@ -73,11 +73,11 @@ public class Monto  implements java.io.Serializable {
     public void setTipoMonto(String tipoMonto) {
         this.tipoMonto = tipoMonto;
     }
-    public Integer getValorPesos() {
+    public double getValorPesos() {
         return this.valorPesos;
     }
     
-    public void setValorPesos(Integer valorPesos) {
+    public void setValorPesos(double valorPesos) {
         this.valorPesos = valorPesos;
     }
     public Date getFechaActualizacion() {

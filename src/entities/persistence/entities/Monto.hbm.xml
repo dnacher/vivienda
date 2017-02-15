@@ -17,7 +17,7 @@
         <property name="tipoMonto" type="string">
             <column name="tipoMonto" length="45" />
         </property>
-        <property name="valorPesos" type="java.lang.Integer">
+        <property name="valorPesos" type="double">
             <column name="valorPesos" />
         </property>
         <property name="fechaActualizacion" type="date">

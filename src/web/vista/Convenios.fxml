@@ -42,11 +42,12 @@
                </graphic>
             </Button>
             <Label layoutX="62.0" layoutY="72.0" text="Deuda total" />
-            <Label fx:id="lblSimbolo" layoutX="170.0" layoutY="70.0" text="\$" />
+            <Label fx:id="lblSimbolo" layoutX="170.0" layoutY="73.0" text="\$" />
             <Label fx:id="lblDeudaTotal" layoutX="193.0" layoutY="72.0" prefWidth="100.0" />
             <Label layoutX="62.0" layoutY="107.0" minWidth="65.0" prefWidth="0.0" text="Moneda" />
             <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
             <Label layoutX="62.0" layoutY="142.0" text="Saldo inicial" />
+            <Label fx:id="lblSimbolo1" layoutX="170.0" layoutY="142.0" text="\$" />
             <TextField fx:id="txtSaldoInicial" layoutX="193.0" layoutY="138.0" />
             <Label layoutX="62.0" layoutY="177.0" maxWidth="100.0" minWidth="65.0" text="Regla bonificacion" />
             <ComboBox fx:id="cmbReglaBonificacion" layoutX="193.0" layoutY="174.0" prefWidth="177.0" />
@@ -87,9 +88,9 @@
             <Label layoutX="62.0" layoutY="107.0" text="Informacion" />
             <Label fx:id="lblCuotas" layoutX="193.0" layoutY="107.0" prefHeight="17.0" prefWidth="475.0" />
             <Label layoutX="62.0" layoutY="142.0" text="Descripcion" />
-            <TextArea layoutX="193.0" layoutY="138.0" prefHeight="112.0" prefWidth="200.0" />
+            <TextArea fx:id="txtDescripcion" layoutX="193.0" layoutY="138.0" prefHeight="112.0" prefWidth="200.0" />
             <Label layoutX="62.0" layoutY="265.0" text="Activo" />
-            <CheckBox layoutX="193.0" layoutY="265.0" mnemonicParsing="false" selected="true" />
+            <CheckBox fx:id="chkActivo" layoutX="193.0" layoutY="265.0" mnemonicParsing="false" selected="true" />
             <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardaConvenio" styleClass="btn" text="Guardar" />
          </children></AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

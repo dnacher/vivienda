@@ -9,6 +9,8 @@ import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,7 +26,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -34,6 +35,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import web.animations.FadeInUpTransition;
+import UtilsGeneral.ConfiguracionControl;
+import UtilsGeneral.UtilsVentanas;
+import control.ControlVentana;
+import ejb.utils.UtilsConfiguracion;
+import entities.persistence.entities.Tipobonificacion;
+import ejb.services.TipoBonificacionBean;
+import ejb.services.ConvenioBean;
+import entities.persistence.entities.Convenio;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
+import entities.persistence.entities.ConvenioId;
+
+
 
 public class ConveniosController implements Initializable {
     
@@ -62,13 +76,7 @@ public class ConveniosController implements Initializable {
     private ImageView imgProgressTracker;
 
     @FXML
-    private Button btnMostrar;
-
-    @FXML
     private TextField txtSaldoInicial;
-
-    @FXML
-    private ProgressBar bar;
 
     @FXML
     private ComboBox<String> cmbTipoConvenio;
@@ -80,16 +88,7 @@ public class ConveniosController implements Initializable {
     private Button btnStepAdelante;
 
     @FXML
-    private Button btnGuardar;
-
-    @FXML
-    private Button btnNew;
-
-    @FXML
-    private ComboBox<String> cmbTipoBonificacion;
-
-    @FXML
-    private ImageView imgLoad;
+    private ComboBox<Tipobonificacion> cmbTipoBonificacion;
 
     @FXML
     private ComboBox<Integer> cmbTorre;
@@ -123,6 +122,12 @@ public class ConveniosController implements Initializable {
     
     @FXML
     private Button btnRefresh;
+    
+    @FXML
+    private CheckBox chkActivo;
+    
+    @FXML
+    private TextArea txtDescripcion;
      
     ObservableList listaUnidades;
     Image img1=new Image("/web/images/step1.png");
@@ -131,6 +136,13 @@ public class ConveniosController implements Initializable {
     int paneActual=1;
     Unidad unidad;
     public int i;
+    Long deudaPesos=0L;
+    Monto monto=null;
+    Reglabonificacion reglaBonificacion=null;
+    Tipobonificacion tipoBonificacion=null;
+    double deudaOtraMoneda=0;
+    double cuotas=0;
+    int saldoInicial=0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -147,6 +159,8 @@ public class ConveniosController implements Initializable {
               cargaComboMonto();
               cargaComboReglaBonificacion();
               cargaComboTipoBonificacion();
+              cmbReglaBonificacion.getSelectionModel().selectFirst();
+              cmbTipoBonificacion.getSelectionModel().selectFirst();
           } catch (ServiceException ex) {
               Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);
           }
@@ -197,15 +211,17 @@ public class ConveniosController implements Initializable {
             case "Limite Cuotas":
                 if(!txtTipoConvenio.getText().isEmpty()){
                     try{
-                        double cuotas=Integer.valueOf(txtTipoConvenio.getText());
-                        double total=Integer.valueOf(lblDeudaTotal.getText());
+                        cuotas=Double.valueOf(txtTipoConvenio.getText());
+                        double total=deudaPesos;                                
                         if(!txtSaldoInicial.getText().isEmpty()){
-                            double saldoInicial=Integer.valueOf(txtSaldoInicial.getText());
-                            total-=saldoInicial;
+                            saldoInicial=Integer.valueOf(txtSaldoInicial.getText());
+                            double monedaSaldo=saldoInicial;
+                            total-=monedaSaldo;
                         }
                         double informacion=total/cuotas;
+                        //formatea el valor a 2 digitos
                         DecimalFormat df = new DecimalFormat("####0.00");                        
-                        lblCuotas.setText("Total por cuota aproximada: " + df.format(informacion));
+                        lblCuotas.setText("Cuota aproximada: $" + df.format(informacion));
                     }
                     catch(Exception ex){
                         System.err.println("debe ser un valor numerico");
@@ -216,7 +232,18 @@ public class ConveniosController implements Initializable {
                 break;
             case "Limite Fecha":
                 if(cmbFechaTipoConvenio.getValue()!=null){
-                    System.err.println("calcula por fecha");
+                    int currentyear =Calendar.getInstance().get(Calendar.YEAR);
+                    int currentmonth=Calendar.getInstance().get(Calendar.MONTH)+1; 
+                    Calendar cal = Calendar.getInstance();
+                    Date date=ConfiguracionControl.TraeFecha(cmbFechaTipoConvenio.getValue());                    
+                    cal.setTime(date);
+                    int finalYear=cal.get(Calendar.YEAR);
+                    int finalMonth=cal.get(Calendar.MONTH)+1;                    
+                    UtilsConfiguracion uc=new UtilsConfiguracion();
+                    cuotas=uc.devuelveCuotas(currentmonth, finalMonth, currentyear, finalYear);
+                    double monto=deudaPesos/(double)cuotas;
+                    DecimalFormat df = new DecimalFormat("####0.00"); 
+                    lblCuotas.setText((int)cuotas + " cuotas de $" + df.format(monto));
                 }else{
                     System.err.println("no hay fecha seleccionada");
                 }
@@ -224,8 +251,16 @@ public class ConveniosController implements Initializable {
             case "Limite Monto":
                 if(!txtTipoConvenio.getText().isEmpty()){
                     try{
-                        int num=Integer.valueOf(txtTipoConvenio.getText());
-                        System.err.println("calcula por monto");
+                        double monto=Integer.valueOf(txtTipoConvenio.getText());
+                        double total=deudaPesos;
+                        if(!txtSaldoInicial.getText().isEmpty()){
+                            saldoInicial=Integer.valueOf(txtSaldoInicial.getText());
+                            double monedaSaldo=saldoInicial;
+                            total-=monedaSaldo;
+                        }
+                        //redondea hacia arriba siempre
+                        cuotas=(int) Math.ceil(total/monto);
+                        lblCuotas.setText("Numero de cuotas aproximadas: " + (int)cuotas);
                     }
                     catch(Exception ex){
                         System.err.println("debe ser un valor numerico");
@@ -237,10 +272,18 @@ public class ConveniosController implements Initializable {
         }
     }
     
-    public void cargaComboTipoBonificacion(){
-       ObservableList<String> options = 
-       FXCollections.observableArrayList("Porcentaje","Monto");
+    public void cargaComboTipoBonificacion() throws ServiceException{
+       TipoBonificacionBean tb=new TipoBonificacionBean();
+       ObservableList<Tipobonificacion> options = 
+       FXCollections.observableArrayList(tb.traerTodos());
        cmbTipoBonificacion.setItems(options);
+       cmbTipoBonificacion.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                tipoBonificacion=cmbTipoBonificacion.getValue();
+            }
+            
+        }); 
     }
     
     public void cargarComboTorre(){
@@ -298,38 +341,37 @@ public class ConveniosController implements Initializable {
     }
     
     public void btnAdelante() throws InterruptedException{
-        try{
-            lblInfo.setText("");
-            unidad=tblUnidades.getSelectionModel().getSelectedItem();
-            txtUnidad.setText(unidad.getNombre() + " " + unidad.getApellido());
-            txtUnidad2.setText(unidad.getNombre() + " " + unidad.getApellido());
-            UnidadBean ub=new UnidadBean();
-            Long deuda=ub.TraeTotalImporteXUnidadParaConvenio(unidad);
-            lblDeudaTotal.setText(String.valueOf(deuda));
-            if(paneActual==1){
-            paneActual=2;
-            agregarGastosComunes();
-            }
-            else if(paneActual==2){
+        
+        switch(paneActual){
+            case 1:
+                lblInfo.setText("");
+                paneActual=2;
+                unidad=tblUnidades.getSelectionModel().getSelectedItem();
+                txtUnidad.setText(unidad.getNombre() + " " + unidad.getApellido());
+                txtUnidad2.setText(unidad.getNombre() + " " + unidad.getApellido());
+                UnidadBean ub=new UnidadBean();
+                deudaPesos=ub.TraeTotalImporteXUnidadParaConvenio(unidad);
+                lblDeudaTotal.setText(String.valueOf(deudaPesos));
+                agregarGastosComunes();
+                break;
+            case 2:
                 paneActual=3;
                 agregarGastosComunes();
-            }   
+                break;            
         }
-        catch(Exception ex){
-            lblInfo.setText("Debe seleccionar una unidad");
-        }
-            
     }
     
     public void btnAtras() throws InterruptedException{
-        if(paneActual==3){
-            paneActual=2;
-            agregarGastosComunes();
-        }
-        else if(paneActual==2){
-            paneActual=1;
-            agregarGastosComunes(); 
-        }
+        switch(paneActual){
+            case 3:
+                paneActual=2;
+                agregarGastosComunes();
+                break;
+            case 2:
+                paneActual=1;
+                agregarGastosComunes();
+                break;
+        }       
     }
     
     public void atras(){
@@ -362,6 +404,13 @@ public class ConveniosController implements Initializable {
         ReglaBonificacionBean rb=new ReglaBonificacionBean();
         ObservableList<Reglabonificacion> bonificaciones=FXCollections.observableArrayList(rb.traerTodos());             
         cmbReglaBonificacion.setItems(bonificaciones);
+        cmbReglaBonificacion.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                reglaBonificacion=cmbReglaBonificacion.getValue();
+            }
+            
+        });        
     }
     
     public void cargaTabla(){
@@ -394,8 +443,16 @@ public class ConveniosController implements Initializable {
     }
     
      public void monedaCombo(){        
-            Monto monto=cmbMoneda.getSelectionModel().getSelectedItem();
-            lblSimbolo.setText(monto.getSimbolo());   
+            monto=cmbMoneda.getSelectionModel().getSelectedItem();
+            lblSimbolo.setText(monto.getSimbolo());
+            if(monto.getValorPesos()!=1){
+                deudaOtraMoneda=deudaPesos*monto.getValorPesos();
+                DecimalFormat df = new DecimalFormat("####0.00");
+                lblDeudaTotal.setText(df.format(deudaOtraMoneda));
+            }else{
+                 lblDeudaTotal.setText(String.valueOf(deudaPesos));
+            }
+            
     }
      
       public void mostrar(ActionEvent event) {       
@@ -436,14 +493,37 @@ public class ConveniosController implements Initializable {
         }
         
         public void guardaConvenio(){
-            try{
-            UnidadBean ub= new UnidadBean();
-            ub.actualizaGastosComunesAConvenios(unidad);
+            ControlVentana cv= new ControlVentana();
+            cv.creaVentanaNotificacionCorrecto();
+            try {
+                Convenio convenio=new Convenio();
+                convenio.setActivo(chkActivo.isSelected());
+                convenio.setCuotas((int)cuotas);
+                if(!txtDescripcion.getText().isEmpty()){
+                    convenio.setDescripcion(txtDescripcion.getText());
+                }
+                if(cmbMoneda.getValue().getSimbolo().equals("$")){
+                    double deu=deudaPesos;
+                    convenio.setDeudaTotal((int)deu);
+                }else{
+                    convenio.setDeudaTotal((int)deudaOtraMoneda);
+                }
+                ConvenioId convenioId=new ConvenioId();
+                convenioId.setUnidadIdUnidad(unidad.getIdUnidad());
+                convenioId.setIdconvenio(ConfiguracionControl.traeUltimoId("Convenio"));
+                convenio.setId(convenioId);
+                convenio.setMonto(monto);
+                convenio.setReglabonificacion(reglaBonificacion);            
+                convenio.setSaldoInicial(saldoInicial);
+                convenio.setTipobonificacion(tipoBonificacion);
+                convenio.setUnidad(unidad);
+                ConvenioBean cb=new ConvenioBean();
+                cb.guardar(convenio);
+                cv.creaVentanaNotificacionCorrecto();
+            } catch (ServiceException ex) {
+                cv.creaVentanaNotificacionError(ex.getMessage());
+                Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            catch(Exception ex){
-                System.err.println(ex.getMessage());
-            }
-        }
-    
+        }   
 }
  
