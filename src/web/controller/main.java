@@ -1,6 +1,5 @@
 package web.controller;
 
-import UtilsGeneral.UtilsVentanas;
 import entities.constantes.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,10 +10,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import viviendas.Viviendas;
+import web.animations.FadeInTransition;
 
 public class main implements Initializable { 
     @FXML
@@ -26,7 +27,8 @@ public class main implements Initializable {
     @FXML
     private Button fullscreen;   
     @FXML
-    private AnchorPane paneData;
+    private AnchorPane mainPane;        
+    
     Stage stage;
     Rectangle2D rec2;
     Double w,h;
@@ -34,7 +36,7 @@ public class main implements Initializable {
     private ListView<String> listMenu;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {     
+    public void initialize(URL url, ResourceBundle rb) {        
         
     };    
         

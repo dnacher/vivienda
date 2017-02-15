@@ -84,12 +84,12 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label layoutX="62.0" layoutY="107.0" text="Cuotas" />
-            <Label fx:id="lblCuotas" layoutX="193.0" layoutY="107.0" prefWidth="100.0" />
+            <Label layoutX="62.0" layoutY="107.0" text="Informacion" />
+            <Label fx:id="lblCuotas" layoutX="193.0" layoutY="107.0" prefHeight="17.0" prefWidth="475.0" />
             <Label layoutX="62.0" layoutY="142.0" text="Descripcion" />
             <TextArea layoutX="193.0" layoutY="138.0" prefHeight="112.0" prefWidth="200.0" />
             <Label layoutX="62.0" layoutY="265.0" text="Activo" />
-            <CheckBox layoutX="193.0" layoutY="265.0" mnemonicParsing="false" />
+            <CheckBox layoutX="193.0" layoutY="265.0" mnemonicParsing="false" selected="true" />
             <Button fx:id="btnGuardar" layoutX="62.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardaConvenio" styleClass="btn" text="Guardar" />
          </children></AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -107,7 +107,10 @@
             </ImageView>
          </graphic>
       </Button>
-      <ImageView fx:id="imgProgressTracker" fitHeight="65.0" fitWidth="320.0" layoutX="455.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgProgressTracker" fitHeight="65.0" fitWidth="320.0" layoutX="455.0" layoutY="10.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/step1.png" />
+         </image></ImageView>
       <Button fx:id="btnStepAdelante" layoutX="790.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAdelante" prefHeight="40.0" prefWidth="40.0" rotate="180.0" stylesheets="@../css/buttonCircleBlack.css">
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

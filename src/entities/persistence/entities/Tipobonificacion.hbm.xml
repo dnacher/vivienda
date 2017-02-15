@@ -8,6 +8,9 @@
             <column name="idtipoBonificacion" />
             <generator class="assigned" />
         </id>
+        <property name="nombre" type="string">
+            <column name="Nombre" length="45" />
+        </property>
         <property name="tipoBonificacion" type="java.lang.Integer">
             <column name="tipoBonificacion" />
         </property>

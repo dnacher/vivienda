@@ -89,13 +89,13 @@ public class controllLogin implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, ServiceException {
-       // UsuariosBean ub= new UsuariosBean();
-       // Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());        
-        if(true/*Viviendas.user!=null*/){
-        if (true/*Viviendas.user.getNombre().equals(txtUsername.getText()) &&
-            Viviendas.user.getPassword().equals(txtPassword.getText())*/){
-          //  ConfiguracionBean cb=new ConfiguracionBean();
-          //  listaConfiguracion=cb.traerTodos();
+        UsuariosBean ub= new UsuariosBean();
+        Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());        
+        if(Viviendas.user!=null){
+        if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
+            Viviendas.user.getPassword().equals(txtPassword.getText())){
+            ConfiguracionBean cb=new ConfiguracionBean();
+            listaConfiguracion=cb.traerTodos();
             ControlVentana cv= new ControlVentana();
             cv.creaVentanaNotificacionCorrecto();
             Stage st = new Stage();

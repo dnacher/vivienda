@@ -12,6 +12,7 @@ public class Tipobonificacion  implements java.io.Serializable {
 
 
      private int idtipoBonificacion;
+     private String nombre;
      private Integer tipoBonificacion;
      private Integer valor;
      private boolean activo;
@@ -21,8 +22,11 @@ public class Tipobonificacion  implements java.io.Serializable {
     }
 
 	
-    public Tipobonificacion(int idtipoBonificacion, boolean activo) {
+    public Tipobonificacion(int idtipoBonificacion, String nombre, Integer tipoBonificacion, Integer valor, boolean activo) {
         this.idtipoBonificacion = idtipoBonificacion;
+        this.nombre=nombre;
+        this.tipoBonificacion=tipoBonificacion;
+        this.valor=valor;
         this.activo = activo;
     }
     public Tipobonificacion(int idtipoBonificacion, Integer tipoBonificacion, Integer valor, boolean activo, Set convenios) {
@@ -40,6 +44,15 @@ public class Tipobonificacion  implements java.io.Serializable {
     public void setIdtipoBonificacion(int idtipoBonificacion) {
         this.idtipoBonificacion = idtipoBonificacion;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     public Integer getTipoBonificacion() {
         return this.tipoBonificacion;
     }
@@ -71,7 +84,7 @@ public class Tipobonificacion  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return valor.toString();
+        return nombre;
     }
 
 

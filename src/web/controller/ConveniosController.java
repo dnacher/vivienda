@@ -8,6 +8,7 @@ import entities.persistence.entities.Reglabonificacion;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -138,8 +139,7 @@ public class ConveniosController implements Initializable {
         cmbFechaTipoConvenio.setVisible(false);
         cargaTabla();
         btnStepAtras.setDisable(true);
-        atras();              
-        imgProgressTracker.setImage(img1);
+        atras();        
         cargarComboBlock();
         cargarComboTorre();
         cargarComboTipoConvenio();
@@ -197,8 +197,15 @@ public class ConveniosController implements Initializable {
             case "Limite Cuotas":
                 if(!txtTipoConvenio.getText().isEmpty()){
                     try{
-                        int num=Integer.valueOf(txtTipoConvenio.getText());
-                        System.err.println("calcula por cuotas");
+                        double cuotas=Integer.valueOf(txtTipoConvenio.getText());
+                        double total=Integer.valueOf(lblDeudaTotal.getText());
+                        if(!txtSaldoInicial.getText().isEmpty()){
+                            double saldoInicial=Integer.valueOf(txtSaldoInicial.getText());
+                            total-=saldoInicial;
+                        }
+                        double informacion=total/cuotas;
+                        DecimalFormat df = new DecimalFormat("####0.00");                        
+                        lblCuotas.setText("Total por cuota aproximada: " + df.format(informacion));
                     }
                     catch(Exception ex){
                         System.err.println("debe ser un valor numerico");
