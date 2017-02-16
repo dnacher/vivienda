@@ -2,6 +2,7 @@ package ejb.services;
 
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Convenio;
+import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
@@ -89,6 +90,17 @@ public class ConvenioBean implements ConvenioLocal{
         query.setParameter("id", Id);        
         Convenio convenio=(Convenio) query.uniqueResult();
         session.close();        
+        return convenio;
+    }
+    
+      public Convenio traeConvenioXUnidad(Unidad unidad){
+          try{}
+          catch(Exception ex){}
+        Query query= session.createQuery("from Convenio convenio "
+                                       + "where convenio.unidad=:unidad "
+                                       + "and convenio.activo=true");
+        query.setParameter("unidad", unidad);
+        Convenio convenio=(Convenio) query.uniqueResult();
         return convenio;
     }
     

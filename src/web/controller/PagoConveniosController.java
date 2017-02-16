@@ -189,10 +189,7 @@ public class PagoConveniosController implements Initializable {
                                 + unidad.getTorre() + "/ " 
                                 + unidad.getPuerta());
             paneGastosComunes.setOpacity(0);
-            new FadeInUpTransition(paneFormulario).play();
-            Platform.runLater(() -> {
-                         
-            });
+            new FadeInUpTransition(paneFormulario).play();            
         }
         catch(Exception ex){
             lblInfo.setText("Debe seleccionar una unidad.");
@@ -316,35 +313,8 @@ public class PagoConveniosController implements Initializable {
         }
         
         public void guardar(){
-            if(validar()){
-                try{
-                GastoscomunesId gcId=new GastoscomunesId();
-                gcId.setIdGastosComunes(ConfiguracionControl.traeUltimoId("GastosComunes"));
-                gcId.setUnidadIdUnidad(unidad.getIdUnidad());
-                Gastoscomunes gc=new Gastoscomunes();
-                gc.setActivo(true);
-                gc.setEstado(2);
-                gc.setFechaPago(ConfiguracionControl.TraeFecha(cmbFecha.getValue()));
-                gc.setId(gcId);
-                gc.setIsBonificacion(chkBonificacion.isSelected());
-                gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
-                gc.setMonto_1(Integer.valueOf(txtMonto.getText()));
-                gc.setPeriodo(periodo);
-                gc.setUnidad(unidad);
-                GastosComunesBean gcb=new GastosComunesBean();
-                gcb.guardar(gc);
-                ControlVentana cv=new ControlVentana();
-                cv.creaVentanaNotificacionCorrecto();  
-                UnidadBean ub=new UnidadBean();   
-                guardado=true;
-                mostrarTodos();
-                atras();
-                }
-                catch(Exception ex){
-                    ex.getMessage();
-                }
-                
-            }
+           UtilsConfiguracion uc=new UtilsConfiguracion();
+           
         }             
 }
 

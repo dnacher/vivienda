@@ -1,6 +1,9 @@
 package ejb.utils;
 
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Convenio;
+import entities.persistence.entities.Reglabonificacion;
+import entities.persistence.entities.Unidad;
 import java.util.Calendar;
 import viviendas.Viviendas;
 /**
@@ -93,4 +96,14 @@ public class UtilsConfiguracion {
             }           
         return cuotas;    
     }
+    
+    public boolean tieneBonificacion(Reglabonificacion rb){
+        boolean tiene=false;
+        int day=Calendar.getInstance().get(Calendar.DATE);
+        if(day<=rb.getDiaApagar()){
+            tiene=true;
+        }
+        return tiene;
+    }    
+  
 }
