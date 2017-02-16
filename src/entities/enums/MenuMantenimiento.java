@@ -13,7 +13,8 @@ public enum MenuMantenimiento {
                             Grupo("Grupo","Grupo"),
               ListaPrecios("ListaPrecios","Lista Precios"),
                 BajaTecnico("BajaTecnico","Baja Tecnico"),
-                      Licencia("Licencia","Licencia");
+                      Licencia("Licencia","Licencia"),
+                          Estado("Estado","Estado");
         
                    
     

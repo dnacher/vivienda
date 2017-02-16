@@ -36,7 +36,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import web.animations.FadeInUpTransition;
 import UtilsGeneral.ConfiguracionControl;
-import UtilsGeneral.UtilsVentanas;
 import control.ControlVentana;
 import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Tipobonificacion;
@@ -455,24 +454,25 @@ public class ConveniosController implements Initializable {
             
     }
      
-      public void mostrar(ActionEvent event) {       
+      public void mostrar(ActionEvent event) {
+            lblInfo.setText("");
             try{
                 lblInfo.setText("");
                 List<Unidad> listaTorreBlock;
                 UnidadBean ub= new UnidadBean();
                 if(cmbBlock.getValue()!=null){
                     if(cmbTorre.getValue()!=null){
-                       listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
+                       listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
                     }
                     else{
-                        listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), 0);
+                        listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), 0);
                     }
                 }else{
                     if(cmbTorre.getValue()!=null){
-                       listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago("", cmbTorre.getValue());
+                       listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", cmbTorre.getValue());
                     }
                     else{
-                        listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago("", 0);
+                        listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", 0);
                     }
                 }                        
                 listaUnidades = FXCollections.observableList(listaTorreBlock);
@@ -485,6 +485,7 @@ public class ConveniosController implements Initializable {
         }
        
         public void mostrarTodos() {
+            lblInfo.setText("");
             UnidadBean ub=new UnidadBean();
             List<Unidad> listaTotal=ub.TraeUnidadesConvenioXBlockTorre("",0);
             listaUnidades = FXCollections.observableList(listaTotal);
@@ -494,7 +495,6 @@ public class ConveniosController implements Initializable {
         
         public void guardaConvenio(){
             ControlVentana cv= new ControlVentana();
-            cv.creaVentanaNotificacionCorrecto();
             try {
                 Convenio convenio=new Convenio();
                 convenio.setActivo(chkActivo.isSelected());
@@ -524,6 +524,6 @@ public class ConveniosController implements Initializable {
                 cv.creaVentanaNotificacionError(ex.getMessage());
                 Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }   
+        }       
 }
  

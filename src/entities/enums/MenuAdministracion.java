@@ -10,8 +10,8 @@ public enum MenuAdministracion {
                       Unidades("Unidades","Unidades"),
             GastosComunes("GastosComunes","Gastos Comunes"),
                     Convenios("Convenios","Convenios"),
-    ReglaBonificacion("ReglaBonificacion","Regla Bonificacion"),
-                          Estado("Estado","Estado");
+                    PagoConvenios("PagoConvenios", "Pago Convenios"),
+    ReglaBonificacion("ReglaBonificacion","Regla Bonificacion");
     
     private final String pagina;
     private final String menu;

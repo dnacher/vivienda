@@ -1,6 +1,5 @@
 package ejb.services;
 
-import UtilsGeneral.ConfiguracionControl;
 import ejb.utils.UtilsConfiguracion;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Unidad;
@@ -136,7 +135,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
-            query.setParameter("est", 1);
+            query.setParameter("est", 2);
             query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
             query.setParameter("elBlock", block);
             query.setParameter("laTorre", torre);
@@ -156,7 +155,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
-        query.setParameter("est", 1);
+        query.setParameter("est", 2);
         query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
         list= query.list();
                        
@@ -184,7 +183,7 @@ public class UnidadBean implements UnidadLocal{
         query.setParameter("torre", torre);
         query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
         //estado 2 pago al estar en el "not in" trae los que estan pagos
-        query.setParameter("est", 1);
+        query.setParameter("est", 2);
         lista=query.list();           
         session.close();       
         }
@@ -218,33 +217,41 @@ public class UnidadBean implements UnidadLocal{
     
     public List<Unidad> TraeUnidadesConvenioXBlockTorre(String block, int torre){        
         List<Unidad> list= new ArrayList<>();        
-        String consulta="";
-        Query query=session.createQuery("");
+        String consulta="";        
         try{
             consulta="SELECT unidad "
                    + "FROM Unidad unidad ";
             if(!block.isEmpty()){
-                    consulta+="WHERE unidad.block=:block ";
-                    query.setParameter("block", block);
+                    consulta+="WHERE unidad.block=:block ";                    
                 if(torre!=0){
-                    consulta+="AND unidad.torre=:torre ";
-                    query.setParameter("torre", torre);
+                    consulta+="AND unidad.torre=:torre ";                    
                 }
             }else{
                 if(torre!=0){
-                    consulta+="WHERE unidad.torre=:torre ";
-                    query.setParameter("torre", torre);
+                    consulta+="WHERE unidad.torre=:torre ";                    
                 }
             }
+            if(block.isEmpty() && torre==0){
+                consulta+="WHERE unidad.idUnidad IN (";
+            }
+            else{
+                consulta+="AND unidad.idUnidad IN (";
+            }
             
-            consulta+="AND unidad.idUnidad IN ("
-                                             + "SELECT gastoscomunes.unidad "
-                                             + "FROM Gastoscomunes gastoscomunes "
-                                             + "WHERE gastoscomunes.periodo<:periodo "
-                                             + "AND gastoscomunes.estado=:est)";
-        query=session.createQuery(consulta);
+            
+                             consulta+="SELECT gastoscomunes.unidad "
+                                     + "FROM Gastoscomunes gastoscomunes "
+                                     + "WHERE gastoscomunes.periodo<:periodo "
+                                     + "AND gastoscomunes.estado=:est)";
+        Query query=session.createQuery(consulta);        
         query.setParameter("est", 1);
         query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        if(!block.equals("")){
+            query.setParameter("block", block);
+        }
+        if(torre!=0){
+            query.setParameter("torre", torre);
+        }
         list= query.list();                       
         }
         catch(Exception ex){
