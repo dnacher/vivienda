@@ -78,8 +78,10 @@ public class Tipousuario  implements java.io.Serializable {
         this.usuarios = usuarios;
     }
 
-
-
+    @Override
+    public String toString() {
+        return nombre;
+    }
 
 }
 

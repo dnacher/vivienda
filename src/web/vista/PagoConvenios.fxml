@@ -75,7 +75,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblPeriodo1" layoutX="62.0" layoutY="72.0" prefHeight="29.0" prefWidth="100.0" text="Periodo" textFill="#2b579a">
+            <Label fx:id="lblPeriodo1" layoutX="62.0" layoutY="72.0" prefHeight="29.0" prefWidth="100.0" text="Cuota" textFill="#2b579a">
                <font>
                   <Font size="14.0" />
                </font>

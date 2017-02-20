@@ -18,17 +18,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
@@ -37,9 +34,6 @@ public class usuarioController implements Initializable {
 
      @FXML
     private PasswordField txtPass;
-
-    @FXML
-    private Button btnBack;
 
     @FXML
     private AnchorPane paneCrud;
@@ -63,61 +57,44 @@ public class usuarioController implements Initializable {
     private CheckBox chkActivo;
 
     @FXML
-    private ImageView imgLoad;
-
-    @FXML
     private ComboBox<Tipousuario> cmbTipoUsuario;
+    ObservableList<Tipousuario> listaTipoUsuarioO;
+    ObservableList<Usuario> listaUsuariosO;
+    
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        aksiNew(null);
-        TipoUsuarioBean tb=new TipoUsuarioBean();
-        List<Tipousuario> lista;
+        aksiNew(null);        
+        List<Tipousuario> listaTipoUsuarios;
+        List<Usuario> listaUsuarios;
          try {
-             lista = tb.traerTodos();
-             ObservableList<Tipousuario> listaTipoUsuario = FXCollections.observableList(lista);
-             cmbTipoUsuario.setItems(listaTipoUsuario);
+             TipoUsuarioBean tb=new TipoUsuarioBean();
+             listaTipoUsuarios = tb.traerTodos();
+             UsuariosBean ub= new UsuariosBean();
+             listaUsuarios=ub.traerTodos();
+             listaTipoUsuarioO = FXCollections.observableList(listaTipoUsuarios);
+             listaUsuariosO = FXCollections.observableList(listaUsuarios);
+             cmbTipoUsuario.setItems(listaTipoUsuarioO);
+             cargaTabla();
          } catch (ServiceException ex) {
              Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
          }             
-    }   
+    }
+    
+    public void cargaTabla(){       
+       TableColumn Nombre = new TableColumn("Nombre");
+            
+       Nombre.setMinWidth(150);
+       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        tableData.getColumns().addAll(Nombre); 
+     
+       tableData.setItems(listaUsuariosO);
+    }
     
     private void clear(){
         txtNombre.clear();
         txtPass.clear();
         txtPass2.clear();
-    }
-    
-    private void displayDiscountCode(){
-      
-    }
-    
-    private void displayZip(){
-     
-    }
-    
-    private void auto(){
-     
-    }
-    
-    private void selectData(){
-      
-    }
-    
-    private void selectWithService(){
-     
-    }
-    
-    
-    
-    @FXML
-    private void keyState(KeyEvent e){
-      
-    }
-
-    @FXML
-    private void aksiKlikTableData(MouseEvent event) {
-      
     }
 
     @FXML
@@ -125,8 +102,7 @@ public class usuarioController implements Initializable {
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
-            clear();
-            auto();
+            clear();      
         });
     }
     
@@ -167,12 +143,5 @@ public class usuarioController implements Initializable {
         paneCrud.setOpacity(0);
         new FadeInUpTransition(paneTabel).play();
     }
-    
-    private class ButtonCell extends TableCell<Object, Boolean> {
-      
-        }
 
-        protected void updateItem(Boolean t, boolean empty) {
-       
-        }
-    }
+}

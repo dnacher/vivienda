@@ -1,8 +1,11 @@
 package ejb.services;
 
 import entities.hibernate.SessionConnection;
+import entities.persistence.entities.Convenio;
 import entities.persistence.entities.Cuotaconvenio;
+import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
+import static java.lang.Math.toIntExact;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -68,11 +71,30 @@ public class CuotaConvenioBean implements CuotaConvenioLocal{
 
     @Override
     public Cuotaconvenio traerCuotaconvenioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Cuotaconvenio cuotaConvenio where cuotaConvenio.IdCuotaconvenio=:id");            
+        Query query= session.createQuery("from Cuotaconvenio cuotaConvenio where cuotaConvenio.IdCuotaconvenio=:id");
         query.setParameter("id", Id);        
         Cuotaconvenio cuotaConvenio=(Cuotaconvenio) query.uniqueResult();
         session.close();        
         return cuotaConvenio;
+    }
+    
+    public Convenio traerConvenioXUnidad(Unidad unidad) throws ServiceException {
+        Query query= session.createQuery("from Convenio convenio where convenio.unidad=:unidad");
+        query.setParameter("unidad", unidad);
+        Convenio convenio=(Convenio) query.uniqueResult();
+        session.close();
+        return convenio;
+    }
+    
+    public int devuelveCantidadCuotas(Unidad unidad){
+        int cantidad=-1;
+        Query query = session.createQuery("select count(*) from Cuotaconvenio cuotaConvenio "
+                                        + "where cuotaConvenio.convenio.unidad=:unidad");
+        query.setParameter("unidad", unidad);
+        Long count = (Long)query.uniqueResult();       
+        cantidad=toIntExact(count);
+        session.close();
+        return cantidad;
     }
     
 }

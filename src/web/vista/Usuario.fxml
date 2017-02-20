@@ -21,7 +21,7 @@
             <Label layoutX="62.0" layoutY="177.0" text="Repetir Constraseña" />
             <PasswordField fx:id="txtPass2" layoutX="193.0" layoutY="174.0" />
             <Label layoutX="148.0" layoutY="10.0" text="Activo" />
-            <CheckBox fx:id="chkActivo" layoutX="193.0" layoutY="210.0" mnemonicParsing="false" />
+            <CheckBox fx:id="chkActivo" layoutX="193.0" layoutY="210.0" mnemonicParsing="false" selected="true" />
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#aksiSave" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#aksiBack" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>
@@ -35,7 +35,7 @@
       </AnchorPane>
       <AnchorPane fx:id="paneTabel" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
          <children>
-            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" onMouseClicked="#aksiKlikTableData" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0">
+            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0">
               <columns>
                   <TableColumn fx:id="colNombre" prefWidth="130.0" text="Nombre">
                      <graphic>

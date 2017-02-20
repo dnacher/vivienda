@@ -1,21 +1,22 @@
 package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
-import control.ControlVentana;
-import ejb.services.GastosComunesBean;
+import ejb.services.CuotaConvenioBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
 import ejb.utils.UtilsConfiguracion;
+import entities.persistence.entities.Convenio;
+import entities.persistence.entities.Cuotaconvenio;
+import entities.persistence.entities.CuotaconvenioId;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
-import entities.persistence.entities.Gastoscomunes;
-import entities.persistence.entities.GastoscomunesId;
 import exceptions.ServiceException;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -104,6 +105,7 @@ public class PagoConveniosController implements Initializable {
     Unidad unidad;
     boolean guardado=false;
     public ObservableList<Unidad> unidadConvenios;
+    Convenio convenio;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {             
@@ -112,7 +114,7 @@ public class PagoConveniosController implements Initializable {
             cargaComboMonto();
             cargarComboBlock();
             cargarComboTorre();
-            cargaHoy();
+            cargaHoy();            
         } catch (ServiceException ex) {
             Logger.getLogger(PagoConveniosController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,26 +178,36 @@ public class PagoConveniosController implements Initializable {
     }
     
     public void agregarGastosComunes(){
-        try{
+        try{            
             lblPeriodo.setText("");
             lblUnidadNombre.setText("");
             lblUnidadDireccion.setText("");
             periodo=UtilsConfiguracion.devuelvePeriodoActual();
             unidad=tableGastosComunes.getSelectionModel().getSelectedItem();
+            CuotaConvenioBean cb=new CuotaConvenioBean();
+            convenio=cb.traerConvenioXUnidad(unidad);
             lblPeriodo.setText(String.valueOf(periodo));
             lblUnidadNombre.setText(unidad.getNombre()+ " " 
-                                + unidad.getApellido());
+                                  + unidad.getApellido());
             lblUnidadDireccion.setText(unidad.getBlock()
-                                + unidad.getTorre() + "/ " 
-                                + unidad.getPuerta());
+                                     + unidad.getTorre() + "/ " 
+                                     + unidad.getPuerta());
             paneGastosComunes.setOpacity(0);
-            new FadeInUpTransition(paneFormulario).play();            
+            new FadeInUpTransition(paneFormulario).play();
+            chkBonificacion.setSelected(tieneBonificacion());
         }
         catch(Exception ex){
             lblInfo.setText("Debe seleccionar una unidad.");
+        }       
+    }
+    
+    public boolean tieneBonificacion() throws ServiceException{
+        boolean tiene=false;             
+        int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        if(convenio.getReglabonificacion().getDiaApagar()>=day){
+            tiene=true;
         }
-        
-        
+        return tiene;
     }
     
     public void atras(){        
@@ -312,9 +324,26 @@ public class PagoConveniosController implements Initializable {
             return correcto;
         }
         
-        public void guardar(){
-           UtilsConfiguracion uc=new UtilsConfiguracion();
-           
+        public void guardar(){            
+            try {
+                Cuotaconvenio cuotaConvenio=new Cuotaconvenio();
+                cuotaConvenio.setConvenio(convenio);
+                cuotaConvenio.setDescripcion("Nnnnnnnnnnnnnnnnnnnnnno hay descripcion");
+                CuotaconvenioId cuotaConvenioId=new CuotaconvenioId();
+                cuotaConvenioId.setConvenioIdconvenio(convenio.getId().getIdconvenio());
+                cuotaConvenioId.setConvenioUnidadIdUnidad(unidad.getIdUnidad());
+                cuotaConvenioId.setIdcuotaConvenio(ConfiguracionControl.traeUltimoId("CuotaConvenio"));
+                cuotaConvenioId.setMontoIdmonto(cmbMoneda.getValue().getIdmonto());
+                cuotaConvenio.setId(cuotaConvenioId);
+                cuotaConvenio.setMonto(cmbMoneda.getValue());
+                cuotaConvenio.setNumeroCuota(Integer.valueOf(lblPeriodo.getText()));
+                cuotaConvenio.setPago(true);
+                cuotaConvenio.setTieneBonificacion(chkBonificacion.isSelected());
+                CuotaConvenioBean cb=new CuotaConvenioBean();
+                cb.guardar(cuotaConvenio);
+            } catch (ServiceException ex) {
+                Logger.getLogger(PagoConveniosController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }             
 }
 

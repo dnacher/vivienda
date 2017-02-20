@@ -2,7 +2,6 @@ package web.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -52,18 +51,8 @@ public class TecnicoController implements Initializable {
     
     public void nuevoTecnico(){
         paneTabel.setOpacity(0);
-        new FadeInUpTransition(paneCrud).play();
-        Platform.runLater(() -> {
-            clear();
-            auto();
-        });
+        new FadeInUpTransition(paneCrud).play();        
     }
     
-     private void clear(){
-        
-    }
-     
-     private void auto(){
-      
-    }
+    
 } 
