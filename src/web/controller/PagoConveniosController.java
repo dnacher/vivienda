@@ -1,6 +1,7 @@
 package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
+import ejb.services.ConvenioBean;
 import ejb.services.CuotaConvenioBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
@@ -69,6 +70,9 @@ public class PagoConveniosController implements Initializable {
 
     @FXML
     private PieChart chartGastosComunes;
+    
+    @FXML
+    private PieChart chartCuotas;
 
     @FXML
     private ProgressBar bar;     
@@ -99,6 +103,9 @@ public class PagoConveniosController implements Initializable {
     
     @FXML
     private Label lblUnidadDireccion;
+    
+    @FXML
+    private Label lblInfoPieChartCuotas;
      
     
     int periodo;
@@ -150,7 +157,7 @@ public class PagoConveniosController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                UnidadBean ub=new UnidadBean();       
-                    unidadConvenios=FXCollections.observableArrayList(ub.TraeUnidadesConvenioXBlockTorre("",0));
+                    unidadConvenios=FXCollections.observableArrayList(ub.TraeUnidadesConConvenioXBlockTorre("",0));
                     cargaTabla();
                     atras();
                     
@@ -195,16 +202,21 @@ public class PagoConveniosController implements Initializable {
             paneGastosComunes.setOpacity(0);
             new FadeInUpTransition(paneFormulario).play();
             chkBonificacion.setSelected(tieneBonificacion());
+            cargaGraficaCuotas();
         }
         catch(Exception ex){
-            lblInfo.setText("Debe seleccionar una unidad.");
+           // lblInfo.setText("Debe seleccionar una unidad.");
+            System.out.println(ex.getMessage());
         }       
     }
     
     public boolean tieneBonificacion() throws ServiceException{
         boolean tiene=false;             
         int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        if(convenio.getReglabonificacion().getDiaApagar()>=day){
+        ConvenioBean cb=new ConvenioBean();
+        convenio=cb.traeConvenioXUnidad(unidad);
+        int diaAPagar=convenio.getReglabonificacion().getDiaApagar();
+        if(diaAPagar>=day){
             tiene=true;
         }
         return tiene;
@@ -295,7 +307,36 @@ public class PagoConveniosController implements Initializable {
         }
         }
     
-        public void mostrar(ActionEvent event) {       
+    public void cargaGraficaCuotas(){
+        lblInfoPieChartCuotas.setText("");
+        
+        ConvenioBean cb=new ConvenioBean();
+        Convenio convenio=cb.traeConvenioXUnidad(unidad);
+        
+        CuotaConvenioBean ccb=new CuotaConvenioBean();
+        int cantidadCuotas=ccb.devuelveCantidadCuotas(unidad);
+        int cuotasRestantes=convenio.getCuotas()-cantidadCuotas;
+        
+        
+        ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
+                new PieChart.Data("A pagar",cuotasRestantes),
+                new PieChart.Data("Pagas", cantidadCuotas)
+        );
+        chartCuotas.setData(lista);
+        
+        for(final PieChart.Data data: chartCuotas.getData()){
+            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+                int num=(int)data.getPieValue();
+                double porc=(((double)num*(double)100)/convenio.getCuotas());
+                DecimalFormat df = new DecimalFormat("#.#");
+                df.setRoundingMode(RoundingMode.CEILING);
+                String porcent=df.format(porc);
+                lblInfoPieChartCuotas.setText(data.getName()+ ": " + num + " (" + porcent + " % aprox.)");
+            });
+        }
+    }
+
+    public void mostrar(ActionEvent event) {       
             try{
             lblInfo.setText("");
             UnidadBean ub= new UnidadBean();

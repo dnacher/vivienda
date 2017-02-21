@@ -80,8 +80,14 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <PieChart fx:id="chartCuotas" layoutX="700.0" layoutY="92.0" maxHeight="396.0" />
          </children>
       </AnchorPane>
+      <Label fx:id="lblInfoPieChartCuotas" layoutX="700.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pago Convenios">
          <font>

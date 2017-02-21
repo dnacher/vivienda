@@ -101,6 +101,7 @@ public class ConvenioBean implements ConvenioLocal{
                                        + "and convenio.activo=true");
         query.setParameter("unidad", unidad);
         Convenio convenio=(Convenio) query.uniqueResult();
+        session.close();
         return convenio;
     }
     

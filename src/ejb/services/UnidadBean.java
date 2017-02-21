@@ -232,10 +232,10 @@ public class UnidadBean implements UnidadLocal{
                 }
             }
             if(block.isEmpty() && torre==0){
-                consulta+="WHERE unidad.idUnidad IN (";
+                consulta+="WHERE unidad IN (";
             }
             else{
-                consulta+="AND unidad.idUnidad IN (";
+                consulta+="AND unidad IN (";
             }
             
             
@@ -246,6 +246,48 @@ public class UnidadBean implements UnidadLocal{
         Query query=session.createQuery(consulta);        
         query.setParameter("est", 1);
         query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        if(!block.equals("")){
+            query.setParameter("block", block);
+        }
+        if(torre!=0){
+            query.setParameter("torre", torre);
+        }
+        list= query.list();                       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{           
+            session.close();
+        }
+        return list;
+    }
+    
+    public List<Unidad> TraeUnidadesConConvenioXBlockTorre(String block, int torre){
+        List<Unidad> list= new ArrayList<>();        
+        String consulta="";        
+        try{
+            consulta="SELECT unidad "
+                   + "FROM Unidad unidad ";
+            if(!block.isEmpty()){
+                    consulta+="WHERE unidad.block=:block ";                    
+                if(torre!=0){
+                    consulta+="AND unidad.torre=:torre ";                    
+                }
+            }else{
+                if(torre!=0){
+                    consulta+="WHERE unidad.torre=:torre ";                    
+                }
+            }
+            if(block.isEmpty() && torre==0){
+                consulta+="WHERE unidad IN (";
+            }
+            else{
+                consulta+="AND unidad IN (";
+            }          
+                             consulta+="SELECT convenio.unidad "
+                                     + "FROM Convenio convenio)";
+        Query query=session.createQuery(consulta);        
         if(!block.equals("")){
             query.setParameter("block", block);
         }
