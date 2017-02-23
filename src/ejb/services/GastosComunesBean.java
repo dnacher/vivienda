@@ -33,7 +33,7 @@ public class GastosComunesBean implements GastosComunesLocal{
             tx.commit();
             session.close();
             ConfiguracionControl.ActualizaId("GastosComunes");
-            correcto=true;
+            correcto=true;            
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    

@@ -1,6 +1,5 @@
 package UtilsGeneral;
 
-import entities.constantes.Constantes;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

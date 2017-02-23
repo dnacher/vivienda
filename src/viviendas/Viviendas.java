@@ -1,6 +1,5 @@
 package viviendas;
 
-import ejb.services.ConfiguracionBean;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
 import entities.persistence.entities.Configuracion;
@@ -8,7 +7,6 @@ import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +32,7 @@ public class Viviendas extends Application {
     
     public static Usuario user;
     public static List<Configuracion> listaConfiguracion;
+    public static boolean confirmacion=false;
     UnidadBean ub=new UnidadBean();
     public ObservableList<Unidad> unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());;
     

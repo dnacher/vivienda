@@ -1,17 +1,22 @@
 package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
+import control.ControlVentana;
 import ejb.services.ConvenioBean;
 import ejb.services.CuotaConvenioBean;
+import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
 import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Convenio;
 import entities.persistence.entities.Cuotaconvenio;
 import entities.persistence.entities.CuotaconvenioId;
+import entities.persistence.entities.Gastoscomunes;
+import entities.persistence.entities.GastoscomunesId;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -33,7 +38,10 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -47,6 +55,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 
 public class PagoConveniosController implements Initializable {
     
@@ -106,6 +118,9 @@ public class PagoConveniosController implements Initializable {
     
     @FXML
     private Label lblInfoPieChartCuotas;
+    
+    @FXML
+    private Label lblSaldoRestante;
      
     
     int periodo;
@@ -113,6 +128,9 @@ public class PagoConveniosController implements Initializable {
     boolean guardado=false;
     public ObservableList<Unidad> unidadConvenios;
     Convenio convenio;
+    int cuotasRestantes;
+    int sugerido=-1;
+    double saldoRestante=0.0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {             
@@ -203,6 +221,16 @@ public class PagoConveniosController implements Initializable {
             new FadeInUpTransition(paneFormulario).play();
             chkBonificacion.setSelected(tieneBonificacion());
             cargaGraficaCuotas();
+            calculaRestante();
+            if(sugerido!=-1){
+                txtMonto.setText(String.valueOf(sugerido));               
+            }
+            else{
+                if(convenio!=null){
+                int montoAprox=((convenio.getDeudaTotal()-convenio.getSaldoInicial())/convenio.getCuotas());
+                txtMonto.setText(String.valueOf(montoAprox));
+                }
+            }          
         }
         catch(Exception ex){
            // lblInfo.setText("Debe seleccionar una unidad.");
@@ -311,11 +339,11 @@ public class PagoConveniosController implements Initializable {
         lblInfoPieChartCuotas.setText("");
         
         ConvenioBean cb=new ConvenioBean();
-        Convenio convenio=cb.traeConvenioXUnidad(unidad);
+        convenio=cb.traeConvenioXUnidad(unidad);
         
         CuotaConvenioBean ccb=new CuotaConvenioBean();
         int cantidadCuotas=ccb.devuelveCantidadCuotas(unidad);
-        int cuotasRestantes=convenio.getCuotas()-cantidadCuotas;
+        cuotasRestantes=convenio.getCuotas()-cantidadCuotas;
         
         
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
@@ -365,11 +393,12 @@ public class PagoConveniosController implements Initializable {
             return correcto;
         }
         
-        public void guardar(){            
+        public void guardar(){
+            ControlVentana cv=new ControlVentana();
             try {
                 Cuotaconvenio cuotaConvenio=new Cuotaconvenio();
                 cuotaConvenio.setConvenio(convenio);
-                cuotaConvenio.setDescripcion("Nnnnnnnnnnnnnnnnnnnnnno hay descripcion");
+                //cuotaConvenio.setDescripcion("Nnnnnnnnnnnnnnnnnnnnnno hay descripcion");
                 CuotaconvenioId cuotaConvenioId=new CuotaconvenioId();
                 cuotaConvenioId.setConvenioIdconvenio(convenio.getId().getIdconvenio());
                 cuotaConvenioId.setConvenioUnidadIdUnidad(unidad.getIdUnidad());
@@ -378,13 +407,81 @@ public class PagoConveniosController implements Initializable {
                 cuotaConvenio.setId(cuotaConvenioId);
                 cuotaConvenio.setMonto(cmbMoneda.getValue());
                 cuotaConvenio.setNumeroCuota(Integer.valueOf(lblPeriodo.getText()));
-                cuotaConvenio.setPago(true);
+                cuotaConvenio.setPago(Integer.valueOf(txtMonto.getText()));
                 cuotaConvenio.setTieneBonificacion(chkBonificacion.isSelected());
                 CuotaConvenioBean cb=new CuotaConvenioBean();
                 cb.guardar(cuotaConvenio);
+                cv.creaVentanaNotificacionCorrecto();
             } catch (ServiceException ex) {
+                cv.creaVentanaNotificacionError(ex.getMessage());
                 Logger.getLogger(PagoConveniosController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }             
+        }
+        
+        public void calculaRestante(){
+            int deudaTotal=convenio.getDeudaTotal();
+            int saldoInicial=convenio.getSaldoInicial();
+            CuotaConvenioBean ccb=new CuotaConvenioBean();
+            double totalPagado=ccb.devuelveTotalCuotas(unidad);
+            saldoRestante=deudaTotal-saldoInicial-totalPagado;
+            sugerido=(int) Math.ceil(saldoRestante/cuotasRestantes);
+            lblSaldoRestante.setText("El saldo restante es: " + saldoRestante);       
+        }        
+       
+        public void anular() throws IOException {
+            lblInfo.setText("");
+            ControlVentana cv= new ControlVentana(); 
+            creaDialogoConfirmacion();
+            if(viviendas.Viviendas.confirmacion){
+                try {
+                    unidad=tableGastosComunes.getSelectionModel().getSelectedItem();
+                    if(unidad!=null){
+                        CuotaConvenioBean cb=new CuotaConvenioBean();
+                        convenio=cb.traerConvenioXUnidad(unidad);
+                        calculaRestante();
+                        convenio.setActivo(false);
+                        ConvenioBean cb2= new ConvenioBean();
+                        cb2.modificar(convenio);
+                        Gastoscomunes gc=new Gastoscomunes();
+                        gc.setActivo(true);
+                        gc.setEstado(1);
+                        GastoscomunesId gci=new GastoscomunesId();
+                        gci.setIdGastosComunes(ConfiguracionControl.traeUltimoId("GastosComunes"));
+                        gci.setUnidadIdUnidad(unidad.getIdUnidad());
+                        gc.setId(gci);
+                        gc.setIsBonificacion(false);
+                        UtilsConfiguracion uc=new UtilsConfiguracion();
+                        gc.setMonto(uc.traeMontoPesos());
+                        gc.setMonto_1((int)saldoRestante);                   
+                        gc.setPeriodo((UtilsConfiguracion.devuelvePeriodoActual()-1));
+                        gc.setUnidad(unidad);
+                        Date date=new Date(0000, 00, 00);
+                        gc.setFechaPago(date);
+                        GastosComunesBean gcb=new GastosComunesBean();
+                        gcb.guardar(gc);
+                        viviendas.Viviendas.confirmacion=false;
+                        cv.creaVentanaNotificacionCorrecto();
+                    }else{
+                        lblInfo.setText("Debe Seleccionar una unidad.");
+                    }
+                } catch (ServiceException ex) {
+                    cv.creaVentanaNotificacionError(ex.getMessage());
+                    Logger.getLogger(PagoConveniosController.class.getName()).log(Level.SEVERE, null, ex);  
+                }
+            }            
+        }
+        
+        public void creaDialogoConfirmacion() throws IOException{
+            Stage stage=new Stage(StageStyle.UNDECORATED);
+            Parent root = FXMLLoader.load(getClass().getResource("/web/vista/dialog.fxml"));
+            Scene scene = new Scene(root);
+            FadeTransition ft = new FadeTransition(Duration.millis(2000), root);
+            ft.setFromValue(0.0);
+            ft.setToValue(1.0);
+            ft.play();
+            stage.setTitle("Confirma");
+            stage.setScene(scene);
+            stage.showAndWait();
+        }
 }
 

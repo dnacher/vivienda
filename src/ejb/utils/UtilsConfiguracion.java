@@ -1,9 +1,12 @@
 package ejb.utils;
 
+import ejb.services.MontoBean;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Convenio;
+import entities.persistence.entities.Monto;
 import entities.persistence.entities.Reglabonificacion;
 import entities.persistence.entities.Unidad;
+import exceptions.ServiceException;
 import java.util.Calendar;
 import viviendas.Viviendas;
 /**
@@ -104,6 +107,12 @@ public class UtilsConfiguracion {
             tiene=true;
         }
         return tiene;
-    }    
+    }
+    
+    public Monto traeMontoPesos() throws ServiceException{
+        MontoBean mb=new MontoBean();
+        Monto monto=mb.traerMontoXId(1);       
+        return monto;
+    }
   
 }

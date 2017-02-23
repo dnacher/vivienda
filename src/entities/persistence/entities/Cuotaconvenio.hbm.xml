@@ -31,7 +31,7 @@
         <property name="descripcion" type="string">
             <column name="descripcion" length="80" />
         </property>
-        <property name="pago" type="java.lang.Boolean">
+        <property name="pago" type="java.lang.Integer">
             <column name="pago" />
         </property>
         <property name="tieneBonificacion" type="java.lang.Boolean">

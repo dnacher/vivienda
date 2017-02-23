@@ -14,7 +14,7 @@ public class Cuotaconvenio  implements java.io.Serializable {
      private Monto monto;
      private Integer numeroCuota;
      private String descripcion;
-     private Boolean pago;
+     private Integer pago;
      private Boolean tieneBonificacion;
 
     public Cuotaconvenio() {
@@ -26,7 +26,7 @@ public class Cuotaconvenio  implements java.io.Serializable {
         this.convenio = convenio;
         this.monto = monto;
     }
-    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Integer numeroCuota, String descripcion, Boolean pago, Boolean tieneBonificacion) {
+    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Integer numeroCuota, String descripcion, Integer pago, Boolean tieneBonificacion) {
        this.id = id;
        this.convenio = convenio;
        this.monto = monto;
@@ -71,11 +71,11 @@ public class Cuotaconvenio  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public Boolean getPago() {
+    public Integer getPago() {
         return this.pago;
     }
     
-    public void setPago(Boolean pago) {
+    public void setPago(Integer pago) {
         this.pago = pago;
     }
     public Boolean getTieneBonificacion() {

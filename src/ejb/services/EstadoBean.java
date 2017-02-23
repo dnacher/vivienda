@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Estado;
 import exceptions.ServiceException;
@@ -32,6 +33,7 @@ public class EstadoBean implements EstadoLocal{
             tx.commit();
             session.close();
             correcto=true;
+            ConfiguracionControl.ActualizaId("Estado");
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    

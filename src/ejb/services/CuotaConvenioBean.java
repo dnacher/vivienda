@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Convenio;
 import entities.persistence.entities.Cuotaconvenio;
@@ -34,6 +35,7 @@ public class CuotaConvenioBean implements CuotaConvenioLocal{
             session.save(cuotaConvenio);
             tx.commit();
             session.close();
+            ConfiguracionControl.ActualizaId("CuotaConvenio");
             correcto=true;
         }
         catch(Exception ex){
@@ -93,6 +95,21 @@ public class CuotaConvenioBean implements CuotaConvenioLocal{
         query.setParameter("unidad", unidad);
         Long count = (Long)query.uniqueResult();       
         cantidad=toIntExact(count);
+        session.close();
+        return cantidad;
+    }
+    
+     public int devuelveTotalCuotas(Unidad unidad){
+        int cantidad=-1;
+        Query query = session.createQuery("SELECT sum(cuotaConvenio.pago) as total from Cuotaconvenio cuotaConvenio "
+                                        + "where cuotaConvenio.convenio.unidad=:unidad");
+        query.setParameter("unidad", unidad);
+        Long count = (Long)query.uniqueResult();
+        if(count!=null){
+            cantidad=toIntExact(count);
+        }else{
+            cantidad=0;
+        }        
         session.close();
         return cantidad;
     }

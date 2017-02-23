@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Monto;
 import exceptions.ServiceException;
@@ -32,6 +33,7 @@ public class MontoBean implements MontoLocal{
             tx.commit();
             session.close();
             correcto=true;
+            ConfiguracionControl.ActualizaId("Monto");
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
@@ -83,7 +85,7 @@ public class MontoBean implements MontoLocal{
 
     @Override
     public Monto traerMontoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Monto monto where monto.IdMonto=:id");            
+        Query query= session.createQuery("from Monto monto where monto.idmonto=:id");            
         query.setParameter("id", Id);        
         Monto listaMontos=(Monto) query.uniqueResult();
         session.close();

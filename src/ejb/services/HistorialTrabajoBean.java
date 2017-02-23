@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Historialtrabajo;
 import exceptions.ServiceException;
@@ -32,6 +33,7 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
             tx.commit();
             session.close();
             correcto=true;
+            ConfiguracionControl.ActualizaId("HistorialTrabajo");
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    

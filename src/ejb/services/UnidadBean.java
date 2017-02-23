@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import ejb.utils.UtilsConfiguracion;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Unidad;
@@ -41,6 +42,7 @@ public class UnidadBean implements UnidadLocal{
             tx.commit();
             session.close();
             correcto=true;
+            ConfiguracionControl.ActualizaId("Unidad");
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
@@ -286,7 +288,8 @@ public class UnidadBean implements UnidadLocal{
                 consulta+="AND unidad IN (";
             }          
                              consulta+="SELECT convenio.unidad "
-                                     + "FROM Convenio convenio)";
+                                     + "FROM Convenio convenio "
+                                     + "WHERE convenio.activo=true)";
         Query query=session.createQuery(consulta);        
         if(!block.equals("")){
             query.setParameter("block", block);

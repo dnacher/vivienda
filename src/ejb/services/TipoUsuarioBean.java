@@ -1,5 +1,6 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Tipousuario;
 import exceptions.ServiceException;
@@ -32,6 +33,7 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
             tx.commit();
             session.close();
             correcto=true;
+            ConfiguracionControl.ActualizaId("TipoUsuario");
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
