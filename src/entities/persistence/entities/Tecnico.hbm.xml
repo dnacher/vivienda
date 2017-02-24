@@ -14,7 +14,7 @@
         <property name="apellido" type="string">
             <column name="apellido" length="60" />
         </property>
-        <property name="telefono" type="java.lang.Integer">
+        <property name="telefono" type="string">
             <column name="telefono" />
         </property>
         <property name="mail" type="string">

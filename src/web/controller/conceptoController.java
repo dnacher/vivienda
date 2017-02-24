@@ -343,8 +343,7 @@ public class conceptoController implements Initializable {
                 concepto.setNombre(txtNombre.getText());
                 concepto.setDescripcion(TxtDescripcion.getText());
                 ConceptoBean cb=new ConceptoBean();
-                cb.guardar(concepto);
-                ConfiguracionControl.ActualizaId("Concepto");
+                cb.guardar(concepto);               
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

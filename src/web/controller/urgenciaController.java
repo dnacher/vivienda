@@ -331,7 +331,6 @@ public class urgenciaController implements Initializable {
                 urgencia.setDescripcion(TxtDescripcion.getText());
                 UrgenciaBean ub=new UrgenciaBean();
                 ub.guardar(urgencia);
-                ConfiguracionControl.ActualizaId("Urgencia");
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

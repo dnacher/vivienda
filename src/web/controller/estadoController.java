@@ -363,8 +363,7 @@ public class estadoController implements Initializable {
                 estado.setDescripcion(TxtDescripcion.getText());
                 estado.setOrden(Integer.valueOf(TxtOrden.getText()));
                 EstadoBean eb=new EstadoBean();
-                eb.guardar(estado);
-                ConfiguracionControl.ActualizaId("Estado");
+                eb.guardar(estado);                
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

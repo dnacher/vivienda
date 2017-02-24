@@ -411,7 +411,8 @@ public class PagoConveniosController implements Initializable {
                 cuotaConvenio.setTieneBonificacion(chkBonificacion.isSelected());
                 CuotaConvenioBean cb=new CuotaConvenioBean();
                 cb.guardar(cuotaConvenio);
-                cv.creaVentanaNotificacionCorrecto();
+                cv.creaVentanaNotificacionCorrecto();                
+                atras();
             } catch (ServiceException ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
                 Logger.getLogger(PagoConveniosController.class.getName()).log(Level.SEVERE, null, ex);

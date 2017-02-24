@@ -12,19 +12,18 @@
    <children>
       <AnchorPane fx:id="paneCrud" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
-            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Nombre" />
+            <Label fx:id="LblNombre" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Nombre" />
             <TextField fx:id="txtNombre" layoutX="193.0" layoutY="66.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Apellido" />
+            <Label fx:id="lblApellido" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Apellido" />
             <TextField fx:id="txtApellido" layoutX="193.0" layoutY="102.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Telefono" />
+            <Label fx:id="lblTelefono" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Telefono" />
             <TextField fx:id="txtTelefono" layoutX="193.0" layoutY="138.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Email" />
             <TextField fx:id="txtMail" layoutX="193.0" layoutY="174.0" />
             <Label alignment="CENTER_RIGHT" layoutX="148.0" layoutY="212.0" text="Activo" />
-            <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
             <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="210.0" mnemonicParsing="false" selected="true" />
-            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
-            <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
+            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+            <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#atras" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>
                   <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>

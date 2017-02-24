@@ -13,7 +13,7 @@
       <AnchorPane fx:id="paneCrud" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
-            <TextField fx:id="TxtDescripcion" layoutX="193.0" layoutY="66.0" onKeyReleased="#keyState" prefHeight="27.0" prefWidth="200.0" promptText="Descripcion" />
+            <TextField fx:id="TxtDescripcion" layoutX="193.0" layoutY="66.0" prefHeight="27.0" prefWidth="200.0" promptText="Descripcion" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Dia a Pagar" />
             <TextField fx:id="TxtDiasaPagar" layoutX="193.0" layoutY="102.0" />
             <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
@@ -32,9 +32,9 @@
       </AnchorPane>
       <AnchorPane fx:id="paneTabel" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
          <children>
-            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" onMouseClicked="#aksiKlikTableData" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0">
-              <columns>
-                  <TableColumn fx:id="colNombre" prefWidth="130.0" text="Nombre">
+            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0">
+             <!--  <columns>
+                 <TableColumn fx:id="colNombre" prefWidth="130.0" text="Nombre"> 
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="28.0" opacity="0.49" pickOnBounds="true" smooth="false">
                            <image>
@@ -61,7 +61,7 @@
                         </ImageView>
                      </graphic>
                   </TableColumn>
-              </columns>
+              </columns> -->
             </TableView>
          </children>
       </AnchorPane>

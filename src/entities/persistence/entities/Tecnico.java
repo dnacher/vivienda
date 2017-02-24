@@ -15,7 +15,7 @@ public class Tecnico  implements java.io.Serializable {
      private int idTecnico;
      private String nombre;
      private String apellido;
-     private Integer telefono;
+     private String telefono;
      private String mail;
      private Integer calificacion;
      private Integer estado;
@@ -31,7 +31,7 @@ public class Tecnico  implements java.io.Serializable {
     public Tecnico(int idTecnico) {
         this.idTecnico = idTecnico;
     }
-    public Tecnico(int idTecnico, String nombre, String apellido, Integer telefono, String mail, Integer calificacion, Integer estado, Date fechaInicioEstado, Date fechaFinEstado, Boolean activo, Set historialtrabajos) {
+    public Tecnico(int idTecnico, String nombre, String apellido, String telefono, String mail, Integer calificacion, Integer estado, Date fechaInicioEstado, Date fechaFinEstado, Boolean activo, Set historialtrabajos) {
        this.idTecnico = idTecnico;
        this.nombre = nombre;
        this.apellido = apellido;
@@ -66,11 +66,11 @@ public class Tecnico  implements java.io.Serializable {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    public Integer getTelefono() {
+    public String getTelefono() {
         return this.telefono;
     }
     
-    public void setTelefono(Integer telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
     public String getMail() {

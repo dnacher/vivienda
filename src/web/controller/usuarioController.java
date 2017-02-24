@@ -124,7 +124,6 @@ public class usuarioController implements Initializable {
                     usuario.setPassword(txtPass.getText());
                     UsuariosBean tb=new UsuariosBean();
                     tb.guardar(usuario);
-                    ConfiguracionControl.ActualizaId("Usuario");
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
                 }else{

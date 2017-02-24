@@ -346,8 +346,7 @@ public class grupoController implements Initializable {
                 grupo.setNombre(txtNombre.getText());
                 grupo.setDescripcion(TxtDescripcion.getText());
                 GrupoBean gb=new GrupoBean();
-                gb.guardar(grupo);
-                ConfiguracionControl.ActualizaId("Grupo");
+                gb.guardar(grupo);                
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

@@ -348,8 +348,7 @@ public class tipoDuracionController implements Initializable {
                 tipoDuracion.setNombre(txtNombre.getText());
                 tipoDuracion.setDescripcion(TxtDescripcion.getText());
                 TipoDuracionBean tb=new TipoDuracionBean();
-                tb.guardar(tipoDuracion);
-                ConfiguracionControl.ActualizaId("TipoDuracion");
+                tb.guardar(tipoDuracion);                
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }

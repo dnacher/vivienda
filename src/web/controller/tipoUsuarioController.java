@@ -350,8 +350,7 @@ public class tipoUsuarioController implements Initializable {
                 tipoUsuario.setNombre(txtNombre.getText());
                 tipoUsuario.setDescripcion(TxtDescripcion.getText());
                 TipoUsuarioBean tb=new TipoUsuarioBean();
-                tb.guardar(tipoUsuario);
-                ConfiguracionControl.ActualizaId("TipoUsuario");
+                tb.guardar(tipoUsuario);                
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
             }
