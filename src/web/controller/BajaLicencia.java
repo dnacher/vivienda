@@ -26,7 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import web.animations.FadeInUpTransition;
 
-public class TecnicoController implements Initializable {
+public class BajaLicencia implements Initializable {
     
     @FXML
     private AnchorPane paneCrud;
@@ -74,7 +74,7 @@ public class TecnicoController implements Initializable {
             ChkActivo.setSelected(true);
             atras();
         } catch (ServiceException ex) {
-            Logger.getLogger(TecnicoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BajaLicencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -107,7 +107,7 @@ public class TecnicoController implements Initializable {
                 cv.creaVentanaNotificacionCorrecto();
             } catch (ServiceException ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
-                Logger.getLogger(TecnicoController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BajaLicencia.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

@@ -2,9 +2,8 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
-import ejb.services.EstadoBean;
-import ejb.utils.UtilsConfiguracion;
-import entities.persistence.entities.Estado;
+import ejb.services.MaterialBean;
+import entities.persistence.entities.Material;
 import exceptions.ServiceException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +16,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
@@ -29,14 +27,8 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
 
-public class estadoController implements Initializable {
-    
-    @FXML
-    private TextField TxtOrden;
-
-    @FXML
-    private Label LblOrden;
-
+public class MaterialController implements Initializable {
+        
     @FXML
     private AnchorPane paneCrud;
 
@@ -44,7 +36,7 @@ public class estadoController implements Initializable {
     private AnchorPane paneTabel;
 
     @FXML
-    private TableView<Estado> tableData;
+    private TableView<Material> tableData;
 
     @FXML
     private TextField txtNombre;
@@ -53,15 +45,18 @@ public class estadoController implements Initializable {
     private ProgressBar bar;
 
     @FXML
-    private TextArea TxtDescripcion;
+    private TextArea txtDescripcion;
     
     @FXML
+    private TextField txtCantidad;
+   /* 
+    @FXML
     private CheckBox ChkActivo;
-    
+    */
     @FXML
     private Label LblNombre;
     
-    public ObservableList<Estado> lista;
+    public ObservableList<Material> lista;
 
     /**
      * Initializes the controller class.
@@ -72,25 +67,31 @@ public class estadoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            EstadoBean eb=new EstadoBean();
-            lista=FXCollections.observableArrayList(eb.traerTodos());
+            task();
+            MaterialBean mb=new MaterialBean();
+            lista=FXCollections.observableArrayList(mb.traerTodos());
             cargaTabla();
             task();
             atras(null);
         } catch (ServiceException ex) {
-            Logger.getLogger(estadoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
         }
       
     }   
     
     private void clear(){
-        txtNombre.clear();
-        TxtDescripcion.clear();
-        
+        try{
+            txtNombre.clear();
+            txtCantidad.clear();
+            txtDescripcion.clear();       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }    
 
     @FXML
-    private void nuevoEstado(ActionEvent event) {
+    private void nuevoMaterial(ActionEvent event) {
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
@@ -101,31 +102,26 @@ public class estadoController implements Initializable {
     @FXML
     private void guardar(ActionEvent event){
         LblNombre.setText("");
-        ControlVentana cv=new ControlVentana();
-            if(txtNombre.getText().isEmpty()){
-                LblNombre.setText("El campo nombre no puede estar vacio");
-            }
-            else if(!UtilsConfiguracion.esNumero(TxtOrden.getText())){
-                LblOrden.setText("El campo Orden debe ser numerico");
-            }
-            else{
+        ControlVentana cv=new ControlVentana();      
                 try{
-                    Estado estado=new Estado();
-                    int ind=ConfiguracionControl.traeUltimoId("Estado");
-                    estado.setIdestado(ind);
-                    estado.setActivo(ChkActivo.isSelected());
-                    estado.setNombre(txtNombre.getText());
-                    estado.setDescripcion(TxtDescripcion.getText());
-                    estado.setOrden(Integer.valueOf(TxtOrden.getText()));
-                    EstadoBean eb=new EstadoBean();
-                    eb.guardar(estado);                
+                    Material material=new Material();
+                    int ind=ConfiguracionControl.traeUltimoId("Material");
+                    material.setIdmaterial(ind);
+                    material.setActivo(true);
+                    material.setNombre(txtNombre.getText());
+                    material.setDescripcion(txtDescripcion.getText());
+                    material.setEntrada(Integer.valueOf(txtCantidad.getText()));
+                    material.setSalida(0);
+                    material.setCantidad(material.getEntrada());
+                    MaterialBean mb=new MaterialBean();
+                    mb.guardar(material);                
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
                 }
                 catch(Exception ex){
                     cv.creaVentanaNotificacionError(ex.getMessage());
                 }       
-            }       
+                 
         }
 
         @FXML
@@ -155,7 +151,9 @@ public class estadoController implements Initializable {
       public void cargaTabla(){
        TableColumn Nombre = new TableColumn("Nombre");
        TableColumn Descripcion = new TableColumn("Descripcion");
-       TableColumn Orden = new TableColumn("Orden");
+       TableColumn Cantidad = new TableColumn("Cantidad");
+       TableColumn Entrada = new TableColumn("Entrada");
+       TableColumn Salida = new TableColumn("Salida");
        TableColumn Activo = new TableColumn("Activo");
        
        Nombre.setMinWidth(150);
@@ -163,14 +161,20 @@ public class estadoController implements Initializable {
 
        Descripcion.setMinWidth(150);
        Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-
-       Orden.setMinWidth(100);
-       Orden.setCellValueFactory(new PropertyValueFactory<>("orden"));
+      
+       Entrada.setMinWidth(100);
+       Entrada.setCellValueFactory(new PropertyValueFactory<>("entrada"));
+       
+       Salida.setMinWidth(100);
+       Salida.setCellValueFactory(new PropertyValueFactory<>("salida"));
+       
+       Cantidad.setMinWidth(100);
+       Cantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
 
        Activo.setMinWidth(100);
        Activo.setCellValueFactory(new PropertyValueFactory<>("activo"));
       
-       tableData.getColumns().addAll(Nombre, Descripcion, Orden,Activo);
+       tableData.getColumns().addAll(Nombre, Descripcion,Entrada,Salida,Cantidad,Activo);
        tableData.setItems(lista);
     
     }

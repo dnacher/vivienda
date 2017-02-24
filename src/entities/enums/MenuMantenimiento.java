@@ -11,8 +11,7 @@ public enum MenuMantenimiento {
     CotizacionTrabajo("CotizacionTrabajo","Cotizacion Trabajo"),
                   Materiales("Material","Materiales"),
                             Grupo("Grupo","Grupo"),
-              ListaPrecios("ListaPrecios","Lista Precios"),
-                BajaTecnico("BajaTecnico","Baja Tecnico"),
+              TecnicoModificacion("BajaLicencia","Baja/Licencia Tecnico"),            
                       Licencia("Licencia","Licencia"),
                           Estado("Estado","Estado");
         

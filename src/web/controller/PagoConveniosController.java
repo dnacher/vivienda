@@ -476,7 +476,7 @@ public class PagoConveniosController implements Initializable {
             Stage stage=new Stage(StageStyle.UNDECORATED);
             Parent root = FXMLLoader.load(getClass().getResource("/web/vista/dialog.fxml"));
             Scene scene = new Scene(root);
-            FadeTransition ft = new FadeTransition(Duration.millis(2000), root);
+            FadeTransition ft = new FadeTransition(Duration.millis(1000), root);
             ft.setFromValue(0.0);
             ft.setToValue(1.0);
             ft.play();
