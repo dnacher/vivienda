@@ -85,7 +85,7 @@ public class TecnicoBean implements TecnicoLocal{
 
     @Override
     public Tecnico traerTecnicoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Tecnico tecnico where tecnico.IdTecnico=:id");            
+        Query query= session.createQuery("from Tecnico tecnico where tecnico.idTecnico=:id");            
         query.setParameter("id", Id);        
         Tecnico tecnicos=(Tecnico) query.uniqueResult();
         session.close();

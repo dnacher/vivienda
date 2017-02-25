@@ -11,8 +11,7 @@ public class Constantes {
      */
     public static final String PAGINA_ROOT="/web/vista/";
     public static final String IMAGEN_ROOT="/web/images/"; 
-    
-    
+        
     /**
     *                           MENUS
     */
@@ -27,9 +26,8 @@ public class Constantes {
        
     /**
     *                          PAGINAS
-    */
+    */    
     
-    public static final String PAGINA_LICENCIA_BAJA=Constantes.PAGINA_ROOT + "licencia" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_LISTA_PRECIOS=Constantes.PAGINA_ROOT + "listaPrecios" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_MATERIALES=Constantes.PAGINA_ROOT + "materiales" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_REPORTES_MANTENIMIENTO=Constantes.PAGINA_ROOT + "reportesMantenimiento" + Constantes.EXTENSION_FXML;    

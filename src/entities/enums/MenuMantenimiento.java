@@ -11,12 +11,9 @@ public enum MenuMantenimiento {
     CotizacionTrabajo("CotizacionTrabajo","Cotizacion Trabajo"),
                   Materiales("Material","Materiales"),
                             Grupo("Grupo","Grupo"),
-              TecnicoModificacion("BajaLicencia","Baja/Licencia Tecnico"),            
-                      Licencia("Licencia","Licencia"),
+              TecnicoModificacion("BajaLicencia","Baja/Licencia Tecnico"),
                           Estado("Estado","Estado");
-        
-                   
-    
+           
     private final String pagina;
     private final String menu;
     
