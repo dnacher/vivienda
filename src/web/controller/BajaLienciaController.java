@@ -102,13 +102,11 @@ public class BajaLienciaController implements Initializable {
             else{
             if(cmbFechaDesde.getValue().isBefore(LocalDate.now()) || cmbFechaHasta.getValue().isBefore(LocalDate.now())){
                 cv.creaVentanaNotificacion("Verificar", "La fecha de comienzo o fin son anteriores a la fecha.", 5, "warning");
-            }else{
+            }
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Confirmar Licencia");
                 alert.setHeaderText("Licencia");
-                alert.setContentText("¿Desea confirmar la licencia?");
-             //   alert.getDialogPane().getClass().getResource("/web/css/Metro-UI.css").toExternalForm();             
-                
+                alert.setContentText("¿Desea confirmar la licencia?");            
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     try {
@@ -123,7 +121,6 @@ public class BajaLienciaController implements Initializable {
                         Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }              
-            }
             }
             
         }

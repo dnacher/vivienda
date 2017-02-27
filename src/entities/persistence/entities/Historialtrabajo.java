@@ -15,6 +15,7 @@ public class Historialtrabajo  implements java.io.Serializable {
      private Trabajo trabajo;
      private String descripcion;
      private Date fecha;
+     private Estado estado;
 
     public Historialtrabajo() {
     }
@@ -69,8 +70,13 @@ public class Historialtrabajo  implements java.io.Serializable {
         this.fecha = fecha;
     }
 
+    public Estado getEstado() {
+        return estado;
+    }
 
-
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 
 }
 

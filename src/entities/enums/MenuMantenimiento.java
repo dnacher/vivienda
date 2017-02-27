@@ -8,7 +8,7 @@ public enum MenuMantenimiento {
     
                           Inicio("Inicio","Inicio"),
                         Tecnico("Tecnico","Tecnico"),
-    CotizacionTrabajo("CotizacionTrabajo","Cotizacion Trabajo"),
+    CotizacionTrabajo("Cotizacion","Cotizacion Trabajo"),
                   Materiales("Material","Materiales"),
                             Grupo("Grupo","Grupo"),
               TecnicoModificacion("BajaLicencia","Baja/Licencia Tecnico"),

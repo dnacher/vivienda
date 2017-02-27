@@ -28,6 +28,7 @@ public class Constantes {
     *                          PAGINAS
     */    
     
+    public static final String PAGINA_COTIZACION=Constantes.PAGINA_ROOT + "Cotizacion" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_LISTA_PRECIOS=Constantes.PAGINA_ROOT + "listaPrecios" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_MATERIALES=Constantes.PAGINA_ROOT + "materiales" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_REPORTES_MANTENIMIENTO=Constantes.PAGINA_ROOT + "reportesMantenimiento" + Constantes.EXTENSION_FXML;    

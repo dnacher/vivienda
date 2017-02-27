@@ -135,8 +135,8 @@ public class TecnicoImage {
              ti.setActivo(t.getActivo());
              ti.setApellido(t.getApellido());
              ImageView iv=new ImageView(traeEstrellas(t.getCalificacion()));
-             iv.setFitHeight(20);
-             iv.setFitWidth(100);
+             iv.setFitHeight(18);
+             iv.setFitWidth(98);
              ti.setCalificacion(iv);
              ti.setEstado(t.getEstado());
              ti.setFechaFinEstado(t.getFechaFinEstado());

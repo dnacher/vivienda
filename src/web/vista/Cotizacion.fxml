@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="652.0" prefWidth="1225.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.controller.CotizacionController">
+   <children>
+      <AnchorPane fx:id="paneFirst" layoutY="91.0" prefHeight="560.0" prefWidth="1225.0">
+         <children>
+            <ComboBox fx:id="cmbBlock" layoutX="80.0" layoutY="13.0" prefWidth="150.0" />
+            <ComboBox fx:id="cmbTorre" layoutX="80.0" layoutY="48.0" prefWidth="150.0" />
+            <Button fx:id="btnMostrar" layoutX="240.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrar" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Mostrar" />
+            <Button layoutX="370.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrarTodos" prefHeight="62.0" prefWidth="151.0" styleClass="btn" text="Mostrar Todos" />            
+            <Button fx:id="btnAdd" defaultButton="true" layoutX="1166.0" layoutY="10.0" maxWidth="27.0" mnemonicParsing="false" onAction="#nuevoTrabajo" prefHeight="30.0" prefWidth="27.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/1.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnEdit" defaultButton="true" layoutX="1100.0" layoutY="10.0" maxWidth="27.0" mnemonicParsing="false" onAction="#editarTrabajo" prefHeight="30.0" prefWidth="27.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TableView fx:id="tableData" layoutX="7.0" layoutY="85.0" prefHeight="468.0" prefWidth="1212.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="85.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="paneSecond" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Block" />
+            <ComboBox fx:id="cmbBlock" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Torre" />
+            <ComboBox fx:id="cmbTorre" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Puerta" />
+            <TextField fx:id="txtPuerta" layoutX="193.0" layoutY="138.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Nombre" />
+            <TextField fx:id="txtNombre" layoutX="193.0" layoutY="174.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Apellido" />
+            <TextField fx:id="txtApellido" layoutX="193.0" layoutY="210.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="247.0" prefHeight="17.0" prefWidth="122.0" text="Telefono" />
+            <TextField fx:id="txtTelefono" layoutX="193.0" layoutY="246.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="282.0" prefHeight="17.0" prefWidth="122.0" text="Email" />
+            <TextField fx:id="txtMail" layoutX="193.0" layoutY="282.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="321.0" prefHeight="17.0" prefWidth="122.0" text="Propietario/Inquilino" />
+            <ComboBox fx:id="cmbPropietarioInquilino" layoutX="193.0" layoutY="318.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="359.0" prefHeight="17.0" prefWidth="122.0" text="Fecha Ingreso" />
+            <DatePicker fx:id="cmbFechaIngreso" layoutX="193.0" layoutY="354.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="148.0" layoutY="389.0" text="Activo" />
+            <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
+            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="390.0" mnemonicParsing="false" selected="true" />
+            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+            <Button fx:id="btnSecond" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#atras" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/arrowLeftBlack.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="paneThird" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
+         <children>
+            <Button fx:id="btnThird" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#atras2" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/arrowLeftBlack.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children></AnchorPane>
+      <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Incidencia">
+         <font>
+            <Font name="Segoe UI Semilight" size="48.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#nuevaUnidad" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/301.GIF" />
+         </image>
+      </ImageView>
+      <ProgressBar fx:id="bar" layoutY="82.0" prefHeight="3.0" prefWidth="1225.0" progress="0.0" />
+   </children>
+</AnchorPane>
