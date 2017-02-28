@@ -24,7 +24,7 @@ public class Trabajo  implements java.io.Serializable {
      private Integer calificacion;
      private Integer duracionEstimada;
      private Integer duracionReal;
-     private byte activo;
+     private Boolean activo;
      private Trabajoxmaterial trabajoxmaterial;
      private Set historialtrabajos = new HashSet(0);
 
@@ -32,7 +32,7 @@ public class Trabajo  implements java.io.Serializable {
     }
 
 	
-    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, byte activo) {
+    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, Boolean activo) {
         this.idTrabajo = idTrabajo;
         this.estado = estado;
         this.grupo = grupo;
@@ -41,7 +41,7 @@ public class Trabajo  implements java.io.Serializable {
         this.urgencia = urgencia;
         this.activo = activo;
     }
-    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, String descripcion, Date fechaCreacion, Date fechaVisita, Integer calificacion, Integer duracionEstimada, Integer duracionReal, byte activo, Trabajoxmaterial trabajoxmaterial, Set historialtrabajos) {
+    public Trabajo(int idTrabajo, Estado estado, Grupo grupo, Tipoduracion tipoduracion, Unidad unidad, Urgencia urgencia, String descripcion, Date fechaCreacion, Date fechaVisita, Integer calificacion, Integer duracionEstimada, Integer duracionReal, Boolean activo, Trabajoxmaterial trabajoxmaterial, Set historialtrabajos) {
        this.idTrabajo = idTrabajo;
        this.estado = estado;
        this.grupo = grupo;
@@ -143,11 +143,11 @@ public class Trabajo  implements java.io.Serializable {
     public void setDuracionReal(Integer duracionReal) {
         this.duracionReal = duracionReal;
     }
-    public byte getActivo() {
+    public Boolean getActivo() {
         return this.activo;
     }
     
-    public void setActivo(byte activo) {
+    public void setActivo(Boolean activo) {
         this.activo = activo;
     }
     public Trabajoxmaterial getTrabajoxmaterial() {
@@ -165,9 +165,4 @@ public class Trabajo  implements java.io.Serializable {
         this.historialtrabajos = historialtrabajos;
     }
 
-
-
-
 }
-
-

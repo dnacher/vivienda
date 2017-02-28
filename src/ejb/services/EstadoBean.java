@@ -73,7 +73,7 @@ public class EstadoBean implements EstadoLocal{
     @Override
     public List<Estado> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Estado");         
+            Query query= session.createQuery("from Estado estado order by estado.orden");
             List<Estado> estados=query.list();
             session.close();        
             return estados;

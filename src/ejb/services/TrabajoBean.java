@@ -3,7 +3,9 @@ package ejb.services;
 import UtilsGeneral.ConfiguracionControl;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Trabajo;
+import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
+import static java.lang.Math.toIntExact;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -75,6 +77,24 @@ public class TrabajoBean implements TrabajoLocal{
         Trabajo trabajos=(Trabajo) query.uniqueResult();
         session.close();
         return trabajos;
+    }
+    
+    public boolean UnidadesConTrabajoActivo(Unidad unidad){           
+            boolean tieneTrabajos=false;
+            boolean activo=true;
+            String consulta="select count(*) from Trabajo trabajo "
+                          + "where trabajo.unidad=:unidad "
+                          + "and trabajo.activo=:activo";
+            Query query = session.createQuery(consulta);
+            query.setParameter("unidad", unidad);
+            query.setParameter("activo", activo);
+            Long count = (Long)query.uniqueResult();
+            int retorno=toIntExact(count);
+            if(retorno>0){
+                tieneTrabajos=true;
+            }
+            session.close();
+            return tieneTrabajos;
     }
     
 }

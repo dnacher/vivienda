@@ -8,6 +8,7 @@ import exceptions.ServiceException;
 import static java.lang.Math.toIntExact;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -87,9 +88,51 @@ public class UnidadBean implements UnidadLocal{
             session.close();        
             return unidades;
         }
-        catch(Exception ex){
+        catch(HibernateException ex){
             throw new ServiceException(ex.getMessage());
         }
+    }
+    
+    public List<Unidad> TraeUnidadesXBlockTorre(String block, int torre)throws ServiceException{        
+        List<Unidad> lista=new ArrayList<>();
+        String consulta="SELECT unidad FROM Unidad unidad ";
+        int sinFiltro=0;
+        try{
+            if(torre==0){
+                if(!block.isEmpty()){
+                    consulta+="WHERE Block=:block ";
+                    sinFiltro=1;
+                }
+            }else{
+                if(block.isEmpty()){
+                    consulta+="WHERE Torre=:torre ";
+                }else{                    
+                    consulta+="WHERE Block=:block "
+                            + "AND Torre=:torre ";
+                    sinFiltro=1;
+                }
+            }
+            if(sinFiltro==0){
+                consulta+="WHERE unidad.activo=true";
+            }else{
+                consulta+="AND unidad.activo=true";
+            }
+            
+            Query query=session.createQuery(consulta);
+            if(!block.isEmpty()){
+                query.setParameter("block", block);
+            }
+            if(torre!=0){
+                query.setParameter("torre",
+                        
+                        torre);
+            }            
+            lista=query.list();           
+            session.close();       
+        }catch(HibernateException ex){
+            throw new ServiceException(ex.getMessage());
+        }
+        return lista;
     }
 
     @Override
@@ -119,7 +162,7 @@ public class UnidadBean implements UnidadLocal{
             return retorno;
          }
     }
-    
+         
     public int totalUnidadesNoPago(String block, int torre){        
         if(block.equals("") && torre==0){        
             Query query = session.createQuery("select count(*) from Unidad unidad");
@@ -219,7 +262,7 @@ public class UnidadBean implements UnidadLocal{
     
     public List<Unidad> TraeUnidadesConvenioXBlockTorre(String block, int torre){        
         List<Unidad> list= new ArrayList<>();        
-        String consulta="";        
+        String consulta="";
         try{
             consulta="SELECT unidad "
                    + "FROM Unidad unidad ";

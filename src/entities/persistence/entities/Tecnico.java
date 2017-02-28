@@ -123,8 +123,10 @@ public class Tecnico  implements java.io.Serializable {
         this.historialtrabajos = historialtrabajos;
     }
 
-
-
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }  
 
 }
 

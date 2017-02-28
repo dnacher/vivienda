@@ -105,9 +105,9 @@ public class Material  implements java.io.Serializable {
         this.trabajoxmaterials = trabajoxmaterials;
     }
 
-
-
+    @Override
+    public String toString() {
+       return nombre;
+    }
 
 }
-
-

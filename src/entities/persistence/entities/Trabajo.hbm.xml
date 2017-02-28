@@ -41,8 +41,8 @@
         <property name="duracionReal" type="java.lang.Integer">
             <column name="duracionReal" />
         </property>
-        <property name="activo" type="byte">
-            <column name="activo" not-null="true" />
+        <property name="activo" type="java.lang.Boolean">
+            <column name="activo" />
         </property>
         <one-to-one name="trabajoxmaterial" class="entities.persistence.entities.Trabajoxmaterial"></one-to-one>
         <set name="historialtrabajos" table="historialtrabajo" inverse="true" lazy="true" fetch="select">

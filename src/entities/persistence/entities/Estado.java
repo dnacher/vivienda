@@ -78,7 +78,12 @@ public class Estado  implements java.io.Serializable {
         this.trabajos = trabajos;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
 
+    
 
 
 }

@@ -56,10 +56,5 @@ public class Trabajoxmaterial  implements java.io.Serializable {
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
-
-
-
-
 }
-
 
