@@ -69,6 +69,21 @@ public class MaterialBean implements MaterialLocal{
         }
         return correcto;
     }
+    
+    public boolean modificarTodos(List<Material> materiales) throws ServiceException {
+        try{
+            for(Material m:materiales){
+                session.update(m);
+            }
+            tx.commit();
+            session.close();
+            correcto=true;
+        }
+        catch(Exception ex){
+            throw new ServiceException(ex.getMessage());
+        }
+        return correcto;
+    }
 
     @Override
     public List<Material> traerTodos() throws ServiceException {

@@ -37,12 +37,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import control.ControlVentana;
 import ejb.services.TrabajoBean;
 import java.util.ArrayList;
+import javafx.scene.control.CheckBox;
 
 
 public class CotizacionController implements Initializable {
@@ -64,6 +66,9 @@ public class CotizacionController implements Initializable {
     
     @FXML
     private Label lblInfo;
+    
+    @FXML
+    private Label lblInfoMaterial;
     
     @FXML
     private TableView<Unidad> tblUnidades;
@@ -99,8 +104,35 @@ public class CotizacionController implements Initializable {
     private ComboBox<Material> cmbMaterial;
     
     @FXML
+    private CheckBox chkVerificaStock;
+    
+    @FXML
     private TextField txtCantidad;
     
+    @FXML
+    private TabPane tab;
+    
+    @FXML
+    private Label lblUnidad;
+    
+    @FXML
+    private Label lblUnidadEnEdicion;
+    
+    @FXML
+    private ComboBox<Tecnico> cmbTecnicoEnEdicion;
+    
+    @FXML
+    private ComboBox<Estado> cmbEstadoEnEdicion;
+    
+    @FXML
+    private DatePicker cmbFechaEnEdicion;
+    
+    @FXML
+    private TextArea txtDescripcionEnEdicion;
+            
+            
+    
+ 
     ObservableList listaUnidades;
     Unidad unidad;
     Date hoy=new Date();
@@ -108,13 +140,14 @@ public class CotizacionController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        lblInfoMaterial.setText("");
         cargaTabla();
         cargaTablaMateriales();
         cargarComboBlock();
         cargarComboTorre();
         paneSecond.setVisible(false);
         paneThird.setVisible(false);
-        cargaCombos();
+        cargaCombos();  
     }
     
     public void cargaCombos(){
@@ -129,7 +162,24 @@ public class CotizacionController implements Initializable {
     public void atras() {
         paneSecond.setOpacity(0);
         new FadeInUpTransition(paneFirst).play();
+        limpiaForm();
+    }
+    
+    public void limpiaForm(){
         unidad=null;
+        tblUnidades.getSelectionModel().clearSelection();        
+        cmbTecnico.getSelectionModel().clearSelection();
+        cmbFechaVisita.setValue(null);
+        cmbGrupo.getSelectionModel().clearSelection();
+        cmbTipoDuracion.getSelectionModel().clearSelection();
+        cmbUrgencia.getSelectionModel().clearSelection();
+        txtCantidad.setText("");
+        txtDescripcion.setText("");
+        txtDuracion.setText("");
+        tab.getSelectionModel().selectFirst();
+        materiales=null;
+        materiales=new ArrayList<>();
+        tblMaterial.setItems(null);
     }
     
     public void atras2() {
@@ -141,6 +191,7 @@ public class CotizacionController implements Initializable {
     public void nuevoTrabajo(){       
         lblInfo.setText("");
         unidad=tblUnidades.getSelectionModel().getSelectedItem();
+        lblUnidad.setText(unidad.getNombre() + " " + unidad.getApellido());
         if(unidad!=null){
             paneSecond.setVisible(true);
             paneFirst.setOpacity(0);
@@ -159,6 +210,10 @@ public class CotizacionController implements Initializable {
                 paneThird.setVisible(true);
                 paneFirst.setOpacity(0);        
                 new FadeInUpTransition(paneThird).play();
+                lblUnidadEnEdicion.setText(unidad.getNombre() + " " + unidad.getApellido());
+                tbe=new TrabajoBean();
+                Trabajo trabajo=tbe.traeTrabajo(unidad);
+                cmbEstadoEnEdicion.getSelectionModel().select(trabajo.getEstado());
             }else{
                 lblInfo.setText("La unidad no tiene trabajos activos");
             }            
@@ -184,12 +239,15 @@ public class CotizacionController implements Initializable {
             trabajo.setIdTrabajo(ConfiguracionControl.traeUltimoId("Trabajo"));
             trabajo.setTipoduracion(cmbTipoDuracion.getValue());
             trabajo.setUnidad(unidad);
-            trabajo.setUrgencia(cmbUrgencia.getValue());           
-            cv.creaVentanaNotificacionCorrecto();
+            trabajo.setUrgencia(cmbUrgencia.getValue());
+            TrabajoBean tb=new TrabajoBean();
+            tb.guardar(trabajo);
+            //agrega materiales si es que hay
             if(materiales.size()>0){
                 List<Trabajoxmaterial> trabajosxMateriales= new ArrayList<>();                
                 MaterialBean mb=new MaterialBean();
-                List<Material> lista=mb.traerTodos();                
+                List<Material> lista=mb.traerTodos();
+                List<Material> actualizarlista=new ArrayList<>();
                 for(MaterialTrabajo mt: materiales){
                     for(Material m: lista){
                         if(mt.getNombre().equals(m.getNombre()) && mt.getDescripcion().equals(m.getDescripcion())){
@@ -199,11 +257,18 @@ public class CotizacionController implements Initializable {
                             tm.setTrabajo(trabajo);
                             tm.setTrabajoIdTrabajo(trabajo.getIdTrabajo());
                             trabajosxMateriales.add(tm);
+                            m.setSalida(tm.getCantidad());
+                            m.setCantidad((m.getEntrada()-m.getSalida()));
+                            actualizarlista.add(m);
                         }
                     }
                 }
-                
+             tb=new TrabajoBean();
+             tb.cargaMaterialesEnTrabajo(trabajosxMateriales);
+             mb=new MaterialBean();
+             mb.modificarTodos(actualizarlista);
             }
+            cv.creaVentanaNotificacionCorrecto();            
         }
         catch(Exception ex){
             cv.creaVentanaNotificacionError(ex.getMessage());
@@ -259,6 +324,7 @@ public class CotizacionController implements Initializable {
             ObservableList<Estado> listaEstado;
             EstadoBean eb= new EstadoBean();
             listaEstado= FXCollections.observableArrayList(eb.traerTodos());
+            cmbEstadoEnEdicion.setItems(listaEstado);
             cmbEstado.setItems(listaEstado);
             cmbEstado.getSelectionModel().selectFirst();
         } catch (ServiceException ex) {
@@ -272,6 +338,7 @@ public class CotizacionController implements Initializable {
             TecnicoBean tb= new TecnicoBean();
             listaTecnico= FXCollections.observableArrayList(tb.traerTodos());
             cmbTecnico.setItems(listaTecnico);
+            cmbTecnicoEnEdicion.setItems(listaTecnico);
         } catch (ServiceException ex) {
             Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -383,26 +450,38 @@ public class CotizacionController implements Initializable {
     }
     
     public void agregarMaterial(){
+        lblInfoMaterial.setText("");
         if(cmbMaterial.getSelectionModel().getSelectedItem()!=null){
-            lblInfo.setText("");
-            MaterialTrabajo mt=new MaterialTrabajo();
-            mt.setNombre(cmbMaterial.getSelectionModel().getSelectedItem().getNombre());
-            mt.setDescripcion(cmbMaterial.getSelectionModel().getSelectedItem().getDescripcion());
-            mt.setCantidad(Integer.valueOf(txtCantidad.getText()));
-            boolean hay=false;
-            for(MaterialTrabajo m: materiales){
-                if(m.getNombre().equals(mt.getNombre()) && m.getDescripcion().equals(mt.getDescripcion())){
-                    hay=true;
+            if(cmbMaterial.getSelectionModel().getSelectedItem().getCantidad()>=Integer.valueOf(txtCantidad.getText())){
+                agregaItem();
+            }else{
+                if(!chkVerificaStock.isSelected()){
+                    agregaItem();
+                }else{
+                    lblInfoMaterial.setText("El stock del item es: " + cmbMaterial.getSelectionModel().getSelectedItem().getCantidad());
                 }
             }
-            if(!hay){
-                materiales.add(mt);
-                ObservableList materialesO=FXCollections.observableList(materiales);
-                tblMaterial.setItems(materialesO);
-            }else{
-                lblInfo.setText("Ya se ha agregado este item.");
+        }
+    }
+    
+    public void agregaItem(){
+        lblInfo.setText("");
+        MaterialTrabajo mt=new MaterialTrabajo();
+        mt.setNombre(cmbMaterial.getSelectionModel().getSelectedItem().getNombre());
+        mt.setDescripcion(cmbMaterial.getSelectionModel().getSelectedItem().getDescripcion());
+        mt.setCantidad(Integer.valueOf(txtCantidad.getText()));
+        boolean hay=false;
+        for(MaterialTrabajo m: materiales){
+            if(m.getNombre().equals(mt.getNombre()) && m.getDescripcion().equals(mt.getDescripcion())){
+                hay=true;
             }
-            
+        }
+        if(!hay){
+            materiales.add(mt);
+            ObservableList materialesO=FXCollections.observableList(materiales);
+            tblMaterial.setItems(materialesO);
+        }else{
+            lblInfoMaterial.setText("Ya se ha agregado este item.");
         }
     }
     

@@ -44,12 +44,15 @@
       </AnchorPane>
       <AnchorPane fx:id="paneSecond" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
-            <TabPane layoutX="10.0" layoutY="10.0" prefHeight="541.0" prefWidth="1198.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tab" layoutX="10.0" layoutY="10.0" prefHeight="541.0" prefWidth="1198.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="Trabajo">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
+                              <Label fx:id="lblUnidad" layoutX="193.0" layoutY="37.0" prefHeight="17.0" prefWidth="400.0" textFill="#2b579a">
+                                <font><Font size="14.0" /></font>
+                              </Label>
                               <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Tecnico" />
                               <ComboBox fx:id="cmbTecnico" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
                               <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Fecha Visita" />
@@ -63,17 +66,18 @@
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Visita">
+                  <Tab text="Visita">                      
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
+                           <children>                                
                               <Label layoutX="62.0" layoutY="72.0" text="Grupo" />
                               <ComboBox fx:id="cmbGrupo" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
                               <Label layoutX="62.0" layoutY="107.0" text="Urgencia" />
                               <ComboBox fx:id="cmbUrgencia" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
                               <Label layoutX="62.0" layoutY="142.0" text="Estado" />
                               <ComboBox fx:id="cmbEstado" layoutX="193.0" layoutY="138.0" prefWidth="150.0" />
-                           </children></AnchorPane>
+                           </children>
+                      </AnchorPane>
                     </content>
                   </Tab>
                   <Tab text="Materiales">
@@ -84,6 +88,8 @@
                               <ComboBox fx:id="cmbMaterial" layoutX="130.0" layoutY="66.0" prefWidth="150.0" />
                               <Label layoutX="290.0" layoutY="72.0" text="Cantidad" />
                               <TextField fx:id="txtCantidad" layoutX="350.0" layoutY="66.0" />
+                              <Label layoutX="62.0" layoutY="104.0" text="Verificar Stock " />
+                              <CheckBox fx:id="chkVerificaStock" layoutX="160.0" layoutY="105.0" mnemonicParsing="false" />
                               <Button fx:id="btnAgregarMateriales" defaultButton="true" layoutX="520.0" layoutY="63.0" maxWidth="27.0" mnemonicParsing="false" onAction="#agregarMaterial" prefHeight="30.0" prefWidth="27.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
@@ -102,11 +108,16 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <TableView fx:id="tblMaterial" layoutX="10.0" layoutY="130.0" prefHeight="360.0" prefWidth="538.0" />
+                              <TableView fx:id="tblMaterial" layoutX="7.0" layoutY="148.0" prefHeight="318.0" prefWidth="538.0" />
+                              <Label fx:id="lblInfoMaterial" layoutX="7.0" layoutY="480.0" maxWidth="0.0" minWidth="500.0" prefHeight="17.0" prefWidth="500.0" textFill="#2b579a">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
                            </children></AnchorPane>
                     </content>
                   </Tab>
-              </tabs>
+              </tabs>             
             </TabPane>
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnSecond" layoutX="29.0" layoutY="60.0" mnemonicParsing="false" onAction="#atras" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
@@ -121,14 +132,25 @@
       </AnchorPane>
       <AnchorPane fx:id="paneThird" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
          <children>
+            <Label fx:id="lblUnidadEnEdicion" layoutX="193.0" layoutY="37.0" prefHeight="17.0" prefWidth="400.0" textFill="#2b579a">
+                <font><Font size="14.0" /></font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Tecnico" />
+            <ComboBox fx:id="cmbTecnicoEnEdicion" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Estado" />
+            <ComboBox fx:id="cmbEstadoEnEdicion" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Fecha" />
+            <DatePicker fx:id="cmbFechaEnEdicion" layoutX="193.0" layoutY="138.0" prefWidth="150.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
+            <TextArea fx:id="txtDescripcionEnEdicion" layoutX="193.0" layoutY="210.0" prefHeight="150.0" prefWidth="200.0" /> 
             <Button fx:id="btnThird" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#atras2" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
-               <graphic>
-                  <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/arrowLeftBlack.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+                <graphic>
+                    <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/arrowLeftBlack.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
             </Button>
          </children></AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
