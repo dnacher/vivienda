@@ -8,11 +8,12 @@ public enum MenuMantenimiento {
     
                           Inicio("Inicio","Inicio"),
                         Tecnico("Tecnico","Tecnico"),
-    CotizacionTrabajo("Cotizacion","Cotizacion Trabajo"),
+    CotizacionTrabajo("CotizacionTrabajo","Cotizacion Trabajo"),
                   Materiales("Material","Materiales"),
                             Grupo("Grupo","Grupo"),
               TecnicoModificacion("BajaLicencia","Baja/Licencia Tecnico"),
-                          Estado("Estado","Estado");
+                          Estado("Estado","Estado"),
+                          ListaPrecios("ListaPrecios", "Lista de Precios");
            
     private final String pagina;
     private final String menu;

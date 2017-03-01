@@ -95,6 +95,7 @@ public class BajaLienciaController implements Initializable {
             
     public void guardar(){
         ControlVentana cv=new ControlVentana();
+        //Licencia
         if(cmbBajaLicencia.getSelectionModel().getSelectedItem().equals("Licencia")){
             if(cmbFechaDesde.getValue().isAfter(cmbFechaHasta.getValue())){
                 cv.creaVentanaNotificacion("Verificar", "La fecha fin no puede ser menor a la de comienzo", 5, "error");
@@ -106,7 +107,12 @@ public class BajaLienciaController implements Initializable {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Confirmar Licencia");
                 alert.setHeaderText("Licencia");
-                alert.setContentText("¿Desea confirmar la licencia?");            
+                alert.setContentText("¿Desea confirmar la licencia?");
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.getStylesheets().add(getClass().getResource("/web/css/myDialogs.css").toExternalForm());
+                dialogPane.getStyleClass().add("myDialog");
+                
+              
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     try {
@@ -120,11 +126,37 @@ public class BajaLienciaController implements Initializable {
                         cv.creaVentanaNotificacionError(ex.getMessage());
                         Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }              
+                }
             }
-            
+         //Baja
+        }else{           
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmar Baja");
+                alert.setHeaderText("Baja");
+                alert.setContentText("¿Desea confirmar la baja?");
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.getStylesheets().add(getClass().getResource("/web/css/myDialogs.css").toExternalForm());
+                dialogPane.getStyleClass().add("myDialog");
+                
+              
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    try {
+                        tecnico.setEstado(3);
+                        tecnico.setFechaFinEstado(ConfiguracionControl.TraeFecha(cmbFechaHasta.getValue()));
+                        tecnico.setActivo(false);
+                        TecnicoBean tb=new TecnicoBean();
+                        tb.modificar(tecnico);
+                        cv.creaVentanaNotificacion("Baja", "Se ha dado de baja correctamente. " + cmbFechaHasta.getValue(), 3, "tick");
+                    } catch (ServiceException ex) {
+                        cv.creaVentanaNotificacionError(ex.getMessage());
+                        Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }  
         }
-    }   
+        llenaTabla();
+    }
+  
     
     public void creaDialogoConfirmacion() throws IOException{
                 Stage stage=new Stage(StageStyle.UNDECORATED);
@@ -179,8 +211,14 @@ public class BajaLienciaController implements Initializable {
        }
     
     public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + Lista.size() + " registros.");
-        tableData.setItems(lista);
+        try {
+            lista=FXCollections.observableArrayList(TecnicoImage.devuelveTecnicoConImagenEstado());
+            //lblInfo.setText("Se muestran " + Lista.size() + " registros.");
+            tableData.setItems(lista);
+        } catch (ServiceException ex) {
+            Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     public void cargaComboBajaLicencia(){

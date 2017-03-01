@@ -1,0 +1,103 @@
+.myDialog{
+    -fx-background-color: #2b579a;
+}
+.myDialog > *.button-bar > *.container{
+    -fx-background-color: #2b579a;
+}
+.myDialog > *.label.content{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.myDialog:header *.header-panel{
+    -fx-background-color: #2b579a;
+}
+.myDialog:header *.header-panel *.label{
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-fill: #FFFFFF;
+}
+
+.button {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-style: none; 
+    -fx-background-radius: 0;
+    -fx-border-color : #f4f4f4;
+    -fx-border-width:2;
+    -fx-background-color: #2b579a;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.button:hover{
+    -fx-background-color: #3659b3;
+}
+ 
+.button:pressed, .button:default:hover:pressed
+{
+    -fx-padding: 5 22 5 22;   
+    -fx-border-style: none; 
+    -fx-background-radius: 0;
+    -fx-border-color : #f4f4f4;
+    -fx-border-width:2;
+    -fx-background-color: #2b579a;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+ 
+.button:focused
+{
+    -fx-padding: 5 22 5 22;   
+    -fx-border-style: none; 
+    -fx-background-radius: 0;
+    -fx-border-color : #f4f4f4;
+    -fx-border-width:2;
+    -fx-background-color: #2b579a;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 14px;
+    -fx-text-fill: white; 
+}
+ 
+.button:disabled, .button:default:disabled
+{
+    -fx-opacity: 0.4;
+    -fx-background-color: #cccccc;
+    -fx-text-fill: #212121;
+}
+ 
+.button:default
+{
+    -fx-background-color: #5585be;
+    -fx-text-fill: #ffffff;
+}
+ 
+.button:default:hover{
+    -fx-background-color: #219297;
+}
+
+
+
+/*.pane-basicwindow {
+    -fx-border-color:
+        linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent),
+        linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent),
+        linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent);
+    -fx-border-style: solid;
+    -fx-border-width:
+        0 0 0 0.417em,
+        0 0 0.417em 0,
+        0 0.417em 0 0;
+}*/
+
+.pane-basicwindow{
+-fx-border-color: gray; 
+-fx-border-style: solid;    
+-fx-border-width: 1;
+-fx-effect: innershadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);}
