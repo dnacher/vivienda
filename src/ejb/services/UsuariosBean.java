@@ -98,11 +98,10 @@ public class UsuariosBean implements UsuariosLocal{
         query.setParameter("nombre", nombre);        
         Usuario usuario=(Usuario) query.uniqueResult();
         session.close();        
-        return usuario;
-    //  Usuario usuario= new Usuario();
-     // ObjetosBean ob= new ObjetosBean(usuario);
-      
+        return usuario;    
     }
+     
+     
     
     
 }

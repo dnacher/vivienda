@@ -8,6 +8,7 @@ import ejb.services.UnidadBean;
 import ejb.services.EstadoBean;
 import ejb.services.MaterialBean;
 import ejb.utils.MaterialTrabajo;
+import ejb.services.HistorialTrabajoBean;
 import UtilsGeneral.ConfiguracionControl;
 import entities.persistence.entities.Estado;
 import entities.persistence.entities.Grupo;
@@ -43,6 +44,8 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import control.ControlVentana;
 import ejb.services.TrabajoBean;
+import entities.persistence.entities.Historialtrabajo;
+import entities.persistence.entities.HistorialtrabajoId;
 import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
 
@@ -128,15 +131,13 @@ public class CotizacionController implements Initializable {
     private DatePicker cmbFechaEnEdicion;
     
     @FXML
-    private TextArea txtDescripcionEnEdicion;
-            
-            
-    
+    private TextArea txtDescripcionEnEdicion;   
  
     ObservableList listaUnidades;
     Unidad unidad;
     Date hoy=new Date();
     List<MaterialTrabajo> materiales=new ArrayList<>();
+    Trabajo trabajo;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -186,6 +187,7 @@ public class CotizacionController implements Initializable {
         paneThird.setOpacity(0);
         new FadeInUpTransition(paneFirst).play();
         unidad=null;
+        trabajo=null;
     }    
   
     public void nuevoTrabajo(){       
@@ -212,8 +214,8 @@ public class CotizacionController implements Initializable {
                 new FadeInUpTransition(paneThird).play();
                 lblUnidadEnEdicion.setText(unidad.getNombre() + " " + unidad.getApellido());
                 tbe=new TrabajoBean();
-                Trabajo trabajo=tbe.traeTrabajo(unidad);
-                cmbEstadoEnEdicion.getSelectionModel().select(trabajo.getEstado());
+                trabajo=tbe.traeTrabajo(unidad);
+                cmbEstadoEnEdicion.getSelectionModel().select(trabajo.getEstado());                
             }else{
                 lblInfo.setText("La unidad no tiene trabajos activos");
             }            
@@ -273,6 +275,28 @@ public class CotizacionController implements Initializable {
         catch(Exception ex){
             cv.creaVentanaNotificacionError(ex.getMessage());
         }       
+    }
+    
+    public void guardarHistorial(){
+        ControlVentana cv=new ControlVentana();
+        try{
+            Historialtrabajo ht=new Historialtrabajo();
+            ht.setDescripcion(txtDescripcionEnEdicion.getText());
+            ht.setEstado(cmbEstadoEnEdicion.getValue());
+            ht.setFecha(ConfiguracionControl.TraeFecha(cmbFechaEnEdicion.getValue()));
+            ht.setTecnico(cmbTecnicoEnEdicion.getValue());
+            ht.setTrabajo(trabajo);
+            HistorialtrabajoId htId=new HistorialtrabajoId();
+            htId.setTrabajoIdTrabajo(trabajo.getIdTrabajo());
+            htId.setIdHistorialTrabajo(ConfiguracionControl.traeUltimoId("HistorialTrabajo"));
+            ht.setId(htId);
+            HistorialTrabajoBean htb=new HistorialTrabajoBean();
+            htb.guardar(ht);
+            cv.creaVentanaNotificacionCorrecto();
+        }
+        catch(ServiceException ex){
+            cv.creaVentanaNotificacionError(ex.getMessage());
+        }
     }
        
     public void cargarComboBlock(){

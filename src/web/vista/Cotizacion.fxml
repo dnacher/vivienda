@@ -63,7 +63,8 @@
                               <TextField fx:id="txtDuracion" layoutX="193.0" layoutY="174.0" />
                               <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
                               <TextArea fx:id="txtDescripcion" layoutX="193.0" layoutY="210.0" prefHeight="150.0" prefWidth="200.0" />
-                           </children></AnchorPane>
+                           </children>
+                      </AnchorPane>
                     </content>
                   </Tab>
                   <Tab text="Visita">                      
@@ -114,7 +115,8 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                           </children></AnchorPane>
+                           </children>
+                      </AnchorPane>
                     </content>
                   </Tab>
               </tabs>             
@@ -152,7 +154,9 @@
                     </ImageView>
                 </graphic>
             </Button>
-         </children></AnchorPane>
+            <Button fx:id="btnGuardarHistorial" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardarHistorial" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+         </children>
+      </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Incidencia">
          <font>

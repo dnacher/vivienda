@@ -67,7 +67,7 @@ public class menu implements Initializable {
             uv.loadAnchorPane(paneData, Constantes.PAGINA_MAIN);
             listMenu.requestFocus();
         });
-    }    
+    }
     
     @FXML
     private void aksiMaximized(ActionEvent event) {
@@ -247,9 +247,7 @@ public class menu implements Initializable {
                    lista.add(p.getMenu());
                 }
                 break;
-        }                
+        }
         return lista;
-    }
-    
-        
+    }       
 }

@@ -9,14 +9,11 @@ import entities.persistence.entities.ListapreciosId;
 import entities.persistence.entities.Material;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -28,6 +25,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import UtilsGeneral.ListaPreciosTable;
+import ejb.services.MaterialBean;
+import exceptions.ServiceException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class listaPreciosController implements Initializable {
     
@@ -58,9 +59,6 @@ public class listaPreciosController implements Initializable {
     @FXML
     private AnchorPane paneForm;
     
-    @FXML
-    private Button btnAgregar;
-    
     public ObservableList<ListaPreciosTable> lista;
 
     /**
@@ -73,25 +71,38 @@ public class listaPreciosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         lista=FXCollections.observableArrayList(ListaPreciosTable.devuelveTodosPrecios());
         cargaTabla();
+        cargarComboMaterial();
         task();
-        atras(null);      
-    }   
+        atras();
+    }
+    
+    public void cargarComboMaterial(){
+        try {
+            ObservableList<Material> listaMaterial;
+            MaterialBean mb= new MaterialBean();
+            listaMaterial= FXCollections.observableArrayList(mb.traerTodos());
+            cmbMaterial.setItems(listaMaterial);
+        } catch (ServiceException ex) {
+            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     private void clear(){
         txtPrecio.clear();
         txtCantidad.clear(); 
-    }    
-
-    @FXML
-    private void nuevaListaPrecios(ActionEvent event) {
-        paneTable.setOpacity(0);
-        paneTable.setVisible(false);
-        new FadeInUpTransition(paneForm).play();
-        paneForm.setVisible(true);
     }
     
-    @FXML
-    private void guardar(ActionEvent event){       
+    public void atras() {            
+       paneForm.setOpacity(0);       
+       new FadeInUpTransition(paneTable).play();       
+    }
+  
+    public void nuevaListaPrecios() {
+        paneTable.setOpacity(0);
+        new FadeInUpTransition(paneForm).play();         
+    }
+
+    public void guardar(){       
         ControlVentana cv=new ControlVentana();
             
             if(!UtilsConfiguracion.esNumero(txtCantidad.getText()) && !UtilsConfiguracion.esNumero(txtPrecio.getText())){                
@@ -99,19 +110,25 @@ public class listaPreciosController implements Initializable {
             }
             else{
                 try{
+                    Material material=cmbMaterial.getSelectionModel().getSelectedItem();
+                    material.setEntrada(material.getEntrada()+Integer.valueOf(txtCantidad.getText()));
+                    material.setCantidad(material.getEntrada()-material.getSalida());
+                    MaterialBean mb=new MaterialBean();
+                    mb.modificar(material);
                     Listaprecios listaPrecios=new Listaprecios();
                     listaPrecios.setActivo(ChkActivo.isSelected());
                     listaPrecios.setCantidad(Integer.valueOf(txtCantidad.getText()));
                     listaPrecios.setFecha(ConfiguracionControl.TraeFecha(cmbFechaCompra.getValue()));
                     ListapreciosId preciosId=new ListapreciosId();
                     preciosId.setIdlistaPrecios(ConfiguracionControl.traeUltimoId("ListaPrecios"));
-                    preciosId.setMaterialIdmaterial(cmbMaterial.getSelectionModel().getSelectedItem().getIdmaterial());
+                    preciosId.setMaterialIdmaterial(material.getIdmaterial());
                     listaPrecios.setId(preciosId);
                     listaPrecios.setMaterial(cmbMaterial.getSelectionModel().getSelectedItem());
                     listaPrecios.setPrecio(Integer.valueOf(txtPrecio.getText()));
                     ListaPreciosBean lpb=new ListaPreciosBean();
                     lpb.guardar(listaPrecios);
                     clear();
+                    llenaTabla();
                     cv.creaVentanaNotificacionCorrecto();
                 }
                 catch(Exception ex){
@@ -119,16 +136,7 @@ public class listaPreciosController implements Initializable {
                     cv.creaVentanaNotificacionError(ex.getMessage());
                 }       
             }       
-        }
-
-        @FXML
-        private void atras(ActionEvent event) {
-            paneForm.setVisible(false);
-            paneForm.setOpacity(0);
-            new FadeInUpTransition(paneTable).play();
-            paneTable.setVisible(true);
-            
-        }
+        }       
     
         public void task(){
             Task longTask = new Task<Void>() {
@@ -168,8 +176,7 @@ public class listaPreciosController implements Initializable {
        Fecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
       
        tableListaPrecios.getColumns().addAll(Material, Precio, Cantidad,Fecha);
-       tableListaPrecios.setItems(lista);
-    
+       tableListaPrecios.setItems(lista);    
     }
     
     public void llenaTabla(){

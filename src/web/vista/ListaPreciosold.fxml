@@ -8,10 +8,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="652.0" prefWidth="1225.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.controller.listaPreciosController">
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="652.0" prefWidth="1225.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.controller.listaPreciosController">
    <children>
       <AnchorPane fx:id="paneForm" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
-         <children>
+        <children>
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Material" />
             <ComboBox fx:id="cmbMaterial" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Precio" />
@@ -32,11 +32,11 @@
                    </ImageView>
                 </graphic>
             </Button>
-         </children>
+        </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneTable" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
+      <AnchorPane fx:id="paneTable" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
-            <TableView fx:id="tableListaPrecios" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
+            <TableView fx:id="tableListaPrecios" layoutX="7.0" layoutY="-147.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="161.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="-147.0" />
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -45,7 +45,7 @@
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
       </Text>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#nuevaListaPrecios" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      <Button fx:id="btnAgregar" defaultButton="true" layoutX="1101.0" layoutY="20.0" mnemonicParsing="false" onAction="#nuevaListaPrecios" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />
