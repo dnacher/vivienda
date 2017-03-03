@@ -1,9 +1,13 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import static entities.enums.MenuConfiguracion.TipoUsuario;
 import entities.hibernate.SessionConnection;
+import entities.persistence.entities.Permisosusuario;
+import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -94,14 +98,21 @@ public class UsuariosBean implements UsuariosLocal{
     
     @Override
      public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
-       Query query= session.createQuery("from Usuario usuario where usuario.nombre=:nombre");            
+        Query query= session.createQuery("from Usuario usuario where usuario.nombre=:nombre");            
         query.setParameter("nombre", nombre);        
         Usuario usuario=(Usuario) query.uniqueResult();
         session.close();        
         return usuario;    
     }
      
-     
+    public List<Permisosusuario> TraePermisos(Tipousuario tipoUsuario){
+        List<Permisosusuario> lista=new ArrayList<>();
+        Query query= session.createQuery("from Permisosusuario pu where pu.tipousuario=:tipoUsuario");
+        query.setParameter("tipoUsuario", tipoUsuario);
+        lista=query.list();
+        session.close();
+        return lista;
+    }
     
     
 }

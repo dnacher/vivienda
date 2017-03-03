@@ -1,11 +1,13 @@
 package web.controller;
 
 import UtilsGeneral.UtilsVentanas;
+import ejb.services.UsuariosBean;
 import entities.constantes.Constantes;
 import entities.enums.MenuAdministracion;
 import entities.enums.MenuConfiguracion;
 import entities.enums.MenuMantenimiento;
 import entities.enums.MenuPrincipal;
+import entities.persistence.entities.Permisosusuario;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +50,19 @@ public class menu implements Initializable {
     @FXML
     private AnchorPane paneData;    
     
+    List<String> lista;
     public String menuActual="";
+    List<Permisosusuario> listaPermisos=new ArrayList<>();
+            
     @Override
     public void initialize(URL url, ResourceBundle rb) {       
         rec2 = Screen.getPrimary().getVisualBounds(); 
         w = 0.1;
         h = 0.1;
-        List<String> lista=cargaLista(Constantes.MENU_PRINCIPAL);
-        menuActual=Constantes.MENU_PRINCIPAL;
+        UsuariosBean ub=new UsuariosBean();
+        listaPermisos=ub.TraePermisos(Viviendas.user.getTipousuario());
+        lista=cargaLista(Constantes.MENU_PRINCIPAL);               
+        menuActual=Constantes.MENU_PRINCIPAL;        
         listMenu.getItems().addAll(lista);
         Platform.runLater(() -> {
             stage = (Stage) maximize.getScene().getWindow();
@@ -229,23 +236,51 @@ public class menu implements Initializable {
         switch(str){
             case "MenuAdministracion":
                 for(MenuAdministracion p: MenuAdministracion.values()){
+                   for(Permisosusuario pu: listaPermisos){ 
+                        if(pu.getPagina().equals(p.getPagina())){
+                            lista.add(p.getMenu());
+                        }
+                    }
+                }                
+                /*for(MenuAdministracion p: MenuAdministracion.values()){
                     lista.add(p.getMenu());
-                }
+                }*/
                 break;
             case "MenuConfiguracion":
-                for(MenuConfiguracion p: MenuConfiguracion.values()){
-                    lista.add(p.getMenu());
+                for(Permisosusuario pu: listaPermisos){
+                    for(MenuConfiguracion p: MenuConfiguracion.values()){
+                        if(pu.getPagina().equals(p.getPagina())){
+                            lista.add(p.getMenu());
+                        }
+                    }
                 }
+                /*for(MenuConfiguracion p: MenuConfiguracion.values()){
+                    lista.add(p.getMenu());
+                }*/
                 break;
             case "MenuMantenimiento":
                 for(MenuMantenimiento p: MenuMantenimiento.values()){
+                   for(Permisosusuario pu: listaPermisos){ 
+                        if(pu.getPagina().equals(p.getPagina())){
+                            lista.add(p.getMenu());
+                        }
+                    }
+                }  
+                /*for(MenuMantenimiento p: MenuMantenimiento.values()){
                     lista.add(p.getMenu());
-                }
+                }*/
                 break;
             case "MenuPrincipal":
                 for(MenuPrincipal p: MenuPrincipal.values()){
+                   for(Permisosusuario pu: listaPermisos){ 
+                        if(pu.getPagina().equals(p.getPagina())){
+                            lista.add(p.getMenu());
+                        }
+                    }
+                }  
+                /*for(MenuPrincipal p: MenuPrincipal.values()){
                    lista.add(p.getMenu());
-                }
+                }*/
                 break;
         }
         return lista;
