@@ -1,5 +1,7 @@
 package web.controller;
 
+import control.ControlVentana;
+import ejb.services.TipoUsuarioBean;
 import entities.persistence.entities.Permisosusuario;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -8,11 +10,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import ejb.services.UsuariosBean;
+import entities.persistence.entities.Tipousuario;
+import exceptions.ServiceException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 import viviendas.Viviendas;
 
 public class SeguridadController implements Initializable { 
     
+    @FXML
+    private ComboBox<Tipousuario> cmbTipoUsuario;
+    
+    // <editor-fold defaultstate="collapsed" desc=" Labels ">
+
     @FXML
     private Label lblListaPrecios;
     
@@ -70,306 +85,558 @@ public class SeguridadController implements Initializable {
     @FXML
     private Label lblConvenios;   
     
-    @FXML
-    private CheckBox chkUnidadesVer;
+    // </editor-fold>
     
-    @FXML
-    private CheckBox chkUnidadesAgregar;
+    // <editor-fold defaultstate="collapsed" desc=" Check Box ">
+
+        @FXML
+        private CheckBox chkUnidadesVer;
+
+        @FXML
+        private CheckBox chkUnidadesAgregar;
+
+        @FXML
+        private CheckBox chkUnidadesBorrar;
+
+        @FXML
+        private CheckBox chkUnidadesEditar;
+
+        @FXML
+        private CheckBox chkUnidadesAdministrador;
+
+        @FXML
+        private CheckBox chkConveniosAdministrador;
+
+        @FXML
+        private CheckBox chkUsuarioAgregar;
+
+        @FXML
+        private CheckBox chkUsuarioEditar;
+
+        @FXML
+        private CheckBox chkMaterialVer;
+
+        @FXML
+        private CheckBox chkUrgenciaBorrar;
+
+        @FXML
+        private CheckBox chkConveniosVer;
+
+        @FXML
+        private CheckBox chkUrgenciaAdministrador;
+
+        @FXML
+        private CheckBox chkUsuarioBorrar;
+
+        @FXML
+        private CheckBox chkBajaLicenciaVer;
+
+        @FXML
+        private CheckBox chkCotizacionAdministrador;
+
+        @FXML
+        private CheckBox chkGrupoEditar;
+
+        @FXML
+        private CheckBox chkUrgenciaEditar;
+
+        @FXML
+        private CheckBox chkCotizacionBorrar;
+
+        @FXML
+        private CheckBox chkCotizacionEditar;
+
+        @FXML
+        private CheckBox chkTipoDuracionVer;    
+
+        @FXML
+        private CheckBox chkTecnicoAgregar;
+
+        @FXML
+        private CheckBox chkBajaLicenciaEditar;
+
+        @FXML
+        private CheckBox chkCotizacionVer;
+
+        @FXML
+        private CheckBox chkBajaLicenciaAdministrador;
+
+        @FXML
+        private CheckBox chkBajaLicenciaBorrar;
+
+        @FXML
+        private CheckBox chkReglaBonificacionBorrar;
+
+        @FXML
+        private CheckBox chkReglaBonificacionAgregar;
+
+        @FXML
+        private CheckBox chkReglaBonificacionEditar;
+
+        @FXML
+        private CheckBox chkPagoConvenioEditar;
+
+        @FXML
+        private CheckBox chkListaPreciosVer;
+
+        @FXML
+        private CheckBox chkListaPreciosAdministrador;
+
+        @FXML
+        private CheckBox chkBajaLicenciaAgregar;
+
+        @FXML
+        private CheckBox chkGrupoVer;
+
+        @FXML
+        private CheckBox chkUrgenciaVer;
+
+        @FXML
+        private CheckBox chkPagoConvenioBorrar;
+
+        @FXML
+        private CheckBox chkEstadoVer;
+
+        @FXML
+        private CheckBox chkSeguridadAdministrador;
+
+        @FXML
+        private CheckBox chkGastosComunesAgregar;
+
+        @FXML
+        private CheckBox chkPagoConvenioVer;
+
+        @FXML
+        private CheckBox chkGastosComunesEditar;
+
+        @FXML
+        private CheckBox chkTecnicoBorrar;
+
+        @FXML
+        private CheckBox chkConceptoBorrar;
+
+        @FXML
+        private CheckBox chkPagoConvenioAgregar;    
+
+        @FXML
+        private CheckBox chkTecnicoEditar;
+
+        @FXML
+        private CheckBox chkTipoDuracionAdministrador;
+
+        @FXML
+        private CheckBox chkEstadoAdministrador;
+
+        @FXML
+        private CheckBox chkCotizacionAgregar;
+
+        @FXML
+        private CheckBox chkEstadoEditar;
+
+        @FXML
+        private CheckBox chkMaterialAgregar;
+
+        @FXML
+        private CheckBox chkTipoDuracionAgregar;
+
+        @FXML
+        private CheckBox chkTecnicoAdministrador;
+
+        @FXML
+        private CheckBox chkGastosComunesAdministrador;
+
+        @FXML
+        private CheckBox chkListaPreciosAgregar;
+
+        @FXML
+        private CheckBox chkEstadoAgregar;    
+
+        @FXML
+        private CheckBox chkEstadoBorrar;
+
+        @FXML
+        private CheckBox chkConveniosAgregar;
+
+        @FXML
+        private CheckBox chkGastosComunesBorrar;
+
+        @FXML
+        private CheckBox chkGrupoAdministrador;
+
+        @FXML
+        private CheckBox chkConceptoAdministrador;
+
+        @FXML
+        private CheckBox chkTipoDuracionEditar;
+
+        @FXML
+        private CheckBox chkGrupoAgregar;
+
+        @FXML
+        private CheckBox chkListaPreciosBorrar;
+
+        @FXML
+        private CheckBox chkTipoDuracionBorrar;
+
+        @FXML
+        private CheckBox chkListaPreciosEditar;
+
+        @FXML
+        private CheckBox chkConveniosEditar;
+
+        @FXML
+        private CheckBox chkReglaBonificacionVer;
+
+        @FXML
+        private CheckBox chkTipoUsuarioAgregar;
+
+        @FXML
+        private CheckBox chkCargasMasivasAdministrador;   
+
+        @FXML
+        private CheckBox chkPagoConvenioAdministrador;
+
+        @FXML
+        private CheckBox chkTipoUsuarioAdministrador;   
+
+        @FXML
+        private CheckBox chkConceptoEditar;
+
+        @FXML
+        private CheckBox chkUsuarioAdministrador;
+
+        @FXML
+        private CheckBox chkReglaBonificacionAdministrador;
+
+        @FXML
+        private CheckBox chkTecnicoVer;
+
+        @FXML
+        private CheckBox chkMaterialBorrar;
+
+        @FXML
+        private CheckBox chkUsuarioVer;
+
+        @FXML
+        private CheckBox chkConveniosBorrar;
+
+        @FXML
+        private CheckBox chkTipoUsuarioEditar;
+
+        @FXML
+        private CheckBox chkMaterialEditar;
+
+        @FXML
+        private CheckBox chkConceptoVer;
+
+        @FXML
+        private CheckBox chkGrupoBorrar;
+
+        @FXML
+        private CheckBox chkTipoUsuarioBorrar;
+
+        @FXML
+        private CheckBox chkMaterialAdministrador;
+
+        @FXML
+        private CheckBox chkTipoUsuarioVer;
+
+        @FXML
+        private CheckBox chkConceptoAgregar;
+
+        @FXML
+        private CheckBox chkGastosComunesVer;
+
+        @FXML
+        private CheckBox chkUrgenciaAgregar;
+
+        @FXML
+        private CheckBox chkSeleccionarTodos;
     
-    @FXML
-    private CheckBox chkUnidadesBorrar;
+    // </editor-fold>
     
-    @FXML
-    private CheckBox chkUnidadesEditar;
-   
-    @FXML
-    private CheckBox chkUnidadesAdministrador;
-    
-    @FXML
-    private CheckBox chkConveniosAdministrador;
-
-    @FXML
-    private CheckBox chkUsuarioAgregar;
-
-    @FXML
-    private CheckBox chkUsuarioEditar;
-
-    @FXML
-    private CheckBox chkMaterialVer;
-
-    @FXML
-    private CheckBox chkUrgenciaBorrar;
-
-    @FXML
-    private CheckBox chkConveniosVer;
-
-    @FXML
-    private CheckBox chkUrgenciaAdministrador;
-
-    @FXML
-    private CheckBox chkUsuarioBorrar;
-
-    @FXML
-    private CheckBox chkBajaLicenciaVer;
-
-    @FXML
-    private CheckBox chkCotizacionAdministrador;
-
-    @FXML
-    private CheckBox chkGrupoEditar;
-
-    @FXML
-    private CheckBox chkUrgenciaEditar;
-
-    @FXML
-    private CheckBox chkCotizacionBorrar;
-
-    @FXML
-    private CheckBox chkCotizacionEditar;
-
-    @FXML
-    private CheckBox chkTipoDuracionVer;    
-
-    @FXML
-    private CheckBox chkTecnicoAgregar;
-
-    @FXML
-    private CheckBox chkBajaLicenciaEditar;
-
-    @FXML
-    private CheckBox chkCotizacionVer;
-
-    @FXML
-    private CheckBox chkBajaLicenciaAdministrador;
-
-    @FXML
-    private CheckBox chkBajaLicenciaBorrar;
-
-    @FXML
-    private CheckBox chkReglaBonificacionBorrar;
-
-    @FXML
-    private CheckBox chkReglaBonificacionAgregar;
-
-    @FXML
-    private CheckBox chkReglaBonificacionEditar;
-
-    @FXML
-    private CheckBox chkPagoConvenioEditar;
-
-    @FXML
-    private CheckBox chkListaPreciosVer;
-
-    @FXML
-    private CheckBox chkListaPreciosAdministrador;
-
-    @FXML
-    private CheckBox chkBajaLicenciaAgregar;
-
-    @FXML
-    private CheckBox chkGrupoVer;
-
-    @FXML
-    private CheckBox chkUrgenciaVer;
-
-    @FXML
-    private CheckBox chkPagoConvenioBorrar;
-
-    @FXML
-    private CheckBox chkEstadoVer;
-
-    @FXML
-    private CheckBox chkSeguridadAdministrador;
-
-    @FXML
-    private CheckBox chkGastosComunesAgregar;
-
-    @FXML
-    private CheckBox chkPagoConvenioVer;
-
-    @FXML
-    private CheckBox chkGastosComunesEditar;
-
-    @FXML
-    private CheckBox chkTecnicoBorrar;
-
-    @FXML
-    private CheckBox chkConceptoBorrar;
-
-    @FXML
-    private CheckBox chkPagoConvenioAgregar;    
-
-    @FXML
-    private CheckBox chkTecnicoEditar;
-
-    @FXML
-    private CheckBox chkTipoDuracionAdministrador;
-
-    @FXML
-    private CheckBox chkEstadoAdministrador;
-
-    @FXML
-    private CheckBox chkCotizacionAgregar;
-
-    @FXML
-    private CheckBox chkEstadoEditar;
-
-    @FXML
-    private CheckBox chkMaterialAgregar;
-
-    @FXML
-    private CheckBox chkTipoDuracionAgregar;
-
-    @FXML
-    private CheckBox chkTecnicoAdministrador;
-
-    @FXML
-    private CheckBox chkGastosComunesAdministrador;
-
-    @FXML
-    private CheckBox chkListaPreciosAgregar;
-
-    @FXML
-    private CheckBox chkEstadoAgregar;    
-
-    @FXML
-    private CheckBox chkEstadoBorrar;
-
-    @FXML
-    private CheckBox chkConveniosAgregar;
-
-    @FXML
-    private CheckBox chkGastosComunesBorrar;
-
-    @FXML
-    private CheckBox chkGrupoAdministrador;
-
-    @FXML
-    private CheckBox chkConceptoAdministrador;
-
-    @FXML
-    private CheckBox chkTipoDuracionEditar;
-
-    @FXML
-    private CheckBox chkGrupoAgregar;
-
-    @FXML
-    private CheckBox chkListaPreciosBorrar;
-
-    @FXML
-    private CheckBox chkTipoDuracionBorrar;
-
-    @FXML
-    private CheckBox chkListaPreciosEditar;
-
-    @FXML
-    private CheckBox chkConveniosEditar;
-
-    @FXML
-    private CheckBox chkReglaBonificacionVer;
-
-    @FXML
-    private CheckBox chkTipoUsuarioAgregar;
-
-    @FXML
-    private CheckBox chkCargasMasivasAdministrador;   
-
-    @FXML
-    private CheckBox chkPagoConvenioAdministrador;
-
-    @FXML
-    private CheckBox chkTipoUsuarioAdministrador;   
-
-    @FXML
-    private CheckBox chkConceptoEditar;
-
-    @FXML
-    private CheckBox chkUsuarioAdministrador;
-
-    @FXML
-    private CheckBox chkReglaBonificacionAdministrador;
-
-    @FXML
-    private CheckBox chkTecnicoVer;
-
-    @FXML
-    private CheckBox chkMaterialBorrar;
-
-    @FXML
-    private CheckBox chkUsuarioVer;
-
-    @FXML
-    private CheckBox chkConveniosBorrar;
-
-    @FXML
-    private CheckBox chkTipoUsuarioEditar;
-
-    @FXML
-    private CheckBox chkMaterialEditar;
-
-    @FXML
-    private CheckBox chkConceptoVer;
-
-    @FXML
-    private CheckBox chkGrupoBorrar;
-
-    @FXML
-    private CheckBox chkTipoUsuarioBorrar;
-
-    @FXML
-    private CheckBox chkMaterialAdministrador;
-
-    @FXML
-    private CheckBox chkTipoUsuarioVer;
-
-    @FXML
-    private CheckBox chkConceptoAgregar;
-
-    @FXML
-    private CheckBox chkGastosComunesVer;
-
-    @FXML
-    private CheckBox chkUrgenciaAgregar;
-    
-    @FXML
-    private CheckBox chkSeleccionarTodos;
-    
-    int flagUnidades = 0;
-    int flagGastosComunes= 0;
-    int flagConvenios = 0;
-    int flagPagoConvenio = 0;
-    int ReglaBonificacion = 0;
-    int flagTecnico = 0;
-    int flagCotizacion = 0;
-    int flagMaterial = 0;
-    int flagBajaLicencia = 0;
-    int flagListaPrecios = 0;
-    int flagGrupo = 0;
-    int flagUrgencia = 0;
-    int flagConcepto = 0;
-    int flagUsuario = 0;
-    int flagTipoUsuario = 0;
-    int flagTipoDuracion = 0;
-    int flagEstado = 0;
+    // <editor-fold defaultstate="collapsed" desc=" Flags ">
+        
+        int flagUnidades = 0;
+        int flagGastosComunes= 0;
+        int flagConvenios = 0;
+        int flagPagoConvenio = 0;
+        int flagReglaBonificacion = 0;
+        int flagTecnico = 0;
+        int flagCotizacion = 0;
+        int flagMaterial = 0;
+        int flagBajaLicencia = 0;
+        int flagListaPrecios = 0;
+        int flagGrupo = 0;
+        int flagUrgencia = 0;
+        int flagConcepto = 0;
+        int flagUsuario = 0;
+        int flagTipoUsuario = 0;
+        int flagTipoDuracion = 0;
+        int flagEstado = 0;
+        
+    // </editor-fold>        
+        
+    // <editor-fold defaultstate="collapsed" desc=" permisos ">
+        
+            int Administracion=-1;
+            int BajaLicencia=-1;
+            int CargarMasivas=-1;
+            int Concepto=-1;
+            int Configuracion=-1;
+            int Convenios=-1;
+            int Cotizacion=-1;
+            int Estado=-1;
+            int GastosComunes=-1;
+            int Grupo=-1;
+            int Inicio=-1;
+            int ListaPrecios=-1;
+            int Mantenimiento=-1;
+            int Material=-1;
+            int PagoConvenios=-1;
+            int ReglaBonificacion=-1;
+            int Reportes=-1;
+            int Seguridad=-1;
+            int Tecnico=-1;
+            int TipoDuracion=-1;
+            int TipoUsuario=-1;
+            int Unidades=-1;
+            int Urgencia=-1;
+            int Usuario=-1;
+            
+            List<Permisosusuario> listaPermisos=new ArrayList<>();
+            Tipousuario tu=new Tipousuario();
+            
+        // </editor-fold>
+        
+        /*
+        "Inicio"
+        "Administracion"
+        "Mantenimiento"
+        "Reportes"
+        "Configuracion"
+        */
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {  
+    public void initialize(URL url, ResourceBundle rb) {
+        cargaComboTipoUsuario();
         nadaVisible();
         UsuariosBean ub=new UsuariosBean();        
         List<Permisosusuario> listaSeguridad=ub.TraePermisos(Viviendas.getTipoUsuario());
+        recorreListaSeguridad(listaSeguridad);
+    }
+    
+    public void cargaComboTipoUsuario(){
+        try {
+            TipoUsuarioBean tb=new TipoUsuarioBean();
+            List<Tipousuario> listaTipoUsuarios = tb.traerTodos();
+            ObservableList<Tipousuario>listaTipoUsuarioO = FXCollections.observableList(listaTipoUsuarios);
+            cmbTipoUsuario.setItems(listaTipoUsuarioO);
+        } catch (ServiceException ex) {
+            Logger.getLogger(SeguridadController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             
+    }
+    
+    public void guardar(){
+        if(cmbTipoUsuario.getSelectionModel().getSelectedItem()!=null){
+            tu=cmbTipoUsuario.getSelectionModel().getSelectedItem();
+               ControlVentana cv=new ControlVentana(); 
+               cargaPermisos();
+            try {
+                Permisosusuario pu;
+                if(Administracion!=-1){ pu= new Permisosusuario("Administracion", tu, Administracion); listaPermisos.add(pu);}
+                if(BajaLicencia!=-1){pu= new Permisosusuario("BajaLicencia", tu, BajaLicencia); listaPermisos.add(pu);}
+                if(CargarMasivas!=-1){pu= new Permisosusuario("CargarMasivas", tu, CargarMasivas); listaPermisos.add(pu);}
+                if(Concepto!=-1){pu= new Permisosusuario("Concepto", tu, Concepto); listaPermisos.add(pu);}
+                if(Configuracion!=-1){pu= new Permisosusuario("Configuracion", tu, Configuracion); listaPermisos.add(pu);}
+                if(Convenios!=-1){pu= new Permisosusuario("Convenios", tu, Convenios); listaPermisos.add(pu);}
+                if(Cotizacion!=-1){pu= new Permisosusuario("Cotizacion", tu, Cotizacion); listaPermisos.add(pu);}
+                if(Estado!=-1){pu= new Permisosusuario("Estado", tu, Estado); listaPermisos.add(pu);}
+                if(GastosComunes!=-1){pu= new Permisosusuario("GastosComunes", tu, GastosComunes); listaPermisos.add(pu);}
+                if(Grupo!=-1){pu= new Permisosusuario("Grupo", tu, Grupo); listaPermisos.add(pu);}
+                if(Inicio!=-1){pu= new Permisosusuario("Inicio", tu, Inicio); listaPermisos.add(pu);}
+                if(ListaPrecios!=-1){pu= new Permisosusuario("ListaPrecios", tu, ListaPrecios); listaPermisos.add(pu);}
+                if(Mantenimiento!=-1){pu= new Permisosusuario("Mantenimiento", tu, Mantenimiento); listaPermisos.add(pu);}
+                if(Material!=-1){pu= new Permisosusuario("Material", tu, Material); listaPermisos.add(pu);}
+                if(PagoConvenios!=-1){pu= new Permisosusuario("PagoConvenios", tu, PagoConvenios); listaPermisos.add(pu);}
+                if(ReglaBonificacion!=-1){pu= new Permisosusuario("ReglaBonificacion", tu, ReglaBonificacion); listaPermisos.add(pu);}
+                if(Reportes!=-1){pu= new Permisosusuario("Reportes", tu, Reportes); listaPermisos.add(pu);}
+                if(Seguridad!=-1){pu= new Permisosusuario("Seguridad", tu, Seguridad); listaPermisos.add(pu);}
+                if(Tecnico!=-1){pu= new Permisosusuario("Tecnico", tu, Tecnico); listaPermisos.add(pu);}
+                if(TipoDuracion!=-1){pu= new Permisosusuario("TipoDuracion", tu, TipoDuracion); listaPermisos.add(pu);}
+                if(TipoUsuario!=-1){pu= new Permisosusuario("TipoUsuario", tu, TipoUsuario); listaPermisos.add(pu);}
+                if(Unidades!=-1){pu= new Permisosusuario("Unidades", tu, Unidades); listaPermisos.add(pu);}
+                if(Urgencia!=-1){pu= new Permisosusuario("Urgencia", tu, Urgencia); listaPermisos.add(pu);}
+                if(Usuario!=-1){pu= new Permisosusuario("Usuario", tu, Usuario); listaPermisos.add(pu);}
+                UsuariosBean ub=new UsuariosBean();
+                ub.guardaPermisos(listaPermisos);
+                cv.creaVentanaNotificacionCorrecto();
+            } catch (ServiceException ex) {
+                Logger.getLogger(SeguridadController.class.getName()).log(Level.SEVERE, null, ex);
+                cv.creaVentanaNotificacionError(ex.getMessage());
+            }
+        }else{
+            System.out.println("No puede estar vacio el Tipo de usuario");
+        }
+    }
+    
+    public void cargaPermisos(){
+        if(chkUnidadesAdministrador.isSelected()){
+            Unidades=15;
+        }else{
+            if(chkUnidadesVer.isSelected()){ Unidades+=1;}
+            if(chkUnidadesEditar.isSelected()){Unidades+=8;}
+            if(chkUnidadesBorrar.isSelected()){Unidades+=4;}
+            if(chkUnidadesAgregar.isSelected()){Unidades+=2;}
+        }
+        
+        if(chkGastosComunesAdministrador.isSelected()){
+            GastosComunes=15;
+        }else{    
+            if(chkGastosComunesVer.isSelected()){GastosComunes+=1;}
+            if(chkGastosComunesEditar.isSelected()){GastosComunes+=8;}
+            if(chkGastosComunesBorrar.isSelected()){GastosComunes+=4;}
+            if(chkGastosComunesAgregar.isSelected()){GastosComunes+=2;}
+        }
+        
+        if(chkConveniosAdministrador.isSelected()){
+            Convenios=15;
+        }else{    
+            if(chkConveniosVer.isSelected()){Convenios+=1;}
+            if(chkConveniosEditar.isSelected()){Convenios+=8;}
+            if(chkConveniosBorrar.isSelected()){Convenios+=4;}
+            if(chkConveniosAgregar.isSelected()){Convenios+=2;}
+        }
+        
+        if(chkPagoConvenioAdministrador.isSelected()){
+            PagoConvenios=15;
+        }else{
+            if(chkPagoConvenioVer.isSelected()){PagoConvenios+=1;}
+            if(chkPagoConvenioEditar.isSelected()){PagoConvenios+=8;}
+            if(chkPagoConvenioBorrar.isSelected()){PagoConvenios+=4;}
+            if(chkPagoConvenioAgregar.isSelected()){PagoConvenios+=2;}
+        }
+        
+        if(chkReglaBonificacionAdministrador.isSelected()){
+            ReglaBonificacion=15;
+        }else{    
+            if(chkReglaBonificacionVer.isSelected()){ReglaBonificacion+=1;}
+            if(chkReglaBonificacionEditar.isSelected()){ReglaBonificacion+=8;}
+            if(chkReglaBonificacionBorrar.isSelected()){ReglaBonificacion+=4;}
+            if(chkReglaBonificacionAgregar.isSelected()){ReglaBonificacion+=2;}
+        }
+        
+        if(chkTecnicoAdministrador.isSelected()){
+            Tecnico=15;
+        }else{    
+            if(chkTecnicoVer.isSelected()){Tecnico+=1;}
+            if(chkTecnicoEditar.isSelected()){Tecnico+=8;}
+            if(chkTecnicoBorrar.isSelected()){Tecnico+=4;}
+            if(chkTecnicoAgregar.isSelected()){Tecnico+=2;}
+        }
+        
+        if(chkCotizacionAdministrador.isSelected()){
+            Cotizacion=15;
+        }else{
+            if(chkCotizacionVer.isSelected()){Cotizacion+=1;}
+            if(chkCotizacionEditar.isSelected()){Cotizacion+=8;}
+            if(chkCotizacionBorrar.isSelected()){Cotizacion+=4;}
+            if(chkCotizacionAgregar.isSelected()){Cotizacion+=2;}
+        }
+            
+        if(chkBajaLicenciaAdministrador.isSelected()){
+            BajaLicencia=15;
+        }else{
+            if(chkBajaLicenciaVer.isSelected()){BajaLicencia+=1;}
+            if(chkBajaLicenciaEditar.isSelected()){BajaLicencia+=8;}
+            if(chkBajaLicenciaBorrar.isSelected()){BajaLicencia+=4;}
+            if(chkBajaLicenciaAgregar.isSelected()){BajaLicencia+=2;}
+        }
+            
+        if(chkListaPreciosAdministrador.isSelected()){
+        
+        }else{
+            if(chkListaPreciosVer.isSelected()){ListaPrecios+=1;}
+            if(chkListaPreciosEditar.isSelected()){ListaPrecios+=8;}
+            if(chkListaPreciosBorrar.isSelected()){ListaPrecios+=4;}
+            if(chkListaPreciosAgregar.isSelected()){ListaPrecios+=2;}
+        }
+            
+        if(chkGrupoAdministrador.isSelected()){
+            Grupo=15;
+        }else{
+            if(chkGrupoVer.isSelected()){Grupo+=1;}
+            if(chkGrupoEditar.isSelected()){Grupo+=8;}
+            if(chkGrupoBorrar.isSelected()){Grupo+=4;}
+            if(chkGrupoAgregar.isSelected()){Grupo+=2;}
+        }
+            
+        if(chkUrgenciaAdministrador.isSelected()){
+            Urgencia=15;
+        }else{
+            if(chkUrgenciaVer.isSelected()){Urgencia+=1;}
+            if(chkUrgenciaEditar.isSelected()){Urgencia+=8;}
+            if(chkUrgenciaBorrar.isSelected()){Urgencia+=4;}
+            if(chkUrgenciaAgregar.isSelected()){Urgencia+=2;}
+        }
+            
+        if(chkConceptoAdministrador.isSelected()){
+            Concepto=15;
+        }else{
+            if(chkConceptoVer.isSelected()){Concepto+=1;}
+            if(chkConceptoEditar.isSelected()){Concepto+=8;}
+            if(chkConceptoBorrar.isSelected()){Concepto+=4;}
+            if(chkConceptoAgregar.isSelected()){Concepto+=2;}
+        }
+         
+        if(chkUsuarioAdministrador.isSelected()){
+            Usuario=15;
+        }else{
+            if(chkUsuarioVer.isSelected()){Usuario+=1;}
+            if(chkUsuarioEditar.isSelected()){Usuario+=8;}
+            if(chkUsuarioBorrar.isSelected()){Usuario+=4;}
+            if(chkUsuarioAgregar.isSelected()){Usuario+=2;}
+        }
+            
+        if(chkTipoUsuarioAdministrador.isSelected()){
+            TipoUsuario=15;
+        }else{
+            if(chkTipoUsuarioVer.isSelected()){TipoUsuario+=1;}
+            if(chkTipoUsuarioEditar.isSelected()){TipoUsuario+=8;}
+            if(chkTipoUsuarioBorrar.isSelected()){TipoUsuario+=4;}
+            if(chkTipoUsuarioAgregar.isSelected()){TipoUsuario+=2;}
+        }
+            
+        if(chkTipoDuracionAdministrador.isSelected()){
+            TipoDuracion=15;
+        }else{
+            if(chkTipoDuracionVer.isSelected()){TipoDuracion+=1;}
+            if(chkTipoDuracionEditar.isSelected()){TipoDuracion+=8;}
+            if(chkTipoDuracionBorrar.isSelected()){TipoDuracion+=4;}
+            if(chkTipoDuracionAgregar.isSelected()){TipoDuracion+=2;}
+        }
+            
+        if(chkCargasMasivasAdministrador.isSelected()){CargarMasivas=15;}
+        
+        if(chkEstadoAdministrador.isSelected()){
+            Estado=15;
+        }else{    
+            if(chkEstadoVer.isSelected()){Estado+=1;}
+            if(chkEstadoEditar.isSelected()){Estado+=8;}
+            if(chkEstadoBorrar.isSelected()){Estado+=4;}
+            if(chkEstadoAgregar.isSelected()){Estado+=2;}
+        }
+            
+        if(chkSeguridadAdministrador.isSelected()){Seguridad=15;}
+    }
+    
+    // <editor-fold defaultstate="collapsed" desc=" Seguridad visibilidad ">
+
+        public void recorreListaSeguridad(List<Permisosusuario> listaSeguridad){
         for(Permisosusuario pu:listaSeguridad){
             if(pu.getPermiso()==15){
-                switch(pu.getPagina()){
-                    case "Inicio":
-                        break;
-                    case "Administracion":
-                         break;
-                    case "Mantenimiento":
-                         break;
-                    case "Reportes":  
-                         break;
-                    case "Configuracion":
-                         break;
+                switch(pu.getPagina()){                    
                     case "BajaLicencia":
                         seguridadBajaLicencia(true);
                         break;
@@ -427,6 +694,8 @@ public class SeguridadController implements Initializable {
                     case "Seguridad":
                         seguridadSeguridad(true);
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -454,80 +723,89 @@ public class SeguridadController implements Initializable {
         seguridadSeguridad(false);
     }
     
-    public void seguridadUnidades(boolean tiene){        
-        lblUnidades.setVisible(tiene);
-        chkUnidadesVer.setVisible(tiene);
-        chkUnidadesEditar.setVisible(tiene);
-        chkUnidadesBorrar.setVisible(tiene);
-        chkUnidadesAgregar.setVisible(tiene);
-        chkUnidadesAdministrador.setVisible(tiene);
-    }
+    // </editor-fold>    
     
-    public void AdministraUnidades(){
-        
-        if(chkUnidadesAdministrador.isSelected()){
-            managedUnidades();
-            flagUnidades=1;
-        }else if(!chkUnidadesAdministrador.isSelected() && flagUnidades==1){
-            unmanagedUnidades();
-            flagUnidades=0;
+    // <editor-fold defaultstate="collapsed" desc=" Unidades ">
+        public void seguridadUnidades(boolean tiene){        
+            lblUnidades.setVisible(tiene);
+            chkUnidadesVer.setVisible(tiene);
+            chkUnidadesEditar.setVisible(tiene);
+            chkUnidadesBorrar.setVisible(tiene);
+            chkUnidadesAgregar.setVisible(tiene);
+            chkUnidadesAdministrador.setVisible(tiene);
         }
-        if(chkUnidadesAgregar.isSelected() || chkUnidadesBorrar.isSelected() || chkUnidadesEditar.isSelected()){
+
+        public void AdministraUnidades(){
+
+            if(chkUnidadesAdministrador.isSelected()){
+                managedUnidades();
+                flagUnidades=1;
+            }else if(!chkUnidadesAdministrador.isSelected() && flagUnidades==1){
+                unmanagedUnidades();
+                flagUnidades=0;
+            }
+            if(chkUnidadesAgregar.isSelected() || chkUnidadesBorrar.isSelected() || chkUnidadesEditar.isSelected()){
+                chkUnidadesVer.setSelected(true);
+            }
+        }
+
+        public void managedUnidades(){
             chkUnidadesVer.setSelected(true);
+            chkUnidadesEditar.setSelected(true);
+            chkUnidadesBorrar.setSelected(true);
+            chkUnidadesAgregar.setSelected(true);
         }
-    }
+
+        public void unmanagedUnidades(){
+            chkUnidadesVer.setSelected(false);
+            chkUnidadesEditar.setSelected(false);
+            chkUnidadesBorrar.setSelected(false);
+            chkUnidadesAgregar.setSelected(false);
+        }
+        
+    // </editor-fold>
     
-    public void managedUnidades(){
-        chkUnidadesVer.setSelected(true);
-        chkUnidadesEditar.setSelected(true);
-        chkUnidadesBorrar.setSelected(true);
-        chkUnidadesAgregar.setSelected(true);
-    }
-    
-    public void unmanagedUnidades(){
-        chkUnidadesVer.setSelected(false);
-        chkUnidadesEditar.setSelected(false);
-        chkUnidadesBorrar.setSelected(false);
-        chkUnidadesAgregar.setSelected(false);
-    }
-    
-    public void seguridadGastosComunes(boolean tiene){        
+    // <editor-fold defaultstate="collapsed" desc=" Gastos Comunes ">
+        
+        public void seguridadGastosComunes(boolean tiene){        
         lblGastosComunes.setVisible(tiene);
         chkGastosComunesVer.setVisible(tiene);
         chkGastosComunesEditar.setVisible(tiene);
         chkGastosComunesBorrar.setVisible(tiene);
         chkGastosComunesAgregar.setVisible(tiene);
         chkGastosComunesAdministrador.setVisible(tiene);
-    }
-    
-    public void AdministraGastosComunes(){
-        
-        if(chkGastosComunesAdministrador.isSelected()){
-            managedGastosComunes();
-            flagGastosComunes=1;
-        }else if(!chkGastosComunesAdministrador.isSelected() && flagGastosComunes==1){
-            unmanagedGastosComunes();
-            flagGastosComunes=0;
         }
-        if(chkGastosComunesAgregar.isSelected() || chkGastosComunesBorrar.isSelected() || chkGastosComunesEditar.isSelected()){
+    
+        public void AdministraGastosComunes(){
+
+            if(chkGastosComunesAdministrador.isSelected()){
+                managedGastosComunes();
+                flagGastosComunes=1;
+            }else if(!chkGastosComunesAdministrador.isSelected() && flagGastosComunes==1){
+                unmanagedGastosComunes();
+                flagGastosComunes=0;
+            }
+            if(chkGastosComunesAgregar.isSelected() || chkGastosComunesBorrar.isSelected() || chkGastosComunesEditar.isSelected()){
+                chkGastosComunesVer.setSelected(true);
+            }
+        }
+
+        public void managedGastosComunes(){
             chkGastosComunesVer.setSelected(true);
+            chkGastosComunesEditar.setSelected(true);
+            chkGastosComunesBorrar.setSelected(true);
+            chkGastosComunesAgregar.setSelected(true);
         }
-    }
+
+        public void unmanagedGastosComunes(){
+            chkGastosComunesVer.setSelected(false);
+            chkGastosComunesEditar.setSelected(false);
+            chkGastosComunesBorrar.setSelected(false);
+            chkGastosComunesAgregar.setSelected(false);
+        }
+    // </editor-fold>
     
-    public void managedGastosComunes(){
-        chkGastosComunesVer.setSelected(true);
-        chkGastosComunesEditar.setSelected(true);
-        chkGastosComunesBorrar.setSelected(true);
-        chkGastosComunesAgregar.setSelected(true);
-    }
-    
-    public void unmanagedGastosComunes(){
-        chkGastosComunesVer.setSelected(false);
-        chkGastosComunesEditar.setSelected(false);
-        chkGastosComunesBorrar.setSelected(false);
-        chkGastosComunesAgregar.setSelected(false);
-    }
-    
+    // <editor-fold defaultstate="collapsed" desc=" Convenios ">
     public void seguridadConvenios(boolean tiene){        
         lblConvenios.setVisible(tiene);
         chkConveniosVer.setVisible(tiene);
@@ -564,8 +842,11 @@ public class SeguridadController implements Initializable {
         chkConveniosBorrar.setSelected(false);
         chkConveniosAgregar.setSelected(false);
     }
+    // </editor-fold>
     
-    public void seguridadPagoConvenio(boolean tiene){        
+    // <editor-fold defaultstate="collapsed" desc=" Pago Convenios ">
+    
+        public void seguridadPagoConvenio(boolean tiene){        
         lblPagoConvenios.setVisible(tiene);
         chkPagoConvenioVer.setVisible(tiene);
         chkPagoConvenioEditar.setVisible(tiene);
@@ -602,7 +883,11 @@ public class SeguridadController implements Initializable {
         chkPagoConvenioAgregar.setSelected(false);
     }
     
-    public void seguridadReglaBonificacion(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Regla Bonificacion ">
+    
+        public void seguridadReglaBonificacion(boolean tiene){        
         lblReglaBonificacion.setVisible(tiene);
         chkReglaBonificacionVer.setVisible(tiene);
         chkReglaBonificacionEditar.setVisible(tiene);
@@ -615,10 +900,10 @@ public class SeguridadController implements Initializable {
         
         if(chkReglaBonificacionAdministrador.isSelected()){
             managedReglaBonificacion();
-            ReglaBonificacion=1;
-        }else if(!chkReglaBonificacionAdministrador.isSelected() && ReglaBonificacion==1){
+            flagReglaBonificacion=1;
+        }else if(!chkReglaBonificacionAdministrador.isSelected() && flagReglaBonificacion==1){
             unmanagedReglaBonificacion();
-            ReglaBonificacion=0;
+            flagReglaBonificacion=0;
         }
         if(chkReglaBonificacionAgregar.isSelected() || chkReglaBonificacionBorrar.isSelected() || chkReglaBonificacionEditar.isSelected()){
             chkReglaBonificacionVer.setSelected(true);
@@ -639,7 +924,11 @@ public class SeguridadController implements Initializable {
         chkReglaBonificacionAgregar.setSelected(false);
     }
     
-    public void seguridadTecnico(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Tecnico ">
+    
+           public void seguridadTecnico(boolean tiene){        
         lblTecnico.setVisible(tiene);
         chkTecnicoVer.setVisible(tiene);
         chkTecnicoEditar.setVisible(tiene);
@@ -676,7 +965,11 @@ public class SeguridadController implements Initializable {
         chkTecnicoAgregar.setSelected(false);
     }
     
-    public void seguridadCotizacion(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Cotizacion ">
+
+        public void seguridadCotizacion(boolean tiene){        
         lblCotizacion.setVisible(tiene);
         chkCotizacionVer.setVisible(tiene);
         chkCotizacionEditar.setVisible(tiene);
@@ -713,7 +1006,11 @@ public class SeguridadController implements Initializable {
         chkCotizacionAgregar.setSelected(false);
     }
     
-    public void seguridadMaterial(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Material ">
+
+        public void seguridadMaterial(boolean tiene){        
         lblMaterial.setVisible(tiene);
         chkMaterialVer.setVisible(tiene);
         chkMaterialEditar.setVisible(tiene);
@@ -750,7 +1047,11 @@ public class SeguridadController implements Initializable {
         chkMaterialAgregar.setSelected(false);
     }
     
-    public void seguridadBajaLicencia(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Baja Licencia ">
+        
+        public void seguridadBajaLicencia(boolean tiene){        
         lblBajaLicencia.setVisible(tiene);
         chkBajaLicenciaVer.setVisible(tiene);
         chkBajaLicenciaEditar.setVisible(tiene);
@@ -787,7 +1088,11 @@ public class SeguridadController implements Initializable {
         chkBajaLicenciaAgregar.setSelected(false);
     }
     
-    public void seguridadListaPrecios(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" ListaPrecios ">
+
+        public void seguridadListaPrecios(boolean tiene){        
         lblListaPrecios.setVisible(tiene);
         chkListaPreciosVer.setVisible(tiene);
         chkListaPreciosEditar.setVisible(tiene);
@@ -824,7 +1129,11 @@ public class SeguridadController implements Initializable {
         chkListaPreciosAgregar.setSelected(false);
     }
     
-    public void seguridadGrupo(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Grupo ">
+
+        public void seguridadGrupo(boolean tiene){        
         lblGrupo.setVisible(tiene);
         chkGrupoVer.setVisible(tiene);
         chkGrupoEditar.setVisible(tiene);
@@ -860,8 +1169,11 @@ public class SeguridadController implements Initializable {
         chkGrupoBorrar.setSelected(false);
         chkGrupoAgregar.setSelected(false);
     }
+    // </editor-fold>
     
-    public void seguridadUrgencia(boolean tiene){        
+    // <editor-fold defaultstate="collapsed" desc=" Urgencia ">
+        
+        public void seguridadUrgencia(boolean tiene){        
         lblUrgencia.setVisible(tiene);
         chkUrgenciaVer.setVisible(tiene);
         chkUrgenciaEditar.setVisible(tiene);
@@ -898,7 +1210,11 @@ public class SeguridadController implements Initializable {
         chkUrgenciaAgregar.setSelected(false);
     }
     
-    public void seguridadConcepto(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Concepto ">
+
+        public void seguridadConcepto(boolean tiene){        
         lblConcepto.setVisible(tiene);
         chkConceptoVer.setVisible(tiene);
         chkConceptoEditar.setVisible(tiene);
@@ -935,7 +1251,11 @@ public class SeguridadController implements Initializable {
         chkConceptoAgregar.setSelected(false);
     }
     
-    public void seguridadUsuario(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Usuario ">
+
+        public void seguridadUsuario(boolean tiene){        
         lblUsuario.setVisible(tiene);
         chkUsuarioVer.setVisible(tiene);
         chkUsuarioEditar.setVisible(tiene);
@@ -972,7 +1292,11 @@ public class SeguridadController implements Initializable {
         chkUsuarioAgregar.setSelected(false);
     }
     
-    public void seguridadTipoUsuario(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Tipo Usuario ">
+
+        public void seguridadTipoUsuario(boolean tiene){        
         lblTipoUsuario.setVisible(tiene);
         chkTipoUsuarioVer.setVisible(tiene);
         chkTipoUsuarioEditar.setVisible(tiene);
@@ -1009,7 +1333,11 @@ public class SeguridadController implements Initializable {
         chkTipoUsuarioAgregar.setSelected(false);
     }
     
-    public void seguridadTipoDuracion(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Tipo Duracion ">
+
+        public void seguridadTipoDuracion(boolean tiene){        
         lblTipoDuracion.setVisible(tiene);
         chkTipoDuracionVer.setVisible(tiene);
         chkTipoDuracionEditar.setVisible(tiene);
@@ -1046,7 +1374,11 @@ public class SeguridadController implements Initializable {
         chkTipoDuracionAgregar.setSelected(false);
     }   
     
-    public void seguridadMasivas(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Masivas ">
+
+        public void seguridadMasivas(boolean tiene){        
         lblCargasMasivas.setVisible(tiene);        
         chkCargasMasivasAdministrador.setVisible(tiene);
     }
@@ -1059,7 +1391,11 @@ public class SeguridadController implements Initializable {
         chkCargasMasivasAdministrador.setSelected(false);        
     }
     
-    public void seguridadEstado(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Estado ">
+
+        public void seguridadEstado(boolean tiene){        
         lblEstado.setVisible(tiene);
         chkEstadoVer.setVisible(tiene);
         chkEstadoEditar.setVisible(tiene);
@@ -1096,7 +1432,11 @@ public class SeguridadController implements Initializable {
         chkEstadoAgregar.setSelected(false);
     }
     
-    public void seguridadSeguridad(boolean tiene){        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Seguridad ">
+
+        public void seguridadSeguridad(boolean tiene){        
         lblSeguridad.setVisible(tiene);       
         chkSeguridadAdministrador.setVisible(tiene);
     }
@@ -1109,7 +1449,11 @@ public class SeguridadController implements Initializable {
         chkSeguridadAdministrador.setSelected(false);        
     }
     
-    public void chkTodos(){       
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc=" Todos ">
+        
+        public void chkTodos(){       
         Todos(chkSeleccionarTodos.isSelected());
     }
   
@@ -1189,4 +1533,8 @@ public class SeguridadController implements Initializable {
             chkSeguridadAdministrador.setSelected(marcado);
         }
     }
+    
+    // </editor-fold>
+    
+    
 } 

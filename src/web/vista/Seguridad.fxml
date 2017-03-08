@@ -12,18 +12,9 @@
    <children>
       <AnchorPane fx:id="paneCrud" layoutY="91.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
-            <Button fx:id="btnBack" layoutX="20.0" layoutY="90.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
-               <graphic>
-                  <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/arrowLeftBlack.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
             <TabPane prefHeight="560.0" prefWidth="1225.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Administracion">
+                <Tab fx:id="PaneTabAdministracion" text="Administracion">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                        <children>
@@ -69,7 +60,7 @@
                     </AnchorPane>                    
                   </content>
                 </Tab>
-                <Tab text="Mantenimiento">
+                <Tab fx:id="PaneTabMantenimiento" text="Mantenimiento">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                        <children>
@@ -114,7 +105,7 @@
                     </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="lblGrupoTab" text="Configuracion">
+                  <Tab fx:id="PaneTabConfiguracion" text="Configuracion">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                          <children>
@@ -177,7 +168,8 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+            <ComboBox fx:id="cmbTipoUsuario" layoutX="90.0" layoutY="55.0" prefWidth="150.0" />
+            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -186,7 +178,6 @@
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
       </Text>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />

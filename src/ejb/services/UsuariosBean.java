@@ -1,7 +1,6 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
-import static entities.enums.MenuConfiguracion.TipoUsuario;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Permisosusuario;
 import entities.persistence.entities.Tipousuario;
@@ -112,6 +111,21 @@ public class UsuariosBean implements UsuariosLocal{
         lista=query.list();
         session.close();
         return lista;
+    }
+    
+    public boolean guardaPermisos(List<Permisosusuario> lista)throws ServiceException{
+        try{  
+            for(Permisosusuario pu: lista){
+                session.save(pu);
+            }            
+            tx.commit();
+            session.close();
+            correcto=true;            
+        }
+        catch(Exception ex){            
+            throw new ServiceException(ex.getMessage());            
+        }        
+        return correcto;
     }
     
     

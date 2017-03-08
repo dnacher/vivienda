@@ -1,7 +1,6 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
-import entities.hibernate.NewHibernateUtil;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Trabajo;
 import entities.persistence.entities.Trabajoxmaterial;
@@ -11,8 +10,6 @@ import static java.lang.Math.toIntExact;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
 
 /**
