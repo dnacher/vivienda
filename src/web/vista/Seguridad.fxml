@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="652.0" prefWidth="1225.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.controller.SeguridadController">
+   <children>
+      <AnchorPane fx:id="paneCrud" layoutY="91.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
+         <children>
+            <Button fx:id="btnBack" layoutX="20.0" layoutY="90.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/arrowLeftBlack.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TabPane prefHeight="560.0" prefWidth="1225.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Administracion">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                       <children>
+                           <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Ventanas" />
+                           <Label alignment="CENTER_RIGHT" layoutX="111.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Ver" />
+                           <Label alignment="CENTER_RIGHT" layoutX="178.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Agregar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="238.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Borrar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="299.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Editar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="411.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Administrador" />
+               
+                           <Label fx:id="lblUnidades" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Unidades" />
+                           <CheckBox fx:id="chkUnidadesVer" layoutX="215.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraUnidades" />
+                           <CheckBox fx:id="chkUnidadesAgregar" layoutX="272.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraUnidades" />
+                           <CheckBox fx:id="chkUnidadesBorrar" layoutX="334.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraUnidades" />
+                           <CheckBox fx:id="chkUnidadesEditar" layoutX="395.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraUnidades" />
+                           <CheckBox fx:id="chkUnidadesAdministrador" layoutX="490.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraUnidades" />
+                           <Label fx:id="lblGastosComunes" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Gastos Comunes" />
+                           <CheckBox fx:id="chkGastosComunesVer" layoutX="215.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraGastosComunes" />
+                           <CheckBox fx:id="chkGastosComunesAgregar" layoutX="272.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraGastosComunes" />
+                           <CheckBox fx:id="chkGastosComunesBorrar" layoutX="334.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraGastosComunes" />
+                           <CheckBox fx:id="chkGastosComunesEditar" layoutX="395.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraGastosComunes" />
+                           <CheckBox fx:id="chkGastosComunesAdministrador" layoutX="490.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraGastosComunes" />
+                           <Label fx:id="lblConvenios" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Convenios" />
+                           <CheckBox fx:id="chkConveniosVer" layoutX="215.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConvenios" />
+                           <CheckBox fx:id="chkConveniosAgregar" layoutX="272.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConvenios" />
+                           <CheckBox fx:id="chkConveniosBorrar" layoutX="334.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConvenios" />
+                           <CheckBox fx:id="chkConveniosEditar" layoutX="395.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConvenios" />
+                           <CheckBox fx:id="chkConveniosAdministrador" layoutX="490.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConvenios" />
+                           <Label fx:id="lblPagoConvenios" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Pago Convenios" />
+                           <CheckBox fx:id="chkPagoConvenioAdministrador" layoutX="490.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraPagoConvenio" />
+                           <CheckBox fx:id="chkPagoConvenioEditar" layoutX="395.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraPagoConvenio" />
+                           <CheckBox fx:id="chkPagoConvenioBorrar" layoutX="334.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraPagoConvenio" />
+                           <CheckBox fx:id="chkPagoConvenioAgregar" layoutX="272.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraPagoConvenio" />
+                           <CheckBox fx:id="chkPagoConvenioVer" layoutX="215.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraPagoConvenio" />
+                           <Label fx:id="lblReglaBonificacion" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="247.0" prefHeight="17.0" prefWidth="122.0" text="Regla Bonificacion" />
+                           <CheckBox fx:id="chkReglaBonificacionVer" layoutX="215.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraReglaBonificacion" />
+                           <CheckBox fx:id="chkReglaBonificacionAgregar" layoutX="272.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraReglaBonificacion" />
+                           <CheckBox fx:id="chkReglaBonificacionBorrar" layoutX="334.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraReglaBonificacion" />
+                           <CheckBox fx:id="chkReglaBonificacionEditar" layoutX="395.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraReglaBonificacion" />
+                           <CheckBox fx:id="chkReglaBonificacionAdministrador" layoutX="490.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraReglaBonificacion" />
+                              <CheckBox fx:id="chkSeleccionarTodos" layoutX="602.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#chkTodos" text="Selecionar todos" />
+                       </children>
+                    </AnchorPane>                    
+                  </content>
+                </Tab>
+                <Tab text="Mantenimiento">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                       <children>
+                           <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Ventanas" />
+                           <Label alignment="CENTER_RIGHT" layoutX="111.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Ver" />
+                           <Label alignment="CENTER_RIGHT" layoutX="178.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Agregar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="238.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Borrar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="299.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Editar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="411.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Administrador" />
+               
+                           <Label fx:id="lblTecnico" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Tecnico" />            
+                           <CheckBox fx:id="chkTecnicoVer" layoutX="215.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraTecnico" />
+                           <CheckBox fx:id="chkTecnicoAgregar" layoutX="272.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraTecnico" />
+                           <CheckBox fx:id="chkTecnicoBorrar" layoutX="334.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraTecnico" />
+                           <CheckBox fx:id="chkTecnicoEditar" layoutX="395.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraTecnico" />
+                           <CheckBox fx:id="chkTecnicoAdministrador" layoutX="490.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraTecnico" />
+                           <Label fx:id="lblCotizacion" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Cotizacion" />
+                           <CheckBox fx:id="chkCotizacionVer" layoutX="215.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraCotizacion" />
+                           <CheckBox fx:id="chkCotizacionAgregar" layoutX="272.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraCotizacion" />
+                           <CheckBox fx:id="chkCotizacionBorrar" layoutX="334.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraCotizacion" />
+                           <CheckBox fx:id="chkCotizacionEditar" layoutX="395.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraCotizacion" />
+                           <CheckBox fx:id="chkCotizacionAdministrador" layoutX="490.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraCotizacion" />
+                           <Label fx:id="lblMaterial" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Material" />
+                           <CheckBox fx:id="chkMaterialVer" layoutX="215.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraMaterial" />
+                           <CheckBox fx:id="chkMaterialAgregar" layoutX="272.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraMaterial" />
+                           <CheckBox fx:id="chkMaterialBorrar" layoutX="334.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraMaterial" />
+                           <CheckBox fx:id="chkMaterialEditar" layoutX="395.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraMaterial" />
+                           <CheckBox fx:id="chkMaterialAdministrador" layoutX="490.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraMaterial" />
+                           <Label fx:id="lblBajaLicencia" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Baja Licencia" />
+                           <CheckBox fx:id="chkBajaLicenciaAdministrador" layoutX="490.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraBajaLicencia" />
+                           <CheckBox fx:id="chkBajaLicenciaEditar" layoutX="395.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraBajaLicencia" />
+                           <CheckBox fx:id="chkBajaLicenciaBorrar" layoutX="334.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraBajaLicencia" />
+                           <CheckBox fx:id="chkBajaLicenciaAgregar" layoutX="272.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraBajaLicencia" />
+                           <CheckBox fx:id="chkBajaLicenciaVer" layoutX="215.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraBajaLicencia" />
+                           <Label fx:id="lblListaPrecios" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="247.0" prefHeight="17.0" prefWidth="122.0" text="Lista Precios" />
+                           <CheckBox fx:id="chkListaPreciosVer" layoutX="215.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraListaPrecios" />
+                           <CheckBox fx:id="chkListaPreciosAgregar" layoutX="272.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraListaPrecios" />
+                           <CheckBox fx:id="chkListaPreciosBorrar" layoutX="334.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraListaPrecios" />
+                           <CheckBox fx:id="chkListaPreciosEditar" layoutX="395.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraListaPrecios" />
+                           <CheckBox fx:id="chkListaPreciosAdministrador" layoutX="490.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraListaPrecios" />                           
+                       </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab fx:id="lblGrupoTab" text="Configuracion">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                         <children>
+                           <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Ventanas" />
+                           <Label alignment="CENTER_RIGHT" layoutX="111.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Ver" />
+                           <Label alignment="CENTER_RIGHT" layoutX="178.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Agregar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="238.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Borrar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="299.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Editar" />
+                           <Label alignment="CENTER_RIGHT" layoutX="411.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Administrador" />
+               
+                           <Label fx:id="lblGrupo" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Grupo" />            
+                           <CheckBox fx:id="chkGrupoVer" layoutX="215.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraGrupo" />
+                           <CheckBox fx:id="chkGrupoAgregar" layoutX="272.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraGrupo" />
+                           <CheckBox fx:id="chkGrupoBorrar" layoutX="334.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraGrupo" />
+                           <CheckBox fx:id="chkGrupoEditar" layoutX="395.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraGrupo" />
+                           <CheckBox fx:id="chkGrupoAdministrador" layoutX="490.0" layoutY="106.0" mnemonicParsing="false" onMouseClicked="#AdministraGrupo" />
+                           <Label fx:id="lblUrgencia" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Urgencia" />
+                           <CheckBox fx:id="chkUrgenciaVer" layoutX="215.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraUrgencia" />
+                           <CheckBox fx:id="chkUrgenciaAgregar" layoutX="272.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraUrgencia" />
+                           <CheckBox fx:id="chkUrgenciaBorrar" layoutX="334.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraUrgencia" />
+                           <CheckBox fx:id="chkUrgenciaEditar" layoutX="395.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraUrgencia" />
+                           <CheckBox fx:id="chkUrgenciaAdministrador" layoutX="490.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#AdministraUrgencia" />
+                           <Label fx:id="lblConcepto" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Concepto" />
+                           <CheckBox fx:id="chkConceptoVer" layoutX="215.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConcepto" />
+                           <CheckBox fx:id="chkConceptoAgregar" layoutX="272.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConcepto" />
+                           <CheckBox fx:id="chkConceptoBorrar" layoutX="334.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConcepto" />
+                           <CheckBox fx:id="chkConceptoEditar" layoutX="395.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConcepto" />
+                           <CheckBox fx:id="chkConceptoAdministrador" layoutX="490.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#AdministraConcepto" />
+                           <Label fx:id="lblUsuario" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Usuario" />
+                           <CheckBox fx:id="chkUsuarioVer" layoutX="215.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraUsuario" />
+                           <CheckBox fx:id="chkUsuarioAgregar" layoutX="272.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraUsuario" />
+                           <CheckBox fx:id="chkUsuarioBorrar" layoutX="334.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraUsuario" />
+                           <CheckBox fx:id="chkUsuarioEditar" layoutX="395.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraUsuario" />
+                           <CheckBox fx:id="chkUsuarioAdministrador" layoutX="490.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#AdministraUsuario" />
+                           <Label fx:id="lblTipoUsuario" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="247.0" prefHeight="17.0" prefWidth="122.0" text="Tipo Usuario" />
+                           <CheckBox fx:id="chkTipoUsuarioVer" layoutX="215.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoUsuario" />
+                           <CheckBox fx:id="chkTipoUsuarioAgregar" layoutX="272.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoUsuario" />
+                           <CheckBox fx:id="chkTipoUsuarioBorrar" layoutX="334.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoUsuario" />
+                           <CheckBox fx:id="chkTipoUsuarioEditar" layoutX="395.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoUsuario" />
+                           <CheckBox fx:id="chkTipoUsuarioAdministrador" layoutX="490.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoUsuario" />
+                           <Label fx:id="lblTipoDuracion" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="282.0" prefHeight="17.0" prefWidth="122.0" text="Tipo Duracion" />
+                           <CheckBox fx:id="chkTipoDuracionVer" layoutX="215.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoDuracion" />
+                           <CheckBox fx:id="chkTipoDuracionAgregar" layoutX="272.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoDuracion" />
+                           <CheckBox fx:id="chkTipoDuracionBorrar" layoutX="334.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoDuracion" />
+                           <CheckBox fx:id="chkTipoDuracionEditar" layoutX="395.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoDuracion" />
+                           <CheckBox fx:id="chkTipoDuracionAdministrador" layoutX="490.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#AdministraTipoDuracion" />
+                           <Label fx:id="lblCargasMasivas" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="317.0" prefHeight="17.0" prefWidth="122.0" text="Cargas Masivas" />
+                           <CheckBox fx:id="chkCargasMasivasAdministrador" layoutX="490.0" layoutY="317.0" mnemonicParsing="false" />
+                           <Label fx:id="lblEstado" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="352.0" prefHeight="17.0" prefWidth="122.0" text="Estado" />
+                           <CheckBox fx:id="chkEstadoVer" layoutX="215.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#AdministraEstado" />
+                           <CheckBox fx:id="chkEstadoAgregar" layoutX="272.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#AdministraEstado" />
+                           <CheckBox fx:id="chkEstadoBorrar" layoutX="334.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#AdministraEstado" />
+                           <CheckBox fx:id="chkEstadoEditar" layoutX="395.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#AdministraEstado" />
+                           <CheckBox fx:id="chkEstadoAdministrador" layoutX="490.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#AdministraEstado" />
+                           <Label fx:id="lblSeguridad" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="385.0" prefHeight="17.0" prefWidth="122.0" text="Seguridad" />
+                           <CheckBox fx:id="chkSeguridadAdministrador" layoutX="490.0" layoutY="383.0" mnemonicParsing="false" />
+                         </children>
+                    </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+         </children>
+      </AnchorPane>
+      <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seguridad">
+         <font>
+            <Font name="Segoe UI Semilight" size="48.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/301.GIF" />
+         </image>
+      </ImageView>
+      <ProgressBar fx:id="bar" layoutY="82.0" prefHeight="3.0" prefWidth="1225.0" progress="0.0" />
+   </children>
+</AnchorPane>

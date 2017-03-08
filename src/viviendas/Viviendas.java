@@ -3,6 +3,7 @@ package viviendas;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
@@ -35,6 +36,10 @@ public class Viviendas extends Application {
     public static boolean confirmacion=false;
     UnidadBean ub=new UnidadBean();
     public ObservableList<Unidad> unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());;
+    
+    public static Tipousuario getTipoUsuario(){
+        return user.getTipousuario();
+    }
     
     @Override
     public void start(Stage stage) throws ServiceException {        

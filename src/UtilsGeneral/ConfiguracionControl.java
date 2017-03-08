@@ -2,12 +2,23 @@ package UtilsGeneral;
 
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
+import exceptions.ConectarException;
+import exceptions.ReportException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 
 public class ConfiguracionControl {
     
@@ -23,6 +34,19 @@ public class ConfiguracionControl {
             i=c.getId();
         }
         return i;
+    }
+    
+    public Connection conectar() throws ConectarException{
+        Connection conexion= null;         
+        try {           
+            Session session = SessionConnection.getConnection().useSession();              
+            SessionFactoryImplementor sessionFactoryImplementation = (SessionFactoryImplementor) session.getSessionFactory();
+            ConnectionProvider connectionProvider = sessionFactoryImplementation.getConnectionProvider();            
+            conexion=connectionProvider.getConnection();
+        } catch (SQLException ex) {
+           throw new ConectarException(ex.getMessage());
+        }
+        return conexion;
     }
     
     public static void ActualizaId(String tabla){
@@ -59,6 +83,21 @@ public class ConfiguracionControl {
     public static Date TraeFecha(LocalDate localDate){         
          Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
          return date;
+    }
+    
+    public void generarReporte(String reporte)throws ReportException{
+       
+        try{
+            JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
+            JasperPrint jp= JasperFillManager.fillReport(jr, null, conectar());
+            JasperViewer jv= new JasperViewer(jp, false);           
+            jv.setVisible(true);
+            jv.setTitle(reporte);
+        }
+        catch(Exception ex){
+            throw new ReportException(ex.getMessage());
+        }      
+         
     }
     
   /*  public static void actualizaBonificacion(String tabla, int bonificacion){

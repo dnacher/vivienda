@@ -18,7 +18,8 @@ public enum MenuConfiguracion {
                             Usuarios("Usuario","Usuarios"),
                      TipoUsuario("TipoUsuario","Tipo Usuario"),
                    TipoDuracion("TipoDuracion","Tipo Duracion"),
-                 CargarMasivas("CargarMasivas","Cargar Masivas");
+                 CargarMasivas("CargarMasivas","Cargar Masivas"),
+                 Seguridad("Seguridad","Seguridad");
     
     private final String pagina;
     private final String menu;
