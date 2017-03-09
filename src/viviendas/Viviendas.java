@@ -24,6 +24,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import UtilsGeneral.ConfiguracionControl;
+import exceptions.ReportException;
 
 /**
  *
@@ -51,7 +53,7 @@ public class Viviendas extends Application {
             stage.setScene(scene);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();            
-            Timeline timeline = new Timeline();
+            Timeline timeline = new Timeline();            
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(3),
         new EventHandler<ActionEvent>() {
 

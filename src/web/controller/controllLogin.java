@@ -1,5 +1,6 @@
 package web.controller;
 
+import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
@@ -91,21 +92,21 @@ public class controllLogin implements Initializable {
         Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());        
         if(Viviendas.user!=null){
         if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
-            Viviendas.user.getPassword().equals(txtPassword.getText())){
-            ConfiguracionBean cb=new ConfiguracionBean();
-            listaConfiguracion=cb.traerTodos();
-            ControlVentana cv= new ControlVentana();
-            cv.creaVentanaNotificacionCorrecto();
-            Stage st = new Stage();
-            stage = (Stage) lblClose.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
-            Scene scene = new Scene(root);
-            st.initStyle(StageStyle.UNDECORATED);
-            st.setResizable(false);
-            st.setTitle("Login");
-            st.setScene(scene);
-            st.show();
-            stage.close();
+            Viviendas.user.getPassword().equals(txtPassword.getText())){           
+                ConfiguracionBean cb=new ConfiguracionBean();
+                listaConfiguracion=cb.traerTodos();
+                ControlVentana cv= new ControlVentana();
+                cv.creaVentanaNotificacionCorrecto();
+                Stage st = new Stage();
+                stage = (Stage) lblClose.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
+                Scene scene = new Scene(root);
+                st.initStyle(StageStyle.UNDECORATED);
+                st.setResizable(false);
+                st.setTitle("Login");
+                st.setScene(scene);
+                st.show();
+                stage.close();
         }else{
             System.out.println("error de logueo");            
         }

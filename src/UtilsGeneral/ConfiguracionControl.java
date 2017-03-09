@@ -3,12 +3,12 @@ package UtilsGeneral;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
 import exceptions.ConectarException;
-import exceptions.ReportException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Map;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -85,8 +85,7 @@ public class ConfiguracionControl {
          return date;
     }
     
-    public void generarReporte(String reporte)throws ReportException{
-       
+    public void generarReporte(String reporte){       
         try{
             JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
             JasperPrint jp= JasperFillManager.fillReport(jr, null, conectar());
@@ -95,11 +94,28 @@ public class ConfiguracionControl {
             jv.setTitle(reporte);
         }
         catch(Exception ex){
-            throw new ReportException(ex.getMessage());
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void generarReporteConParametros(String reporte,Map<String,Object> parameters){       
+        try{
+            /*
+            String logo="/web/images/Vivienda.png";         
+            parameters.put("logo",this.getClass().getResourceAsStream(logo));
+            parameters.put("idUnidad",0);
+            parameters.put("periodo",201702);*/
+            JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
+            JasperPrint jp= JasperFillManager.fillReport(jr, parameters, conectar());
+            JasperViewer jv= new JasperViewer(jp, false);           
+            jv.setVisible(true);
+            jv.setTitle(reporte);
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
         }      
          
     }
-    
   /*  public static void actualizaBonificacion(String tabla, int bonificacion){
         Configuracion c;
             /*SessionFactory sf= NewHibernateUtil.getSessionFactory();
