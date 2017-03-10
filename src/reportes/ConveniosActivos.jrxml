@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2693be8f-ce9c-4f83-bec7-6c008c7b5e26">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select u.nombre,u.apellido, (c.deudaTotal-c.saldoInicial-
+(select sum(cc.pago)
+from cuotaconvenio cc 
+where cc.convenio_unidad_idUnidad=u.idUnidad 
+and cc.convenio_idconvenio=c.idconvenio)) deuda
+from convenio c, unidad u
+where c.unidad_idUnidad=u.idUnidad
+and c.activo=1;]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="deuda" class="java.math.BigDecimal"/>
+	<variable name="deudaTotal" class="java.lang.String" calculation="Sum">
+		<variableExpression><![CDATA[$F{deuda}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#2B579A" uuid="70ab1649-2684-4e72-a0d8-a9e62bad03e1"/>
+				<staticText>
+					<reportElement x="20" y="20" width="531" height="43" forecolor="#FFFFFF" uuid="c0463ed3-9059-4086-b428-aec4665ed2ca"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Convenios Activos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="345" y="72" width="230" height="20" forecolor="#FFFFFF" uuid="cdc5c764-266c-41e9-b964-ae45f50b483a"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Saldo de Convenio por Unidad a la fecha]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="72032ab4-7bba-43b5-acaa-152c61fe8834"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="185" height="20" forecolor="#2B579A" backcolor="#E6E6E6" uuid="e62c2408-4ec3-4f66-b233-7e6bd2b21b50"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="185" y="0" width="185" height="20" forecolor="#2B579A" backcolor="#E6E6E6" uuid="68a9009d-165a-4bad-b88e-ab4cecd3c1f2"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="0" width="185" height="20" forecolor="#2B579A" backcolor="#E6E6E6" uuid="68fd582d-3d2f-4269-a4fa-d5399806ef43"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo Deuda Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="f4f73742-7621-4b49-b704-1a389d80c856"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="185" height="20" uuid="725e1960-4e01-46be-8f89-5595bb2bfb97"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="185" y="0" width="185" height="20" uuid="b2788643-3adb-483e-a90e-b5c1419a92b5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="370" y="0" width="185" height="20" uuid="df3c65c4-43d4-469f-8dd0-3d27e931cc0d"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deuda}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="73">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="43" width="515" height="13" backcolor="#E6E6E6" uuid="eb525221-9df3-4ee6-a6be-312e381b9b36"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="43" width="40" height="13" backcolor="#E6E6E6" uuid="d9d05182-6927-4932-af1c-845dbe5b4d9d"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="44" width="100" height="13" uuid="a5090185-798a-4f66-8c7d-09ae11fe8fe8"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="21" width="184" height="20" uuid="dfa73fff-ffad-4607-9c91-15ec17aa3cac"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{deudaTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="431" y="21" width="100" height="20" uuid="90f44236-3a12-4c77-aa06-c57aa5bfc335"/>
+				<text><![CDATA[Total:       $]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

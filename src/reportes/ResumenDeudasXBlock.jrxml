@@ -62,21 +62,21 @@ group by gc.`unidad_idUnidad`;]]>
 			</line>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="185" height="20" forecolor="#2B579A" backcolor="#E6E6E6" uuid="22b7777f-b89d-4bea-b51a-f84f5067a82a"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="185" y="0" width="185" height="20" forecolor="#2B579A" backcolor="#E6E6E6" uuid="58db9335-90b2-4c5d-a4f2-33976c2c4521"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Apellido]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="370" y="0" width="185" height="20" forecolor="#2B579A" backcolor="#E6E6E6" uuid="7fa4dd29-b40f-4fca-8809-fa41a47b3fee"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Deuda Total]]></text>
