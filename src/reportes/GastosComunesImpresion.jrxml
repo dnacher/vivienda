@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ac71b58-4f39-4f0c-acf0-d7fe81a8e733">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaGasto" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idUnidad" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select u.nombre, u.apellido,u.block,u.torre,u.puerta,
+gc.monto,gc.isBonificacion,
+gc.periodo,gc.fechaPago 
+from unidad u, gastoscomunes gc
+where u.idUnidad=gc.unidad_idUnidad
+and u.idUnidad=$P{idUnidad}
+and gc.periodo=$P{periodo}
+and gc.fechaPago=$P{fechaGasto};]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="block" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="torre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="puerta" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="isBonificacion" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaPago" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="d45b536c-2120-40ee-9774-8a7eaf3a891f"/>
+				<staticText>
+					<reportElement x="20" y="20" width="288" height="43" forecolor="#FFFFFF" uuid="54443578-d336-4b7f-a6c9-c38ddc9b6b35"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Gastos Comunes]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="0c40476d-082d-4444-901c-69ef72603d4b"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="73" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="a63f0ded-2ceb-4649-95f8-33137dd26672"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="73" y="0" width="72" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="34504621-fde7-4717-95ba-cefa3392a897"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="145" y="0" width="48" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="540db971-a689-42ce-9aef-ea415f0dfc1a"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[block]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="193" y="0" width="42" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="54634cde-e58e-4667-8712-d691d8e8ecc2"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[torre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="235" y="0" width="49" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="4b14f79a-d9b0-4b29-a26d-21d0db28473c"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[puerta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="284" y="0" width="61" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="ad839204-f636-406f-92a3-3e841b5a5afa"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[monto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="345" y="0" width="89" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="a39ff418-d1cd-4959-8f63-4c052e8f0fa3"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bonific.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="403" y="0" width="75" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="911b60df-6b6e-4fee-aff1-2271be73e63f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[periodo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="478" y="0" width="77" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="20b96241-0ceb-489b-85a5-c6b66ba561ec"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="b008ccd4-b64f-477a-8151-2dd3f0b36a6f"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="73" height="20" uuid="871f4463-0f0c-40b3-bf5e-67dc066dde6e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="74" y="0" width="69" height="20" uuid="374d740b-aa66-4007-8c15-361ba3ab3f32"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="152" y="0" width="61" height="20" uuid="4549ebed-362a-4e62-948b-bab97573711b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{block}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="197" y="0" width="61" height="20" uuid="6390be0a-3e7d-4b49-9df8-c0d184b07b6d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{torre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="239" y="0" width="61" height="20" uuid="4262e14b-73fb-45f0-bf00-d230806fa92a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{puerta}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="291" y="0" width="61" height="20" uuid="1514a640-bcf3-45bc-8fce-fbce0b75fc8b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="348" y="0" width="61" height="20" uuid="6b03d981-51e1-4d0d-aaa4-52e04b696337"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{isBonificacion}.equals(Boolean.TRUE))? "Si" : "No"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="414" y="0" width="61" height="20" uuid="085e43f5-7e56-4caa-8966-6cf89d02051d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="475" y="0" width="80" height="20" uuid="bbf6cfe7-123e-4c42-a781-1b0182e325b0"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaPago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="80">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="66" width="515" height="13" backcolor="#E6E6E6" uuid="9cadcdb7-6459-4e31-9b09-1af5c039abd9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="66" width="40" height="13" backcolor="#E6E6E6" uuid="27bb43f2-9f4a-43b7-ae4f-8854765a73db"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="66" width="100" height="13" uuid="c45b2042-e7da-43b9-9e66-f8d46f721145"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="366" y="36" width="170" height="1" uuid="81500479-2ca6-4650-ba75-4ee147fa22ae"/>
+			</line>
+			<staticText>
+				<reportElement x="440" y="42" width="100" height="20" uuid="1a262238-089e-47e8-bf42-20d8b70824f7"/>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
