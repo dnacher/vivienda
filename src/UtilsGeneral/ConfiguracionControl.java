@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -98,13 +98,8 @@ public class ConfiguracionControl {
         }
     }
     
-    public void generarReporteConParametros(String reporte,Map<String,Object> parameters){       
-        try{
-            /*
-            String logo="/web/images/Vivienda.png";         
-            parameters.put("logo",this.getClass().getResourceAsStream(logo));
-            parameters.put("idUnidad",0);
-            parameters.put("periodo",201702);*/
+    public void generarReporteConParametros(String reporte,HashMap parameters){       
+        try{            
             JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
             JasperPrint jp= JasperFillManager.fillReport(jr, parameters, conectar());
             JasperViewer jv= new JasperViewer(jp, false);           
@@ -141,22 +136,7 @@ public class ConfiguracionControl {
         return num;
     }
     
-   
-    
-    public void generarReporte(String reporte){
-       
-        try{
-            JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
-            JasperPrint jp= JasperFillManager.fillReport(jr, null, lc.conectar());
-            JasperViewer jv= new JasperViewer(jp, false);           
-            jv.setVisible(true);
-            jv.setTitle(reporte);
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }      
-         
-    }
+ 
     
     public static List<String> mesesLista(Unidad uni){
         List<String>retorno= new ArrayList<String>();
