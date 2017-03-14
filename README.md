@@ -20,6 +20,22 @@ se necesita el trayNotification.jar
 * Daniel Nacher
 * Software soluciones
 
+## select para reporte de trabajos ##
+
+select u.nombre,u.apellido, u.block, u.torre, u.puerta,
+t.fechaCreacion, t.fechaVisita,t.duracionEstimada,ur.nombre,e.nombre
+from vivienda.unidad u, vivienda.trabajo t,vivienda.historialtrabajo ht, vivienda.urgencia ur, vivienda.estado e
+where u.idUnidad=t.Unidad_idUnidad
+and ht.Trabajo_idTrabajo=t.idTrabajo
+and ur.idurgencia=t.urgencia_idurgencia
+and t.estado_idestado=e.idestado;
+
+## update tabla cuotaConvenio ##
+
+ALTER TABLE `vivienda`.`cuotaconvenio` 
+ADD COLUMN `fechaPago` DATE NULL AFTER `tieneBonificacion`;
+
+
 ## Para concatenar periodos ##
 
 public static int concatenar(int y, int m){
