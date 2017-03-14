@@ -1,6 +1,9 @@
 package entities.persistence.entities;
 // Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
 
+import java.util.Date;
+
+
 
 
 /**
@@ -16,7 +19,8 @@ public class Cuotaconvenio  implements java.io.Serializable {
      private String descripcion;
      private Integer pago;
      private Boolean tieneBonificacion;
-
+     private Date fechaPago;
+     
     public Cuotaconvenio() {
     }
 
@@ -26,7 +30,7 @@ public class Cuotaconvenio  implements java.io.Serializable {
         this.convenio = convenio;
         this.monto = monto;
     }
-    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Integer numeroCuota, String descripcion, Integer pago, Boolean tieneBonificacion) {
+    public Cuotaconvenio(CuotaconvenioId id, Convenio convenio, Monto monto, Integer numeroCuota, String descripcion, Integer pago, Boolean tieneBonificacion, Date fechaPago) {
        this.id = id;
        this.convenio = convenio;
        this.monto = monto;
@@ -34,6 +38,7 @@ public class Cuotaconvenio  implements java.io.Serializable {
        this.descripcion = descripcion;
        this.pago = pago;
        this.tieneBonificacion = tieneBonificacion;
+       this.fechaPago=fechaPago;
     }
    
     public CuotaconvenioId getId() {
@@ -84,6 +89,14 @@ public class Cuotaconvenio  implements java.io.Serializable {
     
     public void setTieneBonificacion(Boolean tieneBonificacion) {
         this.tieneBonificacion = tieneBonificacion;
+    }
+
+    public Date getFechaPago() {
+        return fechaPago;
+    }
+
+    public void setFechaPago(Date fechaPago) {
+        this.fechaPago = fechaPago;
     }
 
 

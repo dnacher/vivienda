@@ -9,24 +9,35 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import web.animations.FadeInUpTransition;
 
 public class UnidadesController implements Initializable {
@@ -102,11 +113,27 @@ public class UnidadesController implements Initializable {
     }
     
     public void cargaTabla(){
+       TableColumn colAction=new TableColumn("Action");
        TableColumn Nombre = new TableColumn("Nombre");
        TableColumn Apellido = new TableColumn("Apellido");
        TableColumn Block = new TableColumn("Block");
        TableColumn Torre = new TableColumn("Torre");
        TableColumn Puerta= new TableColumn("Puerta");
+       
+       
+       
+       colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Object, Boolean>,ObservableValue<Boolean>>() {
+                @Override
+                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Object, Boolean> p) {
+                    return new SimpleBooleanProperty(p.getValue() != null);
+                }
+       });
+       colAction.setCellFactory(new Callback<TableColumn<Object, Boolean>, TableCell<Object, Boolean>>() {
+                @Override
+                public TableCell<Object, Boolean> call(TableColumn<Object, Boolean> p) {
+                    return new ButtonCell(tableData);
+                }
+        });
 
        Nombre.setMinWidth(150);
        Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -123,9 +150,48 @@ public class UnidadesController implements Initializable {
        Puerta.setMinWidth(110);
        Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
 
-       tableData.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
+       tableData.getColumns().addAll(colAction, Nombre, Apellido, Block,Torre,Puerta);
        tableData.setItems(unidades);
       
+    }
+    
+    private class ButtonCell extends TableCell<Object, Boolean> {
+        final Hyperlink cellButtonDelete = new Hyperlink("Delete");
+        final Hyperlink cellButtonEdit = new Hyperlink("Edit");
+        final HBox hb = new HBox(cellButtonDelete,cellButtonEdit);
+        ButtonCell(final TableView tblView){
+            hb.setSpacing(4);
+            cellButtonDelete.setOnAction((ActionEvent t) -> {
+               // status = 1;
+                int row = getTableRow().getIndex();
+                tableData.getSelectionModel().select(row);
+              //  aksiKlikTableData(null);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Estas seguro que deseas borrar "+txtNombre.getText()+" ?");
+                alert.initStyle(StageStyle.UTILITY);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                  /*  ? p = new ?();
+                    p.setCustomerId(Integer.valueOf(txtId.getText()));
+                    crud.delete(p);
+                    clear();
+                    selectData();*/
+                }else{
+                    clear();
+                   // selectData();
+                 //   auto();
+                }
+               // status = 0;
+            });
+            cellButtonEdit.setOnAction((ActionEvent event) -> {
+               // status = 1;
+                int row = getTableRow().getIndex();
+                tableData.getSelectionModel().select(row);
+              //  aksiKlikTableData(null);
+                paneTabel.setOpacity(0);
+                new FadeInUpTransition(paneCrud).play();
+              //  status = 0;
+            });
+        }
     }
     
     public void cargarComboBlock(){
@@ -267,4 +333,5 @@ public class UnidadesController implements Initializable {
                  break;
          }
      }
-} 
+     
+}

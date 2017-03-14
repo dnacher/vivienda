@@ -37,5 +37,8 @@
         <property name="tieneBonificacion" type="java.lang.Boolean">
             <column name="tieneBonificacion" />
         </property>
+        <property name="fechaPago" type="date">
+            <column name="fechaPago" length="10" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>
