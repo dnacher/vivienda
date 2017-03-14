@@ -20,6 +20,12 @@ se necesita el trayNotification.jar
 * Daniel Nacher
 * Software soluciones
 
+## update tabla cuotaConvenio ##
+
+ALTER TABLE `vivienda`.`cuotaconvenio` 
+ADD COLUMN `fechaPago` DATE NULL AFTER `tieneBonificacion`;
+
+
 ## Para concatenar periodos ##
 
 public static int concatenar(int y, int m){
