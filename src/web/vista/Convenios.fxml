@@ -121,7 +121,6 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1078.0" layoutY="46.0" mnemonicParsing="false" onAction="#agregarGastosComunes" prefHeight="27.0" prefWidth="131.0" styleClass="btn" text="Crear convenio" />
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />

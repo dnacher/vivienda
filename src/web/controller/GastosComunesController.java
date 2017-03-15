@@ -319,6 +319,7 @@ public class GastosComunesController implements Initializable {
         }
         
         public void guardar(){
+            ControlVentana cv=new ControlVentana();               
             if(validar()){
                 try{
                 GastoscomunesId gcId=new GastoscomunesId();
@@ -335,9 +336,7 @@ public class GastosComunesController implements Initializable {
                 gc.setPeriodo(periodo);
                 gc.setUnidad(unidad);
                 GastosComunesBean gcb=new GastosComunesBean();
-                gcb.guardar(gc);
-                ControlVentana cv=new ControlVentana();
-                cv.creaVentanaNotificacionCorrecto();  
+                gcb.guardar(gc);                
                 ConfiguracionControl cc=new ConfiguracionControl();
                 HashMap parameters=new HashMap();
                 SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -349,6 +348,7 @@ public class GastosComunesController implements Initializable {
                 guardado=true;
                 mostrarTodos();
                 atras();
+                cv.creaVentanaNotificacionCorrecto();
                 }
                 catch(Exception ex){
                     ex.getMessage();

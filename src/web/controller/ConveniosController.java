@@ -45,6 +45,8 @@ import entities.persistence.entities.Convenio;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import entities.persistence.entities.ConvenioId;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 
 
@@ -519,6 +521,10 @@ public class ConveniosController implements Initializable {
                 convenio.setUnidad(unidad);
                 ConvenioBean cb=new ConvenioBean();
                 cb.guardar(convenio);
+                ConfiguracionControl cc=new ConfiguracionControl();
+                HashMap parameters=new HashMap();
+                parameters.put("idUnidad",convenio.getUnidad().getIdUnidad());               
+                cc.generarReporteConParametros("creacionConvenioImpresion", parameters);
                 cv.creaVentanaNotificacionCorrecto();
             } catch (ServiceException ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
