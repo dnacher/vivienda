@@ -379,30 +379,30 @@ public class SeguridadController implements Initializable {
         
     // <editor-fold defaultstate="collapsed" desc=" permisos ">
         
-            int Administracion=-1;
-            int BajaLicencia=-1;
-            int CargarMasivas=-1;
-            int Concepto=-1;
-            int Configuracion=-1;
-            int Convenios=-1;
-            int Cotizacion=-1;
-            int Estado=-1;
-            int GastosComunes=-1;
-            int Grupo=-1;
-            int Inicio=-1;
-            int ListaPrecios=-1;
-            int Mantenimiento=-1;
-            int Material=-1;
-            int PagoConvenios=-1;
-            int ReglaBonificacion=-1;
-            int Reportes=-1;
-            int Seguridad=-1;
-            int Tecnico=-1;
-            int TipoDuracion=-1;
-            int TipoUsuario=-1;
-            int Unidades=-1;
-            int Urgencia=-1;
-            int Usuario=-1;
+            int Administracion=0;
+            int BajaLicencia=0;
+            int CargarMasivas=0;
+            int Concepto=0;
+            int Configuracion=0;
+            int Convenios=0;
+            int Cotizacion=0;
+            int Estado=0;
+            int GastosComunes=0;
+            int Grupo=0;
+            int Inicio=15;
+            int ListaPrecios=0;
+            int Mantenimiento=0;
+            int Material=0;
+            int PagoConvenios=0;
+            int ReglaBonificacion=0;
+            int Reportes=0;
+            int Seguridad=0;
+            int Tecnico=0;
+            int TipoDuracion=0;
+            int TipoUsuario=0;
+            int Unidades=0;
+            int Urgencia=0;
+            int Usuario=0;
             
             List<Permisosusuario> listaPermisos=new ArrayList<>();
             Tipousuario tu=new Tipousuario();
@@ -439,11 +439,14 @@ public class SeguridadController implements Initializable {
     }
     
     public void guardar(){
+        
+        ControlVentana cv=new ControlVentana(); 
         if(cmbTipoUsuario.getSelectionModel().getSelectedItem()!=null){
             tu=cmbTipoUsuario.getSelectionModel().getSelectedItem();
-               ControlVentana cv=new ControlVentana(); 
-               cargaPermisos();
+            cargaPermisos();
             try {
+                UsuariosBean ub2=new UsuariosBean();
+                ub2.EliminaPermisos(tu);
                 Permisosusuario pu;
                 if(Administracion!=-1){ pu= new Permisosusuario("Administracion", tu, Administracion); listaPermisos.add(pu);}
                 if(BajaLicencia!=-1){pu= new Permisosusuario("BajaLicencia", tu, BajaLicencia); listaPermisos.add(pu);}
@@ -472,16 +475,23 @@ public class SeguridadController implements Initializable {
                 UsuariosBean ub=new UsuariosBean();
                 ub.guardaPermisos(listaPermisos);
                 cv.creaVentanaNotificacionCorrecto();
+                initialize(null, null);
             } catch (ServiceException ex) {
+                Logger.getLogger(SeguridadController.class.getName()).log(Level.SEVERE, null, ex);
+                cv.creaVentanaNotificacionError(ex.getMessage());
+            }catch(Exception ex){
                 Logger.getLogger(SeguridadController.class.getName()).log(Level.SEVERE, null, ex);
                 cv.creaVentanaNotificacionError(ex.getMessage());
             }
         }else{
-            System.out.println("No puede estar vacio el Tipo de usuario");
+            cv.creaVentanaNotificacionError("No puede estar vacio el Tipo de usuario");
         }
     }
     
     public void cargaPermisos(){
+        
+        // <editor-fold defaultstate="collapsed" desc=" Unidades ">
+        
         if(chkUnidadesAdministrador.isSelected()){
             Unidades=15;
         }else{
@@ -491,144 +501,231 @@ public class SeguridadController implements Initializable {
             if(chkUnidadesAgregar.isSelected()){Unidades+=2;}
         }
         
-        if(chkGastosComunesAdministrador.isSelected()){
-            GastosComunes=15;
-        }else{    
-            if(chkGastosComunesVer.isSelected()){GastosComunes+=1;}
-            if(chkGastosComunesEditar.isSelected()){GastosComunes+=8;}
-            if(chkGastosComunesBorrar.isSelected()){GastosComunes+=4;}
-            if(chkGastosComunesAgregar.isSelected()){GastosComunes+=2;}
-        }
-        
-        if(chkConveniosAdministrador.isSelected()){
-            Convenios=15;
-        }else{    
-            if(chkConveniosVer.isSelected()){Convenios+=1;}
-            if(chkConveniosEditar.isSelected()){Convenios+=8;}
-            if(chkConveniosBorrar.isSelected()){Convenios+=4;}
-            if(chkConveniosAgregar.isSelected()){Convenios+=2;}
-        }
-        
-        if(chkPagoConvenioAdministrador.isSelected()){
-            PagoConvenios=15;
-        }else{
-            if(chkPagoConvenioVer.isSelected()){PagoConvenios+=1;}
-            if(chkPagoConvenioEditar.isSelected()){PagoConvenios+=8;}
-            if(chkPagoConvenioBorrar.isSelected()){PagoConvenios+=4;}
-            if(chkPagoConvenioAgregar.isSelected()){PagoConvenios+=2;}
-        }
-        
-        if(chkReglaBonificacionAdministrador.isSelected()){
-            ReglaBonificacion=15;
-        }else{    
-            if(chkReglaBonificacionVer.isSelected()){ReglaBonificacion+=1;}
-            if(chkReglaBonificacionEditar.isSelected()){ReglaBonificacion+=8;}
-            if(chkReglaBonificacionBorrar.isSelected()){ReglaBonificacion+=4;}
-            if(chkReglaBonificacionAgregar.isSelected()){ReglaBonificacion+=2;}
-        }
-        
-        if(chkTecnicoAdministrador.isSelected()){
-            Tecnico=15;
-        }else{    
-            if(chkTecnicoVer.isSelected()){Tecnico+=1;}
-            if(chkTecnicoEditar.isSelected()){Tecnico+=8;}
-            if(chkTecnicoBorrar.isSelected()){Tecnico+=4;}
-            if(chkTecnicoAgregar.isSelected()){Tecnico+=2;}
-        }
-        
-        if(chkCotizacionAdministrador.isSelected()){
-            Cotizacion=15;
-        }else{
-            if(chkCotizacionVer.isSelected()){Cotizacion+=1;}
-            if(chkCotizacionEditar.isSelected()){Cotizacion+=8;}
-            if(chkCotizacionBorrar.isSelected()){Cotizacion+=4;}
-            if(chkCotizacionAgregar.isSelected()){Cotizacion+=2;}
-        }
-            
-        if(chkBajaLicenciaAdministrador.isSelected()){
-            BajaLicencia=15;
-        }else{
-            if(chkBajaLicenciaVer.isSelected()){BajaLicencia+=1;}
-            if(chkBajaLicenciaEditar.isSelected()){BajaLicencia+=8;}
-            if(chkBajaLicenciaBorrar.isSelected()){BajaLicencia+=4;}
-            if(chkBajaLicenciaAgregar.isSelected()){BajaLicencia+=2;}
-        }
-            
-        if(chkListaPreciosAdministrador.isSelected()){
-        
-        }else{
-            if(chkListaPreciosVer.isSelected()){ListaPrecios+=1;}
-            if(chkListaPreciosEditar.isSelected()){ListaPrecios+=8;}
-            if(chkListaPreciosBorrar.isSelected()){ListaPrecios+=4;}
-            if(chkListaPreciosAgregar.isSelected()){ListaPrecios+=2;}
-        }
-            
-        if(chkGrupoAdministrador.isSelected()){
-            Grupo=15;
-        }else{
-            if(chkGrupoVer.isSelected()){Grupo+=1;}
-            if(chkGrupoEditar.isSelected()){Grupo+=8;}
-            if(chkGrupoBorrar.isSelected()){Grupo+=4;}
-            if(chkGrupoAgregar.isSelected()){Grupo+=2;}
-        }
-            
-        if(chkUrgenciaAdministrador.isSelected()){
-            Urgencia=15;
-        }else{
-            if(chkUrgenciaVer.isSelected()){Urgencia+=1;}
-            if(chkUrgenciaEditar.isSelected()){Urgencia+=8;}
-            if(chkUrgenciaBorrar.isSelected()){Urgencia+=4;}
-            if(chkUrgenciaAgregar.isSelected()){Urgencia+=2;}
-        }
-            
-        if(chkConceptoAdministrador.isSelected()){
-            Concepto=15;
-        }else{
-            if(chkConceptoVer.isSelected()){Concepto+=1;}
-            if(chkConceptoEditar.isSelected()){Concepto+=8;}
-            if(chkConceptoBorrar.isSelected()){Concepto+=4;}
-            if(chkConceptoAgregar.isSelected()){Concepto+=2;}
-        }
+        // </editor-fold>
          
-        if(chkUsuarioAdministrador.isSelected()){
-            Usuario=15;
-        }else{
-            if(chkUsuarioVer.isSelected()){Usuario+=1;}
-            if(chkUsuarioEditar.isSelected()){Usuario+=8;}
-            if(chkUsuarioBorrar.isSelected()){Usuario+=4;}
-            if(chkUsuarioAgregar.isSelected()){Usuario+=2;}
-        }
+        // <editor-fold defaultstate="collapsed" desc=" GastosComunes ">  
+         
+            if(chkGastosComunesAdministrador.isSelected()){
+                GastosComunes=15;
+            }else{    
+                if(chkGastosComunesVer.isSelected()){GastosComunes+=1;}
+                if(chkGastosComunesEditar.isSelected()){GastosComunes+=8;}
+                if(chkGastosComunesBorrar.isSelected()){GastosComunes+=4;}
+                if(chkGastosComunesAgregar.isSelected()){GastosComunes+=2;}
+            }
             
-        if(chkTipoUsuarioAdministrador.isSelected()){
-            TipoUsuario=15;
-        }else{
-            if(chkTipoUsuarioVer.isSelected()){TipoUsuario+=1;}
-            if(chkTipoUsuarioEditar.isSelected()){TipoUsuario+=8;}
-            if(chkTipoUsuarioBorrar.isSelected()){TipoUsuario+=4;}
-            if(chkTipoUsuarioAgregar.isSelected()){TipoUsuario+=2;}
-        }
-            
-        if(chkTipoDuracionAdministrador.isSelected()){
-            TipoDuracion=15;
-        }else{
-            if(chkTipoDuracionVer.isSelected()){TipoDuracion+=1;}
-            if(chkTipoDuracionEditar.isSelected()){TipoDuracion+=8;}
-            if(chkTipoDuracionBorrar.isSelected()){TipoDuracion+=4;}
-            if(chkTipoDuracionAgregar.isSelected()){TipoDuracion+=2;}
-        }
-            
-        if(chkCargasMasivasAdministrador.isSelected()){CargarMasivas=15;}
+         // </editor-fold>         
+         
+        // <editor-fold defaultstate="collapsed" desc=" Convenios ">
         
-        if(chkEstadoAdministrador.isSelected()){
-            Estado=15;
-        }else{    
-            if(chkEstadoVer.isSelected()){Estado+=1;}
-            if(chkEstadoEditar.isSelected()){Estado+=8;}
-            if(chkEstadoBorrar.isSelected()){Estado+=4;}
-            if(chkEstadoAgregar.isSelected()){Estado+=2;}
-        }
+            if(chkConveniosAdministrador.isSelected()){
+                Convenios=15;
+            }else{    
+                if(chkConveniosVer.isSelected()){Convenios+=1;}
+                if(chkConveniosEditar.isSelected()){Convenios+=8;}
+                if(chkConveniosBorrar.isSelected()){Convenios+=4;}
+                if(chkConveniosAgregar.isSelected()){Convenios+=2;}
+            }
             
-        if(chkSeguridadAdministrador.isSelected()){Seguridad=15;}
+         // </editor-fold>         
+         
+        // <editor-fold defaultstate="collapsed" desc=" PagoConvenio ">
+        
+            if(chkPagoConvenioAdministrador.isSelected()){
+                PagoConvenios=15;
+            }else{
+                if(chkPagoConvenioVer.isSelected()){PagoConvenios+=1;}
+                if(chkPagoConvenioEditar.isSelected()){PagoConvenios+=8;}
+                if(chkPagoConvenioBorrar.isSelected()){PagoConvenios+=4;}
+                if(chkPagoConvenioAgregar.isSelected()){PagoConvenios+=2;}
+            }
+         
+         // </editor-fold>         
+         
+        // <editor-fold defaultstate="collapsed" desc=" ReglaBonificacion ">
+        
+            if(chkReglaBonificacionAdministrador.isSelected()){
+                ReglaBonificacion=15;
+            }else{    
+                if(chkReglaBonificacionVer.isSelected()){ReglaBonificacion+=1;}
+                if(chkReglaBonificacionEditar.isSelected()){ReglaBonificacion+=8;}
+                if(chkReglaBonificacionBorrar.isSelected()){ReglaBonificacion+=4;}
+                if(chkReglaBonificacionAgregar.isSelected()){ReglaBonificacion+=2;}
+            }
+            
+        // </editor-fold>
+        
+        if(Unidades+GastosComunes+Convenios+PagoConvenios+ReglaBonificacion>0){
+            Administracion=15;
+        }
+                     
+        // <editor-fold defaultstate="collapsed" desc=" Tecnico ">
+         
+            if(chkTecnicoAdministrador.isSelected()){
+                Tecnico=15;
+            }else{    
+                if(chkTecnicoVer.isSelected()){Tecnico+=1;}
+                if(chkTecnicoEditar.isSelected()){Tecnico+=8;}
+                if(chkTecnicoBorrar.isSelected()){Tecnico+=4;}
+                if(chkTecnicoAgregar.isSelected()){Tecnico+=2;}
+            }
+            
+        // </editor-fold>
+         
+        // <editor-fold defaultstate="collapsed" desc=" Cotizacion ">
+        
+            if(chkCotizacionAdministrador.isSelected()){
+                Cotizacion=15;
+            }else{
+                if(chkCotizacionVer.isSelected()){Cotizacion+=1;}
+                if(chkCotizacionEditar.isSelected()){Cotizacion+=8;}
+                if(chkCotizacionBorrar.isSelected()){Cotizacion+=4;}
+                if(chkCotizacionAgregar.isSelected()){Cotizacion+=2;}
+            }
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Material ">
+        
+            if(chkCotizacionAdministrador.isSelected()){
+                Cotizacion=15;
+            }else{
+                if(chkMaterialVer.isSelected()){Material+=1;}
+                if(chkMaterialEditar.isSelected()){Material+=8;}
+                if(chkMaterialBorrar.isSelected()){Material+=4;}
+                if(chkMaterialAgregar.isSelected()){Material+=2;}
+            }
+            
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" BajaLicencia ">
+        
+            if(chkBajaLicenciaAdministrador.isSelected()){
+                BajaLicencia=15;
+            }else{
+                if(chkBajaLicenciaVer.isSelected()){BajaLicencia+=1;}
+                if(chkBajaLicenciaEditar.isSelected()){BajaLicencia+=8;}
+                if(chkBajaLicenciaBorrar.isSelected()){BajaLicencia+=4;}
+                if(chkBajaLicenciaAgregar.isSelected()){BajaLicencia+=2;}
+            }
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" ListaPrecios ">
+        
+            if(chkListaPreciosAdministrador.isSelected()){
+                ListaPrecios=15;
+            }else{
+                if(chkListaPreciosVer.isSelected()){ListaPrecios+=1;}
+                if(chkListaPreciosEditar.isSelected()){ListaPrecios+=8;}
+                if(chkListaPreciosBorrar.isSelected()){ListaPrecios+=4;}
+                if(chkListaPreciosAgregar.isSelected()){ListaPrecios+=2;}
+            }
+        // </editor-fold>
+        
+        if(Tecnico+Cotizacion+Material+BajaLicencia+ListaPrecios>0){
+            Mantenimiento=15;
+        }
+        
+        // <editor-fold defaultstate="collapsed" desc=" Grupo ">
+        
+            if(chkGrupoAdministrador.isSelected()){
+                Grupo=15;
+            }else{
+                if(chkGrupoVer.isSelected()){Grupo+=1;}
+                if(chkGrupoEditar.isSelected()){Grupo+=8;}
+                if(chkGrupoBorrar.isSelected()){Grupo+=4;}
+                if(chkGrupoAgregar.isSelected()){Grupo+=2;}
+            }
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Urgencia ">
+        
+            if(chkUrgenciaAdministrador.isSelected()){
+                Urgencia=15;
+            }else{
+                if(chkUrgenciaVer.isSelected()){Urgencia+=1;}
+                if(chkUrgenciaEditar.isSelected()){Urgencia+=8;}
+                if(chkUrgenciaBorrar.isSelected()){Urgencia+=4;}
+                if(chkUrgenciaAgregar.isSelected()){Urgencia+=2;}
+            }
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Concepto ">
+        
+            if(chkConceptoAdministrador.isSelected()){
+                Concepto=15;
+            }else{
+                if(chkConceptoVer.isSelected()){Concepto+=1;}
+                if(chkConceptoEditar.isSelected()){Concepto+=8;}
+                if(chkConceptoBorrar.isSelected()){Concepto+=4;}
+                if(chkConceptoAgregar.isSelected()){Concepto+=2;}
+            }
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Usuario ">
+        
+            if(chkUsuarioAdministrador.isSelected()){
+                Usuario=15;
+            }else{
+                if(chkUsuarioVer.isSelected()){Usuario+=1;}
+                if(chkUsuarioEditar.isSelected()){Usuario+=8;}
+                if(chkUsuarioBorrar.isSelected()){Usuario+=4;}
+                if(chkUsuarioAgregar.isSelected()){Usuario+=2;}
+            }
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" TipoUsuario ">
+        
+            if(chkTipoUsuarioAdministrador.isSelected()){
+                TipoUsuario=15;
+            }else{
+                if(chkTipoUsuarioVer.isSelected()){TipoUsuario+=1;}
+                if(chkTipoUsuarioEditar.isSelected()){TipoUsuario+=8;}
+                if(chkTipoUsuarioBorrar.isSelected()){TipoUsuario+=4;}
+                if(chkTipoUsuarioAgregar.isSelected()){TipoUsuario+=2;}
+            }
+            
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" TipoDuracion ">
+        
+            if(chkTipoDuracionAdministrador.isSelected()){
+                TipoDuracion=15;
+            }else{
+                if(chkTipoDuracionVer.isSelected()){TipoDuracion+=1;}
+                if(chkTipoDuracionEditar.isSelected()){TipoDuracion+=8;}
+                if(chkTipoDuracionBorrar.isSelected()){TipoDuracion+=4;}
+                if(chkTipoDuracionAgregar.isSelected()){TipoDuracion+=2;}
+            }
+        
+            // </editor-fold>
+            
+        // <editor-fold defaultstate="collapsed" desc=" CargasMasivas ">
+        
+            if(chkCargasMasivasAdministrador.isSelected()){CargarMasivas=15;}
+        
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Estado ">    
+        
+            if(chkEstadoAdministrador.isSelected()){
+                Estado=15;
+            }else{    
+                if(chkEstadoVer.isSelected()){Estado+=1;}
+                if(chkEstadoEditar.isSelected()){Estado+=8;}
+                if(chkEstadoBorrar.isSelected()){Estado+=4;}
+                if(chkEstadoAgregar.isSelected()){Estado+=2;}
+            }
+        
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Seguridad ">  
+            if(chkSeguridadAdministrador.isSelected()){Seguridad=15;}
+        // </editor-fold>
+        
+        if(Grupo+Urgencia+Concepto+Usuario+TipoUsuario+TipoDuracion+CargarMasivas+Estado+Seguridad>0){
+            Configuracion=15;
+        }
+
     }
     
     // <editor-fold defaultstate="collapsed" desc=" Seguridad visibilidad ">
@@ -1535,6 +1632,5 @@ public class SeguridadController implements Initializable {
     }
     
     // </editor-fold>
-    
     
 } 

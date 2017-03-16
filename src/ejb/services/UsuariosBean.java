@@ -128,5 +128,21 @@ public class UsuariosBean implements UsuariosLocal{
         return correcto;
     }
     
+     public boolean EliminaPermisos(Tipousuario tipoUsuario)throws ServiceException{
+        try{  
+            String consulta="delete from Permisosusuario pu where pu.tipousuario=:tipoUsuario";           
+            Query query= session.createQuery(consulta);
+            query.setParameter("tipoUsuario", tipoUsuario);
+            query.executeUpdate();            
+            session.close();
+            correcto=true; 
+        }
+        catch(Exception ex){
+            System.out.println(ex);
+            System.out.println(ex.getMessage());
+            throw new ServiceException(ex.getMessage());            
+        }        
+        return correcto;
+    }
     
 }
