@@ -2,8 +2,11 @@ package web.controller;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConceptoBean;
+import ejb.services.MontoBean;
 import ejb.services.OtrosGastosBean;
 import ejb.services.UnidadBean;
+import entities.enums.errores;
 import entities.persistence.entities.Concepto;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Otrosgastos;
@@ -13,6 +16,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,13 +28,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import ejb.validaciones.OtrosGastosBuisinessValidation;
 import web.animations.FadeInUpTransition;
 
 public class OtrosGastosController implements Initializable {
@@ -76,7 +80,9 @@ public class OtrosGastosController implements Initializable {
             OtrosGastosBean og=new OtrosGastosBean();
             otrosGastos=FXCollections.observableArrayList(og.traerTodos());
             cargaTabla();
-            cargarComboTorre();
+            cargarComboUnidad();
+            cargarComboTipoMoneda();
+            cargarComboConcepto();
             cargaHoy();
             mostrarTabla();            
         } catch (ServiceException ex) {
@@ -118,10 +124,40 @@ public class OtrosGastosController implements Initializable {
       
     }
     
-    public void cargarComboTorre(){
-        ObservableList<Integer> listaTorres;
-        listaTorres=FXCollections.observableArrayList(1,2,3,4,5,6);
-        cmbTorre.setItems(listaTorres);
+    public void cargarComboUnidad(){
+        try{
+            UnidadBean ub=new UnidadBean();
+            List<Unidad>lista=ub.traerTodos();
+            ObservableList<Unidad> listaUnidad;
+            listaUnidad=FXCollections.observableArrayList(lista);
+            cmbUnidad.setItems(listaUnidad);
+        }
+        catch(ServiceException se){            
+        }
+    }
+    
+    public void cargarComboTipoMoneda(){
+        try{
+            MontoBean mb=new MontoBean();
+            List<Monto>lista=mb.traerTodos();
+            ObservableList<Monto> listaMonto;
+            listaMonto=FXCollections.observableArrayList(lista);
+            cmbTipoMoneda.setItems(listaMonto);
+        }
+        catch(ServiceException se){            
+        }
+    }
+    
+    public void cargarComboConcepto(){
+        try{
+            ConceptoBean cb=new ConceptoBean();
+            List<Concepto>lista=cb.traerTodos();
+            ObservableList<Concepto> listaConcepto;
+            listaConcepto=FXCollections.observableArrayList(lista);
+            cmbConcepto.setItems(listaConcepto);
+        }
+        catch(ServiceException se){            
+        }
     }
     
     public void nuevaUnidad(){
@@ -136,54 +172,11 @@ public class OtrosGastosController implements Initializable {
         new FadeInUpTransition(paneTabel).play();
     }
      
-     public int validar(){
-        int i=0;
-        if(cmbBlock.getValue()==null){
-            i=1;
-        } 
-        else{
-            if(cmbTorre.getValue()==null){
-                i=2;
-            } 
-            else{
-                if(txtPuerta.getText().isEmpty()){
-                    i=3;
-                }
-                else{
-                    if(txtNombre.getText().isEmpty()){
-                        i=4;
-                    }
-                    else{
-                        if(txtApellido.getText().isEmpty()){
-                            i=5;
-                        }
-                        else{
-                            if(txtTelefono.getText().isEmpty()){
-                                i=6;
-                            }
-                            else{
-                                if(txtMail.getText().isEmpty()){
-                                    i=7;
-                                }
-                                else{
-                                    if(cmbPropietarioInquilino.getValue()==null){
-                                        i=8;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return i;
-     }
-     
-     public void guardar(){
-         ControlVentana cv=new ControlVentana();
-         switch(validar()){
-             case 0:
-                 try{                    
+    public void guardar(){
+        ControlVentana cv=new ControlVentana();
+        switch(OtrosGastosBuisinessValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto, cmbUnidad)){
+            case 0:
+                try{                    
                     Otrosgastos og=new Otrosgastos();
                     og.setActivo(ChkActivo.isSelected());
                     og.setConcepto(cmbConcepto.getSelectionModel().getSelectedItem());
@@ -197,35 +190,29 @@ public class OtrosGastosController implements Initializable {
                     OtrosGastosBean oga=new OtrosGastosBean();
                     oga.guardar(og);
                     cv.creaVentanaNotificacionCorrecto();
-                 }
-                 catch(Exception ex){
-                     cv.creaVentanaNotificacionError(ex.getMessage());
-                 }
-                 break;
-             case 1:
-                 cv.creaVentanaNotificacionError("falta ingresar el block");
-                 break;
-             case 2:
-                 cv.creaVentanaNotificacionError("falta ingresar la torre");
-                 break;
-             case 3:
-                 cv.creaVentanaNotificacionError("falta ingresar la puerta");
-                 break;
-             case 4:
-                 cv.creaVentanaNotificacionError("falta ingresar el nombre");
-                 break;
-             case 5:
-                 cv.creaVentanaNotificacionError("falta ingresar el apellido");
-                 break;
-             case 6:
-                 cv.creaVentanaNotificacionError("falta ingresar el telefono");
-                 break;
-             case 7:
-                 cv.creaVentanaNotificacionError("falta ingresar el mail");
-                 break;
-             case 8:
-                 cv.creaVentanaNotificacionError("falta ingresar si es propietario o no");
-                 break;
+                }
+                catch(Exception ex){
+                    cv.creaVentanaNotificacionError(ex.getMessage());
+                }
+                break;
+            case 1:
+                cv.creaVentanaNotificacionError(errores.FALTA_SECUENCIA.getError());
+                break;
+            case 2:
+                cv.creaVentanaNotificacionError(errores.FALTA_TIPO_MONEDA.getError());
+                break;
+            case 3:
+                cv.creaVentanaNotificacionError(errores.FALTA_MONTO.getError());
+                break;
+            case 4:
+                cv.creaVentanaNotificacionError(errores.FALTA_FECHA.getError());
+                break;
+            case 5:
+                cv.creaVentanaNotificacionError(errores.FALTA_CONCEPTO.getError());
+                break;
+            case 6:
+                cv.creaVentanaNotificacionError(errores.FALTA_UNIDAD.getError());
+                break;             
          }
      }
      
