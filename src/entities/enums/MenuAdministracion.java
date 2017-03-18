@@ -9,6 +9,7 @@ public enum MenuAdministracion {
                           Inicio("Inicio","Inicio"),
                       Unidades("Unidades","Unidades"),
             GastosComunes("GastosComunes","Gastos Comunes"),
+            OtrosGastos("OtrosGastos","Otros Gastos"),
                     Convenios("Convenios","Convenios"),
                     PagoConvenios("PagoConvenios", "Pago Convenios"),
     ReglaBonificacion("ReglaBonificacion","Regla Bonificacion");
@@ -17,7 +18,7 @@ public enum MenuAdministracion {
     private final String menu;
     
     MenuAdministracion(String pagina, String menu){
-         this.pagina = pagina;
+        this.pagina = pagina;
         this.menu = menu;
     }
     

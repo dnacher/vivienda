@@ -23,9 +23,16 @@
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Concepto" />
             <ComboBox fx:id="cmbConcepto" layoutX="193.0" layoutY="210.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="247.0" prefHeight="17.0" prefWidth="122.0" text="Unidad" />
-            <ComboBox fx:id="cmbUnidad" layoutX="193.0" layoutY="246.0" />
+            <Button fx:id="btnUnidad" defaultButton="true" layoutX="193.0" layoutY="244.0" mnemonicParsing="false" onAction="#mostrarUnidad" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="Seleccionar Unidad" />
+            <Label fx:id="lblUnidad" layoutX="350.0" layoutY="247.0" prefWidth="400.0" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="282.0" prefHeight="17.0" prefWidth="122.0" text="Activo" />
             <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="282.0" />
+            <Label layoutX="62.0" layoutY="317.0" text="Descripcion" />
+            <TextArea fx:id="txtDescripcion" layoutX="193.0" layoutY="320.0" prefHeight="200.0" prefWidth="200.0" />
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrarTabla" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>
@@ -40,6 +47,24 @@
       <AnchorPane fx:id="paneTabel" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
          <children>
             <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="paneUnidades" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
+         <children>
+            <ComboBox fx:id="cmbBlock" layoutX="80.0" layoutY="13.0" prefWidth="150.0" promptText="Block" />
+            <ComboBox fx:id="cmbTorre" layoutX="80.0" layoutY="48.0" prefWidth="150.0" promptText="Torre" />
+            <Button fx:id="btnMostrar" layoutX="240.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrar" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Mostrar" />
+            <Button layoutX="370.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrarTodos" prefHeight="62.0" prefWidth="151.0" styleClass="btn" text="Mostrar Todos" />
+            <Label fx:id="lblInfoPieChart" layoutX="700.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <TableView fx:id="tableUnidades" layoutX="29.0" layoutY="92.0" onMouseClicked="#UnidadSeleccionada" prefHeight="396.0" prefWidth="633.0" />
+            <Label fx:id="lblInfo" layoutX="29.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

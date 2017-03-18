@@ -35,6 +35,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import ejb.validaciones.OtrosGastosBuisinessValidation;
+import entities.persistence.entities.OtrosgastosId;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import web.animations.FadeInUpTransition;
 
 public class OtrosGastosController implements Initializable {
@@ -47,6 +51,9 @@ public class OtrosGastosController implements Initializable {
 
     @FXML
     private AnchorPane paneTabel;
+    
+    @FXML
+    private AnchorPane paneUnidades;
 
     @FXML
     private CheckBox ChkActivo;
@@ -56,9 +63,6 @@ public class OtrosGastosController implements Initializable {
 
     @FXML
     private TableView<Otrosgastos> tableData;
-
-    @FXML
-    private ComboBox<Unidad> cmbUnidad;
 
     @FXML
     private TextField txtSecuencia;
@@ -72,23 +76,58 @@ public class OtrosGastosController implements Initializable {
     @FXML
     private ComboBox<Concepto> cmbConcepto;
     
+    @FXML
+    private ComboBox<Integer> cmbTorre;
+
+    @FXML
+    private ComboBox<String> cmbBlock;
+    
+    @FXML
+    private TableView<Unidad> tableUnidades;
+    
+    @FXML
+    private Label lblInfo;
+    
+    @FXML
+    private Label lblUnidad;
+    
+    @FXML
+    private TextArea txtDescripcion;
+    
+    ObservableList<Unidad> listaUnidad;
+    Unidad unidad;
     ObservableList<Otrosgastos> otrosGastos;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         try {
+            UnidadBean ub=new UnidadBean();
+            listaUnidad=FXCollections.observableArrayList(ub.traerTodos());
+            cargaTablaUnidades();
             OtrosGastosBean og=new OtrosGastosBean();
             otrosGastos=FXCollections.observableArrayList(og.traerTodos());
-            cargaTabla();
-            cargarComboUnidad();
+            cargaTabla();        
             cargarComboTipoMoneda();
+            cmbTipoMoneda.getSelectionModel().selectFirst();
             cargarComboConcepto();
             cargaHoy();
-            mostrarTabla();            
+            mostrarTabla();
         } catch (ServiceException ex) {
             Logger.getLogger(OtrosGastosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }     
+    
+    public void UnidadSeleccionada(){
+        try{
+            lblInfo.setText("");
+            unidad=tableUnidades.getSelectionModel().getSelectedItem();
+            nuevaUnidad();
+            lblUnidad.setText(unidad.toString());
+        }
+        catch(Exception ex){
+            lblInfo.setText("Debe Seleccionar una Unidad");
+        }
+    }
     
     public void cargaHoy(){
         Date date= new Date();
@@ -100,7 +139,8 @@ public class OtrosGastosController implements Initializable {
     public void cargaTabla(){
        TableColumn Secuencia = new TableColumn("Secuencia");
        TableColumn Descripcion = new TableColumn("Descripcion");
-       TableColumn Monto = new TableColumn("Monto");
+       TableColumn Monto = new TableColumn("Moneda");
+       TableColumn Monto1 = new TableColumn("Monto");
        TableColumn Unidad = new TableColumn("Unidad");
        TableColumn Fecha= new TableColumn("Fecha");
 
@@ -113,27 +153,19 @@ public class OtrosGastosController implements Initializable {
        Monto.setMinWidth(100);
        Monto.setCellValueFactory(new PropertyValueFactory<>("Monto"));
 
+       Monto1.setMinWidth(100);
+       Monto1.setCellValueFactory(new PropertyValueFactory<>("Monto_1"));
+
+       
        Unidad.setMinWidth(100);
        Unidad.setCellValueFactory(new PropertyValueFactory<>("Unidad"));
 
        Fecha.setMinWidth(110);
        Fecha.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
 
-       tableData.getColumns().addAll(Secuencia,Descripcion,Monto,Unidad,Fecha);
+       tableData.getColumns().addAll(Secuencia,Unidad,Monto,Monto1,Descripcion,Fecha);
        tableData.setItems(otrosGastos);
       
-    }
-    
-    public void cargarComboUnidad(){
-        try{
-            UnidadBean ub=new UnidadBean();
-            List<Unidad>lista=ub.traerTodos();
-            ObservableList<Unidad> listaUnidad;
-            listaUnidad=FXCollections.observableArrayList(lista);
-            cmbUnidad.setItems(listaUnidad);
-        }
-        catch(ServiceException se){            
-        }
     }
     
     public void cargarComboTipoMoneda(){
@@ -162,34 +194,49 @@ public class OtrosGastosController implements Initializable {
     
     public void nuevaUnidad(){
         paneTabel.setOpacity(0);
+        paneUnidades.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
         });
     }
     
+    public void mostrarUnidad(){
+        paneTabel.setOpacity(0);
+        paneCrud.setOpacity(0);
+        new FadeInUpTransition(paneUnidades).play();
+    }
+    
     public void mostrarTabla(){
         paneCrud.setOpacity(0);
+        paneUnidades.setOpacity(0);
         new FadeInUpTransition(paneTabel).play();
     }
      
     public void guardar(){
         ControlVentana cv=new ControlVentana();
-        switch(OtrosGastosBuisinessValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto, cmbUnidad)){
+        switch(OtrosGastosBuisinessValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto,unidad)){
             case 0:
                 try{                    
                     Otrosgastos og=new Otrosgastos();
+                    OtrosgastosId ogI=new OtrosgastosId();
+                    ogI.setIdotrosGastos(ConfiguracionControl.traeUltimoId("OtrosGastos"));
+                    ogI.setUnidadIdUnidad(unidad.getIdUnidad());
+                    og.setId(ogI);
                     og.setActivo(ChkActivo.isSelected());
                     og.setConcepto(cmbConcepto.getSelectionModel().getSelectedItem());
-                    og.setDescripcion("Falta descripcionnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+                    og.setDescripcion(txtDescripcion.getText());
                     og.setFecha(ConfiguracionControl.TraeFecha(cmbFecha.getValue()));
                     og.setMonto(cmbTipoMoneda.getSelectionModel().getSelectedItem());
                     og.setMonto_1(Integer.valueOf(txtMonto.getText()));
                     og.setPago(true);
                     og.setSecuencia(Integer.valueOf(txtSecuencia.getText()));
-                    og.setUnidad(cmbUnidad.getSelectionModel().getSelectedItem());
+                    og.setUnidad(unidad);
                     OtrosGastosBean oga=new OtrosGastosBean();
                     oga.guardar(og);
                     cv.creaVentanaNotificacionCorrecto();
+                    limpiarForm();
+                    llenaTablaGastos();
+                    mostrarTabla();
                 }
                 catch(Exception ex){
                     cv.creaVentanaNotificacionError(ex.getMessage());
@@ -215,5 +262,84 @@ public class OtrosGastosController implements Initializable {
                 break;             
          }
      }
-     
+    
+    public void limpiarForm(){
+        unidad=null;
+        txtSecuencia.setText("");
+        txtMonto.setText("");
+        tableUnidades.getSelectionModel().clearSelection();
+    }
+    
+    public void cargarComboBlock(){
+       ObservableList<String> options = 
+       FXCollections.observableArrayList("A","B","C","D","E");
+       cmbBlock.setItems(options);
+    }
+    
+    public void cargarComboTorre(){
+        ObservableList<Integer> listaTorres;
+        listaTorres=FXCollections.observableArrayList(1,2,3,4,5,6);
+        cmbTorre.setItems(listaTorres);
+    }
+    
+    public void cargaTablaUnidades(){
+       TableColumn Nombre = new TableColumn("Nombre");
+       TableColumn Apellido = new TableColumn("Apellido");
+       TableColumn Block = new TableColumn("Block");
+       TableColumn Torre = new TableColumn("Torre");
+       TableColumn Puerta= new TableColumn("Puerta");
+
+       Nombre.setMinWidth(150);
+       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+       Apellido.setMinWidth(150);
+       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+
+       Block.setMinWidth(100);
+       Block.setCellValueFactory(new PropertyValueFactory<>("Block"));
+
+       Torre.setMinWidth(100);
+       Torre.setCellValueFactory(new PropertyValueFactory<>("Torre"));
+
+       Puerta.setMinWidth(110);
+       Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
+
+       tableUnidades.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
+       tableUnidades.setItems(listaUnidad);
+    }
+    
+    public void llenaTabla(){
+        lblInfo.setText("Se muestran " + listaUnidad.size() + " registros.");
+        tableUnidades.setItems(listaUnidad);
+    }
+    
+    public void llenaTablaGastos(){
+        try {
+            OtrosGastosBean ogb=new OtrosGastosBean();
+            otrosGastos=FXCollections.observableArrayList(ogb.traerTodos());
+            tableData.setItems(otrosGastos);
+        } catch (ServiceException ex) {
+            Logger.getLogger(OtrosGastosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void mostrar(ActionEvent event) {       
+            try{
+            lblInfo.setText("");
+            UnidadBean ub= new UnidadBean();
+            List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
+            listaUnidad = FXCollections.observableList(listaTorreBlock);
+            llenaTabla();            
+            }
+            catch(Exception ex){
+                lblInfo.setText("Debe seleccionar valores de Block y Torre para buscar");
+            }
+        }
+       
+        public void mostrarTodos() {
+            UnidadBean ub=new UnidadBean();
+            List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();            
+            listaUnidad = FXCollections.observableList(listaTotal);
+            llenaTabla();           
+        }
 }

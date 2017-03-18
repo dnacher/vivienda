@@ -159,9 +159,10 @@ public class Unidad  implements java.io.Serializable {
         this.trabajos = trabajos;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return nombre + " " + apellido + " " + block + torre + " " + puerta;
+    }
 }
 
 

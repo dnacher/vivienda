@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
  * @author Daniel
  */
 public class OtrosGastosBuisinessValidation {
-    public static int validar(TextField txtSecuencia,ComboBox<Monto> cmbTipoMoneda,TextField txtMonto,DatePicker cmbFecha,ComboBox<Concepto> cmbConcepto,ComboBox<Unidad> cmbUnidad){
+    public static int validar(TextField txtSecuencia,ComboBox<Monto> cmbTipoMoneda,TextField txtMonto,DatePicker cmbFecha,ComboBox<Concepto> cmbConcepto,Unidad unidad){
         int i=0;
         if(txtSecuencia.getText().isEmpty()){            
             i=errores.FALTA_SECUENCIA.getErrorNumero();
@@ -40,7 +40,7 @@ public class OtrosGastosBuisinessValidation {
                             i=errores.FALTA_CONCEPTO.getErrorNumero();
                         }
                         else{
-                            if(cmbUnidad.getValue()==null){
+                            if(unidad==null){
                                 i=errores.FALTA_UNIDAD.getErrorNumero();
                             }                            
                         }

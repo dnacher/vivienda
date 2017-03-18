@@ -241,22 +241,16 @@ public class menu implements Initializable {
                             lista.add(p.getMenu());
                         }
                     }
-                }                
-                /*for(MenuAdministracion p: MenuAdministracion.values()){
-                    lista.add(p.getMenu());
-                }*/
+                }
                 break;
             case "MenuConfiguracion":
-                for(Permisosusuario pu: listaPermisos){
-                    for(MenuConfiguracion p: MenuConfiguracion.values()){
+                for(MenuConfiguracion p: MenuConfiguracion.values()){
+                    for(Permisosusuario pu: listaPermisos){                    
                         if(pu.getPagina().equals(p.getPagina())){
                             lista.add(p.getMenu());
                         }
                     }
                 }
-                /*for(MenuConfiguracion p: MenuConfiguracion.values()){
-                    lista.add(p.getMenu());
-                }*/
                 break;
             case "MenuMantenimiento":
                 for(MenuMantenimiento p: MenuMantenimiento.values()){
@@ -265,10 +259,7 @@ public class menu implements Initializable {
                             lista.add(p.getMenu());
                         }
                     }
-                }  
-                /*for(MenuMantenimiento p: MenuMantenimiento.values()){
-                    lista.add(p.getMenu());
-                }*/
+                }
                 break;
             case "MenuPrincipal":
                 for(MenuPrincipal p: MenuPrincipal.values()){
@@ -277,10 +268,7 @@ public class menu implements Initializable {
                             lista.add(p.getMenu());
                         }
                     }
-                }  
-                /*for(MenuPrincipal p: MenuPrincipal.values()){
-                   lista.add(p.getMenu());
-                }*/
+                }
                 break;
         }
         return lista;

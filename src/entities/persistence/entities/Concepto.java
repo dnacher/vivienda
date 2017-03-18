@@ -69,6 +69,11 @@ public class Concepto  implements java.io.Serializable {
         this.otrosgastoses = otrosgastoses;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
 
 
 
