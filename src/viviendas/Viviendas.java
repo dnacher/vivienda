@@ -21,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -50,6 +51,7 @@ public class Viviendas extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.UNDECORATED);
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/web/images/Vivienda-Icon.png")));
             stage.show();            
             Timeline timeline = new Timeline();            
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(3),

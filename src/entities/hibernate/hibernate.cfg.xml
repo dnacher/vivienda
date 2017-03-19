@@ -9,6 +9,14 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/vivienda?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">Punknotdead123.</property>
+    <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+    <!--<property name="hibernate.hbm2ddl.auto">update</property>-->
+    <property name="hibernate.c3p0.min_size">3</property>
+    <property name="hibernate.c3p0.max_size">5</property>
+    <property name="hibernate.c3p0.timeout">100</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">120</property>
+    <!---->
     <mapping resource="entities/persistence/entities/Historialmonto.hbm.xml"/>
     <mapping resource="entities/persistence/entities/Gastoscomunes.hbm.xml"/>
     <mapping resource="entities/persistence/entities/Tipoduracion.hbm.xml"/>
