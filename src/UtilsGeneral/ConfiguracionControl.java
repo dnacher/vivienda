@@ -1,12 +1,17 @@
 package UtilsGeneral;
 
+import ejb.services.MontoBean;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
+import entities.persistence.entities.Monto;
+import entities.persistence.entities.Reglabonificacion;
 import exceptions.ConectarException;
+import exceptions.ServiceException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -110,6 +115,83 @@ public class ConfiguracionControl {
             System.out.println(ex.getMessage());
         }      
          
+    }
+    
+    public static boolean esNumero(String s){
+        boolean esNumero=false;
+        int num;
+        try{
+            num=Integer.valueOf(s);
+            esNumero=true;
+        }
+        catch(Exception ex){
+            esNumero=false;
+        }
+        return esNumero;
+    }
+    
+    public static int traePeriodo(int y, int m){ 
+        int periodo=0; 
+        if(m>9){
+            periodo=Integer.valueOf(String.valueOf(y) + String.valueOf(m)); 
+        } else{ 
+            periodo=Integer.valueOf(String.valueOf(y) + "0" + String.valueOf(m)); 
+        } 
+        return periodo; 
+    }
+    
+    public static int devuelvePeriodoActual(){
+        int periodoActual=0;
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month=Calendar.getInstance().get(Calendar.MONTH)+1;        
+        periodoActual=traePeriodo(year, month);
+        return periodoActual;
+    }
+     
+    public int devuelveCuotas(int mesInicial, int mesFinal, int anioInicial, int anioFinal){
+        int cuotas=0;
+        boolean flagMesInicial=true;
+        for(int y=anioInicial;y<=anioFinal;y++){
+            if(anioFinal!=y){
+                if(flagMesInicial){
+                    for(int m=mesInicial;m<=12;m++){
+                        cuotas++;
+                    }
+                    flagMesInicial=false;
+                }else{
+                    for(int m=1;m<=12;m++){
+                        cuotas++;
+                    }
+                }
+            }else{
+                if(flagMesInicial){
+                    for(int m=mesInicial;m<=mesFinal;m++){
+                        cuotas++;
+                    }
+                    flagMesInicial=false;
+                }else{
+                    for(int m=1;m<=mesFinal;m++){
+                        cuotas++;
+                    }
+                }
+            }
+            }           
+        return cuotas;    
+    }
+    
+    public boolean tieneBonificacion(Reglabonificacion rb){
+        boolean tiene=false;
+        int day=Calendar.getInstance().get(Calendar.DATE);
+        if(day<=rb.getDiaApagar()){
+            tiene=true;
+        }
+        return tiene;
+    }
+    
+    public Monto traeMontoPesos() throws ServiceException{
+        MontoBean mb=new MontoBean();
+        Monto monto=mb.traerMontoXId(1);       
+        return monto;
     }
   /*  public static void actualizaBonificacion(String tabla, int bonificacion){
         Configuracion c;

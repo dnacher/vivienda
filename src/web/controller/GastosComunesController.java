@@ -5,7 +5,6 @@ import control.ControlVentana;
 import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
-import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Gastoscomunes;
@@ -183,7 +182,7 @@ public class GastosComunesController implements Initializable {
             lblPeriodo.setText("");
             lblUnidadNombre.setText("");
             lblUnidadDireccion.setText("");
-            periodo=UtilsConfiguracion.devuelvePeriodoActual();
+            periodo=ConfiguracionControl.devuelvePeriodoActual();
             unidad=tableGastosComunes.getSelectionModel().getSelectedItem();
             lblPeriodo.setText(String.valueOf(periodo));
             lblUnidadNombre.setText(unidad.getNombre()+ " " 

@@ -3,7 +3,6 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.EstadoBean;
-import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Estado;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -105,7 +104,7 @@ public class estadoController implements Initializable {
             if(txtNombre.getText().isEmpty()){
                 LblNombre.setText("El campo nombre no puede estar vacio");
             }
-            else if(!UtilsConfiguracion.esNumero(TxtOrden.getText())){
+            else if(!ConfiguracionControl.esNumero(TxtOrden.getText())){
                 LblOrden.setText("El campo Orden debe ser numerico");
             }
             else{

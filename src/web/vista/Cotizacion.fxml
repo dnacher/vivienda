@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -155,6 +156,15 @@
                 </graphic>
             </Button>
             <Button fx:id="btnGuardarHistorial" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardarHistorial" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
+            <Button layoutX="410.0" layoutY="66.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verHistorial" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/bookmark.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Label layoutX="380.0" layoutY="39.0" text="Exportar Historial" textFill="#2b579a" />
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

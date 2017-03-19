@@ -3,7 +3,6 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ListaPreciosBean;
-import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Listaprecios;
 import entities.persistence.entities.ListapreciosId;
 import entities.persistence.entities.Material;
@@ -105,7 +104,7 @@ public class listaPreciosController implements Initializable {
     public void guardar(){       
         ControlVentana cv=new ControlVentana();
             
-            if(!UtilsConfiguracion.esNumero(txtCantidad.getText()) && !UtilsConfiguracion.esNumero(txtPrecio.getText())){                
+            if(!ConfiguracionControl.esNumero(txtCantidad.getText()) && !ConfiguracionControl.esNumero(txtPrecio.getText())){                
                 cv.creaVentanaNotificacionError("El o los campos deben ser numericos");
             }
             else{

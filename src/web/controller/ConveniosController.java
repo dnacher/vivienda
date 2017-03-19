@@ -37,7 +37,6 @@ import javafx.scene.text.Text;
 import web.animations.FadeInUpTransition;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
-import ejb.utils.UtilsConfiguracion;
 import entities.persistence.entities.Tipobonificacion;
 import ejb.services.TipoBonificacionBean;
 import ejb.services.ConvenioBean;
@@ -239,8 +238,8 @@ public class ConveniosController implements Initializable {
                     cal.setTime(date);
                     int finalYear=cal.get(Calendar.YEAR);
                     int finalMonth=cal.get(Calendar.MONTH)+1;                    
-                    UtilsConfiguracion uc=new UtilsConfiguracion();
-                    cuotas=uc.devuelveCuotas(currentmonth, finalMonth, currentyear, finalYear);
+                    ConfiguracionControl cc=new ConfiguracionControl();
+                    cuotas=cc.devuelveCuotas(currentmonth, finalMonth, currentyear, finalYear);
                     double monto=deudaPesos/(double)cuotas;
                     DecimalFormat df = new DecimalFormat("####0.00"); 
                     lblCuotas.setText((int)cuotas + " cuotas de $" + df.format(monto));

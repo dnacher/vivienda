@@ -1,7 +1,6 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
-import ejb.utils.UtilsConfiguracion;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
@@ -181,7 +180,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
             query.setParameter("est", 2);
-            query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
             query.setParameter("elBlock", block);
             query.setParameter("laTorre", torre);
             Long count = (Long)query.uniqueResult();       
@@ -201,7 +200,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
         query.setParameter("est", 2);
-        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         list= query.list();
                        
         }
@@ -226,7 +225,7 @@ public class UnidadBean implements UnidadLocal{
                                                                + "AND gastoscomunes.estado=:est)");            
         query.setParameter("block", block);
         query.setParameter("torre", torre);
-        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         //estado 2 pago al estar en el "not in" trae los que estan pagos
         query.setParameter("est", 2);
         lista=query.list();           
@@ -248,7 +247,7 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "WHERE gastoscomunes.periodo<:periodo "
                                                                   + "AND gastoscomunes.estado=:est)");
         query.setParameter("est", 1);
-        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         list= query.list();                       
         }
         catch(Exception ex){
@@ -290,7 +289,7 @@ public class UnidadBean implements UnidadLocal{
                                      + "AND gastoscomunes.estado=:est)";
         Query query=session.createQuery(consulta);        
         query.setParameter("est", 1);
-        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         if(!block.equals("")){
             query.setParameter("block", block);
         }
@@ -359,7 +358,7 @@ public class UnidadBean implements UnidadLocal{
                                        + "AND gc.periodo<:periodo "
                                        + "AND gc.estado=:est)");
         query.setParameter("unidad", unidad);
-        query.setParameter("periodo", UtilsConfiguracion.devuelvePeriodoActual());
+        query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         query.setParameter("est", 1);
         total= (Long) query.uniqueResult();                       
         }
@@ -380,7 +379,7 @@ public class UnidadBean implements UnidadLocal{
                              + "and periodo<:elPeriodo");
             query.setInteger("nuevoEstado", 3 );
             query.setInteger( "elEstado", 1 );
-            query.setInteger("elPeriodo", UtilsConfiguracion.devuelvePeriodoActual());
+            query.setInteger("elPeriodo", ConfiguracionControl.devuelvePeriodoActual());
             query.setParameter("laUnidad", unidad);
             query.executeUpdate();
             tx.commit();

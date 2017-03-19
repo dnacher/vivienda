@@ -47,6 +47,7 @@ import ejb.services.TrabajoBean;
 import entities.persistence.entities.Historialtrabajo;
 import entities.persistence.entities.HistorialtrabajoId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.scene.control.CheckBox;
 
 
@@ -515,6 +516,13 @@ public class CotizacionController implements Initializable {
             ObservableList materialesO=FXCollections.observableList(materiales);
             tblMaterial.setItems(materialesO);
         }
+    }
+    
+    public void verHistorial(){
+        ConfiguracionControl cc=new ConfiguracionControl();
+        HashMap parameters=new HashMap();
+        parameters.put("idUnidad", unidad.getIdUnidad());
+        cc.generarReporteConParametros("HistorialTrabajo", parameters);
     }
     
 }

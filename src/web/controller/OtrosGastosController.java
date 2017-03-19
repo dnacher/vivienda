@@ -34,7 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import ejb.validaciones.OtrosGastosBuisinessValidation;
+import ejb.validaciones.OtrosGastosViewValidation;
 import entities.persistence.entities.OtrosgastosId;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -214,7 +214,7 @@ public class OtrosGastosController implements Initializable {
      
     public void guardar(){
         ControlVentana cv=new ControlVentana();
-        switch(OtrosGastosBuisinessValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto,unidad)){
+        switch(OtrosGastosViewValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto,unidad)){
             case 0:
                 try{                    
                     Otrosgastos og=new Otrosgastos();

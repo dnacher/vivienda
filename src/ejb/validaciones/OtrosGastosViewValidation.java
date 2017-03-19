@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
  *
  * @author Daniel
  */
-public class OtrosGastosBuisinessValidation {
+public class OtrosGastosViewValidation {
     public static int validar(TextField txtSecuencia,ComboBox<Monto> cmbTipoMoneda,TextField txtMonto,DatePicker cmbFecha,ComboBox<Concepto> cmbConcepto,Unidad unidad){
         int i=0;
         if(txtSecuencia.getText().isEmpty()){            
