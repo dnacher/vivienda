@@ -20,6 +20,14 @@ se necesita el trayNotification.jar
 * Daniel Nacher
 * Software soluciones
 
+## todos los gastos de todos los trabajos, gastos de los materiales ##
+
+select tr.descripcion,tr.fechacreacion,tr.duracionreal,tr.activo,mat.nombre as material,tm.cantidad,lp.precio,sum(tm.cantidad * lp.precio) as total
+from vivienda.listaprecios lp, vivienda.trabajo tr, vivienda.trabajoxmaterial tm,vivienda.material mat
+where tr.idtrabajo=tm.trabajo_idtrabajo
+and tm.material_idmaterial=mat.idmaterial
+and lp.material_idmaterial=mat.idmaterial;
+
 ## select para reporte de trabajos ##
 
 select u.nombre,u.apellido, u.block, u.torre, u.puerta,
