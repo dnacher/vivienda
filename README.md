@@ -14,6 +14,10 @@ se necesita el trayNotification.jar
 * Daniel Nacher
 * Software soluciones
 
+## otros gastos por torre ##
+
+SELECT u.nombre,u.apellido, u.block,u.torre,u.puerta,og.secuencia,og.descripcion,og.monto,og.fecha FROM vivienda.otrosgastos og, vivienda.unidad u where og.pago='TRUE' and og.unidad_idUnidad=u.idUnidad and u.torre='1';
+
 ## historial trabajo por unidad ##
 
 select u.nombre,u.apellido,u.block,u.torre,u.puerta,tr.descripcion,tr.fechacreacion,ht.fecha as 'fecha de historial',ht.descripcion as 'descripcion historial',t.nombre as 'nombre Tecnico'
