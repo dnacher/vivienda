@@ -9,16 +9,22 @@ se necesita el trayNotification.jar
 * 2.0
 
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
 ### Who do I talk to? ###
 
 * Daniel Nacher
 * Software soluciones
+
+## Otros gastos pagos y no pagos por Unidad ##
+
+SELECT u.nombre,u.apellido, u.block,u.torre,u.puerta,og.secuencia,og.descripcion,og.monto,og.fecha FROM vivienda.otrosgastos og, vivienda.unidad u
+where og.pago='TRUE'
+and og.unidad_idUnidad=u.idUnidad
+and u.idUnidad=0;
+
+SELECT u.nombre,u.apellido, u.block,u.torre,u.puerta,og.secuencia,og.descripcion,og.monto,og.fecha FROM vivienda.otrosgastos og, vivienda.unidad u
+where og.pago='FALSE'
+and og.unidad_idUnidad=u.idUnidad
+and u.idUnidad=0;
 
 ## todos los gastos de todos los trabajos, gastos de los materiales ##
 
