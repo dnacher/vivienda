@@ -14,6 +14,16 @@ se necesita el trayNotification.jar
 * Daniel Nacher
 * Software soluciones
 
+## historial trabajo por unidad ##
+
+select u.nombre,u.apellido,u.block,u.torre,u.puerta,tr.descripcion,tr.fechacreacion,ht.fecha as 'fecha de historial',ht.descripcion as 'descripcion historial',t.nombre as 'nombre Tecnico'
+from vivienda.unidad u,vivienda.trabajo tr, vivienda.historialtrabajo ht, vivienda.tecnico t
+where u.idUnidad=tr.unidad_idUnidad
+and ht.trabajo_idtrabajo=tr.idtrabajo
+and t.idtecnico=ht.tecnico_idtrabajador
+and tr.idtrabajo=ht.trabajo_idtrabajo
+and tr.unidad_idunidad=0;
+
 ## Otros gastos por Block ##
 
 SELECT u.nombre,u.apellido, u.block,u.torre,u.puerta,og.secuencia,og.descripcion,og.monto,og.fecha FROM vivienda.otrosgastos og, vivienda.unidad u
