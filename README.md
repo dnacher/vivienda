@@ -14,6 +14,14 @@ se necesita el trayNotification.jar
 * Daniel Nacher
 * Software soluciones
 
+## creacion de trabajo ##
+
+select u.nombre,u.apellido,u.block,u.torre,u.puerta,tr.fechaCreacion,tr.fechaVisita,td.nombre  as 'tipo de duracion',tr.duracionEstimada
+from vivienda.trabajo tr, vivienda.unidad u, vivienda.tipoduracion td
+where u.idUnidad=tr.Unidad_idUnidad
+and td.idTipoduracion=tr.tipoDuracion_idtipoDuracion
+and u.idunidad=0;
+
 ## Otros gastos pagos y no pagos por Unidad ##
 
 SELECT u.nombre,u.apellido, u.block,u.torre,u.puerta,og.secuencia,og.descripcion,og.monto,og.fecha FROM vivienda.otrosgastos og, vivienda.unidad u
