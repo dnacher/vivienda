@@ -8,6 +8,14 @@ se necesita el trayNotification.jar
 * Viviendas es una aplicacion para la administracion de viviendas (gastos comunes y mantenimiento)
 * 2.0
 
+## letra ##
+
+Segoe UI Symbol
+
+## color ##
+
+2B579A
+rgb(43, 87, 154)
 
 ### Who do I talk to? ###
 
