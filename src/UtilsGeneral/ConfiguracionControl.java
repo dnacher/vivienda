@@ -1,14 +1,13 @@
 package UtilsGeneral;
 
 import ejb.services.MontoBean;
+import entities.hibernate.NewHibernateUtil;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Reglabonificacion;
-import exceptions.ConectarException;
 import exceptions.ServiceException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -22,15 +21,15 @@ import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.internal.SessionImpl;
 
 public class ConfiguracionControl {
     
     public static int traeUltimoId(String tabla){
         Configuracion c;
         int i=-1;
-        Session session = SessionConnection.getConnection().useSession();
+        SessionConnection sc=new SessionConnection();
+        Session session = sc.useSession();        
         Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
         query.setParameter("name", tabla);
         c=(Configuracion)query.uniqueResult();           
@@ -39,34 +38,27 @@ public class ConfiguracionControl {
             i=c.getId();
         }
         return i;
-    }
-    
-    public Connection conectar() throws ConectarException{
-        Connection conexion= null;         
-        try {           
-            Session session = SessionConnection.getConnection().useSession();              
-            SessionFactoryImplementor sessionFactoryImplementation = (SessionFactoryImplementor) session.getSessionFactory();
-            ConnectionProvider connectionProvider = sessionFactoryImplementation.getConnectionProvider();            
-            conexion=connectionProvider.getConnection();
-        } catch (SQLException ex) {
-           throw new ConectarException(ex.getMessage());
-        }
-        return conexion;
-    }
+    }   
     
     public static void ActualizaId(String tabla){
         int i=traeUltimoId(tabla);
         Configuracion c;
         if(i!=-1){
-            Session session = SessionConnection.getConnection().useSession();
-            Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
+            SessionConnection sc=new SessionConnection();
+            //Session session = sc.useSession();
+           // Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
+           Query query= sc.useSession().createQuery("from Configuracion where NombreTabla=:name");            
             query.setParameter("name", tabla);
             c=(Configuracion)query.uniqueResult(); 
             i++;
             c.setId(i);
-            Transaction tx= session.beginTransaction(); 
-            session.update(c);
+           // Transaction tx= session.beginTransaction(); 
+           Transaction tx= sc.useSession().beginTransaction(); 
+           // session.update(c);
+           sc.useSession().update(c);
             tx.commit();
+            //session.close();
+            sc.closeSession();
         }
     }
     
@@ -74,7 +66,8 @@ public class ConfiguracionControl {
         int i=traeUltimoId(tabla);
         Configuracion c;
         if(i!=-1){
-            Session session = SessionConnection.getConnection().useSession();
+            SessionConnection sc=new SessionConnection();
+            Session session = sc.useSession();
             Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
             query.setParameter("name", tabla);
             c=(Configuracion)query.uniqueResult();             
@@ -82,6 +75,7 @@ public class ConfiguracionControl {
             Transaction tx= session.beginTransaction(); 
             session.update(c);
             tx.commit();
+            session.close();
         }
     }
     
@@ -91,12 +85,15 @@ public class ConfiguracionControl {
     }
     
     public void generarReporte(String reporte){       
-        try{
+        try{            
+            Session session=NewHibernateUtil.getSessionFactory().openSession();
+            Connection con=((SessionImpl)session).connection();
             JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
-            JasperPrint jp= JasperFillManager.fillReport(jr, null, conectar());
+            JasperPrint jp= JasperFillManager.fillReport(jr, null, con);
             JasperViewer jv= new JasperViewer(jp, false);           
             jv.setVisible(true);
-            jv.setTitle(reporte);
+            jv.setTitle(reporte);           
+           session.close();
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -105,20 +102,22 @@ public class ConfiguracionControl {
     
     public void generarReporteConParametros(String reporte,HashMap parameters){       
         try{            
+            Session session=NewHibernateUtil.getSessionFactory().openSession();
+            Connection con=((SessionImpl)session).connection();
             JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
-            JasperPrint jp= JasperFillManager.fillReport(jr, parameters, conectar());
+            JasperPrint jp= JasperFillManager.fillReport(jr, parameters, con);
             JasperViewer jv= new JasperViewer(jp, false);           
             jv.setVisible(true);
             jv.setTitle(reporte);
+            session.close();           
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
-        }      
-         
+        }
     }
     
     public static boolean esNumero(String s){
-        boolean esNumero=false;
+        boolean esNumero;
         int num;
         try{
             num=Integer.valueOf(s);
@@ -131,7 +130,7 @@ public class ConfiguracionControl {
     }
     
     public static int traePeriodo(int y, int m){ 
-        int periodo=0; 
+        int periodo; 
         if(m>9){
             periodo=Integer.valueOf(String.valueOf(y) + String.valueOf(m)); 
         } else{ 
@@ -141,7 +140,7 @@ public class ConfiguracionControl {
     }
     
     public static int devuelvePeriodoActual(){
-        int periodoActual=0;
+        int periodoActual;
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month=Calendar.getInstance().get(Calendar.MONTH)+1;        
         periodoActual=traePeriodo(year, month);

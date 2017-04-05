@@ -9,7 +9,6 @@ import exceptions.ServiceException;
 import static java.lang.Math.toIntExact;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -18,13 +17,17 @@ import org.hibernate.Transaction;
  */
 public class TrabajoBean implements TrabajoLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public TrabajoBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        //tx= session.beginTransaction();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -32,9 +35,11 @@ public class TrabajoBean implements TrabajoLocal{
     public boolean guardar(Trabajo trabajo) throws ServiceException {
         correcto=false;
         try{            
-            session.save(trabajo);
+            //session.save(trabajo);
+            sc.useSession().save(trabajo);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Trabajo");
         }
@@ -47,9 +52,11 @@ public class TrabajoBean implements TrabajoLocal{
     @Override
     public boolean modificar(Trabajo trabajo) throws ServiceException {
         try{            
-            session.update(trabajo);
+            //session.update(trabajo);
+            sc.useSession().update(trabajo);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -61,9 +68,11 @@ public class TrabajoBean implements TrabajoLocal{
     @Override
     public List<Trabajo> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Trabajo");         
+            //Query query= session.createQuery("from Trabajo");         
+            Query query= sc.useSession().createQuery("from Trabajo");
             List<Trabajo> trabajos=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return trabajos;
         }
         catch(Exception ex){
@@ -73,10 +82,12 @@ public class TrabajoBean implements TrabajoLocal{
 
     @Override
     public Trabajo traerTrabajoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Trabajo trabajo where trabajo.IdTrabajo=:id");            
+        //Query query= session.createQuery("from Trabajo trabajo where trabajo.IdTrabajo=:id");            
+        Query query= sc.useSession().createQuery("from Trabajo trabajo where trabajo.IdTrabajo=:id");            
         query.setParameter("id", Id);        
         Trabajo trabajos=(Trabajo) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return trabajos;
     }
     
@@ -86,7 +97,8 @@ public class TrabajoBean implements TrabajoLocal{
             String consulta="select count(*) from Trabajo trabajo "
                           + "where trabajo.unidad=:unidad "
                           + "and trabajo.activo=:activo";
-            Query query = session.createQuery(consulta);
+            //Query query = session.createQuery(consulta);
+            Query query = sc.useSession().createQuery(consulta);
             query.setParameter("unidad", unidad);
             query.setParameter("activo", activo);
             Long count = (Long)query.uniqueResult();
@@ -94,7 +106,8 @@ public class TrabajoBean implements TrabajoLocal{
             if(retorno>0){
                 tieneTrabajos=true;
             }
-            session.close();
+            //session.close();
+            sc.closeSession();
             return tieneTrabajos;
     }
     
@@ -104,11 +117,13 @@ public class TrabajoBean implements TrabajoLocal{
             String consulta="from Trabajo trabajo "
                           + "where trabajo.unidad=:unidad "
                           + "and trabajo.activo=:activo";
-            Query query = session.createQuery(consulta);
+            //Query query = session.createQuery(consulta);
+            Query query = sc.useSession().createQuery(consulta);
             query.setParameter("unidad", unidad);
             query.setParameter("activo", activo);
             trabajo = (Trabajo)query.uniqueResult();           
-            session.close();
+            //session.close();
+            sc.closeSession();
             return trabajo;
     }
     
@@ -116,10 +131,12 @@ public class TrabajoBean implements TrabajoLocal{
         correcto=false;
         try{  
             for(Trabajoxmaterial tm: lista){
-                session.save(tm);
+                //session.save(tm);
+                sc.useSession().save(tm);
             }            
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             //ConfiguracionControl.ActualizaId("Trabajo");
         }

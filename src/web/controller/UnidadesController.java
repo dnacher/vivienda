@@ -105,6 +105,17 @@ public class UnidadesController implements Initializable {
         }
     }     
     
+    public void recargarTabla(){
+        try{
+            UnidadBean ub= new UnidadBean();
+            unidades=FXCollections.observableArrayList(ub.traerTodos());
+            tableData.setItems(unidades);
+        }
+        catch(Exception ex){
+        
+        }
+    }
+    
     public void cargaHoy(){
         Date date= new Date();
         LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -302,6 +313,7 @@ public class UnidadesController implements Initializable {
                     UnidadBean ub=new UnidadBean();
                     ub.guardar(unidad);
                     cv.creaVentanaNotificacionCorrecto();
+                    recargarTabla();
                  }
                  catch(Exception ex){
                      cv.creaVentanaNotificacionError(ex.getMessage());

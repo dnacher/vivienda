@@ -6,7 +6,6 @@ import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class ConvenioBean implements ConvenioLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public ConvenioBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        //session = SessionConnection.getConnection().useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class ConvenioBean implements ConvenioLocal{
     public boolean guardar(Convenio convenio) throws ServiceException {
         correcto=false;
         try{            
-            session.save(convenio);
+            sc.useSession().save(convenio);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             UnidadBean ub=new UnidadBean();
             ub.actualizaGastosComunesAConvenios(convenio.getUnidad());
             correcto=true;
@@ -46,9 +49,10 @@ public class ConvenioBean implements ConvenioLocal{
     public boolean eliminar(Convenio convenio) throws ServiceException {
         try{
             convenio.setActivo(false);
-            session.update(convenio);
+            sc.useSession().update(convenio);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -60,9 +64,10 @@ public class ConvenioBean implements ConvenioLocal{
     @Override
     public boolean modificar(Convenio convenio) throws ServiceException {
         try{            
-            session.update(convenio);
+            sc.useSession().update(convenio);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -74,9 +79,10 @@ public class ConvenioBean implements ConvenioLocal{
     @Override
     public List<Convenio> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Convenio");         
+            Query query= sc.useSession().createQuery("from Convenio");         
             List<Convenio> convenios=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return convenios;
         }
         catch(Exception ex){
@@ -86,22 +92,24 @@ public class ConvenioBean implements ConvenioLocal{
 
     @Override
     public Convenio traerConvenioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Convenio convenio where convenio.IdConvenio=:id");            
+        Query query= sc.useSession().createQuery("from Convenio convenio where convenio.IdConvenio=:id");            
         query.setParameter("id", Id);        
         Convenio convenio=(Convenio) query.uniqueResult();
-        session.close();        
+        //session.close();        
+        sc.closeSession();
         return convenio;
     }
     
       public Convenio traeConvenioXUnidad(Unidad unidad){
           try{}
           catch(Exception ex){}
-        Query query= session.createQuery("from Convenio convenio "
+        Query query= sc.useSession().createQuery("from Convenio convenio "
                                        + "where convenio.unidad=:unidad "
                                        + "and convenio.activo=true");
         query.setParameter("unidad", unidad);
         Convenio convenio=(Convenio) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return convenio;
     }
     

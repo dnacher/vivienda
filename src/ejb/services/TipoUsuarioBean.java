@@ -6,7 +6,6 @@ import entities.persistence.entities.Tipousuario;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,17 @@ import org.hibernate.Transaction;
  */
 public class TipoUsuarioBean implements TipoUsuariosLocal{
     
-    public Session session;
+    //public Session session;
+    SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
     
     public TipoUsuarioBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();        
+        //tx= session.beginTransaction();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +32,11 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     public boolean guardar(Tipousuario tipoUsuario) throws ServiceException {
         correcto=false;
         try{            
-            session.save(tipoUsuario);
+            //session.save(tipoUsuario);
+            sc.useSession().save(tipoUsuario);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("TipoUsuario");
         }
@@ -45,9 +50,11 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     public boolean eliminar(Tipousuario tipoUsuario) throws ServiceException {
         try{
             tipoUsuario.setActivo(false);
-            session.update(tipoUsuario);
+            //session.update(tipoUsuario);
+            sc.useSession().update(tipoUsuario);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +66,11 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     @Override
     public boolean modificar(Tipousuario tipoUsuario) throws ServiceException {
         try{            
-            session.update(tipoUsuario);
+            //session.update(tipoUsuario);
+            sc.useSession().update(tipoUsuario);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +82,11 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     @Override
     public List<Tipousuario> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Tipousuario");         
+            //Query query= session.createQuery("from Tipousuario");         
+            Query query= sc.useSession().createQuery("from Tipousuario");         
             List<Tipousuario> tipoUsuario=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return tipoUsuario;
         }
         catch(Exception ex){
@@ -85,10 +96,12 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
 
     @Override
     public Tipousuario traerTipousuarioXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");            
+        //Query query= session.createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");            
+        Query query= sc.useSession().createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");
         query.setParameter("id", Id);        
         Tipousuario tipoUsuario=(Tipousuario) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return tipoUsuario;
     }
     

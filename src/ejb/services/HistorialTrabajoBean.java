@@ -6,7 +6,6 @@ import entities.persistence.entities.Historialtrabajo;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class HistorialTrabajoBean implements HistorialTrabajoLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public HistorialTrabajoBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
     public boolean guardar(Historialtrabajo historialTrabajo) throws ServiceException {
         correcto=false;
         try{            
-            session.save(historialTrabajo);
+            sc.useSession().save(historialTrabajo);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("HistorialTrabajo");
         }
@@ -44,9 +47,10 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
     @Override
     public boolean modificar(Historialtrabajo historialTrabajo) throws ServiceException {
         try{            
-            session.update(historialTrabajo);
+            sc.useSession().update(historialTrabajo);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -58,9 +62,10 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
     @Override
     public List<Historialtrabajo> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Historialtrabajo");         
+            Query query= sc.useSession().createQuery("from Historialtrabajo");         
             List<Historialtrabajo> historialTrabajos=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return historialTrabajos;
         }
         catch(Exception ex){
@@ -70,10 +75,11 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal{
 
     @Override
     public Historialtrabajo traerHistorialtrabajoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Historialtrabajo historialTrabajo where historialTrabajo.IdHistorialtrabajo=:id");            
+        Query query= sc.useSession().createQuery("from Historialtrabajo historialTrabajo where historialTrabajo.IdHistorialtrabajo=:id");            
         query.setParameter("id", Id);        
         Historialtrabajo historialTrabajo=(Historialtrabajo) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return historialTrabajo;
     }
     

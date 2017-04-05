@@ -6,7 +6,6 @@ import entities.persistence.entities.Estado;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class EstadoBean implements EstadoLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public EstadoBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class EstadoBean implements EstadoLocal{
     public boolean guardar(Estado estado) throws ServiceException {
         correcto=false;
         try{            
-            session.save(estado);
+            sc.useSession().save(estado);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Estado");
         }
@@ -45,9 +48,10 @@ public class EstadoBean implements EstadoLocal{
     public boolean eliminar(Estado estado) throws ServiceException {
         try{
             estado.setActivo(false);
-            session.update(estado);
+            sc.useSession().update(estado);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class EstadoBean implements EstadoLocal{
     @Override
     public boolean modificar(Estado estado) throws ServiceException {
         try{            
-            session.update(estado);
+            sc.useSession().update(estado);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +78,10 @@ public class EstadoBean implements EstadoLocal{
     @Override
     public List<Estado> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Estado estado order by estado.orden");
+            Query query= sc.useSession().createQuery("from Estado estado order by estado.orden");
             List<Estado> estados=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return estados;
         }
         catch(Exception ex){
@@ -85,10 +91,11 @@ public class EstadoBean implements EstadoLocal{
 
     @Override
     public Estado traerEstadoBeanXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Estado estado where estado.IdEstado=:id");            
+        Query query= sc.useSession().createQuery("from Estado estado where estado.IdEstado=:id");            
         query.setParameter("id", Id);        
         Estado estado=(Estado) query.uniqueResult();
-        session.close();        
+        //session.close();        
+        sc.closeSession();
         return estado;
     }
     

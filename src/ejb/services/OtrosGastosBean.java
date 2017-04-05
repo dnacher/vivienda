@@ -6,7 +6,6 @@ import entities.persistence.entities.Otrosgastos;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class OtrosGastosBean implements OtrosGastosLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public OtrosGastosBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class OtrosGastosBean implements OtrosGastosLocal{
     public boolean guardar(Otrosgastos otrosGastos) throws ServiceException {
         correcto=false;
         try{            
-            session.save(otrosGastos);
+            sc.useSession().save(otrosGastos);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("OtrosGastos");
         }
@@ -45,9 +48,10 @@ public class OtrosGastosBean implements OtrosGastosLocal{
     public boolean eliminar(Otrosgastos otrosGastos) throws ServiceException {
         try{
             otrosGastos.setActivo(false);
-            session.update(otrosGastos);
+            sc.useSession().update(otrosGastos);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class OtrosGastosBean implements OtrosGastosLocal{
     @Override
     public boolean modificar(Otrosgastos otrosGastos) throws ServiceException {
         try{            
-            session.update(otrosGastos);
+            sc.useSession().update(otrosGastos);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +78,10 @@ public class OtrosGastosBean implements OtrosGastosLocal{
     @Override
     public List<Otrosgastos> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Otrosgastos");         
+            Query query= sc.useSession().createQuery("from Otrosgastos");         
             List<Otrosgastos> otrosGastos=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return otrosGastos;
         }
         catch(Exception ex){
@@ -85,10 +91,11 @@ public class OtrosGastosBean implements OtrosGastosLocal{
 
     @Override
     public Otrosgastos traerOtrosgastosXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Otrosgastos otrosGastos where otrosGastos.IdOtrosgastos=:id");            
+        Query query= sc.useSession().createQuery("from Otrosgastos otrosGastos where otrosGastos.IdOtrosgastos=:id");            
         query.setParameter("id", Id);        
         Otrosgastos otrosGastos=(Otrosgastos) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return otrosGastos;
     }
     

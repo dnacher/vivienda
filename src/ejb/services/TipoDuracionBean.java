@@ -6,7 +6,6 @@ import entities.persistence.entities.Tipoduracion;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class TipoDuracionBean implements TipoDuracionLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public TipoDuracionBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class TipoDuracionBean implements TipoDuracionLocal{
     public boolean guardar(Tipoduracion tipoDuracion) throws ServiceException {
         correcto=false;
         try{            
-            session.save(tipoDuracion);
+            sc.useSession().save(tipoDuracion);
             tx.commit();
-            session.close();
+            //sc.useSession().close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("TipoDuracion");
         }
@@ -45,9 +48,10 @@ public class TipoDuracionBean implements TipoDuracionLocal{
     public boolean eliminar(Tipoduracion tipoDuracion) throws ServiceException {
         try{
             tipoDuracion.setActivo(false);
-            session.update(tipoDuracion);
+            sc.useSession().update(tipoDuracion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class TipoDuracionBean implements TipoDuracionLocal{
     @Override
     public boolean modificar(Tipoduracion tipoDuracion) throws ServiceException {
         try{            
-            session.update(tipoDuracion);
+            sc.useSession().update(tipoDuracion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +78,10 @@ public class TipoDuracionBean implements TipoDuracionLocal{
     @Override
     public List<Tipoduracion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Tipoduracion");         
+            Query query= sc.useSession().createQuery("from Tipoduracion");         
             List<Tipoduracion> tipoduracion=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return tipoduracion;
         }
         catch(Exception ex){
@@ -85,10 +91,11 @@ public class TipoDuracionBean implements TipoDuracionLocal{
 
     @Override
     public Tipoduracion traerTipoduracionXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Tipoduracion tipoduracion where tipoduracion.IdTipoduracion=:id");            
+        Query query= sc.useSession().createQuery("from Tipoduracion tipoduracion where tipoduracion.IdTipoduracion=:id");            
         query.setParameter("id", Id);        
         Tipoduracion tipoduracion=(Tipoduracion) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return tipoduracion;
     }
     

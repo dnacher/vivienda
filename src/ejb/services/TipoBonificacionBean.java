@@ -6,7 +6,6 @@ import entities.persistence.entities.Tipobonificacion;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class TipoBonificacionBean implements TipoBonificacionLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public TipoBonificacionBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
     public boolean guardar(Tipobonificacion tipoBonificacion) throws ServiceException {
         correcto=false;
         try{            
-            session.save(tipoBonificacion);
+            sc.useSession().save(tipoBonificacion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("TipoBonificacion");
         }
@@ -45,9 +48,10 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
     public boolean eliminar(Tipobonificacion tipoBonificacion) throws ServiceException {
         try{
             tipoBonificacion.setActivo(false);
-            session.update(tipoBonificacion);
+            sc.useSession().update(tipoBonificacion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
     @Override
     public boolean modificar(Tipobonificacion tipoBonificacion) throws ServiceException {
         try{            
-            session.update(tipoBonificacion);
+            sc.useSession().update(tipoBonificacion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +78,10 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
     @Override
     public List<Tipobonificacion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Tipobonificacion");         
+            Query query= sc.useSession().createQuery("from Tipobonificacion");         
             List<Tipobonificacion> tipoBonificaciones=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return tipoBonificaciones;
         }
         catch(Exception ex){
@@ -85,10 +91,11 @@ public class TipoBonificacionBean implements TipoBonificacionLocal{
 
     @Override
     public Tipobonificacion traerTipobonificacionXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Tipobonificacion tipoBonificaciones where tipoBonificaciones.IdUsuario=:id");            
+        Query query= sc.useSession().createQuery("from Tipobonificacion tipoBonificaciones where tipoBonificaciones.IdUsuario=:id");            
         query.setParameter("id", Id);        
         Tipobonificacion tipoBonificaciones=(Tipobonificacion) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return tipoBonificaciones;
     }
     

@@ -6,7 +6,6 @@ import entities.persistence.entities.Tecnico;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,23 +14,28 @@ import org.hibernate.Transaction;
  */
 public class TecnicoBean implements TecnicoLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public TecnicoBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
     @Override
     public boolean guardar(Tecnico tecnico) throws ServiceException {
         correcto=false;
-        try{            
-            session.save(tecnico);
+        try{
+            tecnico.setCalificacion(0);
+            sc.useSession().save(tecnico);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Tecnico");
         }
@@ -45,9 +49,10 @@ public class TecnicoBean implements TecnicoLocal{
     public boolean eliminar(Tecnico tecnico) throws ServiceException {
         try{
             tecnico.setActivo(false);
-            session.update(tecnico);
+            sc.useSession().update(tecnico);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +64,10 @@ public class TecnicoBean implements TecnicoLocal{
     @Override
     public boolean modificar(Tecnico tecnico) throws ServiceException {
         try{            
-            session.update(tecnico);
+            sc.useSession().update(tecnico);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +79,10 @@ public class TecnicoBean implements TecnicoLocal{
     @Override
     public List<Tecnico> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Tecnico");         
+            Query query= sc.useSession().createQuery("from Tecnico");         
             List<Tecnico> tecnicos=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return tecnicos;
         }
         catch(Exception ex){
@@ -85,10 +92,11 @@ public class TecnicoBean implements TecnicoLocal{
 
     @Override
     public Tecnico traerTecnicoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Tecnico tecnico where tecnico.idTecnico=:id");            
+        Query query= sc.useSession().createQuery("from Tecnico tecnico where tecnico.idTecnico=:id");            
         query.setParameter("id", Id);        
         Tecnico tecnicos=(Tecnico) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return tecnicos;
     }
     

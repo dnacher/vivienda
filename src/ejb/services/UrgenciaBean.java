@@ -6,7 +6,6 @@ import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,17 @@ import org.hibernate.Transaction;
  */
 public class UrgenciaBean implements UrgenciaLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public UrgenciaBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();        
+        //tx= session.beginTransaction();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +32,11 @@ public class UrgenciaBean implements UrgenciaLocal{
     public boolean guardar(Urgencia urgencia) throws ServiceException {
         correcto=false;
         try{            
-            session.save(urgencia);
+            //session.save(urgencia);
+            sc.useSession().save(urgencia);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Urgencia");
         }
@@ -45,9 +50,11 @@ public class UrgenciaBean implements UrgenciaLocal{
     public boolean eliminar(Urgencia urgencia) throws ServiceException {
         try{
             urgencia.setActivo(false);
-            session.update(urgencia);
+            //session.update(urgencia);
+            sc.useSession().update(urgencia);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +66,11 @@ public class UrgenciaBean implements UrgenciaLocal{
     @Override
     public boolean modificar(Urgencia urgencia) throws ServiceException {
         try{            
-            session.update(urgencia);
+            //session.update(urgencia);
+            sc.useSession().update(urgencia);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +82,11 @@ public class UrgenciaBean implements UrgenciaLocal{
     @Override
     public List<Urgencia> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Urgencia");         
+            //Query query= session.createQuery("from Urgencia");         
+            Query query= sc.useSession().createQuery("from Urgencia");         
             List<Urgencia> urgencias=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return urgencias;
         }
         catch(Exception ex){
@@ -85,10 +96,12 @@ public class UrgenciaBean implements UrgenciaLocal{
 
     @Override
     public Urgencia traerUrgenciaXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Urgencia urgencia where urgencia.IdUrgencia=:id");            
+        //Query query= session.createQuery("from Urgencia urgencia where urgencia.IdUrgencia=:id");            
+        Query query= sc.useSession().createQuery("from Urgencia urgencia where urgencia.IdUrgencia=:id");
         query.setParameter("id", Id);        
         Urgencia urgencias=(Urgencia) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return urgencias;
     }
     

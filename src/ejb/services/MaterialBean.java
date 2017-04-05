@@ -6,7 +6,6 @@ import entities.persistence.entities.Material;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class MaterialBean implements MaterialLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public MaterialBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class MaterialBean implements MaterialLocal{
     public boolean guardar(Material material) throws ServiceException {
         correcto=false;
         try{            
-            session.save(material);
+            sc.useSession().save(material);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Material");
         }
@@ -45,9 +48,10 @@ public class MaterialBean implements MaterialLocal{
     public boolean eliminar(Material material) throws ServiceException {
         try{
             material.setActivo(false);
-            session.update(material);
+            sc.useSession().update(material);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class MaterialBean implements MaterialLocal{
     @Override
     public boolean modificar(Material material) throws ServiceException {
         try{            
-            session.update(material);
+            sc.useSession().update(material);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,10 +78,11 @@ public class MaterialBean implements MaterialLocal{
     public boolean modificarTodos(List<Material> materiales) throws ServiceException {
         try{
             for(Material m:materiales){
-                session.update(m);
+                sc.useSession().update(m);
             }
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -88,9 +94,10 @@ public class MaterialBean implements MaterialLocal{
     @Override
     public List<Material> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Material");         
+            Query query= sc.useSession().createQuery("from Material");         
             List<Material> listaMateriales=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return listaMateriales;
         }
         catch(Exception ex){
@@ -100,10 +107,11 @@ public class MaterialBean implements MaterialLocal{
 
     @Override
     public Material traerMaterialXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Material material where material.IdMaterial=:id");            
+        Query query= sc.useSession().createQuery("from Material material where material.IdMaterial=:id");            
         query.setParameter("id", Id);        
         Material listaMateriales=(Material) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return listaMateriales;
     }
     

@@ -253,7 +253,7 @@ public class BajaLienciaController implements Initializable {
     }
     
     public void managedTabla() throws ServiceException{
-       
+        try{
             lblNombre.setText("");
             lblApellido.setText("");
             lblTelefono.setText("");
@@ -264,6 +264,9 @@ public class BajaLienciaController implements Initializable {
             lblApellido.setText(tecnico.getApellido());
             lblTelefono.setText(tecnico.getTelefono());
             cmbBajaLicencia.setVisible(true);
-    
+        }
+        catch(Exception ex){
+            
+        }    
     }
 } 

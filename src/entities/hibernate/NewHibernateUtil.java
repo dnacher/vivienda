@@ -1,7 +1,6 @@
 package entities.hibernate;
 
 import java.net.URL;
-import javax.imageio.spi.ServiceRegistry;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -10,8 +9,7 @@ import org.hibernate.cfg.Configuration;
 public class NewHibernateUtil {
 
     private static SessionFactory sf;
-    private static ServiceRegistry serviceRegistrry;    
-        
+    
     static {
         try {            
             URL resource = NewHibernateUtil.class.getResource("hibernate.cfg.xml");

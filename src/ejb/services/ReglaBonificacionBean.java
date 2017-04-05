@@ -6,7 +6,6 @@ import entities.persistence.entities.Reglabonificacion;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public ReglaBonificacionBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     public boolean guardar(Reglabonificacion reglaBonificacion) throws ServiceException {
         correcto=false;
         try{            
-            session.save(reglaBonificacion);
+            sc.useSession().save(reglaBonificacion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("ReglaBonificacion");
         }
@@ -45,9 +48,10 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     public boolean eliminar(Reglabonificacion reglaBonificacion) throws ServiceException {
         try{
             reglaBonificacion.setActivo(false);
-            session.update(reglaBonificacion);
+            sc.useSession().update(reglaBonificacion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     @Override
     public boolean modificar(Reglabonificacion reglaBonificacion) throws ServiceException {
         try{            
-            session.update(reglaBonificacion);
+            sc.useSession().update(reglaBonificacion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +78,10 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
     @Override
     public List<Reglabonificacion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Reglabonificacion");         
+            Query query= sc.useSession().createQuery("from Reglabonificacion");         
             List<Reglabonificacion> reglaBonificacion=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return reglaBonificacion;
         }
         catch(Exception ex){
@@ -85,10 +91,11 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
 
     @Override
     public Reglabonificacion traerReglabonificacionXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Reglabonificacion reglaBonificacion where reglaBonificacion.IdReglaBonificacion=:id");            
+        Query query= sc.useSession().createQuery("from Reglabonificacion reglaBonificacion where reglaBonificacion.IdReglaBonificacion=:id");            
         query.setParameter("id", Id);        
         Reglabonificacion reglaBonificacion=(Reglabonificacion) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return reglaBonificacion;
     }
     

@@ -45,7 +45,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import viviendas.Viviendas;
+//import viviendas.Viviendas;
 import web.animations.FadeInUpTransition;
 
 public class GastosComunesController implements Initializable {
@@ -104,13 +104,15 @@ public class GastosComunesController implements Initializable {
     
     int periodo;
     Unidad unidad;
-    boolean guardado=false;
-    Viviendas viviendas=new Viviendas();
+    UnidadBean ub;
+    GastosComunesBean gcb;
+    boolean guardado=false;  
+    public ObservableList<Unidad> unidadesGastosComunesNoPago;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {             
             task(); 
-        try {
+        try {           
             cargaComboMonto();
             cargarComboBlock();
             cargarComboTorre();
@@ -149,11 +151,10 @@ public class GastosComunesController implements Initializable {
         longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-               UnidadBean ub=new UnidadBean();       
-                    viviendas.unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
+                ub=new UnidadBean();
+                   unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
                     cargaTabla();
-                    atras();
-                    
+                    atras();                   
             }
         });
         bar.progressProperty().bind(longTask.progressProperty());        
@@ -173,8 +174,8 @@ public class GastosComunesController implements Initializable {
     }
     
     public void monedaCombo(){        
-            Monto monto=cmbMoneda.getSelectionModel().getSelectedItem();
-            lblSimbolo.setText(monto.getSimbolo());   
+        Monto monto=cmbMoneda.getSelectionModel().getSelectedItem();
+        lblSimbolo.setText(monto.getSimbolo());   
     }
     
     public void agregarGastosComunes(){
@@ -191,23 +192,16 @@ public class GastosComunesController implements Initializable {
                                 + unidad.getTorre() + "/ " 
                                 + unidad.getPuerta());
             paneGastosComunes.setOpacity(0);
-            new FadeInUpTransition(paneFormulario).play();
-            Platform.runLater(() -> {
-                         
-            });
+            new FadeInUpTransition(paneFormulario).play();          
         }
         catch(Exception ex){
             lblInfo.setText("Debe seleccionar una unidad.");
-        }
-        
-        
+        }      
     }
     
     public void atras(){        
         paneFormulario.setOpacity(0);
-        new FadeInUpTransition(paneGastosComunes).play();
-        Platform.runLater(() -> {            
-        });   
+        new FadeInUpTransition(paneGastosComunes).play();        
     }
      
      
@@ -245,14 +239,14 @@ public class GastosComunesController implements Initializable {
        Puerta.setMinWidth(110);
        Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
 
-       tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
-       tableGastosComunes.setItems(viviendas.unidadesGastosComunesNoPago);
+       tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);       
+       tableGastosComunes.setItems(unidadesGastosComunesNoPago);
        cargaGrafica("",0);
     }
     
-    public void llenaTabla(){
-        lblInfo.setText("Se muestran " + viviendas.unidadesGastosComunesNoPago.size() + " registros.");
-        tableGastosComunes.setItems(viviendas.unidadesGastosComunesNoPago);
+    public void llenaTabla(){       
+       lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " registros.");       
+        tableGastosComunes.setItems(unidadesGastosComunesNoPago);
         if(guardado){
             cargaGrafica("", 0);
         }else{
@@ -266,9 +260,9 @@ public class GastosComunesController implements Initializable {
     
     public void cargaGrafica(String block, int torre){
         lblInfoPieChart.setText("");
-        UnidadBean ub=new UnidadBean();
-        int total=ub.totalUnidades(block,torre);
-        int totalPago=total-viviendas.unidadesGastosComunesNoPago.size();
+        ub=new UnidadBean();
+        int total=ub.totalUnidades(block,torre);        
+        int totalPago=total-unidadesGastosComunesNoPago.size();
         int totalNoPago=total-totalPago;
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
                 new PieChart.Data("No pagó", totalNoPago),
@@ -291,9 +285,9 @@ public class GastosComunesController implements Initializable {
         public void mostrar(ActionEvent event) {       
             try{
             lblInfo.setText("");
-            UnidadBean ub= new UnidadBean();
-            List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
-            viviendas.unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
+            ub= new UnidadBean();
+            List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
+            unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
             llenaTabla();
             cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
             }
@@ -303,10 +297,15 @@ public class GastosComunesController implements Initializable {
         }
        
         public void mostrarTodos() {
-            UnidadBean ub=new UnidadBean();
-            List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();            
-            viviendas.unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
-            llenaTabla();           
+            try{
+            ub=new UnidadBean();
+            List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();
+            unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
+            llenaTabla();
+            }
+            catch(Exception ex){
+                System.out.println(ex.getMessage());
+            }
         }
         
         public boolean validar(){
@@ -334,8 +333,8 @@ public class GastosComunesController implements Initializable {
                 gc.setMonto_1(Integer.valueOf(txtMonto.getText()));
                 gc.setPeriodo(periodo);
                 gc.setUnidad(unidad);
-                GastosComunesBean gcb=new GastosComunesBean();
-                gcb.guardar(gc);                
+                gcb=new GastosComunesBean();
+                gcb.guardar(gc);
                 ConfiguracionControl cc=new ConfiguracionControl();
                 HashMap parameters=new HashMap();
                 SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -351,8 +350,7 @@ public class GastosComunesController implements Initializable {
                 }
                 catch(Exception ex){
                     ex.getMessage();
-                }
-                
+                }                
             }
         }             
 }

@@ -35,8 +35,8 @@ public class Viviendas extends Application {
     public static Usuario user;
     public static List<Configuracion> listaConfiguracion;
     public static boolean confirmacion=false;
-    UnidadBean ub=new UnidadBean();
-    public ObservableList<Unidad> unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());;
+   // UnidadBean ub=new UnidadBean();
+   // public ObservableList<Unidad> unidadesGastosComunesNoPago=FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
     
     public static Tipousuario getTipoUsuario(){
         return user.getTipousuario();

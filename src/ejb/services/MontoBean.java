@@ -6,7 +6,6 @@ import entities.persistence.entities.Monto;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,16 @@ import org.hibernate.Transaction;
  */
 public class MontoBean implements MontoLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public MontoBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +31,10 @@ public class MontoBean implements MontoLocal{
     public boolean guardar(Monto monto) throws ServiceException {
         correcto=false;
         try{            
-            session.save(monto);
+            sc.useSession().save(monto);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Monto");
         }
@@ -45,9 +48,10 @@ public class MontoBean implements MontoLocal{
     public boolean eliminar(Monto monto) throws ServiceException {
         try{
             monto.setActivo(false);
-            session.update(monto);
+            sc.useSession().update(monto);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +63,10 @@ public class MontoBean implements MontoLocal{
     @Override
     public boolean modificar(Monto monto) throws ServiceException {
         try{            
-            session.update(monto);
+            sc.useSession().update(monto);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +78,10 @@ public class MontoBean implements MontoLocal{
     @Override
     public List<Monto> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Monto");         
+            Query query= sc.useSession().createQuery("from Monto");         
             List<Monto> listaMontos=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return listaMontos;
         }
         catch(Exception ex){
@@ -85,10 +91,11 @@ public class MontoBean implements MontoLocal{
 
     @Override
     public Monto traerMontoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Monto monto where monto.idmonto=:id");            
+        Query query= sc.useSession().createQuery("from Monto monto where monto.idmonto=:id");            
         query.setParameter("id", Id);        
         Monto listaMontos=(Monto) query.uniqueResult();
-        session.close();
+        //session.close();
+        sc.closeSession();
         return listaMontos;
     }
     

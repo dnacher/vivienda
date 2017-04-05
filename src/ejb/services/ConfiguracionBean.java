@@ -5,7 +5,6 @@ import entities.persistence.entities.Configuracion;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -14,13 +13,16 @@ import org.hibernate.Transaction;
  */
 public class ConfiguracionBean implements ConfiguracionLocal{
     
-    public Session session;
+    //public Session session;
     public Transaction tx;
     public boolean correcto;
+    SessionConnection sc;
     
     public ConfiguracionBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        //session = SessionConnection.getConnection().useSession();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -28,9 +30,10 @@ public class ConfiguracionBean implements ConfiguracionLocal{
     public boolean guardar(Configuracion configuracion) throws ServiceException {
         correcto=false;
         try{            
-            session.save(configuracion);
+            sc.useSession().save(configuracion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -42,9 +45,10 @@ public class ConfiguracionBean implements ConfiguracionLocal{
     @Override
     public boolean modificar(Configuracion configuracion) throws ServiceException {
         try{            
-            session.update(configuracion);
+            sc.useSession().update(configuracion);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -55,9 +59,10 @@ public class ConfiguracionBean implements ConfiguracionLocal{
     
        public List<Configuracion> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Configuracion");         
+            Query query= sc.useSession().createQuery("from Configuracion");         
             List<Configuracion> convenios=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return convenios;
         }
         catch(Exception ex){
@@ -67,10 +72,11 @@ public class ConfiguracionBean implements ConfiguracionLocal{
         
         public Configuracion traerConfiguracionXTabla(String tabla) throws ServiceException {
             try{
-                Query query= session.createQuery("from Configuracion configuracion where configuracion.nombreTabla=:tabla");
+                Query query= sc.useSession().createQuery("from Configuracion configuracion where configuracion.nombreTabla=:tabla");
                 query.setParameter("tabla", tabla);
                 Configuracion configuracion=(Configuracion)query.uniqueResult();
-                session.close();        
+                //session.close();        
+                sc.closeSession();
                 return configuracion;
             }
             catch(Exception ex){
@@ -80,12 +86,12 @@ public class ConfiguracionBean implements ConfiguracionLocal{
         
          public void actualizaConfiguracionXTabla(String tabla) throws ServiceException {
             try{
-                Query query= session.createQuery("from Configuracion configuracion where configuracion.nombreTabla=:tabla");
+                Query query= sc.useSession().createQuery("from Configuracion configuracion where configuracion.nombreTabla=:tabla");
                 query.setParameter("tabla", tabla);
                 Configuracion configuracion=(Configuracion)query.uniqueResult();
                 int nuevoindex=configuracion.getId()+1;
                 configuracion.setId(nuevoindex);
-                modificar(configuracion);
+                modificar(configuracion);                
             }
             catch(Exception ex){
                 throw new ServiceException(ex.getMessage());

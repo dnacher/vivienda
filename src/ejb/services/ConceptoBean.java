@@ -6,7 +6,6 @@ import entities.persistence.entities.Concepto;
 import exceptions.ServiceException;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
@@ -15,13 +14,17 @@ import org.hibernate.Transaction;
  */
 public class ConceptoBean implements ConceptoLocal{
     
-    public Session session;
+    //public Session session;
+    SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
     
     public ConceptoBean(){
-        session = SessionConnection.getConnection().useSession();
-        tx= session.beginTransaction();
+        sc=new SessionConnection();
+        //session = sc.useSession();
+        //session = SessionConnection.getConnection().useSession();
+        //tx= session.beginTransaction();
+        tx= sc.useSession().beginTransaction();
         correcto=false;
     }
 
@@ -29,9 +32,11 @@ public class ConceptoBean implements ConceptoLocal{
     public boolean guardar(Concepto concepto) throws ServiceException {
         correcto=false;
         try{            
-            session.save(concepto);
+            //session.save(concepto);
+            sc.useSession().save(concepto);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Concepto");
         }
@@ -45,9 +50,11 @@ public class ConceptoBean implements ConceptoLocal{
     public boolean eliminar(Concepto concepto) throws ServiceException {
         try{
             concepto.setActivo(false);
-            session.update(concepto);
+            //session.update(concepto);
+            sc.useSession().update(concepto);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -59,9 +66,11 @@ public class ConceptoBean implements ConceptoLocal{
     @Override
     public boolean modificar(Concepto concepto) throws ServiceException {
         try{            
-            session.update(concepto);
+            //session.update(concepto);
+            sc.useSession().update(concepto);
             tx.commit();
-            session.close();
+            //session.close();
+            sc.closeSession();
             correcto=true;
         }
         catch(Exception ex){
@@ -73,9 +82,11 @@ public class ConceptoBean implements ConceptoLocal{
     @Override
     public List<Concepto> traerTodos() throws ServiceException {
         try{
-            Query query= session.createQuery("from Concepto");         
+            //Query query= session.createQuery("from Concepto");         
+            Query query= sc.useSession().createQuery("from Concepto");
             List<Concepto> conceptos=query.list();
-            session.close();        
+            //session.close();        
+            sc.closeSession();
             return conceptos;
         }
         catch(Exception ex){
@@ -85,10 +96,12 @@ public class ConceptoBean implements ConceptoLocal{
 
     @Override
     public Concepto traerConceptoXId(int Id) throws ServiceException {
-        Query query= session.createQuery("from Concepto concepto where concepto.IdConcepto=:id");            
+        //Query query= session.createQuery("from Concepto concepto where concepto.IdConcepto=:id");            
+        Query query= sc.useSession().createQuery("from Concepto concepto where concepto.IdConcepto=:id");
         query.setParameter("id", Id);        
         Concepto concepto=(Concepto) query.uniqueResult();
-        session.close();        
+        //session.close();        
+        sc.closeSession();
         return concepto;
     }
     
