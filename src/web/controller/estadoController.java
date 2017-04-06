@@ -120,6 +120,7 @@ public class estadoController implements Initializable {
                     eb.guardar(estado);                
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
+                    llenaTabla();
                 }
                 catch(Exception ex){
                     cv.creaVentanaNotificacionError(ex.getMessage());
@@ -175,8 +176,13 @@ public class estadoController implements Initializable {
     }
     
     public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + lista.size() + " registros.");
-        tableData.setItems(lista);       
+        try {
+            EstadoBean eb=new EstadoBean();
+            lista=FXCollections.observableArrayList(eb.traerTodos());       
+            tableData.setItems(lista);
+        } catch (ServiceException ex) {
+            Logger.getLogger(estadoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }  
         
         

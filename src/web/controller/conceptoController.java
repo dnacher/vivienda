@@ -3,34 +3,25 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConceptoBean;
-import ejb.services.ConfiguracionBean;
-import ejb.services.UrgenciaBean;
 import entities.persistence.entities.Concepto;
-import entities.persistence.entities.Configuracion;
-import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
@@ -38,6 +29,116 @@ import web.animations.FadeInUpTransition;
 public class conceptoController implements Initializable {
   
     @FXML
+    private AnchorPane paneCrud;
+
+    @FXML
+    private AnchorPane paneTabel;
+
+    @FXML
+    private TableView<Concepto> tableData;
+
+    @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private ProgressBar bar;
+
+    @FXML
+    private TextArea TxtDescripcion;
+    
+    @FXML
+    private CheckBox ChkActivo;
+    
+    @FXML
+    private Label LblNombre;
+    
+    ConceptoBean cb=new ConceptoBean();
+    List<Concepto> lista;
+    ObservableList<Concepto> listaConcepto;
+        
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {        
+        cargaTabla();
+        atras();
+    }   
+    
+    public void clear(){
+        txtNombre.clear();
+        TxtDescripcion.clear();        
+    }
+      
+    public void nuevoConcepto() {
+        paneTabel.setOpacity(0);
+        new FadeInUpTransition(paneCrud).play();        
+    }
+    
+     public void atras(){
+        paneCrud.setOpacity(0);
+        new FadeInUpTransition(paneTabel).play();       
+    }
+    
+    public void guardaConcepto(){
+        LblNombre.setText("");
+        ControlVentana cv=new ControlVentana();
+        if(txtNombre.getText().isEmpty()){
+            LblNombre.setText("El campo nombre no puede estar vacio");
+        }
+        else{
+            try{
+                Concepto concepto=new Concepto();
+                int ind=ConfiguracionControl.traeUltimoId("Concepto");
+                concepto.setIdconcepto(ind);
+                concepto.setActivo(ChkActivo.isSelected());
+                concepto.setNombre(txtNombre.getText());
+                concepto.setDescripcion(TxtDescripcion.getText());
+                ConceptoBean cb=new ConceptoBean();
+                cb.guardar(concepto);
+                cv.creaVentanaNotificacionCorrecto();
+                clear();
+                llenaTabla();
+            }
+            catch(Exception ex){
+                cv.creaVentanaNotificacionError(ex.getMessage());
+            }       
+        }    
+      
+    }
+    
+    public void cargaTabla(){
+          try {
+            lista=cb.traerTodos();
+            listaConcepto = FXCollections.observableList(lista);
+            TableColumn id = new TableColumn("# Id");
+            TableColumn Nombre = new TableColumn("# Nombre");
+            TableColumn Descripcion = new TableColumn("# Descripcion");
+            
+            id.setMinWidth(100);
+            id.setCellValueFactory(new PropertyValueFactory<>("idConcepto"));
+   
+            Nombre.setMinWidth(100);
+            Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            Descripcion.setMinWidth(100);
+            Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            tableData.getColumns().addAll(id,Nombre,Descripcion);
+            tableData.setItems(listaConcepto);           
+        } catch (ServiceException ex) {
+            Logger.getLogger(urgenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void llenaTabla(){
+        try {
+            lista=cb.traerTodos();
+            listaConcepto = FXCollections.observableList(lista);     
+            tableData.setItems(listaConcepto);
+        } catch (ServiceException ex) {
+            Logger.getLogger(estadoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+/*    @FXML
     private Button btnBack;
 
     @FXML
@@ -143,7 +244,7 @@ public class conceptoController implements Initializable {
      * @param url
      * @param rb
      */
-
+/*
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         aksiNew(null);
@@ -179,7 +280,7 @@ public class conceptoController implements Initializable {
             selectWithService();
             displayDiscountCode();
             displayZip();
-        });*/
+        });
 // TODO
     }   
     
@@ -208,7 +309,7 @@ public class conceptoController implements Initializable {
                 };
             }
         };
-        service.start();*/
+        service.start();
     }
     
     private void displayZip(){
@@ -231,7 +332,7 @@ public class conceptoController implements Initializable {
                 };
             }
         };
-        service.start();*/
+        service.start();
     }
     
     private void auto(){
@@ -239,7 +340,7 @@ public class conceptoController implements Initializable {
             txtId.setText("1");
         }else{
             txtId.setText(String.valueOf(crud.auto()));
-        }*/
+        }
     }
     
     private void selectData(){
@@ -249,7 +350,7 @@ public class conceptoController implements Initializable {
             listData.clear();
             listData.addAll(crud.select());
         }
-        tableData.setItems(listData);*/
+        tableData.setItems(listData);
     }
     
     private void selectWithService(){
@@ -282,7 +383,7 @@ public class conceptoController implements Initializable {
         service.setOnSucceeded((WorkerStateEvent event) -> {
             imgLoad.setVisible(false);
             new FadeInUpTransition(paneTabel).play();
-        });*/
+        });
     }
     
     
@@ -292,7 +393,7 @@ public class conceptoController implements Initializable {
        /* if (txtState.getText().length() > 2) {
             UtilsVentanas.dialog(Alert.AlertType.INFORMATION, "State Must 2 Char");
             txtState.clear();
-        }*/
+        }
     }
 
     @FXML
@@ -314,7 +415,7 @@ public class conceptoController implements Initializable {
                 cbZip.setValue(klik.getZip());
             } catch (Exception e) {
             }
-        }*/
+        }
     }
 
     @FXML
@@ -373,7 +474,7 @@ public class conceptoController implements Initializable {
             selectData();
             auto();
             config2.dialog(Alert.AlertType.INFORMATION, "Success Save Data. . .");
-            }*/
+            }
         
     }
 
@@ -418,7 +519,7 @@ public class conceptoController implements Initializable {
                 paneTabel.setOpacity(0);
                 new FadeInUpTransition(paneCrud).play();
                 status = 0;
-            });*/
+            });
         }
 
         protected void updateItem(Boolean t, boolean empty) {
@@ -427,6 +528,6 @@ public class conceptoController implements Initializable {
                 setGraphic(hb);
             }else{
                 setGraphic(null);
-            }*/
-        }
+            }
+        }*/
     }

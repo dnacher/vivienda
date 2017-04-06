@@ -117,6 +117,7 @@ public class MaterialController implements Initializable {
                     mb.guardar(material);                
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
+                    llenaTabla();
                 }
                 catch(Exception ex){
                     cv.creaVentanaNotificacionError(ex.getMessage());
@@ -180,8 +181,13 @@ public class MaterialController implements Initializable {
     }
     
     public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + lista.size() + " registros.");
-        tableData.setItems(lista);       
+        try {
+            MaterialBean mb=new MaterialBean();
+            lista=FXCollections.observableArrayList(mb.traerTodos());       
+            tableData.setItems(lista);
+        } catch (ServiceException ex) {
+            Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }  
         
         

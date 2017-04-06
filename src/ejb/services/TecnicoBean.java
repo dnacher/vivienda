@@ -14,15 +14,13 @@ import org.hibernate.Transaction;
  */
 public class TecnicoBean implements TecnicoLocal{
     
-    //public Session session;
     public Transaction tx;
     public boolean correcto;
     SessionConnection sc;
     
     public TecnicoBean(){
-        //session = SessionConnection.getConnection().useSession();
-        sc=new SessionConnection();
-        //session = sc.useSession();
+        
+        sc=new SessionConnection();        
         tx= sc.useSession().beginTransaction();
         correcto=false;
     }
@@ -33,8 +31,7 @@ public class TecnicoBean implements TecnicoLocal{
         try{
             tecnico.setCalificacion(0);
             sc.useSession().save(tecnico);
-            tx.commit();
-            //session.close();
+            tx.commit();            
             sc.closeSession();
             correcto=true;
             ConfiguracionControl.ActualizaId("Tecnico");
@@ -65,8 +62,7 @@ public class TecnicoBean implements TecnicoLocal{
     public boolean modificar(Tecnico tecnico) throws ServiceException {
         try{            
             sc.useSession().update(tecnico);
-            tx.commit();
-            //session.close();
+            tx.commit();            
             sc.closeSession();
             correcto=true;
         }
@@ -80,8 +76,7 @@ public class TecnicoBean implements TecnicoLocal{
     public List<Tecnico> traerTodos() throws ServiceException {
         try{
             Query query= sc.useSession().createQuery("from Tecnico");         
-            List<Tecnico> tecnicos=query.list();
-            //session.close();        
+            List<Tecnico> tecnicos=query.list();                    
             sc.closeSession();
             return tecnicos;
         }
@@ -94,8 +89,7 @@ public class TecnicoBean implements TecnicoLocal{
     public Tecnico traerTecnicoXId(int Id) throws ServiceException {
         Query query= sc.useSession().createQuery("from Tecnico tecnico where tecnico.idTecnico=:id");            
         query.setParameter("id", Id);        
-        Tecnico tecnicos=(Tecnico) query.uniqueResult();
-        //session.close();
+        Tecnico tecnicos=(Tecnico) query.uniqueResult();        
         sc.closeSession();
         return tecnicos;
     }

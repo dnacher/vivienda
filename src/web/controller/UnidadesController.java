@@ -3,6 +3,7 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.UnidadBean;
+import ejb.validaciones.UnidadValidationUnique;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -239,7 +240,15 @@ public class UnidadesController implements Initializable {
     }
     
      private void clear(){
-        
+        cmbBlock.getSelectionModel().select(-1);
+        cmbTorre.getSelectionModel().select(-1);
+        cmbPropietarioInquilino.getSelectionModel().select(-1);
+        txtPuerta.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtMail.setText("");
+        txtTelefono.setText("");
+        cmbFechaIngreso.setValue(null);
     }
      
      private void auto(){
@@ -310,10 +319,16 @@ public class UnidadesController implements Initializable {
                     else{
                         unidad.setPropietarioInquilino(false);
                     }
-                    UnidadBean ub=new UnidadBean();
-                    ub.guardar(unidad);
-                    cv.creaVentanaNotificacionCorrecto();
-                    recargarTabla();
+                    UnidadValidationUnique uv=new UnidadValidationUnique();
+                    if(!uv.validarUnidad(unidad)){ 
+                        UnidadBean ub=new UnidadBean();
+                        ub.guardar(unidad);
+                        cv.creaVentanaNotificacionCorrecto();
+                        recargarTabla();
+                        clear();
+                    }else{
+                        cv.creaVentanaNotificacionError("Ya existe una Unidad activa para ese apartamento");
+                    }
                  }
                  catch(Exception ex){
                      cv.creaVentanaNotificacionError(ex.getMessage());

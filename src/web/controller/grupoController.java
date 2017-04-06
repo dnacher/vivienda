@@ -107,6 +107,7 @@ public class grupoController implements Initializable {
                 gb.guardar(grupo);                
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
+                llenaTabla();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());
@@ -140,8 +141,13 @@ public class grupoController implements Initializable {
     }
     
     public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + unidadConvenios.size() + " registros.");
-        tableData.setItems(lista);       
+        try {
+            GrupoBean gb=new GrupoBean();
+            lista=FXCollections.observableArrayList(gb.traerTodos());       
+            tableData.setItems(lista);
+        } catch (ServiceException ex) {
+            Logger.getLogger(grupoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     }

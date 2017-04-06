@@ -105,6 +105,8 @@ public class TecnicoController implements Initializable {
                 TecnicoBean tb=new TecnicoBean();
                 tb.guardar(tecnico);
                 cv.creaVentanaNotificacionCorrecto();
+                llenaTabla();
+                limpiaForm();
             } catch (ServiceException ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
                 Logger.getLogger(TecnicoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,8 +177,19 @@ public class TecnicoController implements Initializable {
     }
     
     public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + Lista.size() + " registros.");
-        tableData.setItems(lista);
-    }    
+        try {
+            lista=FXCollections.observableArrayList(TecnicoImage.devuelveTecnicoConImagenEstado());
+            tableData.setItems(lista);
+        } catch (ServiceException ex) {
+            Logger.getLogger(TecnicoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }  
+    
+    public void limpiaForm(){
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtTelefono.setText("");
+        txtMail.setText("");
+    }
     
 } 

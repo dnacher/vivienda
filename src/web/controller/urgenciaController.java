@@ -59,6 +59,9 @@ public class urgenciaController implements Initializable {
      * @param rb
      */
         UrgenciaBean ub=new UrgenciaBean();
+        List<Urgencia> lista;
+        ObservableList<Urgencia> listaUrgencia;
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         cargaTabla();
@@ -98,6 +101,7 @@ public class urgenciaController implements Initializable {
                 ub.guardar(urgencia);
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
+                llenaTabla();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());
@@ -108,8 +112,8 @@ public class urgenciaController implements Initializable {
     
     public void cargaTabla(){
           try {
-            List<Urgencia> lista=ub.traerTodos();
-            ObservableList<Urgencia> listaUrgencia = FXCollections.observableList(lista);
+            lista=ub.traerTodos();
+            listaUrgencia = FXCollections.observableList(lista);
             TableColumn id = new TableColumn("# Id");
             TableColumn Nombre = new TableColumn("# Nombre");
             TableColumn Descripcion = new TableColumn("# Descripcion");
@@ -129,7 +133,13 @@ public class urgenciaController implements Initializable {
     }
     
     public void llenaTabla(){
-    
+        try {
+            lista=ub.traerTodos();
+            listaUrgencia = FXCollections.observableList(lista);     
+            tableData.setItems(listaUrgencia);
+        } catch (ServiceException ex) {
+            Logger.getLogger(estadoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     }

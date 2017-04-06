@@ -364,18 +364,44 @@ public class PagoConveniosController implements Initializable {
     }
 
     public void mostrar(ActionEvent event) {       
-            try{
+        try{
             lblInfo.setText("");
+            String block;
+            int torre;
+            List<Unidad> listaTorreBlock;
             UnidadBean ub= new UnidadBean();
-            List<Unidad> listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());        
+            if(cmbBlock.getValue()!=null){
+                if(cmbTorre.getValue()!=null){
+                   listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
+                   block=cmbBlock.getValue();
+                   torre=cmbTorre.getValue();
+                }
+                else{
+                    listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), 0);
+                    block=cmbBlock.getValue();
+                    torre=0;
+                }
+            }else{
+                if(cmbTorre.getValue()!=null){
+                   listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", cmbTorre.getValue());
+                   block="";
+                   torre=cmbTorre.getValue();
+                }
+                else{
+                    listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", 0);
+                    block="";
+                    torre=0;
+                }
+            }
             unidadConvenios = FXCollections.observableList(listaTorreBlock);
             llenaTabla();
-            cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
-            }
-            catch(Exception ex){
-                lblInfo.setText("Debe seleccionar valores de Block y Torre para buscar");
-            }
+            cargaGrafica(block, torre);
+            lblInfo.setText("Se muestran " + unidadConvenios.size() + " unidades");         
         }
+        catch(Exception ex){
+            lblInfo.setText("Debe seleccionar valores de Block y/o Torre para buscar");
+        }
+    }
        
         public void mostrarTodos() {
             UnidadBean ub=new UnidadBean();

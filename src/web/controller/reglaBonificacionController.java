@@ -102,6 +102,7 @@ public class reglaBonificacionController implements Initializable {
                 rb.guardar(reglaBonificacion);                
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
+                llenaTabla();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());
@@ -134,7 +135,12 @@ public class reglaBonificacionController implements Initializable {
     }
     
     public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + Lista.size() + " registros.");
-        tableData.setItems(lista);        
+        try {
+            ReglaBonificacionBean rbb=new ReglaBonificacionBean();
+            lista=FXCollections.observableArrayList(rbb.traerTodos());        
+            tableData.setItems(lista);
+        } catch (ServiceException ex) {
+            Logger.getLogger(reglaBonificacionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

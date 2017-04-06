@@ -1,6 +1,5 @@
 package web.controller;
 
-import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
@@ -88,14 +87,14 @@ public class controllLogin implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, ServiceException {
+        ControlVentana cv=new ControlVentana();
         UsuariosBean ub= new UsuariosBean();
         Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());        
         if(Viviendas.user!=null){
         if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
             Viviendas.user.getPassword().equals(txtPassword.getText())){           
                 ConfiguracionBean cb=new ConfiguracionBean();
-                listaConfiguracion=cb.traerTodos();
-                ControlVentana cv= new ControlVentana();
+                listaConfiguracion=cb.traerTodos();                
                 cv.creaVentanaNotificacionCorrecto();
                 Stage st = new Stage();
                 stage = (Stage) lblClose.getScene().getWindow();
@@ -108,11 +107,11 @@ public class controllLogin implements Initializable {
                 st.show();
                 stage.close();
         }else{
-            System.out.println("error de logueo");            
+            cv.creaVentanaNotificacionError("Error de logueo");
         }
         }
         else{
-            System.out.println("error de logueo");
+            cv.creaVentanaNotificacionError("Error de logueo");
         }
     }
     

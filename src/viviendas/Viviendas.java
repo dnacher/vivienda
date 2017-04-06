@@ -1,10 +1,8 @@
 package viviendas;
 
-import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Tipousuario;
-import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
 import java.io.IOException;
@@ -14,8 +12,6 @@ import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;

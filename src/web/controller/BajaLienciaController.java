@@ -212,8 +212,7 @@ public class BajaLienciaController implements Initializable {
     
     public void llenaTabla(){
         try {
-            lista=FXCollections.observableArrayList(TecnicoImage.devuelveTecnicoConImagenEstado());
-            //lblInfo.setText("Se muestran " + Lista.size() + " registros.");
+            lista=FXCollections.observableArrayList(TecnicoImage.devuelveTecnicoConImagenEstado());            
             tableData.setItems(lista);
         } catch (ServiceException ex) {
             Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -266,7 +265,8 @@ public class BajaLienciaController implements Initializable {
             cmbBajaLicencia.setVisible(true);
         }
         catch(Exception ex){
-            
+            ControlVentana cv=new ControlVentana();
+            cv.creaVentanaNotificacionError("Debe seleccionar un Tecnico");
         }    
     }
 } 

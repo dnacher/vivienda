@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -45,7 +44,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-//import viviendas.Viviendas;
 import web.animations.FadeInUpTransition;
 
 public class GastosComunesController implements Initializable {
@@ -282,18 +280,45 @@ public class GastosComunesController implements Initializable {
         }
         }
     
-        public void mostrar(ActionEvent event) {       
-            try{
-            lblInfo.setText("");
-            ub= new UnidadBean();
-            List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
-            unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
-            llenaTabla();
-            cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
+        public void mostrar(ActionEvent event) {  
+            try{   
+                lblInfo.setText("");
+                String block;
+                int torre;
+                List<Unidad> listaTorreBlock;
+                ub= new UnidadBean();
+                if(cmbBlock.getValue()!=null){
+                    if(cmbTorre.getValue()!=null){
+                       listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
+                       block=cmbBlock.getValue();
+                       torre=cmbTorre.getValue();
+                    }
+                    else{
+                        listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), 0);
+                        block=cmbBlock.getValue();
+                        torre=0;
+                    }
+                }else{
+                    if(cmbTorre.getValue()!=null){
+                       listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago("", cmbTorre.getValue());
+                       block="";
+                       torre=cmbTorre.getValue();
+                    }
+                    else{
+                        listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago("", 0);
+                        block="";
+                        torre=0;
+                    }
+                }
+                unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
+                tableGastosComunes.setItems(null);
+                tableGastosComunes.setItems(unidadesGastosComunesNoPago);                
+                cargaGrafica(block, torre);
+                lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " unidades");
             }
-            catch(Exception ex){
-                lblInfo.setText("Debe seleccionar valores de Block y Torre para buscar");
-            }
+        catch(Exception ex){
+            lblInfo.setText("Debe seleccionar valores de Block y/o Torre para buscar");
+        }          
         }
        
         public void mostrarTodos() {
@@ -301,7 +326,9 @@ public class GastosComunesController implements Initializable {
             ub=new UnidadBean();
             List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();
             unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
+            guardado=true;
             llenaTabla();
+            guardado=false;
             }
             catch(Exception ex){
                 System.out.println(ex.getMessage());
