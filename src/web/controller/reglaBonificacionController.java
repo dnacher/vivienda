@@ -3,6 +3,7 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ReglaBonificacionBean;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Reglabonificacion;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -85,7 +86,7 @@ public class reglaBonificacionController implements Initializable {
     
     @FXML
     private void aksiSave(ActionEvent event){
-        LblNombre.setText("");
+        LblNombre.setText(Mensajes.VACIO.getMensaje());
         ControlVentana cv=new ControlVentana();
         if(!ConfiguracionControl.esNumero(TxtDiasaPagar.getText())){
             LblNombre.setText("El campo dias a pagar debe ser numerico");

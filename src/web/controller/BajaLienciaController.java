@@ -4,6 +4,9 @@ import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TecnicoBean;
 import ejb.utils.TecnicoImage;
+import entities.constantes.Constantes;
+import entities.enums.Mensajes;
+import entities.enums.errores;
 import entities.persistence.entities.Tecnico;
 import exceptions.ServiceException;
 import java.io.IOException;
@@ -96,21 +99,21 @@ public class BajaLienciaController implements Initializable {
     public void guardar(){
         ControlVentana cv=new ControlVentana();
         //Licencia
-        if(cmbBajaLicencia.getSelectionModel().getSelectedItem().equals("Licencia")){
+        if(cmbBajaLicencia.getSelectionModel().getSelectedItem().equals(Mensajes.LICENCIA.getMensaje())){
             if(cmbFechaDesde.getValue().isAfter(cmbFechaHasta.getValue())){
-                cv.creaVentanaNotificacion("Verificar", "La fecha fin no puede ser menor a la de comienzo", 5, "error");
+                cv.creaVentanaNotificacion(errores.VERIFICAR.getError(), errores.FECHAFIN_MENOR_INICIO.getError(), 5, errores.ERROR.getError());
             }
             else{
             if(cmbFechaDesde.getValue().isBefore(LocalDate.now()) || cmbFechaHasta.getValue().isBefore(LocalDate.now())){
-                cv.creaVentanaNotificacion("Verificar", "La fecha de comienzo o fin son anteriores a la fecha.", 5, "warning");
+                cv.creaVentanaNotificacion(errores.VERIFICAR.getError(), errores.FECHAFIN_MENOR_INICIO.getError(), 5, errores.WARNING.getError());
             }
                 Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Confirmar Licencia");
-                alert.setHeaderText("Licencia");
-                alert.setContentText("¿Desea confirmar la licencia?");
+                alert.setTitle(Mensajes.CONFIRMA_LICENCIA.getMensaje());
+                alert.setHeaderText(Mensajes.LICENCIA.getMensaje());
+                alert.setContentText(Mensajes.DESEA_CONFIRMAR_LICENCIA.getMensaje());
                 DialogPane dialogPane = alert.getDialogPane();
-                dialogPane.getStylesheets().add(getClass().getResource("/web/css/myDialogs.css").toExternalForm());
-                dialogPane.getStyleClass().add("myDialog");
+                dialogPane.getStylesheets().add(getClass().getResource(Constantes.myDialogs).toExternalForm());
+                dialogPane.getStyleClass().add(Mensajes.MY_DIALOG.getMensaje());
                 
               
                 Optional<ButtonType> result = alert.showAndWait();
@@ -131,12 +134,12 @@ public class BajaLienciaController implements Initializable {
          //Baja
         }else{           
                 Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Confirmar Baja");
-                alert.setHeaderText("Baja");
-                alert.setContentText("¿Desea confirmar la baja?");
+                alert.setTitle(Mensajes.CONFIRMA_BAJA.getMensaje());
+                alert.setHeaderText(Mensajes.BAJA.getMensaje());
+                alert.setContentText(Mensajes.CONFIRMA_BAJA.getMensaje());
                 DialogPane dialogPane = alert.getDialogPane();
-                dialogPane.getStylesheets().add(getClass().getResource("/web/css/myDialogs.css").toExternalForm());
-                dialogPane.getStyleClass().add("myDialog");
+                dialogPane.getStylesheets().add(getClass().getResource(Constantes.myDialogs).toExternalForm());
+                dialogPane.getStyleClass().add(Mensajes.MY_DIALOG.getMensaje());
                 
               
                 Optional<ButtonType> result = alert.showAndWait();
@@ -147,7 +150,7 @@ public class BajaLienciaController implements Initializable {
                         tecnico.setActivo(false);
                         TecnicoBean tb=new TecnicoBean();
                         tb.modificar(tecnico);
-                        cv.creaVentanaNotificacion("Baja", "Se ha dado de baja correctamente. " + cmbFechaHasta.getValue(), 3, "tick");
+                        cv.creaVentanaNotificacion(Mensajes.BAJA.getMensaje(), Mensajes.BAJA_CORRECTO.getMensaje() + cmbFechaHasta.getValue(), 3, Mensajes.OK.getMensaje());
                     } catch (ServiceException ex) {
                         cv.creaVentanaNotificacionError(ex.getMessage());
                         Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,27 +163,27 @@ public class BajaLienciaController implements Initializable {
     
     public void creaDialogoConfirmacion() throws IOException{
                 Stage stage=new Stage(StageStyle.UNDECORATED);
-                Parent root = FXMLLoader.load(getClass().getResource("/web/vista/dialog.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_DIALOG));
                 Scene scene = new Scene(root);
                 FadeTransition ft = new FadeTransition(Duration.millis(1000), root);
                 ft.setFromValue(0.0);
                 ft.setToValue(1.0);
                 ft.play();
-                stage.setTitle("Confirma");
+                stage.setTitle(Mensajes.CONFIRMA.getMensaje());
                 stage.setScene(scene);
                 stage.showAndWait();
         }
    
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Telefono = new TableColumn("Telefono");
-       TableColumn Mail = new TableColumn("Email");
-       TableColumn Calificacion = new TableColumn("Calificacion");
-       TableColumn Estado = new TableColumn("Estado");
-       TableColumn FechaInicio = new TableColumn("Fecha de inicio");
-       TableColumn FechaFin = new TableColumn("Fecha fin");
+       TableColumn Nombre = new TableColumn(Mensajes.NOMBRE.getMensaje());
+       TableColumn Apellido = new TableColumn(Mensajes.APELLIDO.getMensaje());
+       TableColumn Telefono = new TableColumn(Mensajes.TELEFONO.getMensaje());
+       TableColumn Mail = new TableColumn(Mensajes.EMAIL.getMensaje());
+       TableColumn Calificacion = new TableColumn(Mensajes.CALIFICACION.getMensaje());
+       TableColumn Estado = new TableColumn(Mensajes.ESTADO.getMensaje());
+       TableColumn FechaInicio = new TableColumn(Mensajes.FECHA_INICIO.getMensaje());
+       TableColumn FechaFin = new TableColumn(Mensajes.FECHA_FIN.getMensaje());
        
        Nombre.setMinWidth(150);
        Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -221,7 +224,7 @@ public class BajaLienciaController implements Initializable {
     }
     
     public void cargaComboBajaLicencia(){
-        ObservableList<String> options = FXCollections.observableArrayList("Licencia","Baja");
+        ObservableList<String> options = FXCollections.observableArrayList(Constantes.LISTA_LICENCIA_BAJA);
         cmbBajaLicencia.setItems(options);        
         cmbBajaLicencia.valueProperty().addListener(new ChangeListener<String>() {
         @Override public void changed(ObservableValue ov, String t, String t1) {
@@ -253,9 +256,9 @@ public class BajaLienciaController implements Initializable {
     
     public void managedTabla() throws ServiceException{
         try{
-            lblNombre.setText("");
-            lblApellido.setText("");
-            lblTelefono.setText("");
+            lblNombre.setText(Mensajes.VACIO.getMensaje());
+            lblApellido.setText(Mensajes.VACIO.getMensaje());
+            lblTelefono.setText(Mensajes.VACIO.getMensaje());
             TecnicoBean tb=new TecnicoBean();
             TecnicoImage ti=tableData.getSelectionModel().getSelectedItem();
             tecnico=tb.traerTecnicoXId(ti.getIdTecnico());
@@ -266,7 +269,7 @@ public class BajaLienciaController implements Initializable {
         }
         catch(Exception ex){
             ControlVentana cv=new ControlVentana();
-            cv.creaVentanaNotificacionError("Debe seleccionar un Tecnico");
+            cv.creaVentanaNotificacionError(Mensajes.DEBE_SELECCIONAR_TECNICO.getMensaje());
         }    
     }
 } 

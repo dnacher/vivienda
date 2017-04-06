@@ -1,6 +1,7 @@
 package web.controller;
 
 import entities.constantes.Constantes;
+import entities.enums.Mensajes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -110,7 +111,7 @@ public class main implements Initializable {
     }
     
     public String creaRuta(String ruta){
-        String rutaNueva="";
+        String rutaNueva=Mensajes.VACIO.getMensaje();
         rutaNueva=Constantes.PAGINA_ROOT + ruta.trim() + Constantes.EXTENSION_FXML;
         System.out.println(rutaNueva);
         return rutaNueva;

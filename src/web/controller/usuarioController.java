@@ -86,15 +86,27 @@ public class usuarioController implements Initializable {
             
        Nombre.setMinWidth(150);
        Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        tableData.getColumns().addAll(Nombre); 
-     
+       tableData.getColumns().addAll(Nombre);     
        tableData.setItems(listaUsuariosO);
+    }
+    
+    public void llenaTabla(){
+         try {
+             UsuariosBean ub= new UsuariosBean();
+             List<Usuario> listaUsuarios;
+             listaUsuarios=ub.traerTodos();
+             listaUsuariosO = FXCollections.observableList(listaUsuarios);
+             tableData.setItems(listaUsuariosO);
+         } catch (ServiceException ex) {
+             Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
     
     private void clear(){
         txtNombre.clear();
         txtPass.clear();
         txtPass2.clear();
+        cmbTipoUsuario.getSelectionModel().select(-1);
     }
 
     @FXML
@@ -110,7 +122,7 @@ public class usuarioController implements Initializable {
     private void aksiSave(ActionEvent event){
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-           
+           cv.creaVentanaNotificacionError("El nombre no puede estar vacio");
         }
         else{
             try{
@@ -126,6 +138,7 @@ public class usuarioController implements Initializable {
                     tb.guardar(usuario);
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
+                    llenaTabla();
                 }else{
                     cv.creaVentanaNotificacionError("Las contraseñas no coinciden");
                 }

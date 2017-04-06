@@ -3,6 +3,7 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.MaterialBean;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Material;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -101,7 +102,7 @@ public class MaterialController implements Initializable {
     
     @FXML
     private void guardar(ActionEvent event){
-        LblNombre.setText("");
+        LblNombre.setText(Mensajes.VACIO.getMensaje());
         ControlVentana cv=new ControlVentana();      
                 try{
                     Material material=new Material();

@@ -35,6 +35,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import ejb.validaciones.OtrosGastosViewValidation;
+import entities.constantes.Constantes;
+import entities.enums.Mensajes;
 import entities.persistence.entities.OtrosgastosId;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -119,7 +121,7 @@ public class OtrosGastosController implements Initializable {
     
     public void UnidadSeleccionada(){
         try{
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             unidad=tableUnidades.getSelectionModel().getSelectedItem();
             nuevaUnidad();
             lblUnidad.setText(unidad.toString());
@@ -265,14 +267,14 @@ public class OtrosGastosController implements Initializable {
     
     public void limpiarForm(){
         unidad=null;
-        txtSecuencia.setText("");
-        txtMonto.setText("");
+        txtSecuencia.setText(Mensajes.VACIO.getMensaje());
+        txtMonto.setText(Mensajes.VACIO.getMensaje());
         tableUnidades.getSelectionModel().clearSelection();
     }
     
     public void cargarComboBlock(){
        ObservableList<String> options = 
-       FXCollections.observableArrayList("A","B","C","D","E");
+       FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
        cmbBlock.setItems(options);
     }
     
@@ -325,7 +327,7 @@ public class OtrosGastosController implements Initializable {
     
     public void mostrar(ActionEvent event) {       
             try{
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             UnidadBean ub= new UnidadBean();
             List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
             listaUnidad = FXCollections.observableList(listaTorreBlock);

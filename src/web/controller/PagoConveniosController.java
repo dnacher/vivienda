@@ -7,6 +7,8 @@ import ejb.services.CuotaConvenioBean;
 import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
+import entities.constantes.Constantes;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Convenio;
 import entities.persistence.entities.Cuotaconvenio;
 import entities.persistence.entities.CuotaconvenioId;
@@ -174,7 +176,7 @@ public class PagoConveniosController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                UnidadBean ub=new UnidadBean();       
-                    unidadConvenios=FXCollections.observableArrayList(ub.TraeUnidadesConConvenioXBlockTorre("",0));
+                    unidadConvenios=FXCollections.observableArrayList(ub.TraeUnidadesConConvenioXBlockTorre(Mensajes.VACIO.getMensaje(),0));
                     cargaTabla();
                     atras();
                     
@@ -203,15 +205,15 @@ public class PagoConveniosController implements Initializable {
     
     public void agregarGastosComunes(){
         try{            
-            lblPeriodo.setText("");
-            lblUnidadNombre.setText("");
-            lblUnidadDireccion.setText("");
+            lblPeriodo.setText(Mensajes.VACIO.getMensaje());
+            lblUnidadNombre.setText(Mensajes.VACIO.getMensaje());
+            lblUnidadDireccion.setText(Mensajes.VACIO.getMensaje());
             periodo=ConfiguracionControl.devuelvePeriodoActual();
             unidad=tableGastosComunes.getSelectionModel().getSelectedItem();
             CuotaConvenioBean cb=new CuotaConvenioBean();
             convenio=cb.traerConvenioXUnidad(unidad);
             lblPeriodo.setText(String.valueOf(periodo));
-            lblUnidadNombre.setText(unidad.getNombre()+ " " 
+            lblUnidadNombre.setText(unidad.getNombre()+ Mensajes.ESPACIO.getMensaje() 
                                   + unidad.getApellido());
             lblUnidadDireccion.setText(unidad.getBlock()
                                      + unidad.getTorre() + "/ " 
@@ -259,7 +261,7 @@ public class PagoConveniosController implements Initializable {
      
     public void cargarComboBlock(){
        ObservableList<String> options = 
-       FXCollections.observableArrayList("A","B","C","D","E");
+       FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
        cmbBlock.setItems(options);
     }
     
@@ -293,25 +295,25 @@ public class PagoConveniosController implements Initializable {
 
        tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
        tableGastosComunes.setItems(unidadConvenios);
-       cargaGrafica("",0);
+       cargaGrafica(Mensajes.VACIO.getMensaje(),0);
     }
     
     public void llenaTabla(){
         lblInfo.setText("Se muestran " + unidadConvenios.size() + " registros.");
         tableGastosComunes.setItems(unidadConvenios);
         if(guardado){
-            cargaGrafica("", 0);
+            cargaGrafica(Mensajes.VACIO.getMensaje(), 0);
         }else{
             if(cmbBlock.getValue()!=null && cmbTorre.getValue()!=null){
                 cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
             }else{
-                cargaGrafica("", 0);
+                cargaGrafica(Mensajes.VACIO.getMensaje(), 0);
             }      
         }
     }
     
     public void cargaGrafica(String block, int torre){
-        lblInfoPieChart.setText("");
+        lblInfoPieChart.setText(Mensajes.VACIO.getMensaje());
         UnidadBean ub=new UnidadBean();
         int total=ub.totalUnidades(block,torre);
         int totalPago=total-unidadConvenios.size();
@@ -335,7 +337,7 @@ public class PagoConveniosController implements Initializable {
         }
     
     public void cargaGraficaCuotas(){
-        lblInfoPieChartCuotas.setText("");
+        lblInfoPieChartCuotas.setText(Mensajes.VACIO.getMensaje());
         
         ConvenioBean cb=new ConvenioBean();
         convenio=cb.traeConvenioXUnidad(unidad);
@@ -365,7 +367,7 @@ public class PagoConveniosController implements Initializable {
 
     public void mostrar(ActionEvent event) {       
         try{
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             String block;
             int torre;
             List<Unidad> listaTorreBlock;
@@ -383,13 +385,13 @@ public class PagoConveniosController implements Initializable {
                 }
             }else{
                 if(cmbTorre.getValue()!=null){
-                   listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", cmbTorre.getValue());
-                   block="";
+                   listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(Mensajes.VACIO.getMensaje(), cmbTorre.getValue());
+                   block=Mensajes.VACIO.getMensaje();
                    torre=cmbTorre.getValue();
                 }
                 else{
-                    listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", 0);
-                    block="";
+                    listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(Mensajes.VACIO.getMensaje(), 0);
+                    block=Mensajes.VACIO.getMensaje();
                     torre=0;
                 }
             }
@@ -405,7 +407,7 @@ public class PagoConveniosController implements Initializable {
        
         public void mostrarTodos() {
             UnidadBean ub=new UnidadBean();
-            List<Unidad> listaTotal=ub.TraeUnidadesConvenioXBlockTorre("",0);            
+            List<Unidad> listaTotal=ub.TraeUnidadesConvenioXBlockTorre(Mensajes.VACIO.getMensaje(),0);            
             unidadConvenios = FXCollections.observableList(listaTotal);
             llenaTabla();           
         }
@@ -455,7 +457,7 @@ public class PagoConveniosController implements Initializable {
         }        
        
         public void anular() throws IOException {
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             ControlVentana cv= new ControlVentana(); 
             creaDialogoConfirmacion();
             if(viviendas.Viviendas.confirmacion){

@@ -3,6 +3,7 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.GrupoBean;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Grupo;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -90,7 +91,7 @@ public class grupoController implements Initializable {
     
     @FXML
     private void guardar(ActionEvent event){
-        LblNombre.setText("");
+        LblNombre.setText(Mensajes.VACIO.getMensaje());
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");

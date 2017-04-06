@@ -44,6 +44,8 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import control.ControlVentana;
 import ejb.services.TrabajoBean;
+import entities.constantes.Constantes;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Historialtrabajo;
 import entities.persistence.entities.HistorialtrabajoId;
 import java.util.ArrayList;
@@ -142,7 +144,7 @@ public class CotizacionController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lblInfoMaterial.setText("");
+        lblInfoMaterial.setText(Mensajes.VACIO.getMensaje());
         cargaTabla();
         cargaTablaMateriales();
         cargarComboBlock();
@@ -175,9 +177,9 @@ public class CotizacionController implements Initializable {
         cmbGrupo.getSelectionModel().clearSelection();
         cmbTipoDuracion.getSelectionModel().clearSelection();
         cmbUrgencia.getSelectionModel().clearSelection();
-        txtCantidad.setText("");
-        txtDescripcion.setText("");
-        txtDuracion.setText("");
+        txtCantidad.setText(Mensajes.VACIO.getMensaje());
+        txtDescripcion.setText(Mensajes.VACIO.getMensaje());
+        txtDuracion.setText(Mensajes.VACIO.getMensaje());
         tab.getSelectionModel().selectFirst();
         materiales=null;
         materiales=new ArrayList<>();
@@ -192,37 +194,37 @@ public class CotizacionController implements Initializable {
     }    
   
     public void nuevoTrabajo(){       
-        lblInfo.setText("");
+        lblInfo.setText(Mensajes.VACIO.getMensaje());
         unidad=tblUnidades.getSelectionModel().getSelectedItem();
-        lblUnidad.setText(unidad.getNombre() + " " + unidad.getApellido());
+        lblUnidad.setText(unidad.getNombre() + Mensajes.ESPACIO.getMensaje() + unidad.getApellido());
         if(unidad!=null){
             paneSecond.setVisible(true);
             paneFirst.setOpacity(0);
             new FadeInUpTransition(paneSecond).play();
         }else{
-            lblInfo.setText("Debe seleccionar una Unidad");
+            lblInfo.setText(Mensajes.DEBE_SELECCIONAR_UNIDAD.getMensaje());
         }            
     }
      
     public void editarTrabajo(){
         try{
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             unidad=tblUnidades.getSelectionModel().getSelectedItem();
             TrabajoBean tbe=new TrabajoBean();
             if(tbe.UnidadesConTrabajoActivo(unidad)){
                 paneThird.setVisible(true);
                 paneFirst.setOpacity(0);        
                 new FadeInUpTransition(paneThird).play();
-                lblUnidadEnEdicion.setText(unidad.getNombre() + " " + unidad.getApellido());
+                lblUnidadEnEdicion.setText(unidad.getNombre() + Mensajes.ESPACIO.getMensaje() + unidad.getApellido());
                 tbe=new TrabajoBean();
                 trabajo=tbe.traeTrabajo(unidad);
                 cmbEstadoEnEdicion.getSelectionModel().select(trabajo.getEstado());                
             }else{
-                lblInfo.setText("La unidad no tiene trabajos activos");
+                lblInfo.setText(Mensajes.UNIDAD_TRABAJOS_ACTIVOS.getMensaje());
             }            
         }catch(Exception ex){
             System.out.println(ex.getMessage());
-            lblInfo.setText("Debe seleccionar una Unidad");
+            lblInfo.setText(Mensajes.DEBE_SELECCIONAR_UNIDAD.getMensaje());
         }       
     }
      
@@ -301,7 +303,7 @@ public class CotizacionController implements Initializable {
     }
        
     public void cargarComboBlock(){
-        ObservableList<String> options = FXCollections.observableArrayList("A","B","C","D","E");
+        ObservableList<String> options = FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
         cmbBlock.setItems(options);
     }
     
@@ -382,7 +384,7 @@ public class CotizacionController implements Initializable {
     
     public void mostrar(ActionEvent event) {        
         try{   
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             List<Unidad> listaTorreBlock;
             UnidadBean ub= new UnidadBean();
             if(cmbBlock.getValue()!=null){
@@ -394,10 +396,10 @@ public class CotizacionController implements Initializable {
                 }
             }else{
                 if(cmbTorre.getValue()!=null){
-                   listaTorreBlock=ub.TraeUnidadesXBlockTorre("", cmbTorre.getValue());
+                   listaTorreBlock=ub.TraeUnidadesXBlockTorre(Mensajes.VACIO.getMensaje(), cmbTorre.getValue());
                 }
                 else{
-                    listaTorreBlock=ub.TraeUnidadesXBlockTorre("", 0);
+                    listaTorreBlock=ub.TraeUnidadesXBlockTorre(Mensajes.VACIO.getMensaje(), 0);
                 }
             }                        
             listaUnidades = FXCollections.observableList(listaTorreBlock);
@@ -411,9 +413,9 @@ public class CotizacionController implements Initializable {
        
     public void mostrarTodos() {
         try {
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             UnidadBean ub=new UnidadBean();
-            List<Unidad> listaTotal=ub.TraeUnidadesXBlockTorre("",0);
+            List<Unidad> listaTotal=ub.TraeUnidadesXBlockTorre(Mensajes.VACIO.getMensaje(),0);
             listaUnidades = FXCollections.observableList(listaTotal);
             tblUnidades.setItems(null);
             tblUnidades.setItems(listaUnidades);
@@ -424,11 +426,11 @@ public class CotizacionController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Block = new TableColumn("Block");
-       TableColumn Torre = new TableColumn("Torre");
-       TableColumn Puerta= new TableColumn("Puerta");
+       TableColumn Nombre = new TableColumn(Mensajes.NOMBRE.getMensaje());
+       TableColumn Apellido = new TableColumn(Mensajes.APELLIDO.getMensaje());
+       TableColumn Block = new TableColumn(Mensajes.BLOCK.getMensaje());
+       TableColumn Torre = new TableColumn(Mensajes.TORRE.getMensaje());
+       TableColumn Puerta= new TableColumn(Mensajes.PUERTA.getMensaje());
 
        Nombre.setMinWidth(150);
        Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -449,7 +451,7 @@ public class CotizacionController implements Initializable {
         try {
             UnidadBean ub=new UnidadBean();
             List<Unidad> lista;
-            lista = ub.TraeUnidadesXBlockTorre("",0);
+            lista = ub.TraeUnidadesXBlockTorre(Mensajes.VACIO.getMensaje(),0);
             listaUnidades=FXCollections.observableList(lista);
             tblUnidades.setItems(listaUnidades);
         } catch (ServiceException ex) {
@@ -475,7 +477,7 @@ public class CotizacionController implements Initializable {
     }
     
     public void agregarMaterial(){
-        lblInfoMaterial.setText("");
+        lblInfoMaterial.setText(Mensajes.VACIO.getMensaje());
         if(cmbMaterial.getSelectionModel().getSelectedItem()!=null){
             if(cmbMaterial.getSelectionModel().getSelectedItem().getCantidad()>=Integer.valueOf(txtCantidad.getText())){
                 agregaItem();
@@ -490,7 +492,7 @@ public class CotizacionController implements Initializable {
     }
     
     public void agregaItem(){
-        lblInfo.setText("");
+        lblInfo.setText(Mensajes.VACIO.getMensaje());
         MaterialTrabajo mt=new MaterialTrabajo();
         mt.setNombre(cmbMaterial.getSelectionModel().getSelectedItem().getNombre());
         mt.setDescripcion(cmbMaterial.getSelectionModel().getSelectedItem().getDescripcion());

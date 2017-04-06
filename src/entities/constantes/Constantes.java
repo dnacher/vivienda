@@ -1,21 +1,25 @@
 package entities.constantes;
 
-/**
- *
+import java.util.Arrays;
+import java.util.List;
+
+/*
  * @author Dani-Fla-Mathi
  */
 public class Constantes {
     
-     /**
+    /*
      *                          RUTAS
      */
     public static final String PAGINA_ROOT="/web/vista/";
     public static final String IMAGEN_ROOT="/web/images/"; 
+    public static final String CSS_ROOT="/web/css/";
         
-    /**
+   /*
     *                           MENUS
     */
     public static final String EXTENSION_FXML=".fxml";
+    public static final String EXTENSION_PNG=".png";
     public static final String MENU_ADMINISTRACION="MenuAdministracion";
     public static final String MENU_MANTENIMIENTO="MenuMantenimiento";
     public static final String MENU_CONFIGURACION="MenuConfiguracion";
@@ -24,7 +28,7 @@ public class Constantes {
     public static final String PAGINA_LOGIN=Constantes.PAGINA_ROOT + "login" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_URGENCIA=Constantes.PAGINA_ROOT + "urgencia" + Constantes.EXTENSION_FXML;
        
-    /**
+   /*
     *                          PAGINAS
     */    
     
@@ -56,19 +60,52 @@ public class Constantes {
     public static final String PAGINA_FORM_MENU=Constantes.PAGINA_ROOT + "formMenu" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_MAIN=Constantes.PAGINA_ROOT + "main" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_CUSTOMER=Constantes.PAGINA_ROOT + "customer" + Constantes.EXTENSION_FXML;
+    public static final String PAGINA_DIALOG=Constantes.PAGINA_ROOT + "dialog" + Constantes.EXTENSION_FXML;
     
-    /**
+    /*
      *                          IMAGENES
      */
-    public static final String STAR0=Constantes.IMAGEN_ROOT + "star0.png";
-    public static final String STAR0M=Constantes.IMAGEN_ROOT + "star0m.png";
-    public static final String STAR1=Constantes.IMAGEN_ROOT + "star1.png";
-    public static final String STAR1M=Constantes.IMAGEN_ROOT + "star1m.png";
-    public static final String STAR2=Constantes.IMAGEN_ROOT + "star2.png";
-    public static final String STAR2M=Constantes.IMAGEN_ROOT + "star2m.png";
-    public static final String STAR3=Constantes.IMAGEN_ROOT + "star3.png";
-    public static final String STAR3M=Constantes.IMAGEN_ROOT + "star3m.png";
-    public static final String STAR4=Constantes.IMAGEN_ROOT + "star4.png";
-    public static final String STAR4M=Constantes.IMAGEN_ROOT + "star4m.png";
-    public static final String STAR5=Constantes.IMAGEN_ROOT + "star5.png";
+    public static final String STAR0=IMAGEN_ROOT + "star0" + EXTENSION_PNG;
+    public static final String STAR0M=IMAGEN_ROOT + "star0m" + EXTENSION_PNG;
+    public static final String STAR1=IMAGEN_ROOT + "star1" + EXTENSION_PNG;
+    public static final String STAR1M=IMAGEN_ROOT + "star1m" + EXTENSION_PNG;
+    public static final String STAR2=IMAGEN_ROOT + "star2" + EXTENSION_PNG;
+    public static final String STAR2M=IMAGEN_ROOT + "star2m" + EXTENSION_PNG;
+    public static final String STAR3=IMAGEN_ROOT + "star3" + EXTENSION_PNG;
+    public static final String STAR3M=IMAGEN_ROOT + "star3m" + EXTENSION_PNG;
+    public static final String STAR4=IMAGEN_ROOT + "star4" + EXTENSION_PNG;
+    public static final String STAR4M=IMAGEN_ROOT + "star4m" + EXTENSION_PNG;
+    public static final String STAR5=IMAGEN_ROOT + "star5" + EXTENSION_PNG;
+    
+    public static final String STEP1=IMAGEN_ROOT + "step1" + EXTENSION_PNG;
+    public static final String STEP2=IMAGEN_ROOT + "step2" + EXTENSION_PNG;
+    public static final String STEP3=IMAGEN_ROOT + "step3" + EXTENSION_PNG;
+    
+    /*
+     *                             CSS
+     */
+    public static final String myDialogs=Constantes.CSS_ROOT + "myDialogs.css";
+    
+    /*
+     *                             LISTAS
+     */
+    public static final List<String> LISTA_LICENCIA_BAJA=Arrays.asList("Licencia","Baja");
+    public static final List<String> LISTA_BLOCKS=Arrays.asList("A","B","C","D","E");
+    public static final List<String> LISTA_TIPO_CONVENIOS=Arrays.asList("Limite Cuotas",
+                                                                        "Limite Fecha",
+                                                                        "Limite Monto");
+    public static final List<String> LISTA_REPORTES=Arrays.asList("Convenios Activos",
+                                                                  "Gastos Comunes",
+                                                                  "Historico Convenios", 
+                                                                  "Otros Gastos no pagos", 
+                                                                  "Otros gastos pagos",
+                                                                  "Resumen Deudas", 
+                                                                  "Todos los Convenios");
+    public static final List<Integer> LISTA_TORRES=Arrays.asList(1,2,3,4,5,6);
+    
+    /*
+     *                             OTROS
+     */
+    
+    public static final String DECIMAL_FORMAT="####0.00";
 }

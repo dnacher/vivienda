@@ -3,6 +3,7 @@ package web.controller;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConceptoBean;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Concepto;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -78,7 +79,7 @@ public class conceptoController implements Initializable {
     }
     
     public void guardaConcepto(){
-        LblNombre.setText("");
+        LblNombre.setText(Mensajes.VACIO.getMensaje());
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");
@@ -94,26 +95,25 @@ public class conceptoController implements Initializable {
                 ConceptoBean cb=new ConceptoBean();
                 cb.guardar(concepto);
                 cv.creaVentanaNotificacionCorrecto();
-                clear();
                 llenaTabla();
+                clear();                
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());
             }       
-        }    
-      
+        }
     }
     
     public void cargaTabla(){
           try {
             lista=cb.traerTodos();
             listaConcepto = FXCollections.observableList(lista);
-            TableColumn id = new TableColumn("# Id");
-            TableColumn Nombre = new TableColumn("# Nombre");
-            TableColumn Descripcion = new TableColumn("# Descripcion");
+            TableColumn id = new TableColumn("Id");
+            TableColumn Nombre = new TableColumn("Nombre");
+            TableColumn Descripcion = new TableColumn("Descripcion");
             
             id.setMinWidth(100);
-            id.setCellValueFactory(new PropertyValueFactory<>("idConcepto"));
+            id.setCellValueFactory(new PropertyValueFactory<>("idconcepto"));
    
             Nombre.setMinWidth(100);
             Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -128,6 +128,7 @@ public class conceptoController implements Initializable {
     
     public void llenaTabla(){
         try {
+            cb=new ConceptoBean();
             lista=cb.traerTodos();
             listaConcepto = FXCollections.observableList(lista);     
             tableData.setItems(listaConcepto);
@@ -430,7 +431,7 @@ public class conceptoController implements Initializable {
     
     @FXML
     private void aksiSave(ActionEvent event){
-        LblNombre.setText("");
+        LblNombre.setText(Mensajes.VACIO.getMensaje());
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");

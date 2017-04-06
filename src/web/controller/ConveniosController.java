@@ -40,6 +40,8 @@ import control.ControlVentana;
 import entities.persistence.entities.Tipobonificacion;
 import ejb.services.TipoBonificacionBean;
 import ejb.services.ConvenioBean;
+import entities.constantes.Constantes;
+import entities.enums.Mensajes;
 import entities.persistence.entities.Convenio;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
@@ -129,9 +131,9 @@ public class ConveniosController implements Initializable {
     private TextArea txtDescripcion;
      
     ObservableList listaUnidades;
-    Image img1=new Image("/web/images/step1.png");
-    Image img2=new Image("/web/images/step2.png");
-    Image img3=new Image("/web/images/step3.png");
+    Image img1=new Image(Constantes.STEP1);
+    Image img2=new Image(Constantes.STEP2);
+    Image img3=new Image(Constantes.STEP3);
     int paneActual=1;
     Unidad unidad;
     public int i;
@@ -167,13 +169,13 @@ public class ConveniosController implements Initializable {
     
     public void cargarComboBlock(){
        ObservableList<String> options = 
-       FXCollections.observableArrayList("A","B","C","D","E");
+       FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
        cmbBlock.setItems(options);
     }
     
     public void cargarComboTipoConvenio(){
        ObservableList<String> options = 
-       FXCollections.observableArrayList("Limite Cuotas","Limite Fecha","Limite Monto");
+       FXCollections.observableArrayList(Constantes.LISTA_TIPO_CONVENIOS);
        cmbTipoConvenio.setItems(options);
        cmbTipoConvenio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -190,23 +192,24 @@ public class ConveniosController implements Initializable {
             case "Limite Cuotas":
                 txtTipoConvenio.setVisible(true);
                 cmbFechaTipoConvenio.setVisible(false);
-                lblTipoConvenio.setText("Cuotas");
+                lblTipoConvenio.setText(Mensajes.CUOTAS.getMensaje());
                 break;
             case "Limite Fecha":
                 txtTipoConvenio.setVisible(false);
                 cmbFechaTipoConvenio.setVisible(true);
-                lblTipoConvenio.setText("Fecha");
+                lblTipoConvenio.setText(Mensajes.FECHA.getMensaje());
                 break;
             case "Limite Monto":
                 txtTipoConvenio.setVisible(true);
                 cmbFechaTipoConvenio.setVisible(false);
-                lblTipoConvenio.setText("Monto");                
+                lblTipoConvenio.setText(Mensajes.MONTO.getMensaje());                
                 break;
         }
     }
     
     public void calculaTipoConveniotext(){
-        switch(cmbTipoConvenio.getValue()){
+        ControlVentana cv=new ControlVentana();
+        switch(cmbTipoConvenio.getValue()){            
             case "Limite Cuotas":
                 if(!txtTipoConvenio.getText().isEmpty()){
                     try{
@@ -219,14 +222,14 @@ public class ConveniosController implements Initializable {
                         }
                         double informacion=total/cuotas;
                         //formatea el valor a 2 digitos
-                        DecimalFormat df = new DecimalFormat("####0.00");                        
-                        lblCuotas.setText("Cuota aproximada: $" + df.format(informacion));
+                        DecimalFormat df = new DecimalFormat(Constantes.DECIMAL_FORMAT);                        
+                        lblCuotas.setText(Mensajes.CUOTA_APROXIMADA.getMensaje() + df.format(informacion));
                     }
                     catch(Exception ex){
-                        System.err.println("debe ser un valor numerico");
+                        cv.creaVentanaNotificacionError(Mensajes.VALOR_NUMERICO.getMensaje());
                     }
                 }else{
-                    System.err.println("No debe estar vacio");
+                    cv.creaVentanaNotificacionError(Mensajes.NO_VACIO.getMensaje());
                 }
                 break;
             case "Limite Fecha":
@@ -241,10 +244,10 @@ public class ConveniosController implements Initializable {
                     ConfiguracionControl cc=new ConfiguracionControl();
                     cuotas=cc.devuelveCuotas(currentmonth, finalMonth, currentyear, finalYear);
                     double monto=deudaPesos/(double)cuotas;
-                    DecimalFormat df = new DecimalFormat("####0.00"); 
-                    lblCuotas.setText((int)cuotas + " cuotas de $" + df.format(monto));
+                    DecimalFormat df = new DecimalFormat(Constantes.DECIMAL_FORMAT); 
+                    lblCuotas.setText((int)cuotas + Mensajes.CUOTA_APROXIMADA.getMensaje() + df.format(monto));
                 }else{
-                    System.err.println("no hay fecha seleccionada");
+                    cv.creaVentanaNotificacionError(Mensajes.NO_FECHA.getMensaje());
                 }
                 break;
             case "Limite Monto":
@@ -259,13 +262,13 @@ public class ConveniosController implements Initializable {
                         }
                         //redondea hacia arriba siempre
                         cuotas=(int) Math.ceil(total/monto);
-                        lblCuotas.setText("Numero de cuotas aproximadas: " + (int)cuotas);
+                        lblCuotas.setText(Mensajes.CUOTAS_APROX.getMensaje() + (int)cuotas);
                     }
                     catch(Exception ex){
-                        System.err.println("debe ser un valor numerico");
+                        cv.creaVentanaNotificacionError(Mensajes.VALOR_NUMERICO.getMensaje());
                     }
                 }else{
-                    System.err.println("No debe estar vacio");
+                    cv.creaVentanaNotificacionError(Mensajes.NO_VACIO.getMensaje());
                 }
                 break;
         }
@@ -343,11 +346,11 @@ public class ConveniosController implements Initializable {
         
         switch(paneActual){
             case 1:
-                lblInfo.setText("");
+                lblInfo.setText(Mensajes.VACIO.getMensaje());
                 paneActual=2;
                 unidad=tblUnidades.getSelectionModel().getSelectedItem();
-                txtUnidad.setText(unidad.getNombre() + " " + unidad.getApellido());
-                txtUnidad2.setText(unidad.getNombre() + " " + unidad.getApellido());
+                txtUnidad.setText(unidad.getNombre() + Mensajes.ESPACIO + unidad.getApellido());
+                txtUnidad2.setText(unidad.getNombre() + Mensajes.ESPACIO + unidad.getApellido());
                 UnidadBean ub=new UnidadBean();
                 deudaPesos=ub.TraeTotalImporteXUnidadParaConvenio(unidad);
                 lblDeudaTotal.setText(String.valueOf(deudaPesos));
@@ -413,11 +416,11 @@ public class ConveniosController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Block = new TableColumn("Block");
-       TableColumn Torre = new TableColumn("Torre");
-       TableColumn Puerta= new TableColumn("Puerta");
+       TableColumn Nombre = new TableColumn(Mensajes.NOMBRE.getMensaje());
+       TableColumn Apellido = new TableColumn(Mensajes.APELLIDO.getMensaje());
+       TableColumn Block = new TableColumn(Mensajes.BLOCK.getMensaje());
+       TableColumn Torre = new TableColumn(Mensajes.TORRE.getMensaje());
+       TableColumn Puerta= new TableColumn(Mensajes.PUERTA.getMensaje());
 
        Nombre.setMinWidth(150);
        Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -446,7 +449,7 @@ public class ConveniosController implements Initializable {
             lblSimbolo.setText(monto.getSimbolo());
             if(monto.getValorPesos()!=1){
                 deudaOtraMoneda=deudaPesos*monto.getValorPesos();
-                DecimalFormat df = new DecimalFormat("####0.00");
+                DecimalFormat df = new DecimalFormat(Constantes.DECIMAL_FORMAT);
                 lblDeudaTotal.setText(df.format(deudaOtraMoneda));
             }else{
                  lblDeudaTotal.setText(String.valueOf(deudaPesos));
@@ -455,9 +458,9 @@ public class ConveniosController implements Initializable {
     }
      
       public void mostrar(ActionEvent event) {
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             try{
-                lblInfo.setText("");
+                lblInfo.setText(Mensajes.VACIO.getMensaje());
                 List<Unidad> listaTorreBlock;
                 UnidadBean ub= new UnidadBean();
                 if(cmbBlock.getValue()!=null){
@@ -469,10 +472,10 @@ public class ConveniosController implements Initializable {
                     }
                 }else{
                     if(cmbTorre.getValue()!=null){
-                       listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", cmbTorre.getValue());
+                       listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(Mensajes.VACIO.getMensaje(), cmbTorre.getValue());
                     }
                     else{
-                        listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre("", 0);
+                        listaTorreBlock=ub.TraeUnidadesConvenioXBlockTorre(Mensajes.VACIO.getMensaje(), 0);
                     }
                 }                        
                 listaUnidades = FXCollections.observableList(listaTorreBlock);
@@ -480,14 +483,14 @@ public class ConveniosController implements Initializable {
                 tblUnidades.setItems(listaUnidades);                
             }
             catch(Exception ex){
-                lblInfo.setText("Debe seleccionar valores de Block y Torre para buscar");
+                lblInfo.setText(Mensajes.BLOCKYTORRE.getMensaje());
             }
         }
        
         public void mostrarTodos() {
-            lblInfo.setText("");
+            lblInfo.setText(Mensajes.VACIO.getMensaje());
             UnidadBean ub=new UnidadBean();
-            List<Unidad> listaTotal=ub.TraeUnidadesConvenioXBlockTorre("",0);
+            List<Unidad> listaTotal=ub.TraeUnidadesConvenioXBlockTorre(Mensajes.VACIO.getMensaje(),0);
             listaUnidades = FXCollections.observableList(listaTotal);
             tblUnidades.setItems(null);
             tblUnidades.setItems(listaUnidades);

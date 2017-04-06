@@ -1,5 +1,6 @@
 package web.controller;
 
+import entities.enums.Mensajes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -138,13 +139,13 @@ public class customerController implements Initializable {
         txtAddress2.clear();
         txtCity.clear();
         txtCredit.clear();
-        cbDiscount.setValue("");
+        cbDiscount.setValue(Mensajes.VACIO.getMensaje());
         txtEmail.clear();
         txtFax.clear();
         txtName.clear();
         txtPhone.clear();
         txtState.clear();
-        cbZip.setValue("");
+        cbZip.setValue(Mensajes.VACIO.getMensaje());
     }
     
     private void displayDiscountCode(){
@@ -291,10 +292,10 @@ public class customerController implements Initializable {
        /* if (txtId.getText().isEmpty()) {
             UtilsVentanas.dialog(Alert.AlertType.ERROR, "ID Not Empty");
             txtId.requestFocus();
-        }else if (cbDiscount.getValue().equals("")) {
+        }else if (cbDiscount.getValue().equals(Mensajes.VACIO.getMensaje())) {
             UtilsVentanas.dialog(Alert.AlertType.ERROR, "Discount Not Empty");
             cbDiscount.requestFocus();
-        }else if (cbZip.getValue().equals("")) {
+        }else if (cbZip.getValue().equals(Mensajes.VACIO.getMensaje())) {
             UtilsVentanas.dialog(Alert.AlertType.ERROR, "Zip Not Empty");
             cbZip.requestFocus();
         }else if (txtName.getText().isEmpty()) {
