@@ -10,6 +10,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
 import entities.hibernate.SessionConnection;
+import org.hibernate.StatelessSession;
+import java.io.FileOutputStream;
+import entities.constantes.Constantes;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /**
  *
@@ -51,6 +58,36 @@ public class UnidadBean implements UnidadLocal{
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
         }
+        return correcto;
+    }
+    
+    public boolean guardarUnidades(List<Unidad> lista) throws ServiceException, IOException{
+        correcto=false;        
+        FileWriter outfile= null;        
+        outfile=new FileWriter(Constantes.PATH);
+        String outputString="";        
+         try{        
+            StatelessSession session = sc.useStatelessSession();
+            tx = session.beginTransaction();
+            for (Unidad unidad: lista) {
+                try{                    
+                    session.insert(unidad);
+                    outputString+=unidad.getNombre()+ " " + unidad.getApellido() + " " + unidad.getBlock() + unidad.getTorre() + " " + unidad.getPuerta() + " OK\n";
+                }
+                catch(Exception ex){
+                    outputString+=unidad.getNombre()+ " " + unidad.getApellido() + " " + unidad.getBlock() + unidad.getTorre() + " " + unidad.getPuerta() + " ERROR\n";
+                    outputString+="ERROR: " + ex.getMessage() + "\n";
+                }
+            }
+            tx.commit();
+            session.close();
+            correcto=true;
+        }
+        catch(Exception ex){
+            throw new ServiceException(ex.getMessage());
+        }
+        outfile.write(outputString);         
+        outfile.flush(); 
         return correcto;
     }
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="461.0" style="-fx-border-color: gray; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.controller.ImportarExcelController">
+    <children>
+      <Text fill="#2b579a" layoutX="38.0" layoutY="46.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Importar" textAlignment="RIGHT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="lblArchivo" fill="#2b579a" layoutX="39.0" layoutY="145.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="302.0791015625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+        <Label fx:id="lblClose" layoutX="441.0" text="x" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+      <Button layoutX="181.0" layoutY="310.0" mnemonicParsing="false" onAction="#cargar" prefHeight="25.0" prefWidth="98.0" styleClass="btn" text="Cargar" />
+      <ComboBox fx:id="cmbImportar" layoutX="129.0" layoutY="27.0" prefHeight="25.0" prefWidth="208.0" />
+    </children>
+</AnchorPane>

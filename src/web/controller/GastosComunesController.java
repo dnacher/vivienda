@@ -47,6 +47,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
+import ejb.mail.Mail;
 
 public class GastosComunesController implements Initializable {
     
@@ -375,6 +376,15 @@ public class GastosComunesController implements Initializable {
                 guardado=true;
                 mostrarTodos();
                 atras();
+             /*   Mail mail=new Mail();
+                String mimail="";
+                mimail+="Nombre: " + gc.getUnidad().getNombre() + " " + gc.getUnidad().getApellido() + "\n";
+                mimail+="Valor: " + "$" + gc.getMonto_1() + "\n";
+                mimail+="Periodo: " + gc.getPeriodo() +"\n";
+                mimail+="para valorar el tecnico ingresar al siguiente link: \n";
+                mimail+="https://docs.google.com/forms/d/1s9lU03xaVxu2L0VIlrQ4Qj_cBpDO3o-CPsHy2IAIuTw/prefill" + "\n";
+                
+                mail.SendMail(mimail);*/
                 cv.creaVentanaNotificacionCorrecto();
                 }
                 catch(Exception ex){

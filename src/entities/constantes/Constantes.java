@@ -102,10 +102,13 @@ public class Constantes {
                                                                   "Resumen Deudas", 
                                                                   "Todos los Convenios");
     public static final List<Integer> LISTA_TORRES=Arrays.asList(1,2,3,4,5,6);
+    public static final List<String> LISTA_TIPO_ARCHIVO_IMPORTAR=Arrays.asList("Unidad");
     
     /*
      *                             OTROS
      */
     
     public static final String DECIMAL_FORMAT="####0.00";
+    public static final String PATH="C:/desarrollo/test.txt";
+    public static final String SOURCE_ENCUESTA_TEST="https://docs.google.com/forms/d/e/1FAIpQLSesUlcnT3x7pJUODIGWsis1czpXuUVOnMQnuT6DrI6zEOm_EQ/viewform?embedded=true";
 }

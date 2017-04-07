@@ -19,6 +19,7 @@ public enum MenuConfiguracion {
                      TipoUsuario("TipoUsuario","Tipo Usuario"),
                    TipoDuracion("TipoDuracion","Tipo Duracion"),
                  CargarMasivas("CargarMasivas","Cargar Masivas"),
+                 ImportardeExcel("ImportarExcel","Importar Excel"),
                  Seguridad("Seguridad","Seguridad");
     
     private final String pagina;
