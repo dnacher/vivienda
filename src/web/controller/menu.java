@@ -142,19 +142,18 @@ public class menu implements Initializable {
 
     @FXML
     private void aksiKlikListMenu(MouseEvent event) {        
-        String ruta=traeNombrePagina(listMenu.getSelectionModel().getSelectedItem());       
-        String str=creaRuta(ruta);
+        String ruta=traeNombrePagina(listMenu.getSelectionModel().getSelectedItem());        
         cargaMenu(ruta);       
     }
     
     public void cargaMenu(String ruta){    
         boolean flag=false;
         List<String> listaMenu=new ArrayList<>();
-        listMenu.getItems().clear();
+        listMenu.getItems().clear();        
         switch(ruta){            
             case "Inicio":                             
                 listaMenu=cargaLista(Constantes.MENU_PRINCIPAL);
-                menuActual=Constantes.MENU_PRINCIPAL;
+                menuActual=Constantes.MENU_PRINCIPAL;             
                 break;
             case "Administracion":
                 listaMenu=cargaLista(Constantes.MENU_ADMINISTRACION);
@@ -221,7 +220,7 @@ public class menu implements Initializable {
     @FXML
     private void aksiLogout(ActionEvent event) {  
         UtilsVentanas uv= new UtilsVentanas();
-        uv.newStage2(stage, btnLogout, "/web/vista/login.fxml", "Sample Apps", true, StageStyle.UNDECORATED, false);
+        uv.newStage2(stage, btnLogout, "/web/vista/login.fxml", "Vivienda", true, StageStyle.UNDECORATED, false);
         Viviendas.user=null;
         //aqui debe actualizar la lista de configuracion.
     }

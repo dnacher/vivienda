@@ -48,9 +48,18 @@ import entities.constantes.Constantes;
 import entities.enums.Mensajes;
 import entities.persistence.entities.Historialtrabajo;
 import entities.persistence.entities.HistorialtrabajoId;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import jfxtras.labs.icalendaragenda.scene.control.agenda.ICalendarAgenda;
+import jfxtras.labs.icalendarfx.VCalendar;
 
 
 public class CotizacionController implements Initializable {
@@ -134,13 +143,27 @@ public class CotizacionController implements Initializable {
     private DatePicker cmbFechaEnEdicion;
     
     @FXML
-    private TextArea txtDescripcionEnEdicion;   
+    private TextArea txtDescripcionEnEdicion;
+    
+    @FXML
+    private BorderPane root;
+    
+    @FXML
+    private AnchorPane TrabajoFormPane;
+    
+    @FXML
+    private AnchorPane TrabajoAgendaPane;
+    
+    @FXML
+    private Button btnSecond;
  
     ObservableList listaUnidades;
     Unidad unidad;
     Date hoy=new Date();
     List<MaterialTrabajo> materiales=new ArrayList<>();
     Trabajo trabajo;
+    boolean flagAgenda=false;
+    VCalendar vCalendar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -411,7 +434,7 @@ public class CotizacionController implements Initializable {
         }
     }
        
-    public void mostrarTodos() {
+    public void mostrarTodos() throws Exception {                 
         try {
             lblInfo.setText(Mensajes.VACIO.getMensaje());
             UnidadBean ub=new UnidadBean();
@@ -422,7 +445,7 @@ public class CotizacionController implements Initializable {
         } catch (ServiceException ex) {
             lblInfo.setText(ex.getMessage());
             Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }   
     }
     
     public void cargaTabla(){
@@ -525,6 +548,46 @@ public class CotizacionController implements Initializable {
         HashMap parameters=new HashMap();
         parameters.put("idUnidad", unidad.getIdUnidad());
         cc.generarReporteConParametros("HistorialTrabajo", parameters);
+    }
+    
+    public void verAgenda(){
+        TrabajoFormPane.setOpacity(0);
+        new FadeInUpTransition(TrabajoAgendaPane).play();
+        btnSecond.setVisible(false);
+        if(!flagAgenda){
+            try{
+                vCalendar=new VCalendar();
+                ICalendarAgenda agenda=new ICalendarAgenda(vCalendar);  
+                ObservableList<String> categorias=FXCollections.observableList(Constantes.LISTA_BLOCKS);
+                agenda.setCategories(categorias);                 
+                root.setCenter(agenda);                
+                flagAgenda=true;
+                Button increaseWeek=new Button(">");
+                Button decreaseWeek=new Button("<");
+                HBox buttonBox=new HBox(decreaseWeek,increaseWeek);
+                root.setTop(buttonBox);                 
+                increaseWeek.setOnAction((e)->{
+                    LocalDateTime newDisplayLocalDateTime= agenda.getDisplayedLocalDateTime().plus(Period.ofWeeks(1));
+                    agenda.setDisplayedLocalDateTime(newDisplayLocalDateTime);
+                });
+                
+                decreaseWeek.setOnAction((e)->{
+                    LocalDateTime newDisplayLocalDateTime= agenda.getDisplayedLocalDateTime().minus(Period.ofWeeks(1));
+                    agenda.setDisplayedLocalDateTime(newDisplayLocalDateTime);
+                });                
+            }
+            catch(Exception ex){
+                System.out.println(ex + "error mensaje " + ex.getMessage());
+            }
+            
+        }        
+    }
+    
+    public void guardarAgenda(){
+        TrabajoAgendaPane.setOpacity(0);
+        new FadeInUpTransition(TrabajoFormPane).play();        
+        btnSecond.setVisible(true);        
+        System.out.println(vCalendar.toContent());
     }
     
 }

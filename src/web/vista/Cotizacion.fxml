@@ -49,21 +49,42 @@
               <tabs>
                   <Tab text="Trabajo">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="1225.0">
                            <children>
-                              <Label fx:id="lblUnidad" layoutX="193.0" layoutY="37.0" prefHeight="17.0" prefWidth="400.0" textFill="#2b579a">
-                                <font><Font size="14.0" /></font>
-                              </Label>
-                              <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Tecnico" />
-                              <ComboBox fx:id="cmbTecnico" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
-                              <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Fecha Visita" />
-                              <DatePicker fx:id="cmbFechaVisita" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
-                              <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Tipo Duracion" />
-                              <ComboBox fx:id="cmbTipoDuracion" layoutX="193.0" layoutY="138.0" prefWidth="150.0" />
-                              <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Duracion" />
-                              <TextField fx:id="txtDuracion" layoutX="193.0" layoutY="174.0" />
-                              <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
-                              <TextArea fx:id="txtDescripcion" layoutX="193.0" layoutY="210.0" prefHeight="150.0" prefWidth="200.0" />
+                              <AnchorPane fx:id="TrabajoAgendaPane" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
+                                 <children>
+                                    <BorderPane fx:id="root" prefHeight="460.0" prefWidth="1225.0" />
+                                    <Button layoutX="380.0" layoutY="468.0" mnemonicParsing="false" onAction="#guardarAgenda" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Agendar" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="TrabajoFormPane" prefHeight="560.0" prefWidth="1225.0">
+                                 <children>
+                                    <Button layoutX="360.0" layoutY="66.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verAgenda" prefHeight="30.0" prefWidth="30.0">
+                                       <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/calendar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Label fx:id="lblUnidad" layoutX="193.0" layoutY="37.0" prefHeight="17.0" prefWidth="400.0" textFill="#2b579a">
+                                      <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cmbTecnico" layoutX="193.0" layoutY="66.0" prefWidth="150.0" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Fecha Visita" />
+                                    <DatePicker fx:id="cmbFechaVisita" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Tipo Duracion" />
+                                    <ComboBox fx:id="cmbTipoDuracion" layoutX="193.0" layoutY="138.0" prefWidth="150.0" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Duracion" />
+                                    <TextField fx:id="txtDuracion" layoutX="193.0" layoutY="174.0" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Tecnico" />
+                                    <TextArea fx:id="txtDescripcion" layoutX="193.0" layoutY="210.0" prefHeight="150.0" prefWidth="200.0" />
+                                 </children>
+                              </AnchorPane>
                            </children>
                       </AnchorPane>
                     </content>
