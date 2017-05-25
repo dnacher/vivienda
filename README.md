@@ -1,5 +1,6 @@
 # README #
 
+
 JDK 1.8
 se necesita el trayNotification.jar
 
@@ -16,6 +17,10 @@ Segoe UI Symbol
 
 2B579A
 rgb(43, 87, 154)
+
+
+otro posible valor para el color
+#346abc
 
 ### Who do I talk to? ###
 
