@@ -50,20 +50,11 @@ public class MaterialController implements Initializable {
     
     @FXML
     private TextField txtCantidad;
-   /* 
-    @FXML
-    private CheckBox ChkActivo;
-    */
+
     @FXML
     private Label LblNombre;
     
     public ObservableList<Material> lista;
-
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -104,27 +95,26 @@ public class MaterialController implements Initializable {
     private void guardar(ActionEvent event){
         LblNombre.setText(Mensajes.VACIO.getMensaje());
         ControlVentana cv=new ControlVentana();      
-                try{
-                    Material material=new Material();
-                    int ind=ConfiguracionControl.traeUltimoId("Material");
-                    material.setIdmaterial(ind);
-                    material.setActivo(true);
-                    material.setNombre(txtNombre.getText());
-                    material.setDescripcion(txtDescripcion.getText());
-                    material.setEntrada(Integer.valueOf(txtCantidad.getText()));
-                    material.setSalida(0);
-                    material.setCantidad(material.getEntrada());
-                    MaterialBean mb=new MaterialBean();
-                    mb.guardar(material);                
-                    cv.creaVentanaNotificacionCorrecto();
-                    clear();
-                    llenaTabla();
-                }
-                catch(Exception ex){
-                    cv.creaVentanaNotificacionError(ex.getMessage());
-                }       
-                 
+        try{
+            Material material=new Material();
+            int ind=ConfiguracionControl.traeUltimoId("Material");
+            material.setIdmaterial(ind);
+            material.setActivo(true);
+            material.setNombre(txtNombre.getText());
+            material.setDescripcion(txtDescripcion.getText());
+            material.setEntrada(Integer.valueOf(txtCantidad.getText()));
+            material.setSalida(0);
+            material.setCantidad(material.getEntrada());
+            MaterialBean mb=new MaterialBean();
+            mb.guardar(material);                
+            cv.creaVentanaNotificacionCorrecto();
+            clear();
+            llenaTabla();
         }
+        catch(Exception ex){
+            cv.creaVentanaNotificacionError(ex.getMessage());
+        }                 
+    }
 
         @FXML
         private void atras(ActionEvent event) {

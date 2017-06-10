@@ -29,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import ejb.services.UsuariosBean;
 import ejb.services.UsuariosLocal;
+import entities.constantes.ConstantesErrores;
 import exceptions.ServiceException;
 import static viviendas.Viviendas.listaConfiguracion;
 
@@ -42,13 +43,12 @@ public class controllLogin implements Initializable {
     @FXML
     private Text lblUserLogin;
     @FXML
-    private Text lblUsername;
-    @FXML
-    private Text lblPassword;
-    @FXML
     private Button btnLogin;   
     @FXML 
-    private Label lblClose;        
+    private Label lblClose;   
+    @FXML 
+    private Label lblVersion;  
+    
     Stage stage;
    
     private UsuariosLocal ul;
@@ -62,11 +62,12 @@ public class controllLogin implements Initializable {
         Platform.runLater(() -> {
             new FadeInRightTransition(lblUserLogin).play();
             new FadeInLeftTransition(lblWelcome).play();
-            new FadeInLeftTransition1(lblPassword).play();
-            new FadeInLeftTransition1(lblUsername).play();
+           // new FadeInLeftTransition1(lblPassword).play();
+            new FadeInLeftTransition1(lblVersion).play();
             new FadeInLeftTransition1(txtUsername).play();
             new FadeInLeftTransition1(txtPassword).play();
             new FadeInRightTransition(btnLogin).play();
+            lblVersion.setText(Constantes.VERSION);
             lblClose.setOnMouseClicked((MouseEvent event) -> {
                 Platform.exit();
                 System.exit(0);
@@ -91,28 +92,26 @@ public class controllLogin implements Initializable {
         UsuariosBean ub= new UsuariosBean();
         Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());        
         if(Viviendas.user!=null){
-        if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
-            Viviendas.user.getPassword().equals(txtPassword.getText())){           
-                ConfiguracionBean cb=new ConfiguracionBean();
-                listaConfiguracion=cb.traerTodos();                
-                cv.creaVentanaNotificacionCorrecto();
-                Stage st = new Stage();
-                stage = (Stage) lblClose.getScene().getWindow();
-                Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
-                Scene scene = new Scene(root);
-                st.initStyle(StageStyle.UNDECORATED);
-                st.setResizable(false);
-                st.setTitle("Login");
-                st.setScene(scene);
-                st.show();
-                stage.close();
+            if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
+                Viviendas.user.getPassword().equals(txtPassword.getText())){           
+                    ConfiguracionBean cb=new ConfiguracionBean();
+                    listaConfiguracion=cb.traerTodos();                
+                    cv.creaVentanaNotificacionCorrecto();
+                    Stage st = new Stage();
+                    stage = (Stage) lblClose.getScene().getWindow();
+                    Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
+                    Scene scene = new Scene(root);
+                    st.initStyle(StageStyle.UNDECORATED);
+                    st.setResizable(false);
+                    st.setTitle("Login");
+                    st.setScene(scene);
+                    st.show();
+                    stage.close();
+            }else{
+                cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
+            }
         }else{
-            cv.creaVentanaNotificacionError("Error de logueo");
+            cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
         }
-        }
-        else{
-            cv.creaVentanaNotificacionError("Error de logueo");
-        }
-    }
-    
+    }    
 }

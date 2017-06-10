@@ -36,6 +36,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import ejb.validaciones.OtrosGastosViewValidation;
 import entities.constantes.Constantes;
+import entities.constantes.ConstantesErrores;
 import entities.enums.Mensajes;
 import entities.persistence.entities.OtrosgastosId;
 import javafx.event.ActionEvent;
@@ -127,7 +128,7 @@ public class OtrosGastosController implements Initializable {
             lblUnidad.setText(unidad.toString());
         }
         catch(Exception ex){
-            lblInfo.setText("Debe Seleccionar una Unidad");
+            lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
         }
     }
     
@@ -334,7 +335,7 @@ public class OtrosGastosController implements Initializable {
             llenaTabla();            
             }
             catch(Exception ex){
-                lblInfo.setText("Debe seleccionar valores de Block y Torre para buscar");
+                lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
             }
         }
        

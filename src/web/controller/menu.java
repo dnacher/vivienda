@@ -220,7 +220,7 @@ public class menu implements Initializable {
     @FXML
     private void aksiLogout(ActionEvent event) {  
         UtilsVentanas uv= new UtilsVentanas();
-        uv.newStage2(stage, btnLogout, "/web/vista/login.fxml", "Vivienda", true, StageStyle.UNDECORATED, false);
+        uv.newStage2(stage, btnLogout, "/web/vista/login2.fxml", "Vivienda", true, StageStyle.UNDECORATED, false);
         Viviendas.user=null;
         //aqui debe actualizar la lista de configuracion.
     }

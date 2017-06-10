@@ -8,6 +8,7 @@ import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
+import entities.constantes.ConstantesErrores;
 import entities.enums.Mensajes;
 import entities.persistence.entities.Convenio;
 import entities.persistence.entities.Cuotaconvenio;
@@ -234,8 +235,7 @@ public class PagoConveniosController implements Initializable {
             }          
         }
         catch(Exception ex){
-           // lblInfo.setText("Debe seleccionar una unidad.");
-            System.out.println(ex.getMessage());
+            lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);            
         }       
     }
     
@@ -401,7 +401,7 @@ public class PagoConveniosController implements Initializable {
             lblInfo.setText("Se muestran " + unidadConvenios.size() + " unidades");         
         }
         catch(Exception ex){
-            lblInfo.setText("Debe seleccionar valores de Block y/o Torre para buscar");
+            lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
         }
     }
        
@@ -490,7 +490,7 @@ public class PagoConveniosController implements Initializable {
                         viviendas.Viviendas.confirmacion=false;
                         cv.creaVentanaNotificacionCorrecto();
                     }else{
-                        lblInfo.setText("Debe Seleccionar una unidad.");
+                        lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
                     }
                 } catch (ServiceException ex) {
                     cv.creaVentanaNotificacionError(ex.getMessage());
@@ -501,7 +501,7 @@ public class PagoConveniosController implements Initializable {
         
         public void creaDialogoConfirmacion() throws IOException{
             Stage stage=new Stage(StageStyle.UNDECORATED);
-            Parent root = FXMLLoader.load(getClass().getResource("/web/vista/dialog.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_DIALOG));
             Scene scene = new Scene(root);
             FadeTransition ft = new FadeTransition(Duration.millis(1000), root);
             ft.setFromValue(0.0);

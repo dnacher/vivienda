@@ -6,6 +6,7 @@ import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
+import entities.constantes.ConstantesErrores;
 import entities.enums.Mensajes;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
@@ -47,7 +48,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
-import ejb.mail.Mail;
 
 public class GastosComunesController implements Initializable {
     
@@ -320,7 +320,7 @@ public class GastosComunesController implements Initializable {
                 lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " unidades");
             }
         catch(Exception ex){
-            lblInfo.setText("Debe seleccionar valores de Block y/o Torre para buscar");
+            lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
         }          
         }
        

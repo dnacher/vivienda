@@ -58,7 +58,7 @@ public class Viviendas extends Application {
                 stage.hide();
                 Parent root;
                 try {                 
-                    root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_ROOT + "login.fxml"));
+                    root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_LOGIN));
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();

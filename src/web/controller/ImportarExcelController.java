@@ -64,13 +64,13 @@ public class ImportarExcelController implements Initializable {
     public void Importar(){
          try {
              final FileChooser fileChooser = new FileChooser();
-             lblArchivo.setText("trabajando, espere por favor");
-             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Libro Excel 97-2003", "*.xls"));
+             lblArchivo.setText(Constantes.TRABAJANDO_ESPERE);
+             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(Constantes.EXCEL, Constantes.EXTENSION_EXCEL));
              Stage stage = (Stage) lblClose.getScene().getWindow();
              File file = fileChooser.showOpenDialog(stage);
              ImportarDatosExcel ide=new ImportarDatosExcel();
              unidades=ide.ImportarUnidadesDeExcel(file);
-             lblArchivo.setText("Pronto para cargar");
+             lblArchivo.setText(Constantes.PRONTO_CARGAR);
          } catch (ImportarExcelException ex) {
              Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -78,7 +78,7 @@ public class ImportarExcelController implements Initializable {
     
     public void cargar(){
          try {
-             lblArchivo.setText("Cargando...");
+             lblArchivo.setText(Constantes.CARGANDO);
              UnidadBean ub=new UnidadBean();
              ub.guardarUnidades(unidades);
              lblArchivo.setText("Pronto");

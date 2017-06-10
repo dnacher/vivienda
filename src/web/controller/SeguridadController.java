@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import ejb.services.UsuariosBean;
+import entities.constantes.ConstantesErrores;
 import entities.persistence.entities.Tipousuario;
 import exceptions.ServiceException;
 import java.util.ArrayList;
@@ -434,8 +435,7 @@ public class SeguridadController implements Initializable {
             cmbTipoUsuario.setItems(listaTipoUsuarioO);
         } catch (ServiceException ex) {
             Logger.getLogger(SeguridadController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-             
+        }             
     }
     
     public void guardar(){
@@ -484,7 +484,7 @@ public class SeguridadController implements Initializable {
                 cv.creaVentanaNotificacionError(ex.getMessage());
             }
         }else{
-            cv.creaVentanaNotificacionError("No puede estar vacio el Tipo de usuario");
+            cv.creaVentanaNotificacionError(ConstantesErrores.TIPO_USUARIO_VACIO);
         }
     }
     

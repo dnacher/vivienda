@@ -25,7 +25,7 @@ public class Constantes {
     public static final String MENU_CONFIGURACION="MenuConfiguracion";
     public static final String MENU_PRINCIPAL="MenuPrincipal";
     
-    public static final String PAGINA_LOGIN=Constantes.PAGINA_ROOT + "login" + Constantes.EXTENSION_FXML;
+    public static final String PAGINA_LOGIN=Constantes.PAGINA_ROOT + "login2" + Constantes.EXTENSION_FXML;
     public static final String PAGINA_URGENCIA=Constantes.PAGINA_ROOT + "urgencia" + Constantes.EXTENSION_FXML;
        
    /*
@@ -111,4 +111,16 @@ public class Constantes {
     public static final String DECIMAL_FORMAT="####0.00";
     public static final String PATH="C:/desarrollo/test.txt";
     public static final String SOURCE_ENCUESTA_TEST="https://docs.google.com/forms/d/e/1FAIpQLSesUlcnT3x7pJUODIGWsis1czpXuUVOnMQnuT6DrI6zEOm_EQ/viewform?embedded=true";
+    public static final String EXCEL="Libro Excel 97-2003";
+    public static final String EXTENSION_EXCEL="*.xls";
+    public static final String TRABAJANDO_ESPERE="trabajando, espere por favor";
+    public static final String PRONTO_CARGAR="Pronto para cargar";
+    public static final String CARGANDO="Cargando...";    
+    
+    /*
+     *                             VERSION
+     */
+    public static final String VER="5.2.4";
+    public static final String VERSION="Versión: " + VER;    
+    
 }
