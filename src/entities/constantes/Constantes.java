@@ -9,9 +9,21 @@ import java.util.List;
 public class Constantes {
     
     /*
+     *                          CONEXION BASE DATOS
+     */
+    
+    public static final String HIBERNATE="hibernate.cfg.xml";
+    
+    /*
+     *                          GENERAL
+     */
+    
+    public static final String VIVIENDA="Vivienda";
+    
+    /*
      *                          RUTAS
      */
-    public static final String PAGINA_ROOT="/web/vista/";
+    public static final String PAGINA_ROOT="/web/fragmentos/";
     public static final String IMAGEN_ROOT="/web/images/"; 
     public static final String CSS_ROOT="/web/css/";
         

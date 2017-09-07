@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="652.0" prefWidth="1225.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.MB.BajaLienciaController">
+   <children>
+      <AnchorPane fx:id="paneTabel" layoutY="91.0" prefHeight="560.0" prefWidth="1225.0">
+         <children>
+            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" onMouseClicked="#managedTabla" prefHeight="436.0" prefWidth="1212.0" AnchorPane.bottomAnchor="117.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
+            <Label layoutX="7.0" layoutY="517.0" prefHeight="17.0" prefWidth="151.0" text="Telefono" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="7.0" layoutY="481.0" prefHeight="17.0" prefWidth="151.0" text="Apellido" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="7.0" layoutY="446.0" prefHeight="17.0" prefWidth="151.0" text="Nombre" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblNombre" layoutX="152.0" layoutY="446.0" prefHeight="17.0" prefWidth="151.0" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="lblApellido" layoutX="152.0" layoutY="481.0" prefHeight="17.0" prefWidth="151.0" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="lblTelefono" layoutX="152.0" layoutY="517.0" prefHeight="17.0" prefWidth="151.0" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="lblHasta" layoutX="273.0" layoutY="518.0" prefHeight="17.0" prefWidth="50.0" text="Hasta" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDesde" layoutX="273.0" layoutY="481.0" prefHeight="17.0" prefWidth="50.0" text="Desde" textFill="#2b579a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cmbBajaLicencia" layoutX="335.0" layoutY="443.0" prefHeight="27.0" prefWidth="177.0" />
+            <DatePicker fx:id="cmbFechaDesde" layoutX="335.0" layoutY="476.0" />
+            <DatePicker fx:id="cmbFechaHasta" layoutX="335.0" layoutY="513.0" />
+            <Button defaultButton="true" layoutX="543.0" layoutY="468.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Guardar" />
+         </children>
+      </AnchorPane>
+      <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tecnico">
+         <font>
+            <Font name="Segoe UI Semilight" size="48.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/301.GIF" />
+         </image>
+      </ImageView>
+      <ProgressBar fx:id="bar" layoutY="82.0" prefHeight="3.0" prefWidth="1225.0" progress="0.0" />
+   </children>
+</AnchorPane>

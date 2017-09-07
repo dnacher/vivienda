@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="461.0" style="-fx-border-color: gray; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.MB.ReportesController">
+    <children>
+      <Text fill="#2b579a" layoutX="38.0" layoutY="47.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Reporte" textAlignment="RIGHT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fill="#2b579a" layoutX="29.0" layoutY="107.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Block" textAlignment="RIGHT" wrappingWidth="75.0791015625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fill="#2b579a" layoutX="36.0" layoutY="142.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Torre" textAlignment="RIGHT" wrappingWidth="69.0791015625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fill="#2b579a" layoutX="36.0" layoutY="176.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Puerta" textAlignment="RIGHT" wrappingWidth="69.0791015625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fill="#2b579a" layoutX="36.0" layoutY="212.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Desde" textAlignment="RIGHT" wrappingWidth="69.0791015625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fill="#2b579a" layoutX="36.0" layoutY="249.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Hasta" textAlignment="RIGHT" wrappingWidth="69.0791015625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+        <Label fx:id="lblClose" layoutX="441.0" onMouseClicked="#cerrar" text="x" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+      <Button fx:id="btnAceptar" layoutX="57.0" layoutY="310.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="25.0" prefWidth="98.0" styleClass="btn" text="Aceptar" />
+      <Button layoutX="165.0" layoutY="310.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="25.0" prefWidth="98.0" styleClass="btn" text="Cancelar" />
+      <ComboBox fx:id="cmbReporte" layoutX="119.0" layoutY="30.0" prefHeight="25.0" prefWidth="224.0" />
+      <ComboBox fx:id="cmbBlock" layoutX="119.0" layoutY="88.0" prefHeight="25.0" prefWidth="174.0" />
+      <ComboBox fx:id="cmbTorre" layoutX="119.0" layoutY="123.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="txtPuerta" layoutX="120.0" layoutY="157.0" prefHeight="25.0" prefWidth="174.0" />
+      <DatePicker fx:id="cmbFechaDesde" layoutX="120.0" layoutY="193.0" />
+      <DatePicker fx:id="cmbFechaHasta" layoutX="120.0" layoutY="230.0" />
+    </children>
+</AnchorPane>
