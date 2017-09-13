@@ -30,10 +30,13 @@ import javafx.scene.Scene;
 import ejb.services.UsuariosBean;
 import ejb.services.UsuariosLocal;
 import entities.constantes.ConstantesErrores;
+import eu.hansolo.enzo.notification.Notification;
+import eu.hansolo.enzo.notification.Notification.Notifier;
 import exceptions.ServiceException;
 import static viviendas.Viviendas.listaConfiguracion;
 
 public class controllLogin implements Initializable {
+
     @FXML
     private TextField txtUsername;
     @FXML
@@ -43,26 +46,41 @@ public class controllLogin implements Initializable {
     @FXML
     private Text lblUserLogin;
     @FXML
-    private Button btnLogin;   
-    @FXML 
-    private Label lblClose;   
-    @FXML 
-    private Label lblVersion;  
-    
+    private Button btnLogin;
+    @FXML
+    private Label lblClose;
+    @FXML
+    private Label lblVersion;
+
     Stage stage;
-   
+
     private UsuariosLocal ul;
+
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {
+        
+        //prueba de notificaciones
+        Notification[] NOTIFICATIONS = {
+            new Notification("Info", "New information", Notification.INFO_ICON),
+            new Notification("Warning", "Attention, somethings wrong", Notification.WARNING_ICON),
+            new Notification("Success", "Great it works", Notification.SUCCESS_ICON),
+            new Notification("Error", "ZOMG", Notification.ERROR_ICON)
+        };
+        Notification.Notifier notifier = Notification.Notifier.INSTANCE;
+        notifier.notify(NOTIFICATIONS[0]);
+        //termina prueba de notificaciones
+        
+        
         Platform.runLater(() -> {
             new FadeInRightTransition(lblUserLogin).play();
             new FadeInLeftTransition(lblWelcome).play();
-           // new FadeInLeftTransition1(lblPassword).play();
+            // new FadeInLeftTransition1(lblPassword).play();
             new FadeInLeftTransition1(lblVersion).play();
             new FadeInLeftTransition1(txtUsername).play();
             new FadeInLeftTransition1(txtPassword).play();
@@ -72,46 +90,45 @@ public class controllLogin implements Initializable {
                 Platform.exit();
                 System.exit(0);
             });
-        });      
-        
-        txtPassword.setOnAction(event -> {            
-                try {
-                    login(event);
-                } catch (ServiceException ex) {
-                    Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {           
+        });
+
+        txtPassword.setOnAction(event -> {
+            try {
+                login(event);
+            } catch (ServiceException ex) {
                 Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }           
-        });      
-    }    
-    
+            } catch (IOException ex) {
+                Logger.getLogger(controllLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
 
     @FXML
     private void login(ActionEvent event) throws IOException, ServiceException {
-        ControlVentana cv=new ControlVentana();
-        UsuariosBean ub= new UsuariosBean();
-        Viviendas.user=ub.traerUsuarioXNombre(txtUsername.getText());        
-        if(Viviendas.user!=null){
-            if (Viviendas.user.getNombre().equals(txtUsername.getText()) &&
-                Viviendas.user.getPassword().equals(txtPassword.getText())){           
-                    ConfiguracionBean cb=new ConfiguracionBean();
-                    listaConfiguracion=cb.traerTodos();                
-                    cv.creaVentanaNotificacionCorrecto();
-                    Stage st = new Stage();
-                    stage = (Stage) lblClose.getScene().getWindow();
-                    Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
-                    Scene scene = new Scene(root);
-                    st.initStyle(StageStyle.UNDECORATED);
-                    st.setResizable(false);
-                    st.setTitle("Login");
-                    st.setScene(scene);
-                    st.show();
-                    stage.close();
-            }else{
+        ControlVentana cv = new ControlVentana();
+        UsuariosBean ub = new UsuariosBean();
+        Viviendas.user = ub.traerUsuarioXNombre(txtUsername.getText());
+        if (Viviendas.user != null) {
+            if (Viviendas.user.getNombre().equals(txtUsername.getText())
+                    && Viviendas.user.getPassword().equals(txtPassword.getText())) {
+                ConfiguracionBean cb = new ConfiguracionBean();
+                listaConfiguracion = cb.traerTodos();
+                cv.creaVentanaNotificacionCorrecto();
+                Stage st = new Stage();
+                stage = (Stage) lblClose.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
+                Scene scene = new Scene(root);
+                st.initStyle(StageStyle.UNDECORATED);
+                st.setResizable(false);
+                st.setTitle("Login");
+                st.setScene(scene);
+                st.show();
+                stage.close();
+            } else {
                 cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
             }
-        }else{
+        } else {
             cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
         }
-    }    
+    }
 }
