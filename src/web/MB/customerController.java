@@ -1,6 +1,6 @@
 package web.MB;
 
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -139,13 +139,13 @@ public class customerController implements Initializable {
         txtAddress2.clear();
         txtCity.clear();
         txtCredit.clear();
-        cbDiscount.setValue(Mensajes.VACIO.getMensaje());
+        cbDiscount.setValue(ConstantesEtiquetas.VACIO);
         txtEmail.clear();
         txtFax.clear();
         txtName.clear();
         txtPhone.clear();
         txtState.clear();
-        cbZip.setValue(Mensajes.VACIO.getMensaje());
+        cbZip.setValue(ConstantesEtiquetas.VACIO);
     }
     
     private void displayDiscountCode(){
@@ -292,10 +292,10 @@ public class customerController implements Initializable {
        /* if (txtId.getText().isEmpty()) {
             UtilsVentanas.dialog(Alert.AlertType.ERROR, "ID Not Empty");
             txtId.requestFocus();
-        }else if (cbDiscount.getValue().equals(Mensajes.VACIO.getMensaje())) {
+        }else if (cbDiscount.getValue().equals(ConstantesEtiquetas.VACIO)) {
             UtilsVentanas.dialog(Alert.AlertType.ERROR, "Discount Not Empty");
             cbDiscount.requestFocus();
-        }else if (cbZip.getValue().equals(Mensajes.VACIO.getMensaje())) {
+        }else if (cbZip.getValue().equals(ConstantesEtiquetas.VACIO)) {
             UtilsVentanas.dialog(Alert.AlertType.ERROR, "Zip Not Empty");
             cbZip.requestFocus();
         }else if (txtName.getText().isEmpty()) {

@@ -3,6 +3,7 @@ package web.MB;
 import ejb.importaDatos.ImportarDatosExcel;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
+import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Unidad;
 import exceptions.ImportarExcelException;
 import exceptions.ServiceException;
@@ -81,7 +82,7 @@ public class ImportarExcelController implements Initializable {
              lblArchivo.setText(Constantes.CARGANDO);
              UnidadBean ub=new UnidadBean();
              ub.guardarUnidades(unidades);
-             lblArchivo.setText("Pronto");
+             lblArchivo.setText(ConstantesEtiquetas.PRONTO);
          } catch (ServiceException ex) {
              Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
          } catch (IOException ex) {

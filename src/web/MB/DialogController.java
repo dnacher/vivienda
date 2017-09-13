@@ -1,5 +1,6 @@
 package web.MB;
 
+import entities.constantes.ConstantesMensajes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -24,7 +25,7 @@ public class DialogController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
-         lblTitle.setText("¿Confirma que desea eliminar el Convenio?");
+         lblTitle.setText(ConstantesMensajes.ELIMINAR_CONVENIO);
          lblClose.setOnMouseEntered((MouseEvent me) -> {
             lblClose.setCursor(Cursor.HAND); 
         });

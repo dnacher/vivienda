@@ -37,7 +37,8 @@ import javafx.scene.layout.AnchorPane;
 import ejb.validaciones.OtrosGastosViewValidation;
 import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
+import entities.constantes.ConstantesMensajes;
 import entities.persistence.entities.OtrosgastosId;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -122,7 +123,7 @@ public class OtrosGastosController implements Initializable {
     
     public void UnidadSeleccionada(){
         try{
-            lblInfo.setText(Mensajes.VACIO.getMensaje());
+            lblInfo.setText(ConstantesEtiquetas.VACIO);
             unidad=tableUnidades.getSelectionModel().getSelectedItem();
             nuevaUnidad();
             lblUnidad.setText(unidad.toString());
@@ -140,31 +141,31 @@ public class OtrosGastosController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Secuencia = new TableColumn("Secuencia");
-       TableColumn Descripcion = new TableColumn("Descripcion");
-       TableColumn Monto = new TableColumn("Moneda");
-       TableColumn Monto1 = new TableColumn("Monto");
-       TableColumn Unidad = new TableColumn("Unidad");
-       TableColumn Fecha= new TableColumn("Fecha");
+       TableColumn Secuencia = new TableColumn(ConstantesEtiquetas.SECUENCIA_UPPER);
+       TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+       TableColumn Monto = new TableColumn(ConstantesEtiquetas.MONEDA);
+       TableColumn Monto1 = new TableColumn(ConstantesEtiquetas.MONTO);
+       TableColumn Unidad = new TableColumn(ConstantesEtiquetas.UNIDAD);
+       TableColumn Fecha= new TableColumn(ConstantesEtiquetas.FECHA);
 
        Secuencia.setMinWidth(150);
-       Secuencia.setCellValueFactory(new PropertyValueFactory<>("Secuencia"));
+       Secuencia.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.SECUENCIA_UPPER));
 
        Descripcion.setMinWidth(150);
-       Descripcion.setCellValueFactory(new PropertyValueFactory<>("Descripcion"));
+       Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION_UPPER));
 
        Monto.setMinWidth(100);
-       Monto.setCellValueFactory(new PropertyValueFactory<>("Monto"));
+       Monto.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MONTO));
 
        Monto1.setMinWidth(100);
-       Monto1.setCellValueFactory(new PropertyValueFactory<>("Monto_1"));
+       Monto1.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MONTO_1));
 
        
        Unidad.setMinWidth(100);
-       Unidad.setCellValueFactory(new PropertyValueFactory<>("Unidad"));
+       Unidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.UNIDAD));
 
        Fecha.setMinWidth(110);
-       Fecha.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+       Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA));
 
        tableData.getColumns().addAll(Secuencia,Unidad,Monto,Monto1,Descripcion,Fecha);
        tableData.setItems(otrosGastos);
@@ -222,7 +223,7 @@ public class OtrosGastosController implements Initializable {
                 try{                    
                     Otrosgastos og=new Otrosgastos();
                     OtrosgastosId ogI=new OtrosgastosId();
-                    ogI.setIdotrosGastos(ConfiguracionControl.traeUltimoId("OtrosGastos"));
+                    ogI.setIdotrosGastos(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.OTROS_GASTOS));
                     ogI.setUnidadIdUnidad(unidad.getIdUnidad());
                     og.setId(ogI);
                     og.setActivo(ChkActivo.isSelected());
@@ -268,8 +269,8 @@ public class OtrosGastosController implements Initializable {
     
     public void limpiarForm(){
         unidad=null;
-        txtSecuencia.setText(Mensajes.VACIO.getMensaje());
-        txtMonto.setText(Mensajes.VACIO.getMensaje());
+        txtSecuencia.setText(ConstantesEtiquetas.VACIO);
+        txtMonto.setText(ConstantesEtiquetas.VACIO);
         tableUnidades.getSelectionModel().clearSelection();
     }
     
@@ -286,33 +287,33 @@ public class OtrosGastosController implements Initializable {
     }
     
     public void cargaTablaUnidades(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Block = new TableColumn("Block");
-       TableColumn Torre = new TableColumn("Torre");
-       TableColumn Puerta= new TableColumn("Puerta");
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+       TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+       TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
+       TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
+       TableColumn Puerta= new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
 
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+       Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
        Block.setMinWidth(100);
-       Block.setCellValueFactory(new PropertyValueFactory<>("Block"));
+       Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
 
        Torre.setMinWidth(100);
-       Torre.setCellValueFactory(new PropertyValueFactory<>("Torre"));
+       Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
 
        Puerta.setMinWidth(110);
-       Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
+       Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
 
        tableUnidades.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
        tableUnidades.setItems(listaUnidad);
     }
     
     public void llenaTabla(){
-        lblInfo.setText("Se muestran " + listaUnidad.size() + " registros.");
+        lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + listaUnidad.size() + ConstantesMensajes.REGISTROS);
         tableUnidades.setItems(listaUnidad);
     }
     
@@ -328,7 +329,7 @@ public class OtrosGastosController implements Initializable {
     
     public void mostrar(ActionEvent event) {       
             try{
-            lblInfo.setText(Mensajes.VACIO.getMensaje());
+            lblInfo.setText(ConstantesEtiquetas.VACIO);
             UnidadBean ub= new UnidadBean();
             List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
             listaUnidad = FXCollections.observableList(listaTorreBlock);

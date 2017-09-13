@@ -10,31 +10,31 @@ package entities.enums;
  * @author Dani-Fla-Mathi
  */
 public enum MenuConfiguracion {
-    
-                               Inicio("Inicio","Inicio"),
-                                 Grupo("Grupo","Grupo"),
-                           Urgencia("Urgencia","Urgencia"),
-                           Concepto("Concepto","Concepto"),
-                            Usuarios("Usuario","Usuarios"),
-                     TipoUsuario("TipoUsuario","Tipo Usuario"),
-                   TipoDuracion("TipoDuracion","Tipo Duracion"),
-                 CargarMasivas("CargarMasivas","Cargar Masivas"),
-                 ImportardeExcel("ImportarExcel","Importar Excel"),
-                 Seguridad("Seguridad","Seguridad");
-    
+
+    Inicio("Inicio", "Inicio"),
+    Grupo("Grupo", "Grupo"),
+    Urgencia("Urgencia", "Urgencia"),
+    Concepto("Concepto", "Concepto"),
+    Usuarios("Usuario", "Usuarios"),
+    TipoUsuario("TipoUsuario", "Tipo Usuario"),
+    TipoDuracion("TipoDuracion", "Tipo Duracion"),
+    CargarMasivas("CargarMasivas", "Cargar Masivas"),
+    ImportardeExcel("ImportarExcel", "Importar Excel"),
+    Seguridad("Seguridad", "Seguridad");
+
     private final String pagina;
     private final String menu;
-    
-    MenuConfiguracion(String pagina, String menu){
-         this.pagina = pagina;
+
+    MenuConfiguracion(String pagina, String menu) {
+        this.pagina = pagina;
         this.menu = menu;
     }
-    
-    public String getPagina(){
+
+    public String getPagina() {
         return pagina;
     }
-    
-    public String getMenu(){
+
+    public String getMenu() {
         return menu;
     }
 }

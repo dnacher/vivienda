@@ -22,8 +22,8 @@ public enum errores {
     ERROR("error",8),
     WARNING("warning",9);
     
-    private String error;
-    private int errorNumero;
+    private final String error;
+    private final int errorNumero;
     
     errores(String error, int errorNumero){
          this.error = error;

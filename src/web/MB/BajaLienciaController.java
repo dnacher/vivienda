@@ -5,7 +5,9 @@ import control.ControlVentana;
 import ejb.services.TecnicoBean;
 import ejb.utils.TecnicoImage;
 import entities.constantes.Constantes;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesErrores;
+import entities.constantes.ConstantesEtiquetas;
+import entities.constantes.ConstantesMensajes;
 import entities.enums.errores;
 import entities.persistence.entities.Tecnico;
 import exceptions.ServiceException;
@@ -99,7 +101,7 @@ public class BajaLienciaController implements Initializable {
     public void guardar(){
         ControlVentana cv=new ControlVentana();
         //Licencia
-        if(cmbBajaLicencia.getSelectionModel().getSelectedItem().equals(Mensajes.LICENCIA.getMensaje())){
+        if(cmbBajaLicencia.getSelectionModel().getSelectedItem().equals(ConstantesEtiquetas.LICENCIA)){
             if(cmbFechaDesde.getValue().isAfter(cmbFechaHasta.getValue())){
                 cv.creaVentanaNotificacion(errores.VERIFICAR.getError(), errores.FECHAFIN_MENOR_INICIO.getError(), 5, errores.ERROR.getError());
             }
@@ -108,12 +110,12 @@ public class BajaLienciaController implements Initializable {
                 cv.creaVentanaNotificacion(errores.VERIFICAR.getError(), errores.FECHAFIN_MENOR_INICIO.getError(), 5, errores.WARNING.getError());
             }
                 Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle(Mensajes.CONFIRMA_LICENCIA.getMensaje());
-                alert.setHeaderText(Mensajes.LICENCIA.getMensaje());
-                alert.setContentText(Mensajes.DESEA_CONFIRMAR_LICENCIA.getMensaje());
+                alert.setTitle(ConstantesMensajes.CONFIRMA_LICENCIA);
+                alert.setHeaderText(ConstantesEtiquetas.LICENCIA);
+                alert.setContentText(ConstantesMensajes.DESEA_CONFIRMAR_LICENCIA);
                 DialogPane dialogPane = alert.getDialogPane();
                 dialogPane.getStylesheets().add(getClass().getResource(Constantes.myDialogs).toExternalForm());
-                dialogPane.getStyleClass().add(Mensajes.MY_DIALOG.getMensaje());
+                dialogPane.getStyleClass().add(ConstantesEtiquetas.MY_DIALOG);
                 
               
                 Optional<ButtonType> result = alert.showAndWait();
@@ -134,12 +136,12 @@ public class BajaLienciaController implements Initializable {
          //Baja
         }else{           
                 Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle(Mensajes.CONFIRMA_BAJA.getMensaje());
-                alert.setHeaderText(Mensajes.BAJA.getMensaje());
-                alert.setContentText(Mensajes.CONFIRMA_BAJA.getMensaje());
+                alert.setTitle(ConstantesEtiquetas.CONFIRMA_BAJA);
+                alert.setHeaderText(ConstantesEtiquetas.BAJA);
+                alert.setContentText(ConstantesEtiquetas.CONFIRMA_BAJA);
                 DialogPane dialogPane = alert.getDialogPane();
                 dialogPane.getStylesheets().add(getClass().getResource(Constantes.myDialogs).toExternalForm());
-                dialogPane.getStyleClass().add(Mensajes.MY_DIALOG.getMensaje());
+                dialogPane.getStyleClass().add(ConstantesEtiquetas.MY_DIALOG);
                 
               
                 Optional<ButtonType> result = alert.showAndWait();
@@ -150,7 +152,7 @@ public class BajaLienciaController implements Initializable {
                         tecnico.setActivo(false);
                         TecnicoBean tb=new TecnicoBean();
                         tb.modificar(tecnico);
-                        cv.creaVentanaNotificacion(Mensajes.BAJA.getMensaje(), Mensajes.BAJA_CORRECTO.getMensaje() + cmbFechaHasta.getValue(), 3, Mensajes.OK.getMensaje());
+                        cv.creaVentanaNotificacion(ConstantesEtiquetas.BAJA, ConstantesMensajes.BAJA_CORRECTO + cmbFechaHasta.getValue(), 3, ConstantesEtiquetas.OK);
                     } catch (ServiceException ex) {
                         cv.creaVentanaNotificacionError(ex.getMessage());
                         Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,45 +171,45 @@ public class BajaLienciaController implements Initializable {
                 ft.setFromValue(0.0);
                 ft.setToValue(1.0);
                 ft.play();
-                stage.setTitle(Mensajes.CONFIRMA.getMensaje());
+                stage.setTitle(ConstantesEtiquetas.CONFIRMA);
                 stage.setScene(scene);
                 stage.showAndWait();
         }
    
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn(Mensajes.NOMBRE.getMensaje());
-       TableColumn Apellido = new TableColumn(Mensajes.APELLIDO.getMensaje());
-       TableColumn Telefono = new TableColumn(Mensajes.TELEFONO.getMensaje());
-       TableColumn Mail = new TableColumn(Mensajes.EMAIL.getMensaje());
-       TableColumn Calificacion = new TableColumn(Mensajes.CALIFICACION.getMensaje());
-       TableColumn Estado = new TableColumn(Mensajes.ESTADO.getMensaje());
-       TableColumn FechaInicio = new TableColumn(Mensajes.FECHA_INICIO.getMensaje());
-       TableColumn FechaFin = new TableColumn(Mensajes.FECHA_FIN.getMensaje());
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE);
+       TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO);
+       TableColumn Telefono = new TableColumn(ConstantesEtiquetas.TELEFONO);
+       TableColumn Mail = new TableColumn(ConstantesEtiquetas.EMAIL);
+       TableColumn Calificacion = new TableColumn(ConstantesEtiquetas.CALIFICACION);
+       TableColumn Estado = new TableColumn(ConstantesEtiquetas.ESTADO);
+       TableColumn FechaInicio = new TableColumn(ConstantesEtiquetas.FECHA_INICIO);
+       TableColumn FechaFin = new TableColumn(ConstantesEtiquetas.FECHA_FIN);
        
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+       Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
        Telefono.setMinWidth(100);
-       Telefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+       Telefono.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TELEFONO));
        
        Mail.setMinWidth(100);
-       Mail.setCellValueFactory(new PropertyValueFactory<>("mail"));
+       Mail.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MAIL));
        
        Calificacion.setMinWidth(110);
-       Calificacion.setCellValueFactory(new PropertyValueFactory<>("calificacion"));
+       Calificacion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CALIFICACION));
               
        Estado.setMinWidth(100);
-       Estado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+       Estado.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ESTADO));
       
        FechaInicio.setMinWidth(100);
-       FechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicioEstado"));
+       FechaInicio.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_INICIO_ESTADO));
        
        FechaFin.setMinWidth(100);
-       FechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFinEstado"));
+       FechaFin.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_FIN_ESTADO));
        
        tableData.getColumns().addAll(Nombre,Apellido,Telefono,Mail,Calificacion,Estado,FechaInicio,FechaFin);
        tableData.setItems(lista);     
@@ -256,9 +258,9 @@ public class BajaLienciaController implements Initializable {
     
     public void managedTabla() throws ServiceException{
         try{
-            lblNombre.setText(Mensajes.VACIO.getMensaje());
-            lblApellido.setText(Mensajes.VACIO.getMensaje());
-            lblTelefono.setText(Mensajes.VACIO.getMensaje());
+            lblNombre.setText(ConstantesEtiquetas.VACIO);
+            lblApellido.setText(ConstantesEtiquetas.VACIO);
+            lblTelefono.setText(ConstantesEtiquetas.VACIO);
             TecnicoBean tb=new TecnicoBean();
             TecnicoImage ti=tableData.getSelectionModel().getSelectedItem();
             tecnico=tb.traerTecnicoXId(ti.getIdTecnico());
@@ -269,7 +271,7 @@ public class BajaLienciaController implements Initializable {
         }
         catch(Exception ex){
             ControlVentana cv=new ControlVentana();
-            cv.creaVentanaNotificacionError(Mensajes.DEBE_SELECCIONAR_TECNICO.getMensaje());
+            cv.creaVentanaNotificacionError(ConstantesErrores.DEBE_SELECCIONAR_TECNICO);
         }    
     }
 } 

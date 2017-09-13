@@ -5,7 +5,7 @@ import control.ControlVentana;
 import ejb.services.UnidadBean;
 import ejb.validaciones.UnidadValidationUnique;
 import entities.constantes.Constantes;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -245,11 +245,11 @@ public class UnidadesController implements Initializable {
         cmbBlock.getSelectionModel().select(-1);
         cmbTorre.getSelectionModel().select(-1);
         cmbPropietarioInquilino.getSelectionModel().select(-1);
-        txtPuerta.setText(Mensajes.VACIO.getMensaje());
-        txtNombre.setText(Mensajes.VACIO.getMensaje());
-        txtApellido.setText(Mensajes.VACIO.getMensaje());
-        txtMail.setText(Mensajes.VACIO.getMensaje());
-        txtTelefono.setText(Mensajes.VACIO.getMensaje());
+        txtPuerta.setText(ConstantesEtiquetas.VACIO);
+        txtNombre.setText(ConstantesEtiquetas.VACIO);
+        txtApellido.setText(ConstantesEtiquetas.VACIO);
+        txtMail.setText(ConstantesEtiquetas.VACIO);
+        txtTelefono.setText(ConstantesEtiquetas.VACIO);
         cmbFechaIngreso.setValue(null);
     }
      

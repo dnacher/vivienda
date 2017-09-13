@@ -7,7 +7,8 @@ import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
+import entities.constantes.ConstantesMensajes;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Gastoscomunes;
@@ -181,13 +182,13 @@ public class GastosComunesController implements Initializable {
     
     public void agregarGastosComunes(){
         try{
-            lblPeriodo.setText(Mensajes.VACIO.getMensaje());
-            lblUnidadNombre.setText(Mensajes.VACIO.getMensaje());
-            lblUnidadDireccion.setText(Mensajes.VACIO.getMensaje());
+            lblPeriodo.setText(ConstantesEtiquetas.VACIO);
+            lblUnidadNombre.setText(ConstantesEtiquetas.VACIO);
+            lblUnidadDireccion.setText(ConstantesEtiquetas.VACIO);
             periodo=ConfiguracionControl.devuelvePeriodoActual();
             unidad=tableGastosComunes.getSelectionModel().getSelectedItem();
             lblPeriodo.setText(String.valueOf(periodo));
-            lblUnidadNombre.setText(unidad.getNombre()+ Mensajes.ESPACIO.getMensaje() 
+            lblUnidadNombre.setText(unidad.getNombre()+ ConstantesEtiquetas.ESPACIO 
                                 + unidad.getApellido());
             lblUnidadDireccion.setText(unidad.getBlock()
                                 + unidad.getTorre() + "/ " 
@@ -196,7 +197,7 @@ public class GastosComunesController implements Initializable {
             new FadeInUpTransition(paneFormulario).play();          
         }
         catch(Exception ex){
-            lblInfo.setText("Debe seleccionar una unidad.");
+            lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
         }      
     }
     
@@ -219,55 +220,55 @@ public class GastosComunesController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Block = new TableColumn("Block");
-       TableColumn Torre = new TableColumn("Torre");
-       TableColumn Puerta= new TableColumn("Puerta");
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+       TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+       TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
+       TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
+       TableColumn Puerta= new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
 
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+       Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
        Block.setMinWidth(100);
-       Block.setCellValueFactory(new PropertyValueFactory<>("Block"));
+       Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
 
        Torre.setMinWidth(100);
-       Torre.setCellValueFactory(new PropertyValueFactory<>("Torre"));
+       Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
 
        Puerta.setMinWidth(110);
-       Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
+       Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
 
        tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);       
        tableGastosComunes.setItems(unidadesGastosComunesNoPago);
-       cargaGrafica(Mensajes.VACIO.getMensaje(),0);
+       cargaGrafica(ConstantesEtiquetas.VACIO,0);
     }
     
     public void llenaTabla(){       
-       lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " registros.");       
+       lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + unidadesGastosComunesNoPago.size() + ConstantesMensajes.REGISTROS);       
         tableGastosComunes.setItems(unidadesGastosComunesNoPago);
         if(guardado){
-            cargaGrafica(Mensajes.VACIO.getMensaje(), 0);
+            cargaGrafica(ConstantesEtiquetas.VACIO, 0);
         }else{
             if(cmbBlock.getValue()!=null && cmbTorre.getValue()!=null){
                 cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
             }else{
-                cargaGrafica(Mensajes.VACIO.getMensaje(), 0);
+                cargaGrafica(ConstantesEtiquetas.VACIO, 0);
             }      
         }
     }
     
     public void cargaGrafica(String block, int torre){
-        lblInfoPieChart.setText(Mensajes.VACIO.getMensaje());
+        lblInfoPieChart.setText(ConstantesEtiquetas.VACIO);
         ub=new UnidadBean();
         int total=ub.totalUnidades(block,torre);        
         int totalPago=total-unidadesGastosComunesNoPago.size();
         int totalNoPago=total-totalPago;
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
-                new PieChart.Data("No pagó", totalNoPago),
-                new PieChart.Data("Pagó", totalPago)
+                new PieChart.Data(ConstantesMensajes.NO_PAGO, totalNoPago),
+                new PieChart.Data(ConstantesMensajes.PAGO, totalPago)
         );
         chartGastosComunes.setData(lista);
         
@@ -285,7 +286,7 @@ public class GastosComunesController implements Initializable {
     
         public void mostrar(ActionEvent event) {  
             try{   
-                lblInfo.setText(Mensajes.VACIO.getMensaje());
+                lblInfo.setText(ConstantesEtiquetas.VACIO);
                 String block;
                 int torre;
                 List<Unidad> listaTorreBlock;
@@ -303,13 +304,13 @@ public class GastosComunesController implements Initializable {
                     }
                 }else{
                     if(cmbTorre.getValue()!=null){
-                       listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(Mensajes.VACIO.getMensaje(), cmbTorre.getValue());
-                       block=Mensajes.VACIO.getMensaje();
+                       listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
+                       block=ConstantesEtiquetas.VACIO;
                        torre=cmbTorre.getValue();
                     }
                     else{
-                        listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(Mensajes.VACIO.getMensaje(), 0);
-                        block=Mensajes.VACIO.getMensaje();
+                        listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, 0);
+                        block=ConstantesEtiquetas.VACIO;
                         torre=0;
                     }
                 }

@@ -3,7 +3,6 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TipoDuracionBean;
-import entities.enums.Mensajes;
 import entities.persistence.entities.Tipoduracion;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -14,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import entities.constantes.ConstantesEtiquetas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -84,7 +84,7 @@ public class tipoDuracionController implements Initializable {
     
     @FXML
     private void aksiSave(ActionEvent event){
-        LblNombre.setText(Mensajes.VACIO.getMensaje());
+        LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");

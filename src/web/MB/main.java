@@ -1,7 +1,7 @@
 package web.MB;
 
 import entities.constantes.Constantes;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -11,12 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import viviendas.Viviendas;
-import web.animations.FadeInTransition;
 
 public class main implements Initializable { 
     @FXML
@@ -111,7 +109,7 @@ public class main implements Initializable {
     }
     
     public String creaRuta(String ruta){
-        String rutaNueva=Mensajes.VACIO.getMensaje();
+        String rutaNueva=ConstantesEtiquetas.VACIO;
         rutaNueva=Constantes.PAGINA_ROOT + ruta.trim() + Constantes.EXTENSION_FXML;
         System.out.println(rutaNueva);
         return rutaNueva;

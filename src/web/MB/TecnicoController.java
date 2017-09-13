@@ -4,7 +4,7 @@ import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TecnicoBean;
 import ejb.utils.TecnicoImage;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Tecnico;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -187,10 +187,10 @@ public class TecnicoController implements Initializable {
     }  
     
     public void limpiaForm(){
-        txtNombre.setText(Mensajes.VACIO.getMensaje());
-        txtApellido.setText(Mensajes.VACIO.getMensaje());
-        txtTelefono.setText(Mensajes.VACIO.getMensaje());
-        txtMail.setText(Mensajes.VACIO.getMensaje());
+        txtNombre.setText(ConstantesEtiquetas.VACIO);
+        txtApellido.setText(ConstantesEtiquetas.VACIO);
+        txtTelefono.setText(ConstantesEtiquetas.VACIO);
+        txtMail.setText(ConstantesEtiquetas.VACIO);
     }
     
 } 

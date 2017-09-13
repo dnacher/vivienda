@@ -3,7 +3,7 @@ package web.MB;
 import UtilsGeneral.UtilsVentanas;
 import ejb.services.UsuariosBean;
 import entities.constantes.Constantes;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
 import entities.enums.MenuAdministracion;
 import entities.enums.MenuConfiguracion;
 import entities.enums.MenuMantenimiento;
@@ -53,7 +53,7 @@ public class menu implements Initializable {
     private AnchorPane paneData;
 
     List<String> lista;
-    public String menuActual = Mensajes.VACIO.getMensaje();
+    public String menuActual = ConstantesEtiquetas.VACIO;
     List<Permisosusuario> listaPermisos = new ArrayList<>();
 
     @Override
@@ -184,7 +184,7 @@ public class menu implements Initializable {
     }
 
     public String traeNombrePagina(String str) {
-        String pagina = Mensajes.VACIO.getMensaje();
+        String pagina = ConstantesEtiquetas.VACIO;
         switch (menuActual) {
             case "MenuAdministracion":
                 for (MenuAdministracion p : MenuAdministracion.values()) {
@@ -230,7 +230,7 @@ public class menu implements Initializable {
     }
 
     public String creaRuta(String ruta) {
-        String rutaNueva = Mensajes.VACIO.getMensaje();
+        String rutaNueva = ConstantesEtiquetas.VACIO;
         rutaNueva = Constantes.PAGINA_ROOT + ruta + Constantes.EXTENSION_FXML;
         return rutaNueva;
     }

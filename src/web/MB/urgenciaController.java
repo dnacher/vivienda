@@ -3,7 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.UrgenciaBean;
-import entities.enums.Mensajes;
+import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Urgencia;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -85,7 +85,7 @@ public class urgenciaController implements Initializable {
     }
     
     public void guardaUrgencia(){
-        LblNombre.setText(Mensajes.VACIO.getMensaje());
+        LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
             LblNombre.setText("El campo nombre no puede estar vacio");
