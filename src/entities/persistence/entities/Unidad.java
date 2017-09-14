@@ -16,6 +16,7 @@ public class Unidad  implements java.io.Serializable {
      private String block;
      private Integer torre;
      private Integer puerta;
+     private Integer habitaciones;
      private String nombre;
      private String apellido;
      private Integer telefono;
@@ -81,6 +82,15 @@ public class Unidad  implements java.io.Serializable {
     public void setPuerta(Integer puerta) {
         this.puerta = puerta;
     }
+
+    public Integer getHabitaciones() {
+        return habitaciones;
+    }
+
+    public void setHabitaciones(Integer habitaciones) {
+        this.habitaciones = habitaciones;
+    }
+    
     public String getNombre() {
         return this.nombre;
     }

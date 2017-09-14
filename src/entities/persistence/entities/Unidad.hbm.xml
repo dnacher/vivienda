@@ -17,6 +17,9 @@
         <property name="puerta" type="java.lang.Integer">
             <column name="puerta" />
         </property>
+        <property name="habitaciones" type="java.lang.Integer">
+            <column name="habitaciones" />
+        </property>
         <property name="nombre" type="string">
             <column name="nombre" length="45" />
         </property>
