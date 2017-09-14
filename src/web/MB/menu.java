@@ -70,7 +70,7 @@ public class menu implements Initializable {
             stage = (Stage) maximize.getScene().getWindow();
             stage.setMaximized(true);
             stage.setHeight(rec2.getHeight());
-            maximize.getStyleClass().add("decoration-button-restore");
+            maximize.getStyleClass().add(ConstantesEtiquetas.DECORATION_BUTTON_RESTORE);
             resize.setVisible(false);
             UtilsVentanas uv = new UtilsVentanas();
             uv.loadAnchorPane(paneData, Constantes.PAGINA_MAIN);
@@ -87,18 +87,18 @@ public class menu implements Initializable {
                 stage.setHeight(600);
                 stage.setWidth(800);
                 stage.centerOnScreen();
-                maximize.getStyleClass().remove("decoration-button-restore");
+                maximize.getStyleClass().remove(ConstantesEtiquetas.DECORATION_BUTTON_RESTORE);
                 resize.setVisible(true);
             } else {
                 stage.setMaximized(false);
-                maximize.getStyleClass().remove("decoration-button-restore");
+                maximize.getStyleClass().remove(ConstantesEtiquetas.DECORATION_BUTTON_RESTORE);
                 resize.setVisible(true);
             }
 
         } else {
             stage.setMaximized(true);
             stage.setHeight(rec2.getHeight());
-            maximize.getStyleClass().add("decoration-button-restore");
+            maximize.getStyleClass().add(ConstantesEtiquetas.DECORATION_BUTTON_RESTORE);
             resize.setVisible(false);
         }
     }

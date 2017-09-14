@@ -25,6 +25,8 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import UtilsGeneral.ListaPreciosTable;
 import ejb.services.MaterialBean;
+import entities.constantes.ConstantesErrores;
+import entities.constantes.ConstantesEtiquetas;
 import exceptions.ServiceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,7 +107,7 @@ public class listaPreciosController implements Initializable {
         ControlVentana cv=new ControlVentana();
             
             if(!ConfiguracionControl.esNumero(txtCantidad.getText()) && !ConfiguracionControl.esNumero(txtPrecio.getText())){                
-                cv.creaVentanaNotificacionError("El o los campos deben ser numericos");
+                cv.creaVentanaNotificacionError(ConstantesErrores.CAMPO_NUMERICO);
             }
             else{
                 try{
@@ -119,7 +121,7 @@ public class listaPreciosController implements Initializable {
                     listaPrecios.setCantidad(Integer.valueOf(txtCantidad.getText()));
                     listaPrecios.setFecha(ConfiguracionControl.TraeFecha(cmbFechaCompra.getValue()));
                     ListapreciosId preciosId=new ListapreciosId();
-                    preciosId.setIdlistaPrecios(ConfiguracionControl.traeUltimoId("ListaPrecios"));
+                    preciosId.setIdlistaPrecios(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.LISTA_PRECIOS));
                     preciosId.setMaterialIdmaterial(material.getIdmaterial());
                     listaPrecios.setId(preciosId);
                     listaPrecios.setMaterial(cmbMaterial.getSelectionModel().getSelectedItem());
@@ -156,23 +158,23 @@ public class listaPreciosController implements Initializable {
         
         
       public void cargaTabla(){
-       TableColumn Material = new TableColumn("material");
-       TableColumn Precio = new TableColumn("precio");
-       TableColumn Cantidad = new TableColumn("cantidad");
-       TableColumn Fecha = new TableColumn("fecha");
+       TableColumn Material = new TableColumn(ConstantesEtiquetas.MATERIAL);
+       TableColumn Precio = new TableColumn(ConstantesEtiquetas.PRECIO);
+       TableColumn Cantidad = new TableColumn(ConstantesEtiquetas.CANTIDAD);
+       TableColumn Fecha = new TableColumn(ConstantesEtiquetas.FECHA);
        
        
        Material.setMinWidth(150);
-       Material.setCellValueFactory(new PropertyValueFactory<>("material"));
+       Material.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MATERIAL));
 
        Precio.setMinWidth(150);
-       Precio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+       Precio.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PRECIO));
 
        Cantidad.setMinWidth(100);
-       Cantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+       Cantidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CANTIDAD));
 
        Fecha.setMinWidth(100);
-       Fecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+       Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA));
       
        tableListaPrecios.getColumns().addAll(Material, Precio, Cantidad,Fecha);
        tableListaPrecios.setItems(lista);    

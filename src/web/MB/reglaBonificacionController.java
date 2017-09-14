@@ -3,6 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ReglaBonificacionBean;
+import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Reglabonificacion;
 import exceptions.ServiceException;
@@ -89,12 +90,12 @@ public class reglaBonificacionController implements Initializable {
         LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(!ConfiguracionControl.esNumero(TxtDiasaPagar.getText())){
-            LblNombre.setText("El campo dias a pagar debe ser numerico");
+            LblNombre.setText(ConstantesErrores.DIAS_A_PAGAR_NUMERICO);
         }
         else{
             try{
                 Reglabonificacion reglaBonificacion=new Reglabonificacion();
-                int ind=ConfiguracionControl.traeUltimoId("ReglaBonificacion");
+                int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.REGLA_BONIFICACION);
                 reglaBonificacion.setIdreglaBonificacion(ind);                
                 reglaBonificacion.setDiaApagar(Integer.valueOf(TxtDiasaPagar.getText()));
                 reglaBonificacion.setDescripcion(TxtDescripcion.getText());
@@ -118,18 +119,18 @@ public class reglaBonificacionController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Descripcion = new TableColumn("Descripcion");
-       TableColumn DiaAPagar = new TableColumn("Dia a Pagar");
-       TableColumn Activo = new TableColumn("Activo");
+       TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+       TableColumn DiaAPagar = new TableColumn(ConstantesEtiquetas.DIA_A_PAGAR);
+       TableColumn Activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);
 
        Descripcion.setMinWidth(150);
-       Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+       Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
 
        DiaAPagar.setMinWidth(150);
-       DiaAPagar.setCellValueFactory(new PropertyValueFactory<>("diaApagar"));
+       DiaAPagar.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DIAPAGAR));
 
        Activo.setMinWidth(100);
-       Activo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+       Activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
 
        tableData.getColumns().addAll(Descripcion,DiaAPagar,Activo);
        tableData.setItems(lista);

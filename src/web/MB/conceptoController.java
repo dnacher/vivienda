@@ -3,6 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConceptoBean;
+import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Concepto;
 import exceptions.ServiceException;
@@ -82,12 +83,12 @@ public class conceptoController implements Initializable {
         LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-            LblNombre.setText("El campo nombre no puede estar vacio");
+            LblNombre.setText(ConstantesErrores.FALTA_NOMBRE);
         }
         else{
             try{
                 Concepto concepto=new Concepto();
-                int ind=ConfiguracionControl.traeUltimoId("Concepto");
+                int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.CONCEPTO);
                 concepto.setIdconcepto(ind);
                 concepto.setActivo(ChkActivo.isSelected());
                 concepto.setNombre(txtNombre.getText());
@@ -108,17 +109,17 @@ public class conceptoController implements Initializable {
           try {
             lista=cb.traerTodos();
             listaConcepto = FXCollections.observableList(lista);
-            TableColumn id = new TableColumn("Id");
-            TableColumn Nombre = new TableColumn("Nombre");
-            TableColumn Descripcion = new TableColumn("Descripcion");
+            TableColumn id = new TableColumn(ConstantesEtiquetas.ID_UPPER);
+            TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+            TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
             
             id.setMinWidth(100);
-            id.setCellValueFactory(new PropertyValueFactory<>("idconcepto"));
+            id.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ID_CONCEPTO));
    
             Nombre.setMinWidth(100);
-            Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
             Descripcion.setMinWidth(100);
-            Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
             tableData.getColumns().addAll(id,Nombre,Descripcion);
             tableData.setItems(listaConcepto);           
         } catch (ServiceException ex) {

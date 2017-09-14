@@ -196,7 +196,7 @@ public class ConveniosController implements Initializable {
             case "Limite Fecha":
                 txtTipoConvenio.setVisible(false);
                 cmbFechaTipoConvenio.setVisible(true);
-                lblTipoConvenio.setText(ConstantesEtiquetas.FECHA);
+                lblTipoConvenio.setText(ConstantesEtiquetas.FECHA_UPPER);
                 break;
             case "Limite Monto":
                 txtTipoConvenio.setVisible(true);

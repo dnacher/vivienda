@@ -462,7 +462,7 @@ public class SeguridadController implements Initializable {
                 if(Inicio!=-1){pu= new Permisosusuario(ConstantesEtiquetas.INICIO, tu, Inicio); listaPermisos.add(pu);}
                 if(ListaPrecios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.LISTA_PRECIOS, tu, ListaPrecios); listaPermisos.add(pu);}
                 if(Mantenimiento!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MANTENIMIENTO, tu, Mantenimiento); listaPermisos.add(pu);}
-                if(Material!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MATERIAL, tu, Material); listaPermisos.add(pu);}
+                if(Material!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MATERIAL_UPPER, tu, Material); listaPermisos.add(pu);}
                 if(PagoConvenios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.PAGO_CONVENIOS, tu, PagoConvenios); listaPermisos.add(pu);}
                 if(ReglaBonificacion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.REGLA_BONIFICACION, tu, ReglaBonificacion); listaPermisos.add(pu);}
                 if(Reportes!=-1){pu= new Permisosusuario(ConstantesEtiquetas.REPORTES, tu, Reportes); listaPermisos.add(pu);}

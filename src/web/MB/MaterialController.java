@@ -97,7 +97,7 @@ public class MaterialController implements Initializable {
         ControlVentana cv=new ControlVentana();      
         try{
             Material material=new Material();
-            int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.MATERIAL);
+            int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.MATERIAL_UPPER);
             material.setIdmaterial(ind);
             material.setActivo(true);
             material.setNombre(txtNombre.getText());

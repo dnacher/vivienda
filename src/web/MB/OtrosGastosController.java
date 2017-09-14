@@ -146,7 +146,7 @@ public class OtrosGastosController implements Initializable {
        TableColumn Monto = new TableColumn(ConstantesEtiquetas.MONEDA);
        TableColumn Monto1 = new TableColumn(ConstantesEtiquetas.MONTO);
        TableColumn Unidad = new TableColumn(ConstantesEtiquetas.UNIDAD);
-       TableColumn Fecha= new TableColumn(ConstantesEtiquetas.FECHA);
+       TableColumn Fecha= new TableColumn(ConstantesEtiquetas.FECHA_UPPER);
 
        Secuencia.setMinWidth(150);
        Secuencia.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.SECUENCIA_UPPER));
@@ -165,7 +165,7 @@ public class OtrosGastosController implements Initializable {
        Unidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.UNIDAD));
 
        Fecha.setMinWidth(110);
-       Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA));
+       Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_UPPER));
 
        tableData.getColumns().addAll(Secuencia,Unidad,Monto,Monto1,Descripcion,Fecha);
        tableData.setItems(otrosGastos);

@@ -3,6 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TipoUsuarioBean;
+import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Tipousuario;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -78,7 +79,7 @@ public class tipoUsuarioController implements Initializable {
         else{
             try{
                 Tipousuario tipoUsuario=new Tipousuario();
-                int ind=ConfiguracionControl.traeUltimoId("TipoUsuario");
+                int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.TIPO_USUARIO);
                 tipoUsuario.setId(ind);
                 tipoUsuario.setActivo(ChkActivo.isSelected());
                 tipoUsuario.setNombre(txtNombre.getText());
@@ -111,17 +112,17 @@ public class tipoUsuarioController implements Initializable {
             TipoUsuarioBean tub=new TipoUsuarioBean();
             lista=tub.traerTodos();
             listaTipoUsuario = FXCollections.observableList(lista);
-            TableColumn id = new TableColumn("Id");
-            TableColumn Nombre = new TableColumn("Nombre");
-            TableColumn Descripcion = new TableColumn("Descripcion");
+            TableColumn id = new TableColumn(ConstantesEtiquetas.ID_UPPER);
+            TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+            TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
             
             id.setMinWidth(100);
-            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            id.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ID));
    
             Nombre.setMinWidth(100);
-            Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
             Descripcion.setMinWidth(100);
-            Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
             tableData.getColumns().addAll(id,Nombre,Descripcion);
             tableData.setItems(listaTipoUsuario);
         } catch (ServiceException ex) {

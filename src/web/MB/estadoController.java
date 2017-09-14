@@ -3,6 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.EstadoBean;
+import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Estado;
 import exceptions.ServiceException;
@@ -103,15 +104,15 @@ public class estadoController implements Initializable {
         LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
             if(txtNombre.getText().isEmpty()){
-                LblNombre.setText("El campo nombre no puede estar vacio");
+                LblNombre.setText(ConstantesErrores.FALTA_NOMBRE);
             }
             else if(!ConfiguracionControl.esNumero(TxtOrden.getText())){
-                LblOrden.setText("El campo Orden debe ser numerico");
+                LblOrden.setText(ConstantesErrores.ORDEN_NUMERICO);
             }
             else{
                 try{
                     Estado estado=new Estado();
-                    int ind=ConfiguracionControl.traeUltimoId("Estado");
+                    int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.ESTADO_UPPER);
                     estado.setIdestado(ind);
                     estado.setActivo(ChkActivo.isSelected());
                     estado.setNombre(txtNombre.getText());
@@ -154,22 +155,22 @@ public class estadoController implements Initializable {
         
         
       public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Descripcion = new TableColumn("Descripcion");
-       TableColumn Orden = new TableColumn("Orden");
-       TableColumn Activo = new TableColumn("Activo");
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+       TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+       TableColumn Orden = new TableColumn(ConstantesEtiquetas.ORDEN_UPPER);
+       TableColumn Activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);
        
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Descripcion.setMinWidth(150);
-       Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+       Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
 
        Orden.setMinWidth(100);
-       Orden.setCellValueFactory(new PropertyValueFactory<>("orden"));
+       Orden.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ORDEN));
 
        Activo.setMinWidth(100);
-       Activo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+       Activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
       
        tableData.getColumns().addAll(Nombre, Descripcion, Orden,Activo);
        tableData.setItems(lista);

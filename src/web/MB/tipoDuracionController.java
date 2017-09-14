@@ -3,6 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TipoDuracionBean;
+import entities.constantes.ConstantesErrores;
 import entities.persistence.entities.Tipoduracion;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -87,12 +88,12 @@ public class tipoDuracionController implements Initializable {
         LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-            LblNombre.setText("El campo nombre no puede estar vacio");
+            LblNombre.setText(ConstantesErrores.FALTA_NOMBRE);
         }
         else{
             try{
                 Tipoduracion tipoDuracion=new Tipoduracion();
-                int ind=ConfiguracionControl.traeUltimoId("TipoDuracion");
+                int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.TIPO_DURACION);
                 tipoDuracion.setIdtipoDuracion(ind);
                 tipoDuracion.setActivo(ChkActivo.isSelected());
                 tipoDuracion.setNombre(txtNombre.getText());
@@ -127,18 +128,18 @@ public class tipoDuracionController implements Initializable {
             List<Tipoduracion> lista;
             lista=tdb.traerTodos();
             listaTipoUsuario = FXCollections.observableList(lista);
-            TableColumn id = new TableColumn("id");
-            TableColumn Nombre = new TableColumn("Nombre");
-            TableColumn Descripcion = new TableColumn("Descripcion");
+            TableColumn id = new TableColumn(ConstantesEtiquetas.ID_UPPER);
+            TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+            TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
             
             id.setMinWidth(100);
-            id.setCellValueFactory(new PropertyValueFactory<>("idtipoDuracion"));
+            id.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ID_TIPO_DURACION));
    
             Nombre.setMinWidth(100);
-            Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
             
             Descripcion.setMinWidth(100);
-            Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
             
             tableData.getColumns().addAll(id,Nombre,Descripcion);
             tableData.setItems(listaTipoUsuario);

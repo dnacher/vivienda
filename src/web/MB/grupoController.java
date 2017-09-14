@@ -3,6 +3,7 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.GrupoBean;
+import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Grupo;
 import exceptions.ServiceException;
@@ -94,12 +95,12 @@ public class grupoController implements Initializable {
         LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-            LblNombre.setText("El campo nombre no puede estar vacio");
+            LblNombre.setText(ConstantesErrores.FALTA_NOMBRE);
         }
         else{
             try{
                 Grupo grupo=new Grupo();
-                int ind=ConfiguracionControl.traeUltimoId("Grupo");
+                int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.GRUPO);
                 grupo.setIdgrupo(ind);
                 grupo.setActivo(ChkActivo.isSelected());
                 grupo.setNombre(txtNombre.getText());
@@ -123,18 +124,18 @@ public class grupoController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Descripcion = new TableColumn("Descripcion");
-       TableColumn Activo = new TableColumn("Activo");       
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+       TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+       TableColumn Activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);       
 
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Descripcion.setMinWidth(150);
-       Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+       Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
 
        Activo.setMinWidth(100);
-       Activo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+       Activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
      
        tableData.getColumns().addAll(Nombre, Descripcion, Activo);
        tableData.setItems(lista);

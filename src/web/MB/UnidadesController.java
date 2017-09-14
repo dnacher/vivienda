@@ -5,6 +5,7 @@ import control.ControlVentana;
 import ejb.services.UnidadBean;
 import ejb.validaciones.UnidadValidationUnique;
 import entities.constantes.Constantes;
+import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Unidad;
 import exceptions.ServiceException;
@@ -44,7 +45,7 @@ import javafx.util.Callback;
 import web.animations.FadeInUpTransition;
 
 public class UnidadesController implements Initializable {
-    
+
     @FXML
     private AnchorPane paneCrud;
 
@@ -74,10 +75,10 @@ public class UnidadesController implements Initializable {
 
     @FXML
     private ProgressBar bar;
-    
+
     @FXML
     private TextField txtTelefono;
-    
+
     @FXML
     private ComboBox<String> cmbBlock;
 
@@ -89,145 +90,143 @@ public class UnidadesController implements Initializable {
 
     @FXML
     private TextField txtApellido;
-    
+
     ObservableList<Unidad> unidades;
-    
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {
         try {
-            UnidadBean ub= new UnidadBean();
-            unidades=FXCollections.observableArrayList(ub.traerTodos());
+            UnidadBean ub = new UnidadBean();
+            unidades = FXCollections.observableArrayList(ub.traerTodos());
             cargaTabla();
             cargarComboBlock();
             cargarComboTorre();
             cargarPropietarioInquilino();
             cargaHoy();
-            mostrarTabla();            
+            mostrarTabla();
         } catch (ServiceException ex) {
             Logger.getLogger(UnidadesController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }     
-    
-    public void recargarTabla(){
-        try{
-            UnidadBean ub= new UnidadBean();
-            unidades=FXCollections.observableArrayList(ub.traerTodos());
+    }
+
+    public void recargarTabla() {
+        try {
+            UnidadBean ub = new UnidadBean();
+            unidades = FXCollections.observableArrayList(ub.traerTodos());
             tableData.setItems(unidades);
-        }
-        catch(Exception ex){
-        
+        } catch (Exception ex) {
+
         }
     }
-    
-    public void cargaHoy(){
-        Date date= new Date();
+
+    public void cargaHoy() {
+        Date date = new Date();
         LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         cmbFechaIngreso.setValue(ld);
         ChkActivo.setSelected(true);
     }
-    
-    public void cargaTabla(){
-       TableColumn colAction=new TableColumn("Action");
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Block = new TableColumn("Block");
-       TableColumn Torre = new TableColumn("Torre");
-       TableColumn Puerta= new TableColumn("Puerta");
-       
-       
-       
-       colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Object, Boolean>,ObservableValue<Boolean>>() {
-                @Override
-                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Object, Boolean> p) {
-                    return new SimpleBooleanProperty(p.getValue() != null);
-                }
-       });
-       colAction.setCellFactory(new Callback<TableColumn<Object, Boolean>, TableCell<Object, Boolean>>() {
-                @Override
-                public TableCell<Object, Boolean> call(TableColumn<Object, Boolean> p) {
-                    return new ButtonCell(tableData);
-                }
+
+    public void cargaTabla() {
+        TableColumn colAction = new TableColumn(ConstantesEtiquetas.ACCION);
+        TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+        TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+        TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
+        TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
+        TableColumn Puerta = new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
+
+        colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Object, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Object, Boolean> p) {
+                return new SimpleBooleanProperty(p.getValue() != null);
+            }
+        });
+        colAction.setCellFactory(new Callback<TableColumn<Object, Boolean>, TableCell<Object, Boolean>>() {
+            @Override
+            public TableCell<Object, Boolean> call(TableColumn<Object, Boolean> p) {
+                return new ButtonCell(tableData);
+            }
         });
 
-       Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        Nombre.setMinWidth(150);
+        Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
-       Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+        Apellido.setMinWidth(150);
+        Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
-       Block.setMinWidth(100);
-       Block.setCellValueFactory(new PropertyValueFactory<>("Block"));
+        Block.setMinWidth(100);
+        Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
 
-       Torre.setMinWidth(100);
-       Torre.setCellValueFactory(new PropertyValueFactory<>("Torre"));
+        Torre.setMinWidth(100);
+        Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
 
-       Puerta.setMinWidth(110);
-       Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
+        Puerta.setMinWidth(110);
+        Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
 
-       tableData.getColumns().addAll(colAction, Nombre, Apellido, Block,Torre,Puerta);
-       tableData.setItems(unidades);
-      
+        tableData.getColumns().addAll(colAction, Nombre, Apellido, Block, Torre, Puerta);
+        tableData.setItems(unidades);
+
     }
-    
+
     private class ButtonCell extends TableCell<Object, Boolean> {
-        final Hyperlink cellButtonDelete = new Hyperlink("Delete");
-        final Hyperlink cellButtonEdit = new Hyperlink("Edit");
-        final HBox hb = new HBox(cellButtonDelete,cellButtonEdit);
-        ButtonCell(final TableView tblView){
+
+        final Hyperlink cellButtonDelete = new Hyperlink(ConstantesEtiquetas.BORRAR);
+        final Hyperlink cellButtonEdit = new Hyperlink(ConstantesEtiquetas.EDITAR);
+        final HBox hb = new HBox(cellButtonDelete, cellButtonEdit);
+
+        ButtonCell(final TableView tblView) {
             hb.setSpacing(4);
             cellButtonDelete.setOnAction((ActionEvent t) -> {
-               // status = 1;
+                // status = 1;
                 int row = getTableRow().getIndex();
                 tableData.getSelectionModel().select(row);
-              //  aksiKlikTableData(null);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Estas seguro que deseas borrar "+txtNombre.getText()+" ?");
+                //  aksiKlikTableData(null);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Estas seguro que deseas borrar " + txtNombre.getText() + " ?");
                 alert.initStyle(StageStyle.UTILITY);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                  /*  ? p = new ?();
+                    /*  ? p = new ?();
                     p.setCustomerId(Integer.valueOf(txtId.getText()));
                     crud.delete(p);
                     clear();
                     selectData();*/
-                }else{
+                } else {
                     clear();
-                   // selectData();
-                 //   auto();
+                    // selectData();
+                    //   auto();
                 }
-               // status = 0;
+                // status = 0;
             });
             cellButtonEdit.setOnAction((ActionEvent event) -> {
-               // status = 1;
+                // status = 1;
                 int row = getTableRow().getIndex();
                 tableData.getSelectionModel().select(row);
-              //  aksiKlikTableData(null);
+                //  aksiKlikTableData(null);
                 paneTabel.setOpacity(0);
                 new FadeInUpTransition(paneCrud).play();
-              //  status = 0;
+                //  status = 0;
             });
         }
     }
-    
-    public void cargarComboBlock(){
-       ObservableList<String> options = 
-       FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
-       cmbBlock.setItems(options);
+
+    public void cargarComboBlock() {
+        ObservableList<String> options
+                = FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
+        cmbBlock.setItems(options);
     }
-    
-    public void cargarComboTorre(){
+
+    public void cargarComboTorre() {
         ObservableList<Integer> listaTorres;
-        listaTorres=FXCollections.observableArrayList(Constantes.LISTA_TORRES);
+        listaTorres = FXCollections.observableArrayList(Constantes.LISTA_TORRES);
         cmbTorre.setItems(listaTorres);
     }
-    
-    public void cargarPropietarioInquilino(){
-       ObservableList<String> options = 
-       FXCollections.observableArrayList("Propietario","Inquilino");
-       cmbPropietarioInquilino.setItems(options);
-       cmbPropietarioInquilino.getSelectionModel().selectLast();
+
+    public void cargarPropietarioInquilino() {
+        ObservableList<String> options = FXCollections.observableArrayList(ConstantesEtiquetas.PROPIETARIO, ConstantesEtiquetas.INQUILINO);
+        cmbPropietarioInquilino.setItems(options);
+        cmbPropietarioInquilino.getSelectionModel().selectLast();
     }
-    
-    public void nuevaUnidad(){
+
+    public void nuevaUnidad() {
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
@@ -235,13 +234,13 @@ public class UnidadesController implements Initializable {
             auto();
         });
     }
-    
-    public void mostrarTabla(){
+
+    public void mostrarTabla() {
         paneCrud.setOpacity(0);
         new FadeInUpTransition(paneTabel).play();
     }
-    
-     private void clear(){
+
+    private void clear() {
         cmbBlock.getSelectionModel().select(-1);
         cmbTorre.getSelectionModel().select(-1);
         cmbPropietarioInquilino.getSelectionModel().select(-1);
@@ -252,61 +251,40 @@ public class UnidadesController implements Initializable {
         txtTelefono.setText(ConstantesEtiquetas.VACIO);
         cmbFechaIngreso.setValue(null);
     }
-     
-     private void auto(){
-      
+
+    private void auto() {
+
     }
-     
-     public int validar(){
-        int i=0;
-        if(cmbBlock.getValue()==null){
-            i=1;
-        } 
-        else{
-            if(cmbTorre.getValue()==null){
-                i=2;
-            } 
-            else{
-                if(txtPuerta.getText().isEmpty()){
-                    i=3;
-                }
-                else{
-                    if(txtNombre.getText().isEmpty()){
-                        i=4;
-                    }
-                    else{
-                        if(txtApellido.getText().isEmpty()){
-                            i=5;
-                        }
-                        else{
-                            if(txtTelefono.getText().isEmpty()){
-                                i=6;
-                            }
-                            else{
-                                if(txtMail.getText().isEmpty()){
-                                    i=7;
-                                }
-                                else{
-                                    if(cmbPropietarioInquilino.getValue()==null){
-                                        i=8;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+
+    public int validar() {
+        int i = 0;
+        if (cmbBlock.getValue() == null) {
+            i = 1;
+        } else if (cmbTorre.getValue() == null) {
+            i = 2;
+        } else if (txtPuerta.getText().isEmpty()) {
+            i = 3;
+        } else if (txtNombre.getText().isEmpty()) {
+            i = 4;
+        } else if (txtApellido.getText().isEmpty()) {
+            i = 5;
+        } else if (txtTelefono.getText().isEmpty()) {
+            i = 6;
+        } else if (txtMail.getText().isEmpty()) {
+            i = 7;
+        } else if (cmbPropietarioInquilino.getValue() == null) {
+            i = 8;
         }
         return i;
-     }
-     
-     public void guardar(){
-         ControlVentana cv=new ControlVentana();
-         switch(validar()){
-             case 0:
-                 try{                    
-                    Unidad unidad=new Unidad();
-                    unidad.setIdUnidad(ConfiguracionControl.traeUltimoId("Unidad"));
+    }
+
+    public void guardar() {
+        ControlVentana cv = new ControlVentana();
+        switch (validar()) {
+            case 0:
+                try {
+                    Unidad unidad = new Unidad();
+                    unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
                     unidad.setBlock(cmbBlock.getValue());
                     unidad.setTorre(cmbTorre.getValue());
                     unidad.setPuerta(Integer.valueOf(txtPuerta.getText()));
@@ -315,52 +293,50 @@ public class UnidadesController implements Initializable {
                     unidad.setMail(txtMail.getText());
                     unidad.setTelefono(Integer.valueOf(txtTelefono.getText()));
                     unidad.setFechaIngreso(ConfiguracionControl.TraeFecha(cmbFechaIngreso.getValue()));
-                    if(cmbPropietarioInquilino.getValue().equals("Propietario")){
+                    if (cmbPropietarioInquilino.getValue().equals(ConstantesEtiquetas.PROPIETARIO)) {
                         unidad.setPropietarioInquilino(true);
-                    }
-                    else{
+                    } else {
                         unidad.setPropietarioInquilino(false);
                     }
-                    UnidadValidationUnique uv=new UnidadValidationUnique();
-                    if(!uv.validarUnidad(unidad)){ 
-                        UnidadBean ub=new UnidadBean();
+                    UnidadValidationUnique uv = new UnidadValidationUnique();
+                    if (!uv.validarUnidad(unidad)) {
+                        UnidadBean ub = new UnidadBean();
                         ub.guardar(unidad);
                         cv.creaVentanaNotificacionCorrecto();
                         recargarTabla();
                         clear();
-                    }else{
-                        cv.creaVentanaNotificacionError("Ya existe una Unidad activa para ese apartamento");
+                    } else {
+                        cv.creaVentanaNotificacionError(ConstantesErrores.YA_EXISTE_UNIDAD_APARTAMENTO);
                     }
-                 }
-                 catch(Exception ex){
-                     cv.creaVentanaNotificacionError(ex.getMessage());
-                 }
-                 break;
-             case 1:
-                 cv.creaVentanaNotificacionError("falta ingresar el block");
-                 break;
-             case 2:
-                 cv.creaVentanaNotificacionError("falta ingresar la torre");
-                 break;
-             case 3:
-                 cv.creaVentanaNotificacionError("falta ingresar la puerta");
-                 break;
-             case 4:
-                 cv.creaVentanaNotificacionError("falta ingresar el nombre");
-                 break;
-             case 5:
-                 cv.creaVentanaNotificacionError("falta ingresar el apellido");
-                 break;
-             case 6:
-                 cv.creaVentanaNotificacionError("falta ingresar el telefono");
-                 break;
-             case 7:
-                 cv.creaVentanaNotificacionError("falta ingresar el mail");
-                 break;
-             case 8:
-                 cv.creaVentanaNotificacionError("falta ingresar si es propietario o no");
-                 break;
-         }
-     }
-     
+                } catch (Exception ex) {
+                    cv.creaVentanaNotificacionError(ex.getMessage());
+                }
+                break;
+            case 1:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_BLOCK);
+                break;
+            case 2:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_TORRE);
+                break;
+            case 3:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_PUERTA);
+                break;
+            case 4:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_NOMBRE);
+                break;
+            case 5:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_APELLIDO);
+                break;
+            case 6:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_TELEFONO);
+                break;
+            case 7:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_MAIL);
+                break;
+            case 8:
+                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_PROPIETARIO);
+                break;
+        }
+    }
+
 }

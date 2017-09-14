@@ -4,6 +4,8 @@ import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TipoUsuarioBean;
 import ejb.services.UsuariosBean;
+import entities.constantes.ConstantesErrores;
+import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
@@ -82,10 +84,10 @@ public class usuarioController implements Initializable {
     }
     
     public void cargaTabla(){       
-       TableColumn Nombre = new TableColumn("Nombre");
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
             
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
        tableData.getColumns().addAll(Nombre);     
        tableData.setItems(listaUsuariosO);
     }
@@ -122,13 +124,13 @@ public class usuarioController implements Initializable {
     private void aksiSave(ActionEvent event){
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-           cv.creaVentanaNotificacionError("El nombre no puede estar vacio");
+           cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_NOMBRE);
         }
         else{
             try{
                 if(txtPass.getText().equals(txtPass2.getText())){
                     Usuario usuario=new Usuario();
-                    int ind=ConfiguracionControl.traeUltimoId("Usuario");
+                    int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.USUARIO);
                     usuario.setIdUsuario(ind);
                     usuario.setTipousuario(cmbTipoUsuario.getSelectionModel().getSelectedItem());
                     usuario.setActivo(chkActivo.isSelected());
@@ -140,7 +142,7 @@ public class usuarioController implements Initializable {
                     clear();
                     llenaTabla();
                 }else{
-                    cv.creaVentanaNotificacionError("Las contraseñas no coinciden");
+                    cv.creaVentanaNotificacionError(ConstantesErrores.PASS_NO_COINCIDE);
                 }
                 
             }
