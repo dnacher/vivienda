@@ -98,7 +98,7 @@ public class TecnicoController implements Initializable {
                 tecnico.setApellido(txtApellido.getText());
                 tecnico.setTelefono(txtTelefono.getText());
                 tecnico.setMail(txtMail.getText());
-                tecnico.setIdTecnico(ConfiguracionControl.traeUltimoId("Tecnico"));
+                tecnico.setIdTecnico(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.TECNICO));
                 tecnico.setEstado(1);
                 tecnico.setActivo(ChkActivo.isSelected());
                 Date date=new Date();
@@ -140,38 +140,38 @@ public class TecnicoController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Telefono = new TableColumn("Telefono");
-       TableColumn Mail = new TableColumn("Email");
-       TableColumn Calificacion = new TableColumn("Calificacion");
-       TableColumn Estado = new TableColumn("Estado");
-       TableColumn FechaInicio = new TableColumn("Fecha de inicio");
-       TableColumn FechaFin = new TableColumn("Fecha fin");
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+       TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+       TableColumn Telefono = new TableColumn(ConstantesEtiquetas.TELEFONO);
+       TableColumn Mail = new TableColumn(ConstantesEtiquetas.EMAIL);
+       TableColumn Calificacion = new TableColumn(ConstantesEtiquetas.CALIFICACION);
+       TableColumn Estado = new TableColumn(ConstantesEtiquetas.ESTADO_UPPER);
+       TableColumn FechaInicio = new TableColumn(ConstantesEtiquetas.FECHA_INICIO);
+       TableColumn FechaFin = new TableColumn(ConstantesEtiquetas.FECHA_FIN);
        
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+       Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
        Telefono.setMinWidth(100);
-       Telefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+       Telefono.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TELEFONO));
        
        Mail.setMinWidth(100);
-       Mail.setCellValueFactory(new PropertyValueFactory<>("mail"));
+       Mail.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MAIL));
        
        Calificacion.setMinWidth(110);
-       Calificacion.setCellValueFactory(new PropertyValueFactory<>("calificacion"));
+       Calificacion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CALIFICACION));
               
        Estado.setMinWidth(100);
-       Estado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+       Estado.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ESTADO));
       
        FechaInicio.setMinWidth(100);
-       FechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicioEstado"));
+       FechaInicio.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_INICIO_ESTADO));
        
        FechaFin.setMinWidth(100);
-       FechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFinEstado"));
+       FechaFin.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_FIN_ESTADO));
        
        tableData.getColumns().addAll(Nombre,Apellido,Telefono,Mail,Calificacion,Estado,FechaInicio,FechaFin);
        tableData.setItems(lista);

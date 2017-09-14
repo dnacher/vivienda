@@ -50,10 +50,10 @@ public class ConstantesEtiquetas {
     public static String MONEDA = "Moneda";
     public static String PRONTO = "Pronto";
     public static String OTROS_GASTOS = "OtrosGastos";
+    public static String CUOTA_CONVENIO="CuotaConvenio";
+    public static String GASTOS_COMUNES="GastosComunes";
     public static String CUOTA_APROXIMADA = "Cuota aproximada: $";
     public static String CUOTAS_APROX = "Numero de cuotas aproximadas: ";
-    public static String ESPACIO = " ";
-    public static String VACIO = "";
     public static String ID_USUARIO = "idUnidad";
     public static String CONVENIO_IMPRESION = "CreacionConvenioImpresion";
     public static String TRABAJO_UPPER = "Trabajo";
@@ -65,9 +65,39 @@ public class ConstantesEtiquetas {
     public static String SALIDA_UPPER = "Salida";
     public static String ACTIVO = "activo";
     public static String ACTIVO_UPPER = "Activo";
+    public static String A_PAGAR = "A pagar";
+    public static String PAGAS = "Pagas";
+    
+    public static String ADMINISTRACION="Administracion";
+    public static String BAJA_LICENCIA="BajaLicencia";
+    public static String CARGAR_MASIVAS="CargarMasivas";
+    public static String CONCEPTO="Concepto";
+    public static String CONFIGURACION="Configuracion";
+    public static String CONVENIOS="Convenios";
+    public static String COTIZACION="Cotizacion";
+    public static String ESTADO_UPPER="Estado";
+    public static String GRUPO="Grupo";
+    public static String INICIO="Inicio";
+    public static String LISTA_PRECIOS="ListaPrecios";
+    public static String MANTENIMIENTO="Mantenimiento";
+    public static String PAGO_CONVENIOS="PagoConvenios";
+    public static String REGLA_BONIFICACION="ReglaBonificacion";
+    public static String REPORTES="Reportes";
+    public static String SEGURIDAD="Seguridad";
+    public static String TECNICO="Tecnico";
+    public static String TIPO_DURACION="TipoDuracion";
+    public static String TIPO_USUARIO="TipoUsuario";
+    public static String UNIDADES="Unidades";
+    public static String URGENCIA="Urgencia";
+    public static String USUARIO="Usuario";
+    
 
     public static String MAYOR = ">";
     public static String MENOR = "<";
     public static String PESOS = "$";
-
+    public static String ESPACIO = " ";
+    public static String VACIO = "";
+    public static String PUNTOS = ": ";
+    public static String PARENTESIS_ABIERTO = " (";
+    public static String APROX = " % aprox.)";
 }

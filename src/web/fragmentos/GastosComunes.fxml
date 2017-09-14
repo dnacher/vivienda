@@ -13,6 +13,7 @@
    <children>
       <AnchorPane fx:id="paneGastosComunes" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
+            <Button fx:id="btnCerrarMes" layoutX="531.0" layoutY="13.0" mnemonicParsing="false" onAction="#cerrarMes" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Cerrar Mes" />
             <ComboBox fx:id="cmbBlock" layoutX="80.0" layoutY="13.0" prefWidth="150.0" promptText="Block" />
             <ComboBox fx:id="cmbTorre" layoutX="80.0" layoutY="48.0" prefWidth="150.0" promptText="Torre" />
             <Button fx:id="btnMostrar" layoutX="240.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrar" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Mostrar" />
@@ -28,6 +29,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <DatePicker fx:id="cmbFechaMes" layoutX="651.0" layoutY="29.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneFormulario" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">

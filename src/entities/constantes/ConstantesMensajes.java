@@ -19,8 +19,10 @@ public class ConstantesMensajes {
     public static String BAJA_CORRECTO="Se ha dado de baja correctamente. ";
     public static String SE_MUESTRAN="Se muestran ";
     public static String REGISTROS=" registros.";
+    public static String UNIDADES=" unidades";
     public static String NO_PAGO="No pagó";
     public static String PAGO="Pagó";
+    public static String SALDO_RESTANTE="El saldo restante es: ";
     
     
 }

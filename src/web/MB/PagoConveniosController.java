@@ -10,6 +10,7 @@ import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
+import entities.constantes.ConstantesMensajes;
 import entities.persistence.entities.Convenio;
 import entities.persistence.entities.Cuotaconvenio;
 import entities.persistence.entities.CuotaconvenioId;
@@ -272,26 +273,26 @@ public class PagoConveniosController implements Initializable {
     }
     
     public void cargaTabla(){
-       TableColumn Nombre = new TableColumn("Nombre");
-       TableColumn Apellido = new TableColumn("Apellido");
-       TableColumn Block = new TableColumn("Block");
-       TableColumn Torre = new TableColumn("Torre");
-       TableColumn Puerta= new TableColumn("Puerta");
+       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+       TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+       TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
+       TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
+       TableColumn Puerta= new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
 
        Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
        Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+       Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
        Block.setMinWidth(100);
-       Block.setCellValueFactory(new PropertyValueFactory<>("Block"));
+       Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
 
        Torre.setMinWidth(100);
-       Torre.setCellValueFactory(new PropertyValueFactory<>("Torre"));
+       Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
 
        Puerta.setMinWidth(110);
-       Puerta.setCellValueFactory(new PropertyValueFactory<>("Puerta"));
+       Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
 
        tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
        tableGastosComunes.setItems(unidadConvenios);
@@ -299,7 +300,7 @@ public class PagoConveniosController implements Initializable {
     }
     
     public void llenaTabla(){
-        lblInfo.setText("Se muestran " + unidadConvenios.size() + " registros.");
+        lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + unidadConvenios.size() + ConstantesMensajes.REGISTROS);
         tableGastosComunes.setItems(unidadConvenios);
         if(guardado){
             cargaGrafica(ConstantesEtiquetas.VACIO, 0);
@@ -319,8 +320,8 @@ public class PagoConveniosController implements Initializable {
         int totalPago=total-unidadConvenios.size();
         int totalNoPago=total-totalPago;
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
-                new PieChart.Data("No pagó", totalNoPago),
-                new PieChart.Data("Pagó", totalPago)
+                new PieChart.Data(ConstantesMensajes.NO_PAGO, totalNoPago),
+                new PieChart.Data(ConstantesMensajes.PAGO, totalPago)
         );
         chartGastosComunes.setData(lista);
         
@@ -328,10 +329,10 @@ public class PagoConveniosController implements Initializable {
             data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
                 int num=(int)data.getPieValue();
                 double porc=(((double)num*(double)100)/total);
-                DecimalFormat df = new DecimalFormat("#.#");
+                DecimalFormat df = new DecimalFormat(Constantes.DECIMAL_FORMAT_SHORT);
                 df.setRoundingMode(RoundingMode.CEILING);
                 String porcent=df.format(porc);
-                lblInfoPieChart.setText(data.getName()+ ": " + num + " (" + porcent + " % aprox.)");
+                lblInfoPieChart.setText(data.getName()+ ConstantesEtiquetas.PUNTOS + num + ConstantesEtiquetas.PARENTESIS_ABIERTO + porcent + ConstantesEtiquetas.APROX);
             });
         }
         }
@@ -348,8 +349,8 @@ public class PagoConveniosController implements Initializable {
         
         
         ObservableList<PieChart.Data> lista=FXCollections.observableArrayList(                
-                new PieChart.Data("A pagar",cuotasRestantes),
-                new PieChart.Data("Pagas", cantidadCuotas)
+                new PieChart.Data(ConstantesEtiquetas.A_PAGAR,cuotasRestantes),
+                new PieChart.Data(ConstantesEtiquetas.PAGAS, cantidadCuotas)
         );
         chartCuotas.setData(lista);
         
@@ -357,10 +358,10 @@ public class PagoConveniosController implements Initializable {
             data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
                 int num=(int)data.getPieValue();
                 double porc=(((double)num*(double)100)/convenio.getCuotas());
-                DecimalFormat df = new DecimalFormat("#.#");
+                DecimalFormat df = new DecimalFormat(Constantes.DECIMAL_FORMAT_SHORT);
                 df.setRoundingMode(RoundingMode.CEILING);
                 String porcent=df.format(porc);
-                lblInfoPieChartCuotas.setText(data.getName()+ ": " + num + " (" + porcent + " % aprox.)");
+                lblInfoPieChartCuotas.setText(data.getName()+ ConstantesEtiquetas.PUNTOS + num + ConstantesEtiquetas.PARENTESIS_ABIERTO + porcent + ConstantesEtiquetas.APROX);
             });
         }
     }
@@ -398,7 +399,7 @@ public class PagoConveniosController implements Initializable {
             unidadConvenios = FXCollections.observableList(listaTorreBlock);
             llenaTabla();
             cargaGrafica(block, torre);
-            lblInfo.setText("Se muestran " + unidadConvenios.size() + " unidades");         
+            lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + unidadConvenios.size() + ConstantesMensajes.UNIDADES);         
         }
         catch(Exception ex){
             lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
@@ -429,7 +430,7 @@ public class PagoConveniosController implements Initializable {
                 CuotaconvenioId cuotaConvenioId=new CuotaconvenioId();
                 cuotaConvenioId.setConvenioIdconvenio(convenio.getId().getIdconvenio());
                 cuotaConvenioId.setConvenioUnidadIdUnidad(unidad.getIdUnidad());
-                cuotaConvenioId.setIdcuotaConvenio(ConfiguracionControl.traeUltimoId("CuotaConvenio"));
+                cuotaConvenioId.setIdcuotaConvenio(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.CUOTA_CONVENIO));
                 cuotaConvenioId.setMontoIdmonto(cmbMoneda.getValue().getIdmonto());
                 cuotaConvenio.setId(cuotaConvenioId);
                 cuotaConvenio.setMonto(cmbMoneda.getValue());
@@ -453,7 +454,7 @@ public class PagoConveniosController implements Initializable {
             double totalPagado=ccb.devuelveTotalCuotas(unidad);
             saldoRestante=deudaTotal-saldoInicial-totalPagado;
             sugerido=(int) Math.ceil(saldoRestante/cuotasRestantes);
-            lblSaldoRestante.setText("El saldo restante es: " + saldoRestante);       
+            lblSaldoRestante.setText(ConstantesMensajes.SALDO_RESTANTE + saldoRestante);       
         }        
        
         public void anular() throws IOException {
@@ -474,7 +475,7 @@ public class PagoConveniosController implements Initializable {
                         gc.setActivo(true);
                         gc.setEstado(1);
                         GastoscomunesId gci=new GastoscomunesId();
-                        gci.setIdGastosComunes(ConfiguracionControl.traeUltimoId("GastosComunes"));
+                        gci.setIdGastosComunes(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.GASTOS_COMUNES));
                         gci.setUnidadIdUnidad(unidad.getIdUnidad());
                         gc.setId(gci);
                         gc.setIsBonificacion(false);
@@ -507,7 +508,7 @@ public class PagoConveniosController implements Initializable {
             ft.setFromValue(0.0);
             ft.setToValue(1.0);
             ft.play();
-            stage.setTitle("Confirma");
+            stage.setTitle(ConstantesEtiquetas.CONFIRMA);
             stage.setScene(scene);
             stage.showAndWait();
         }

@@ -31,7 +31,6 @@ import ejb.services.UsuariosBean;
 import ejb.services.UsuariosLocal;
 import entities.constantes.ConstantesErrores;
 import eu.hansolo.enzo.notification.Notification;
-import eu.hansolo.enzo.notification.Notification.Notifier;
 import exceptions.ServiceException;
 import static viviendas.Viviendas.listaConfiguracion;
 
@@ -53,7 +52,7 @@ public class controllLogin implements Initializable {
     private Label lblVersion;
 
     Stage stage;
-
+    Notification.Notifier notifier = Notification.Notifier.INSTANCE;
     private UsuariosLocal ul;
 
     /**
@@ -63,20 +62,7 @@ public class controllLogin implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-        //prueba de notificaciones
-        Notification[] NOTIFICATIONS = {
-            new Notification("Info", "New information", Notification.INFO_ICON),
-            new Notification("Warning", "Attention, somethings wrong", Notification.WARNING_ICON),
-            new Notification("Success", "Great it works", Notification.SUCCESS_ICON),
-            new Notification("Error", "ZOMG", Notification.ERROR_ICON)
-        };
-        Notification.Notifier notifier = Notification.Notifier.INSTANCE;
-        notifier.notify(NOTIFICATIONS[0]);
-        //termina prueba de notificaciones
-        
-        
+    public void initialize(URL url, ResourceBundle rb) {         
         Platform.runLater(() -> {
             new FadeInRightTransition(lblUserLogin).play();
             new FadeInLeftTransition(lblWelcome).play();
@@ -113,6 +99,7 @@ public class controllLogin implements Initializable {
                     && Viviendas.user.getPassword().equals(txtPassword.getText())) {
                 ConfiguracionBean cb = new ConfiguracionBean();
                 listaConfiguracion = cb.traerTodos();
+                notifier.notify(new Notification("Correcto", "Se logueo Correctamente", Notification.SUCCESS_ICON));
                 cv.creaVentanaNotificacionCorrecto();
                 Stage st = new Stage();
                 stage = (Stage) lblClose.getScene().getWindow();
@@ -125,9 +112,11 @@ public class controllLogin implements Initializable {
                 st.show();
                 stage.close();
             } else {
+                notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
                 cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
             }
         } else {
+            notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
             cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
         }
     }

@@ -307,6 +307,30 @@ public class UnidadBean implements UnidadLocal{
         return list;
     }
     
+    public List<Unidad> TraeUnidadesGastosComunesNoPagoXPeriodo(int anio,int mes){        
+        List<Unidad> list= new ArrayList<>();        
+        try{ 
+        Query query= sc.useSession().createQuery("SELECT unidad FROM Unidad unidad "
+                                       + "WHERE unidad.idUnidad NOT IN ("
+                                                                  + "SELECT gastoscomunes.unidad "
+                                                                  + "FROM Gastoscomunes gastoscomunes "
+                                                                  + "WHERE gastoscomunes.periodo=:periodo "
+                                                                  + "AND gastoscomunes.estado=:est)");
+        query.setParameter("est", 2);
+        query.setParameter("periodo", ConfiguracionControl.traePeriodo(anio,mes));
+        list= query.list();
+                       
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{           
+            //session.close();
+            sc.closeSession();
+        }
+        return list;
+    }
+    
     public List<Unidad> TraeUnidadesXBlockTorreNoPago(String block, int torre){        
         List<Unidad> lista=new ArrayList<>();
             /*Query query= sc.useSession().createQuery("SELECT unidad FROM Unidad unidad "
