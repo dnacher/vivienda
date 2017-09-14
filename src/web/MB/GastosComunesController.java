@@ -355,19 +355,20 @@ public class GastosComunesController implements Initializable {
                 int id=ConfiguracionControl.traeUltimoId("GastosComunes");
                 if (unis != null && unis.size() > 0) {
                     for (Unidad u : unis) {
+                        Gastoscomunes gc = new Gastoscomunes();
                         GastoscomunesId gcId = new GastoscomunesId();
                         gcId.setIdGastosComunes(id);
                         gcId.setUnidadIdUnidad(u.getIdUnidad());
-                        Gastoscomunes gc = new Gastoscomunes();
+                        gc.setId(gcId);
+                        gc.setUnidad(u);
+                        gc.setMonto_1(999999999);
+                        
                         gc.setActivo(true);
                         gc.setEstado(1);
-                        gc.setFechaPago(new Date());
-                        gc.setId(gcId);
-                        gc.setIsBonificacion(chkBonificacion.isSelected());
+                        gc.setIsBonificacion(false);
                         gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
-                        gc.setMonto_1(999999999);
                         gc.setPeriodo(periodoCerrar);
-                        gc.setUnidad(u);
+                        
                         listaGastos.add(gc);
                         id++;
                     }
