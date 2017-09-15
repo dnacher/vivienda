@@ -12,7 +12,8 @@ public enum MenuAdministracion {
     OtrosGastos("OtrosGastos", "Otros Gastos"),
     Convenios("Convenios", "Convenios"),
     PagoConvenios("PagoConvenios", "Pago Convenios"),
-    ReglaBonificacion("ReglaBonificacion", "Regla Bonificacion");
+    ReglaBonificacion("ReglaBonificacion", "Regla Bonificacion"),
+    ValorGastosComunes("ValorGastosComunes", "Valor Gastos Comunes");
 
     private final String pagina;
     private final String menu;

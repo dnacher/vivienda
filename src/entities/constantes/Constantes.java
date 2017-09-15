@@ -136,4 +136,12 @@ public class Constantes {
     public static final String VER="5.2.4";
     public static final String VERSION="Versión: " + VER;    
     
+    /*
+     *                             VALORES GASTOS COMUNES
+     */
+    public static final int NO_PAGO=1;
+    public static final int PAGO=2;
+    public static final int CONVENIO=3;
+    
+    
 }

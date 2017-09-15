@@ -69,6 +69,19 @@ public class ConfiguracionBean implements ConfiguracionLocal{
             throw new ServiceException(ex.getMessage());
         }
        }
+       
+       public List<Configuracion> traerValorGastosComunes() throws ServiceException {
+        try{
+            Query query= sc.useSession().createQuery("from Configuracion configuracion where configuracion.nombreTabla=1 OR configuracion.nombreTabla=2 OR configuracion.nombreTabla=3 OR configuracion.nombreTabla=4 OR configuracion.nombreTabla=5");         
+            List<Configuracion> convenios=query.list();
+            //session.close();        
+            sc.closeSession();
+            return convenios;
+        }
+        catch(Exception ex){
+            throw new ServiceException(ex.getMessage());
+        }
+       }
         
         public Configuracion traerConfiguracionXTabla(String tabla) throws ServiceException {
             try{

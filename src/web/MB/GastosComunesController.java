@@ -2,6 +2,7 @@ package web.MB;
 
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
+import ejb.services.ConfiguracionBean;
 import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
 import ejb.services.UnidadBean;
@@ -9,10 +10,13 @@ import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.constantes.ConstantesMensajes;
+import entities.enums.errores;
+import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Gastoscomunes;
 import entities.persistence.entities.GastoscomunesId;
+import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -113,6 +117,7 @@ public class GastosComunesController implements Initializable {
     GastosComunesBean gcb;
     boolean guardado = false;
     public ObservableList<Unidad> unidadesGastosComunesNoPago;
+    Notification.Notifier notifier = Notification.Notifier.INSTANCE;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -184,11 +189,19 @@ public class GastosComunesController implements Initializable {
 
     public void agregarGastosComunes() {
         try {
+            txtMonto.setText("");
             lblPeriodo.setText(ConstantesEtiquetas.VACIO);
             lblUnidadNombre.setText(ConstantesEtiquetas.VACIO);
             lblUnidadDireccion.setText(ConstantesEtiquetas.VACIO);
             periodo = ConfiguracionControl.devuelvePeriodoActual();
             unidad = tableGastosComunes.getSelectionModel().getSelectedItem();
+            if(unidad!=null && unidad.getHabitaciones()!=null){
+                ConfiguracionBean cb= new ConfiguracionBean();
+                Configuracion configuracion=cb.traerConfiguracionXTabla(unidad.getHabitaciones().toString());
+                if(configuracion!=null && configuracion.getId()>0){
+                    txtMonto.setText(configuracion.getId().toString());
+                }
+            }
             lblPeriodo.setText(String.valueOf(periodo));
             lblUnidadNombre.setText(unidad.getNombre() + ConstantesEtiquetas.ESPACIO
                     + unidad.getApellido());
@@ -349,10 +362,10 @@ public class GastosComunesController implements Initializable {
                 int mes = cmbFechaMes.getValue().getMonth().getValue();
                 int anio = cmbFechaMes.getValue().getYear();
                 int periodoCerrar = ConfiguracionControl.traePeriodo(anio, mes);
-                ub= new UnidadBean();
-                List<Unidad> unis = ub.TraeUnidadesGastosComunesNoPagoXPeriodo(anio, mes);
+                ub = new UnidadBean();
+                List<Unidad> unis = ub.TraeUnidadesGastosComunesNoCargadas(anio, mes);
                 List<Gastoscomunes> listaGastos = new ArrayList<>();
-                int id=ConfiguracionControl.traeUltimoId("GastosComunes");
+                int id = ConfiguracionControl.traeUltimoId("GastosComunes");
                 if (unis != null && unis.size() > 0) {
                     for (Unidad u : unis) {
                         Gastoscomunes gc = new Gastoscomunes();
@@ -362,28 +375,31 @@ public class GastosComunesController implements Initializable {
                         gc.setId(gcId);
                         gc.setUnidad(u);
                         gc.setMonto_1(999999999);
-                        
+
                         gc.setActivo(true);
                         gc.setEstado(1);
                         gc.setIsBonificacion(false);
                         gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
                         gc.setPeriodo(periodoCerrar);
-                        
+
                         listaGastos.add(gc);
                         id++;
                     }
+                    for (Gastoscomunes gcom : listaGastos) {
+                        gcb = new GastosComunesBean();
+                        gcb.guardar(gcom);
+                    }
+                } else {
+                    notifier.notify(new Notification("Error", ConstantesErrores.DEBE_SELCCIONAR_VALOR, Notification.ERROR_ICON));
                 }
-                for (Gastoscomunes gcom : listaGastos) {
-                    gcb = new GastosComunesBean();
-                    gcb.guardar(gcom);
-                }
-                System.out.println("termino");
+
+                notifier.notify(new Notification("Correcto", ConstantesMensajes.CERRAR_MES_OK, Notification.SUCCESS_ICON));
             } catch (ServiceException ex) {
-                System.out.println("Error");
+                notifier.notify(new Notification("Error", errores.ERROR_CERRAR_MES.getError() + " Codigo " + errores.ERROR_CERRAR_MES.getErrorNumero(), Notification.ERROR_ICON));
                 Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            System.out.println("Error");
+            notifier.notify(new Notification("Error", ConstantesErrores.DEBE_SELCCIONAR_VALOR, Notification.ERROR_ICON));
         }
     }
 

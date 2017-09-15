@@ -33,5 +33,8 @@ public class ConstantesErrores {
     public static String CAMPO_NUMERICO = "El o los campos deben ser numericos";
     public static String DIAS_A_PAGAR_NUMERICO = "El campo dias a pagar debe ser numerico";
     public static String PASS_NO_COINCIDE = "Las contraseñas no coinciden";
+    public static String DEBE_SELCCIONAR_VALOR="Debe Seleccionar una fecha para Cerrar";
+    public static String TODOS_LOS_DATOS_PROCESADOS="Todos los datos para este mes ya estan procesados";
+    public static String DEBE_SELECIONAR="Debe Seleccionar un valor a modificar";
 
 }

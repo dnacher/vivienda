@@ -18,6 +18,9 @@
             <ComboBox fx:id="cmbTorre" layoutX="193.0" layoutY="102.0" prefWidth="150.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Puerta" />
             <TextField fx:id="txtPuerta" layoutX="193.0" layoutY="138.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="360.0" layoutY="142.0" prefHeight="17.0" prefWidth="122.0" text="Habitaciones" />
+            <Slider fx:id="cmbHabitaciones" blockIncrement="1.0" layoutX="493.0" layoutY="146.0" max="5.0" min="1.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+            <Label fx:id="lblHabitaciones" alignment="CENTER_RIGHT" layoutX="642.0" layoutY="142.0" prefHeight="17.0" prefWidth="49.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="177.0" prefHeight="17.0" prefWidth="122.0" text="Nombre" />
             <TextField fx:id="txtNombre" layoutX="193.0" layoutY="174.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="212.0" prefHeight="17.0" prefWidth="122.0" text="Apellido" />

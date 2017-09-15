@@ -28,7 +28,7 @@
             <column name="estado" />
         </property>
         <property name="fechaPago" type="date">
-            <column name="fechaPago" length="10" not-null="true" />
+            <column name="fechaPago" length="10"/>
         </property>
         <property name="periodo" type="java.lang.Integer">
             <column name="periodo" />

@@ -17,6 +17,8 @@ public class ConstantesEtiquetas {
     public static String SECUENCIA_UPPER = "Secuencia";
     public static String DESCRIPCION = "descripcion";
     public static String DESCRIPCION_UPPER = "Descripcion";
+    public static String HABITACIONES_UPPER = "Habitaciones";
+    public static String VALOR_UPPER = "Valor";    
     public static String CANTIDAD = "cantidad";
     public static String CANTIDAD_UPPER = "Cantidad";
     public static String APELLIDO = "apellido";
@@ -74,6 +76,7 @@ public class ConstantesEtiquetas {
     public static String A_PAGAR = "A pagar";
     public static String PAGAS = "Pagas";
     public static String ACCION = "Acción";
+    public static String NOMBRE_TABLA="nombreTabla";
 
     public static String EDITAR = "Editar";
     public static String BORRAR = "Borrar";

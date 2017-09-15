@@ -23,6 +23,7 @@ public class ConstantesMensajes {
     public static String NO_PAGO="No pagó";
     public static String PAGO="Pagó";
     public static String SALDO_RESTANTE="El saldo restante es: ";
-    
+    public static String CERRAR_MES_OK="Se ha cerrado con éxito el mes";
+    public static String GUARDADO_OK="Se ha guardado correctamente";
     
 }

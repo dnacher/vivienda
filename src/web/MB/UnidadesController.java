@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,6 +40,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -90,6 +92,12 @@ public class UnidadesController implements Initializable {
 
     @FXML
     private TextField txtApellido;
+    
+    @FXML
+    private Slider cmbHabitaciones;
+    
+    @FXML
+    private Label lblHabitaciones;
 
     ObservableList<Unidad> unidades;
 
@@ -104,6 +112,13 @@ public class UnidadesController implements Initializable {
             cargarPropietarioInquilino();
             cargaHoy();
             mostrarTabla();
+            cmbHabitaciones.valueProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    int i=(int)cmbHabitaciones.getValue();
+                    lblHabitaciones.setText(String.valueOf(i));
+                }
+            });
         } catch (ServiceException ex) {
             Logger.getLogger(UnidadesController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -293,6 +308,7 @@ public class UnidadesController implements Initializable {
                     unidad.setMail(txtMail.getText());
                     unidad.setTelefono(Integer.valueOf(txtTelefono.getText()));
                     unidad.setFechaIngreso(ConfiguracionControl.TraeFecha(cmbFechaIngreso.getValue()));
+                    unidad.setHabitaciones((int)cmbHabitaciones.getValue());
                     if (cmbPropietarioInquilino.getValue().equals(ConstantesEtiquetas.PROPIETARIO)) {
                         unidad.setPropietarioInquilino(true);
                     } else {

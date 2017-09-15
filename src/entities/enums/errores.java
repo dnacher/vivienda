@@ -20,7 +20,9 @@ public enum errores {
     FALTA_UNIDAD("falta unidad",6),
     FECHAFIN_MENOR_INICIO("La fecha fin no puede ser menor a la de comienzo",7),
     ERROR("error",8),
-    WARNING("warning",9);
+    WARNING("warning",9),
+    ERROR_CERRAR_MES("Hubo un error al cerrar el mes",100);
+    
     
     private final String error;
     private final int errorNumero;
