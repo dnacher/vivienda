@@ -15,17 +15,17 @@
       </JFXTextField>
       <JFXPasswordField fx:id="txtPassword" focusColor="#7189d0" layoutX="100.0" layoutY="173.0" prefWidth="250.0" promptText="Contraseña" unFocusColor="WHITE">
          <font>
-            <Font size="14.0" />
-         </font>
+            <Font size="14.0"/>            
+         </font>         
       </JFXPasswordField>
       <Text fx:id="lblWelcome" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido a" x="49.0" y="75.0">
          <font>
             <Font name="Segoe UI Light" size="44.0" />
          </font>
       </Text>
-      <Text fx:id="lblUserLogin" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Viviendas" x="94.0" y="106.0">
+      <Text fx:id="lblUserLogin" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Viviendas" x="94.0" y="106.0" >
          <font>
-            <Font size="24.0" />
+            <Font size="24.0"/>
          </font>
       </Text>
       <JFXButton fx:id="btnLogin" layoutX="279.0" layoutY="226.0" onAction="#login" prefHeight="38.0" prefWidth="101.0" style="-fx-border-color: ffffff;" text="Login" textFill="WHITE" />

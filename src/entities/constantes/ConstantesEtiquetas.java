@@ -10,31 +10,51 @@ package entities.constantes;
  * @author danie
  */
 public class ConstantesEtiquetas {
-
+    
+    /*
+    *        Tablas
+    */
     public static String UNIDAD = "Unidad";
+    public static String OTROS_GASTOS = "OtrosGastos";
+    public static String CUOTA_CONVENIO = "CuotaConvenio";
+    public static String GASTOS_COMUNES = "GastosComunes";
+    public static String TRABAJO_UPPER = "Trabajo";
+    public static String MATERIAL_UPPER = "Material";
+    public static String HISTORIAL_TRABAJO = "HistorialTrabajo";    
+    
+    /*
+    *        Formularios
+    */
     public static String NOMBRE = "nombre";
     public static String NOMBRE_UPPER = "Nombre";
-    public static String SECUENCIA_UPPER = "Secuencia";
+    public static String APELLIDO = "apellido";
+    public static String APELLIDO_UPPER = "Apellido";    
     public static String DESCRIPCION = "descripcion";
     public static String DESCRIPCION_UPPER = "Descripcion";
-    public static String HABITACIONES_UPPER = "Habitaciones";
-    public static String VALOR_UPPER = "Valor";    
     public static String CANTIDAD = "cantidad";
     public static String CANTIDAD_UPPER = "Cantidad";
-    public static String APELLIDO = "apellido";
-    public static String APELLIDO_UPPER = "Apellido";
+    public static String ORDEN_UPPER = "Orden";
+    public static String ORDEN = "orden";
+    public static String BLOCK_UPPER = "Block";
+    public static String TORRE_UPPER = "Torre";
+    public static String PUERTA_UPPER = "Puerta";
+    
+    /*
+    *        Informacion
+    */
+    public static String CUOTA_APROXIMADA = "Cuota aproximada: $";
+    public static String CUOTAS_APROX = "Numero de cuotas aproximadas: ";
+    
+    public static String SECUENCIA_UPPER = "Secuencia";
+    public static String HABITACIONES_UPPER = "Habitaciones";
+    public static String VALOR_UPPER = "Valor";    
     public static String TELEFONO = "telefono";
     public static String MAIL = "mail";
     public static String CALIFICACION = "calificacion";
     public static String ESTADO = "estado";
     public static String ESTADO_UPPER = "Estado";
-    public static String ORDEN_UPPER = "Orden";
-    public static String ORDEN = "orden";
     public static String FECHA_INICIO_ESTADO = "fechaInicioEstado";
     public static String FECHA_FIN_ESTADO = "fechaFinEstado";
-    public static String BLOCK_UPPER = "Block";
-    public static String TORRE_UPPER = "Torre";
-    public static String PUERTA_UPPER = "Puerta";
     public static String CONVENIO_UPPER = "Convenio";
     public static String LICENCIA = "Licencia";
     public static String BAJA = "Baja";
@@ -55,16 +75,14 @@ public class ConstantesEtiquetas {
     public static String MONTO_1 = "Monto_1";
     public static String MONEDA = "Moneda";
     public static String PRONTO = "Pronto";
-    public static String OTROS_GASTOS = "OtrosGastos";
-    public static String CUOTA_CONVENIO = "CuotaConvenio";
-    public static String GASTOS_COMUNES = "GastosComunes";
-    public static String CUOTA_APROXIMADA = "Cuota aproximada: $";
-    public static String CUOTAS_APROX = "Numero de cuotas aproximadas: ";
-    public static String ID_USUARIO = "idUnidad";
+    
+    /*
+    *        Parametros Reporte
+    */
     public static String CONVENIO_IMPRESION = "CreacionConvenioImpresion";
-    public static String TRABAJO_UPPER = "Trabajo";
-    public static String HISTORIAL_TRABAJO = "HistorialTrabajo";
-    public static String MATERIAL_UPPER = "Material";
+    
+    
+    public static String ID_USUARIO = "idUnidad";    
     public static String MATERIAL = "material";
     public static String PRECIO = "precio";
     public static String ENTRADA = "entrada";
@@ -77,7 +95,6 @@ public class ConstantesEtiquetas {
     public static String PAGAS = "Pagas";
     public static String ACCION = "Acción";
     public static String NOMBRE_TABLA="nombreTabla";
-
     public static String EDITAR = "Editar";
     public static String BORRAR = "Borrar";
     public static String PROPIETARIO = "Propietario";
@@ -112,6 +129,9 @@ public class ConstantesEtiquetas {
     public static String DECORATION_BUTTON_RESTORE = "decoration-button-restore";
     public static String ID_URGENCIA = "idurgencia";
 
+    /*
+    *        Simbolos
+    */
     public static String MAYOR = ">";
     public static String MENOR = "<";
     public static String PESOS = "$";

@@ -6,6 +6,7 @@ import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Monto;
 import entities.persistence.entities.Reglabonificacion;
+import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -24,6 +25,8 @@ import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
 
 public class ConfiguracionControl {
+    
+    public static final Notification.Notifier notifier = Notification.Notifier.INSTANCE;
     
     public static int traeUltimoId(String tabla){
         Configuracion c;

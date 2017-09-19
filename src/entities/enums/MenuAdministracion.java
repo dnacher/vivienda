@@ -13,6 +13,7 @@ public enum MenuAdministracion {
     Convenios("Convenios", "Convenios"),
     PagoConvenios("PagoConvenios", "Pago Convenios"),
     ReglaBonificacion("ReglaBonificacion", "Regla Bonificacion"),
+    TipoBonificacion("TipoBonificacion", "Tipo de Bonificacion"),
     ValorGastosComunes("ValorGastosComunes", "Valor Gastos Comunes");
 
     private final String pagina;

@@ -8,6 +8,7 @@ import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Unidad;
+import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -92,10 +93,10 @@ public class UnidadesController implements Initializable {
 
     @FXML
     private TextField txtApellido;
-    
+
     @FXML
     private Slider cmbHabitaciones;
-    
+
     @FXML
     private Label lblHabitaciones;
 
@@ -115,7 +116,7 @@ public class UnidadesController implements Initializable {
             cmbHabitaciones.valueProperty().addListener(new ChangeListener<Number>() {
                 @Override
                 public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    int i=(int)cmbHabitaciones.getValue();
+                    int i = (int) cmbHabitaciones.getValue();
                     lblHabitaciones.setText(String.valueOf(i));
                 }
             });
@@ -289,6 +290,8 @@ public class UnidadesController implements Initializable {
             i = 7;
         } else if (cmbPropietarioInquilino.getValue() == null) {
             i = 8;
+        } else if (cmbFechaIngreso.getValue() == null) {
+            i = 9;
         }
         return i;
     }
@@ -298,59 +301,81 @@ public class UnidadesController implements Initializable {
         switch (validar()) {
             case 0:
                 try {
-                    Unidad unidad = new Unidad();
-                    unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
-                    unidad.setBlock(cmbBlock.getValue());
-                    unidad.setTorre(cmbTorre.getValue());
-                    unidad.setPuerta(Integer.valueOf(txtPuerta.getText()));
-                    unidad.setNombre(txtNombre.getText());
-                    unidad.setApellido(txtApellido.getText());
-                    unidad.setMail(txtMail.getText());
-                    unidad.setTelefono(Integer.valueOf(txtTelefono.getText()));
-                    unidad.setFechaIngreso(ConfiguracionControl.TraeFecha(cmbFechaIngreso.getValue()));
-                    unidad.setHabitaciones((int)cmbHabitaciones.getValue());
-                    if (cmbPropietarioInquilino.getValue().equals(ConstantesEtiquetas.PROPIETARIO)) {
-                        unidad.setPropietarioInquilino(true);
+                    if (ConfiguracionControl.esNumero(txtPuerta.getText())) {
+                        if (ConfiguracionControl.esNumero(txtTelefono.getText())) {
+                            Unidad unidad = new Unidad();
+                            unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
+                            unidad.setBlock(cmbBlock.getValue());
+                            unidad.setTorre(cmbTorre.getValue());
+                            unidad.setPuerta(Integer.valueOf(txtPuerta.getText()));
+                            unidad.setNombre(txtNombre.getText());
+                            unidad.setApellido(txtApellido.getText());
+                            unidad.setMail(txtMail.getText());
+                            unidad.setTelefono(Integer.valueOf(txtTelefono.getText()));
+                            unidad.setFechaIngreso(ConfiguracionControl.TraeFecha(cmbFechaIngreso.getValue()));
+                            unidad.setHabitaciones((int) cmbHabitaciones.getValue());
+                            if (cmbPropietarioInquilino.getValue().equals(ConstantesEtiquetas.PROPIETARIO)) {
+                                unidad.setPropietarioInquilino(true);
+                            } else {
+                                unidad.setPropietarioInquilino(false);
+                            }
+                            UnidadValidationUnique uv = new UnidadValidationUnique();
+                            if (!uv.validarUnidad(unidad)) {
+                                UnidadBean ub = new UnidadBean();
+                                ub.guardar(unidad);
+                                cv.creaVentanaNotificacionCorrecto();
+                                recargarTabla();
+                                clear();
+                            } else {
+                                cv.creaVentanaNotificacionError(ConstantesErrores.YA_EXISTE_UNIDAD_APARTAMENTO);
+                            }
+                        } else {
+                            ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.TELEFONO_NUMERICO, Notification.WARNING_ICON));
+                        }
                     } else {
-                        unidad.setPropietarioInquilino(false);
+                        ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.PUERTA_NUMERICO, Notification.WARNING_ICON));
                     }
-                    UnidadValidationUnique uv = new UnidadValidationUnique();
-                    if (!uv.validarUnidad(unidad)) {
-                        UnidadBean ub = new UnidadBean();
-                        ub.guardar(unidad);
-                        cv.creaVentanaNotificacionCorrecto();
-                        recargarTabla();
-                        clear();
-                    } else {
-                        cv.creaVentanaNotificacionError(ConstantesErrores.YA_EXISTE_UNIDAD_APARTAMENTO);
-                    }
+
+                } catch (ServiceException ex) {
+                    cv.creaVentanaNotificacionError(ex.getMessage());
                 } catch (Exception ex) {
                     cv.creaVentanaNotificacionError(ex.getMessage());
                 }
                 break;
             case 1:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_BLOCK);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_BLOCK, Notification.WARNING_ICON));
+                //cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_BLOCK);
                 break;
             case 2:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_TORRE);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_TORRE, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_TORRE);
                 break;
             case 3:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_PUERTA);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_PUERTA, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_PUERTA);
                 break;
             case 4:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_NOMBRE);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_NOMBRE, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_NOMBRE);
                 break;
             case 5:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_APELLIDO);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_APELLIDO, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_APELLIDO);
                 break;
             case 6:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_TELEFONO);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_TELEFONO, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_TELEFONO);
                 break;
             case 7:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_MAIL);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_MAIL, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_MAIL);
                 break;
             case 8:
-                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_PROPIETARIO);
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_PROPIETARIO, Notification.WARNING_ICON));
+//                cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_PROPIETARIO);
+                break;
+            case 9:
+                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.FALTA_FECHA_INGRESO, Notification.WARNING_ICON));
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package web.MB;
 
+import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
@@ -51,8 +52,7 @@ public class controllLogin implements Initializable {
     @FXML
     private Label lblVersion;
 
-    Stage stage;
-    Notification.Notifier notifier = Notification.Notifier.INSTANCE;
+    Stage stage;    
     private UsuariosLocal ul;
 
     /**
@@ -62,7 +62,8 @@ public class controllLogin implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {         
+    public void initialize(URL url, ResourceBundle rb) {  
+        
         Platform.runLater(() -> {
             new FadeInRightTransition(lblUserLogin).play();
             new FadeInLeftTransition(lblWelcome).play();
@@ -99,24 +100,24 @@ public class controllLogin implements Initializable {
                     && Viviendas.user.getPassword().equals(txtPassword.getText())) {
                 ConfiguracionBean cb = new ConfiguracionBean();
                 listaConfiguracion = cb.traerTodos();
-                notifier.notify(new Notification("Correcto", "Se logueo Correctamente", Notification.SUCCESS_ICON));
+                ConfiguracionControl.notifier.notify(new Notification("Correcto", "Se logueo Correctamente", Notification.SUCCESS_ICON));
                 cv.creaVentanaNotificacionCorrecto();
                 Stage st = new Stage();
                 stage = (Stage) lblClose.getScene().getWindow();
                 Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));
                 Scene scene = new Scene(root);
                 st.initStyle(StageStyle.UNDECORATED);
-                st.setResizable(false);
-                st.setTitle("Login");
+                st.setResizable(false);                
+                st.setTitle(Constantes.VIVIENDA);
                 st.setScene(scene);
                 st.show();
-                stage.close();
+                stage.close();                
             } else {
-                notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
+                ConfiguracionControl.notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
                 cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
             }
         } else {
-            notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
+            ConfiguracionControl.notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
             cv.creaVentanaNotificacionError(ConstantesErrores.ERROR_LOGUEO);
         }
     }

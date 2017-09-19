@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import entities.hibernate.SessionConnection;
 import org.hibernate.StatelessSession;
 import entities.constantes.Constantes;
+import entities.constantes.ConstantesEtiquetas;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -44,13 +45,12 @@ public class UnidadBean implements UnidadLocal{
         try{            
             sc.useSession().save(unidad);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-            ConfiguracionControl.ActualizaId("Unidad");
+            correcto=true;          
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.UNIDAD);
         }
         catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
+            throw new ServiceException(ex.getCause().getMessage());                    
         }
         return correcto;
     }

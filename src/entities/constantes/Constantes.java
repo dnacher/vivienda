@@ -26,6 +26,7 @@ public class Constantes {
     public static final String PAGINA_ROOT="/web/fragmentos/";
     public static final String IMAGEN_ROOT="/web/images/"; 
     public static final String CSS_ROOT="/web/css/";
+    public static final String LOGO="/web/images/Vivienda-Icon.png";
         
    /*
     *                           MENUS
