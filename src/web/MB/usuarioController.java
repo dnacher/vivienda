@@ -141,6 +141,7 @@ public class usuarioController implements Initializable {
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
                     llenaTabla();
+                    aksiBack(null);
                 }else{
                     cv.creaVentanaNotificacionError(ConstantesErrores.PASS_NO_COINCIDE);
                 }

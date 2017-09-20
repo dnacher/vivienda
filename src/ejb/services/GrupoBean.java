@@ -1,5 +1,7 @@
 package ejb.services;
 
+import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Grupo;
 import exceptions.ServiceException;
@@ -37,6 +39,7 @@ public class GrupoBean implements GrupoLocal{
             //session.close();
             sc.closeSession();
             correcto=true;
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.GRUPO);
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    

@@ -66,7 +66,6 @@ public class ConvenioBean implements ConvenioLocal{
         try{            
             sc.useSession().update(convenio);
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto=true;
         }

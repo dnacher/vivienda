@@ -89,6 +89,7 @@ public class tipoUsuarioController implements Initializable {
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
                 llenaTabla();
+                atras();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());

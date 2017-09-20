@@ -103,6 +103,7 @@ public class tipoDuracionController implements Initializable {
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
                 llenaTabla();
+                aksiBack(null);
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());

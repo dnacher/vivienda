@@ -6,6 +6,7 @@ import ejb.services.GrupoBean;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.persistence.entities.Grupo;
+import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -92,10 +93,10 @@ public class grupoController implements Initializable {
     
     @FXML
     private void guardar(ActionEvent event){
-        LblNombre.setText(ConstantesEtiquetas.VACIO);
+        //LblNombre.setText(ConstantesEtiquetas.VACIO);
         ControlVentana cv=new ControlVentana();
         if(txtNombre.getText().isEmpty()){
-            LblNombre.setText(ConstantesErrores.FALTA_NOMBRE);
+            ConfiguracionControl.notifier.notify(new Notification("Correcto", ConstantesErrores.FALTA_NOMBRE, Notification.WARNING_ICON));
         }
         else{
             try{
@@ -110,6 +111,7 @@ public class grupoController implements Initializable {
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
                 llenaTabla();
+                atras(null);
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());

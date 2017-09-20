@@ -15,7 +15,7 @@ public enum MenuConfiguracion {
     Grupo("Grupo", "Grupo"),
     Urgencia("Urgencia", "Urgencia"),
     Concepto("Concepto", "Concepto"),
-    Usuarios("Usuario", "Usuarios"),
+    Usuarios("Usuario", "Usuario"),
     TipoUsuario("TipoUsuario", "Tipo Usuario"),
     TipoDuracion("TipoDuracion", "Tipo Duracion"),
     CargarMasivas("CargarMasivas", "Cargar Masivas"),

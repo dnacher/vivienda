@@ -88,9 +88,20 @@ public class ConfiguracionBean implements ConfiguracionLocal{
                 Query query= sc.useSession().createQuery("from Configuracion configuracion where configuracion.nombreTabla=:tabla");
                 query.setParameter("tabla", tabla);
                 Configuracion configuracion=(Configuracion)query.uniqueResult();
-                //session.close();        
                 sc.closeSession();
                 return configuracion;
+            }
+            catch(Exception ex){
+                throw new ServiceException(ex.getMessage());
+            }
+        }
+        
+        public List<Configuracion> traerValorHabitaciones() throws ServiceException {
+            try{
+                Query query= sc.useSession().createQuery("from Configuracion configuracion where configuracion.nombreTabla in (1,2,3,4,5,6)");
+                List<Configuracion> habitaciones=query.list();
+                sc.closeSession();
+                return habitaciones;
             }
             catch(Exception ex){
                 throw new ServiceException(ex.getMessage());

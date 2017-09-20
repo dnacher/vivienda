@@ -446,8 +446,8 @@ public class SeguridadController implements Initializable {
             tu=cmbTipoUsuario.getSelectionModel().getSelectedItem();
             cargaPermisos();
             try {
-                UsuariosBean ub2=new UsuariosBean();
-                ub2.EliminaPermisos(tu);
+                UsuariosBean ub=new UsuariosBean();                
+                ub.EliminaPermisos(tu);
                 Permisosusuario pu;
                 if(Administracion!=-1){ pu= new Permisosusuario(ConstantesEtiquetas.ADMINISTRACION, tu, Administracion); listaPermisos.add(pu);}
                 if(BajaLicencia!=-1){pu= new Permisosusuario(ConstantesEtiquetas.BAJA_LICENCIA, tu, BajaLicencia); listaPermisos.add(pu);}
@@ -473,7 +473,7 @@ public class SeguridadController implements Initializable {
                 if(Unidades!=-1){pu= new Permisosusuario(ConstantesEtiquetas.UNIDADES, tu, Unidades); listaPermisos.add(pu);}
                 if(Urgencia!=-1){pu= new Permisosusuario(ConstantesEtiquetas.URGENCIA, tu, Urgencia); listaPermisos.add(pu);}
                 if(Usuario!=-1){pu= new Permisosusuario(ConstantesEtiquetas.USUARIO, tu, Usuario); listaPermisos.add(pu);}
-                UsuariosBean ub=new UsuariosBean();
+                ub=new UsuariosBean();
                 ub.guardaPermisos(listaPermisos);
                 cv.creaVentanaNotificacionCorrecto();
                 initialize(null, null);

@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Gastoscomunes;
 import exceptions.ServiceException;
@@ -32,13 +33,30 @@ public class GastosComunesBean implements GastosComunesLocal{
         try{            
             sc.useSession().save(gastosComunes);
             tx.commit();
-            //session.close();
             sc.closeSession();
             ConfiguracionControl.ActualizaId("GastosComunes");           
             correcto=true;          
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
+        }
+        return correcto;
+    }
+    
+    public boolean guardarGastos(List<Gastoscomunes> lista) throws ServiceException {
+        try {
+            int ultimoId;
+            for (Gastoscomunes gc : lista) {
+                sc.useSession().save(gc);                
+            }
+            tx.commit();
+            sc.closeSession();
+            int ind=lista.size()-1;
+            ultimoId = lista.get(ind).getId().getIdGastosComunes();
+            ConfiguracionControl.ActualizaIdXId(ConstantesEtiquetas.GASTOS_COMUNES,ultimoId);
+            correcto = true;
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
         return correcto;
     }

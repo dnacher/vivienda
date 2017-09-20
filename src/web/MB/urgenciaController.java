@@ -104,6 +104,7 @@ public class urgenciaController implements Initializable {
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
                 llenaTabla();
+                atras();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());
@@ -136,6 +137,7 @@ public class urgenciaController implements Initializable {
     
     public void llenaTabla(){
         try {
+            ub=new UrgenciaBean();
             lista=ub.traerTodos();
             listaUrgencia = FXCollections.observableList(lista);     
             tableData.setItems(listaUrgencia);

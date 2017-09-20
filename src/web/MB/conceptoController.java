@@ -97,7 +97,8 @@ public class conceptoController implements Initializable {
                 cb.guardar(concepto);
                 cv.creaVentanaNotificacionCorrecto();
                 llenaTabla();
-                clear();                
+                clear();     
+                atras();
             }
             catch(Exception ex){
                 cv.creaVentanaNotificacionError(ex.getMessage());

@@ -25,5 +25,6 @@ public class ConstantesMensajes {
     public static String SALDO_RESTANTE="El saldo restante es: ";
     public static String CERRAR_MES_OK="Se ha cerrado con éxito el mes";
     public static String GUARDADO_OK="Se ha guardado correctamente";
+    public static String FELICITACIONES="Felicitaciones, usted esta al dia.";
     
 }

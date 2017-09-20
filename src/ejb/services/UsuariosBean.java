@@ -15,52 +15,48 @@ import org.hibernate.Transaction;
  *
  * @author Dani-Fla-Mathi
  */
-public class UsuariosBean implements UsuariosLocal{
-    
-    //public Session session;
+public class UsuariosBean implements UsuariosLocal {
+
     SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
-    
-    public UsuariosBean(){
-        //session = SessionConnection.getConnection().useSession();
-        sc=new SessionConnection();
-        //session = sc.useSession();
-        //tx= session.beginTransaction();
-        tx= sc.useSession().beginTransaction();
-        correcto=false;
+
+    public UsuariosBean() {
+        sc = new SessionConnection();
+        tx = sc.useSession().beginTransaction();
+        correcto = false;
+    }
+
+    public void reconectar() {
+        sc = new SessionConnection();
+        tx = sc.useSession().beginTransaction();
+        correcto = false;
     }
 
     @Override
     public boolean guardar(Usuario usuario) throws ServiceException {
-        correcto=false;
-        try{            
-            //session.save(usuario);
+        correcto = false;
+        try {
             sc.useSession().save(usuario);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
+            correcto = true;
             ConfiguracionControl.ActualizaId("Usuario");
-        }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
         return correcto;
     }
 
     @Override
     public boolean eliminar(Usuario usuario) throws ServiceException {
-        try{
+        try {
             usuario.setActivo(false);
-            //session.update(usuario);
             sc.useSession().update(usuario);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -68,15 +64,12 @@ public class UsuariosBean implements UsuariosLocal{
 
     @Override
     public boolean modificar(Usuario usuario) throws ServiceException {
-        try{            
-            //session.update(usuario);
+        try {
             sc.useSession().update(usuario);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -84,86 +77,83 @@ public class UsuariosBean implements UsuariosLocal{
 
     @Override
     public List<Usuario> traerTodos() throws ServiceException {
-        try{
-            //Query query= session.createQuery("from Usuario");         
-            Query query= sc.useSession().createQuery("from Usuario");
-            List<Usuario> usuarios=query.list();
-            //session.close();        
+        try {
+            Query query = sc.useSession().createQuery("from Usuario");
+            List<Usuario> usuarios = query.list();
             sc.closeSession();
             return usuarios;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
     public Usuario traerUsuarioXId(int Id) throws ServiceException {
-        //Query query= session.createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
-        Query query= sc.useSession().createQuery("from Usuario usuario where usuario.IdUsuario=:id");            
-        query.setParameter("id", Id);        
-        Usuario usuario=(Usuario) query.uniqueResult();
-        //session.close();        
+        Query query = sc.useSession().createQuery("from Usuario usuario where usuario.IdUsuario=:id");
+        query.setParameter("id", Id);
+        Usuario usuario = (Usuario) query.uniqueResult();
         sc.closeSession();
         return usuario;
     }
-    
+
     @Override
-     public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
-        //Query query= session.createQuery("from Usuario usuario where usuario.nombre=:nombre");            
-        Query query= sc.useSession().createQuery("from Usuario usuario where usuario.nombre=:nombre");            
-        query.setParameter("nombre", nombre);        
-        Usuario usuario=(Usuario) query.uniqueResult();
-        //session.close();        
+    public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
+        Query query = sc.useSession().createQuery("from Usuario usuario where usuario.nombre=:nombre");
+        query.setParameter("nombre", nombre);
+        Usuario usuario = (Usuario) query.uniqueResult();
         sc.closeSession();
-        return usuario;    
+        return usuario;
     }
-     
-    public List<Permisosusuario> TraePermisos(Tipousuario tipoUsuario){
-        List<Permisosusuario> lista=new ArrayList<>();
+
+    public List<Permisosusuario> TraePermisos(Tipousuario tipoUsuario) {
+        List<Permisosusuario> lista = new ArrayList<>();
         //Query query= session.createQuery("from Permisosusuario pu where pu.tipousuario=:tipoUsuario");
-        Query query= sc.useSession().createQuery("from Permisosusuario pu where pu.tipousuario=:tipoUsuario");
+        Query query = sc.useSession().createQuery("from Permisosusuario pu where pu.tipousuario=:tipoUsuario");
         query.setParameter("tipoUsuario", tipoUsuario);
-        lista=query.list();
+        lista = query.list();
         //session.close();
         sc.closeSession();
         return lista;
     }
-    
-    public boolean guardaPermisos(List<Permisosusuario> lista)throws ServiceException{
-        try{  
-            for(Permisosusuario pu: lista){
+
+    public boolean guardaPermisos(List<Permisosusuario> lista) throws ServiceException {
+        try {
+            for (Permisosusuario pu : lista) {
                 //session.save(pu);
                 sc.useSession().save(pu);
-            }            
+            }
             tx.commit();
             //session.close();
             sc.closeSession();
-            correcto=true;            
+            correcto = true;
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
-        catch(Exception ex){            
-            throw new ServiceException(ex.getMessage());            
-        }        
         return correcto;
     }
-    
-     public boolean EliminaPermisos(Tipousuario tipoUsuario)throws ServiceException{
-        try{  
-            String consulta="delete from Permisosusuario pu where pu.tipousuario=:tipoUsuario";           
-            //Query query= session.createQuery(consulta);
-            Query query= sc.useSession().createQuery(consulta);
+
+    public boolean EliminaPermisos(Tipousuario tipoUsuario) throws ServiceException {
+        try {
+            List<Permisosusuario> permisos = TraePermisos(tipoUsuario);
+            reconectar();
+            if (permisos != null && permisos.size() > 0) {
+                for (Permisosusuario pu : permisos) {
+                    sc.useSession().delete(pu);
+                }
+            }
+            tx.commit();
+            /*Query query= sc.useSession().createQuery(consulta);
             query.setParameter("tipoUsuario", tipoUsuario);
-            query.executeUpdate();            
+            query.executeUpdate();*/
             //session.close();
             sc.closeSession();
-            correcto=true; 
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             System.out.println(ex);
             System.out.println(ex.getMessage());
-            throw new ServiceException(ex.getMessage());            
-        }        
+            throw new ServiceException(ex.getMessage());
+        }
         return correcto;
     }
-    
+
 }

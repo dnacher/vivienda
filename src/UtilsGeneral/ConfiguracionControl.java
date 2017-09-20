@@ -25,181 +25,219 @@ import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
 
 public class ConfiguracionControl {
-    
+
     public static final Notification.Notifier notifier = Notification.Notifier.INSTANCE;
-    
-    public static int traeUltimoId(String tabla){
+
+    public static int traeUltimoId(String tabla) {
         Configuracion c;
-        int i=-1;
-        SessionConnection sc=new SessionConnection();
-        Session session = sc.useSession();        
-        Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
+        int i = -1;
+        SessionConnection sc = new SessionConnection();
+        Session session = sc.useSession();
+        Query query = session.createQuery("from Configuracion where NombreTabla=:name");
         query.setParameter("name", tabla);
-        c=(Configuracion)query.uniqueResult();           
+        c = (Configuracion) query.uniqueResult();
         session.close();
-        if(c!=null){
-            i=c.getId();
+        if (c != null) {
+            i = c.getId();
         }
         return i;
-    }   
-    
-    public static void ActualizaId(String tabla){
-        int i=traeUltimoId(tabla);
+    }
+
+    public static void ActualizaId(String tabla) {
+        int i = traeUltimoId(tabla);
         Configuracion c;
-        if(i!=-1){
-            SessionConnection sc=new SessionConnection();
+        if (i != -1) {
+            SessionConnection sc = new SessionConnection();
             //Session session = sc.useSession();
-           // Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
-           Query query= sc.useSession().createQuery("from Configuracion where NombreTabla=:name");            
+            // Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
+            Query query = sc.useSession().createQuery("from Configuracion where NombreTabla=:name");
             query.setParameter("name", tabla);
-            c=(Configuracion)query.uniqueResult(); 
+            c = (Configuracion) query.uniqueResult();
             i++;
             c.setId(i);
-           // Transaction tx= session.beginTransaction(); 
-           Transaction tx= sc.useSession().beginTransaction(); 
-           // session.update(c);
-           sc.useSession().update(c);
+            // Transaction tx= session.beginTransaction(); 
+            Transaction tx = sc.useSession().beginTransaction();
+            // session.update(c);
+            sc.useSession().update(c);
             tx.commit();
             //session.close();
             sc.closeSession();
         }
     }
-    
-    public static void ActualizaIdXId(String tabla, int id){
-        int i=traeUltimoId(tabla);
+
+    public static void ActualizaIdXId(String tabla, int id) {
+        int i = traeUltimoId(tabla);
         Configuracion c;
-        if(i!=-1){
-            SessionConnection sc=new SessionConnection();
+        if (i != -1) {
+            SessionConnection sc = new SessionConnection();
             Session session = sc.useSession();
-            Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
+            Query query = session.createQuery("from Configuracion where NombreTabla=:name");
             query.setParameter("name", tabla);
-            c=(Configuracion)query.uniqueResult();             
+            c = (Configuracion) query.uniqueResult();
             c.setId(id);
-            Transaction tx= session.beginTransaction(); 
+            Transaction tx = session.beginTransaction();
             session.update(c);
             tx.commit();
             session.close();
         }
     }
-    
-    public static Date TraeFecha(LocalDate localDate){         
-         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-         return date;
+
+    public static Date TraeFecha(LocalDate localDate) {
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return date;
     }
-    
-    public void generarReporte(String reporte){       
-        try{            
-            Session session=NewHibernateUtil.getSessionFactory().openSession();
-            Connection con=((SessionImpl)session).connection();
-            JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
-            JasperPrint jp= JasperFillManager.fillReport(jr, null, con);
-            JasperViewer jv= new JasperViewer(jp, false);           
-            jv.setVisible(true);
-            jv.setTitle(reporte);           
-           session.close();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-    
-    public void generarReporteConParametros(String reporte,HashMap parameters){       
-        try{            
-            Session session=NewHibernateUtil.getSessionFactory().openSession();
-            Connection con=((SessionImpl)session).connection();
-            JasperReport jr= (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/"+ reporte +".jasper"));
-            JasperPrint jp= JasperFillManager.fillReport(jr, parameters, con);
-            JasperViewer jv= new JasperViewer(jp, false);           
+
+    public void generarReporte(String reporte) {
+        try {
+            Session session = NewHibernateUtil.getSessionFactory().openSession();
+            Connection con = ((SessionImpl) session).connection();
+            JasperReport jr = (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/" + reporte + ".jasper"));
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer jv = new JasperViewer(jp, false);
             jv.setVisible(true);
             jv.setTitle(reporte);
-            session.close();           
-        }
-        catch(Exception ex){
+            session.close();
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-    
-    public static boolean esNumero(String s){
+
+    public void generarReporteConParametros(String reporte, HashMap parameters) {
+        try {
+            Session session = NewHibernateUtil.getSessionFactory().openSession();
+            Connection con = ((SessionImpl) session).connection();
+            JasperReport jr = (JasperReport) JRLoader.loadObject(getClass().getResource("/reportes/" + reporte + ".jasper"));
+            JasperPrint jp = JasperFillManager.fillReport(jr, parameters, con);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setVisible(true);
+            jv.setTitle(reporte);
+            session.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public static boolean esNumero(String s) {
         boolean esNumero;
         int num;
-        try{
-            num=Integer.valueOf(s);
-            esNumero=true;
-        }
-        catch(Exception ex){
-            esNumero=false;
+        try {
+            num = Integer.valueOf(s);
+            esNumero = true;
+        } catch (Exception ex) {
+            esNumero = false;
         }
         return esNumero;
     }
-    
-    public static int traePeriodo(int y, int m){ 
-        int periodo; 
-        if(m>9){
-            periodo=Integer.valueOf(String.valueOf(y) + String.valueOf(m)); 
-        } else{ 
-            periodo=Integer.valueOf(String.valueOf(y) + "0" + String.valueOf(m)); 
-        } 
-        return periodo; 
+
+    public static int traePeriodo(int y, int m) {
+        int periodo;
+        if (m > 9) {
+            periodo = Integer.valueOf(String.valueOf(y) + String.valueOf(m));
+        } else {
+            periodo = Integer.valueOf(String.valueOf(y) + "0" + String.valueOf(m));
+        }
+        return periodo;
     }
-    
-    public static int devuelvePeriodoActual(){
+
+    public static int devuelvePeriodoActual() {
         int periodoActual;
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month=Calendar.getInstance().get(Calendar.MONTH)+1;        
-        periodoActual=traePeriodo(year, month);
+        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        periodoActual = traePeriodo(year, month);
         return periodoActual;
     }
-     
-    public int devuelveCuotas(int mesInicial, int mesFinal, int anioInicial, int anioFinal){
-        int cuotas=0;
-        boolean flagMesInicial=true;
-        for(int y=anioInicial;y<=anioFinal;y++){
-            if(anioFinal!=y){
-                if(flagMesInicial){
-                    for(int m=mesInicial;m<=12;m++){
+
+    public int devuelveCuotas(int mesInicial, int mesFinal, int anioInicial, int anioFinal) {
+        int cuotas = 0;
+        boolean flagMesInicial = true;
+        for (int y = anioInicial; y <= anioFinal; y++) {
+            if (anioFinal != y) {
+                if (flagMesInicial) {
+                    for (int m = mesInicial; m <= 12; m++) {
                         cuotas++;
                     }
-                    flagMesInicial=false;
-                }else{
-                    for(int m=1;m<=12;m++){
+                    flagMesInicial = false;
+                } else {
+                    for (int m = 1; m <= 12; m++) {
                         cuotas++;
                     }
                 }
-            }else{
-                if(flagMesInicial){
-                    for(int m=mesInicial;m<=mesFinal;m++){
-                        cuotas++;
-                    }
-                    flagMesInicial=false;
-                }else{
-                    for(int m=1;m<=mesFinal;m++){
-                        cuotas++;
-                    }
+            } else if (flagMesInicial) {
+                for (int m = mesInicial; m <= mesFinal; m++) {
+                    cuotas++;
+                }
+                flagMesInicial = false;
+            } else {
+                for (int m = 1; m <= mesFinal; m++) {
+                    cuotas++;
                 }
             }
-            }           
-        return cuotas;    
+        }
+        return cuotas;
     }
-    
-    public boolean tieneBonificacion(Reglabonificacion rb){
-        boolean tiene=false;
-        int day=Calendar.getInstance().get(Calendar.DATE);
-        if(day<=rb.getDiaApagar()){
-            tiene=true;
+
+    public boolean tieneBonificacion(Reglabonificacion rb) {
+        boolean tiene = false;
+        int day = Calendar.getInstance().get(Calendar.DATE);
+        if (day <= rb.getDiaApagar()) {
+            tiene = true;
         }
         return tiene;
     }
-    
-    public Monto traeMontoPesos() throws ServiceException{
-        MontoBean mb=new MontoBean();
-        Monto monto=mb.traerMontoXId(1);       
+
+    public Monto traeMontoPesos() throws ServiceException {
+        MontoBean mb = new MontoBean();
+        Monto monto = mb.traerMontoXId(1);
         return monto;
     }
-  /*  public static void actualizaBonificacion(String tabla, int bonificacion){
+
+    public static String devuelveMesEscrito(int mes) {
+        String mesEscrito;
+        switch (mes) {
+            case 1:
+                mesEscrito = "Enero";
+                break;
+            case 2:
+                mesEscrito = "Febrero";
+                break;
+            case 3:
+                mesEscrito = "Marzo";
+                break;
+            case 4:
+                mesEscrito = "Abril";
+                break;
+            case 5:
+                mesEscrito = "Mayo";
+                break;
+            case 6:
+                mesEscrito = "Junio";
+                break;
+            case 7:
+                mesEscrito = "Julio";
+                break;
+            case 8:
+                mesEscrito = "Agosto";
+                break;
+            case 9:
+                mesEscrito = "Setiembre";
+                break;
+            case 10:
+                mesEscrito = "Octubre";
+                break;
+            case 11:
+                mesEscrito = "Noviembre";
+                break;
+            default:
+                mesEscrito = "Diciembre";
+                break;
+        }
+        return mesEscrito;
+    }
+    /*  public static void actualizaBonificacion(String tabla, int bonificacion){
         Configuracion c;
             /*SessionFactory sf= NewHibernateUtil.getSessionFactory();
             Session session;*/
-    /*        Session session = SessionConnection.getConnection().useSession();
+ /*        Session session = SessionConnection.getConnection().useSession();
             Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
             query.setParameter("name", tabla);
             c=(Configuracion)query.uniqueResult();             

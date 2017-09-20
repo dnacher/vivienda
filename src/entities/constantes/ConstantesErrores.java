@@ -31,6 +31,7 @@ public class ConstantesErrores {
     public static String FALTA_PROPIETARIO = "falta ingresar si es propietario o no";
     public static String FALTA_FECHA_INGRESO = "falta ingresar fecha de ingreso";
     public static String ORDEN_NUMERICO = "El campo Orden debe ser numerico";
+    public static String MONTO_NUMERICO = "El campo Monto debe ser numerico";
     public static String CAMPO_NUMERICO = "El o los campos deben ser numericos";
     public static String DIAS_A_PAGAR_NUMERICO = "El campo dias a pagar debe ser numerico";
     public static String PASS_NO_COINCIDE = "Las contraseñas no coinciden";
@@ -40,5 +41,6 @@ public class ConstantesErrores {
     public static String TELEFONO_NUMERICO="El Telefono debe ser un valor numerico";
     public static String PUERTA_NUMERICO="El numero de puerta debe ser un valor numerico";
     public static String SIN_TIPO_BONIFICACION="Verifique que existan tipo de bonbificaciones";
+    public static String SOBREPASA_DEUDA="El monto sobrepasa el valor de la deuda";
 
 }

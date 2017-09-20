@@ -39,11 +39,14 @@ public class ConstantesEtiquetas {
     public static String TORRE_UPPER = "Torre";
     public static String PUERTA_UPPER = "Puerta";
     
+    
     /*
     *        Informacion
     */
     public static String CUOTA_APROXIMADA = "Cuota aproximada: $";
     public static String CUOTAS_APROX = "Numero de cuotas aproximadas: ";
+    public static String CORRECTO="Correcto";
+    public static String ERROR="Error";
     
     public static String SECUENCIA_UPPER = "Secuencia";
     public static String HABITACIONES_UPPER = "Habitaciones";
@@ -128,6 +131,10 @@ public class ConstantesEtiquetas {
     public static String DIAPAGAR = "diaApagar";
     public static String DECORATION_BUTTON_RESTORE = "decoration-button-restore";
     public static String ID_URGENCIA = "idurgencia";
+    public static String CERRAR_MES="Cerrar Mes";
+    public static String ESTA_SEGURO="Esta seguro que desea cerrar el mes de ";
+    public static String ACEPTAR="Aceptar";
+    public static String CANCELAR="Cancelar";
 
     /*
     *        Simbolos
