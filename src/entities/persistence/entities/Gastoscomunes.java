@@ -18,6 +18,7 @@ public class Gastoscomunes  implements java.io.Serializable {
      private Integer estado;
      private Date fechaPago;
      private Integer periodo;
+     private String descripcion;
      private Boolean activo;
 
     public Gastoscomunes() {
@@ -30,7 +31,7 @@ public class Gastoscomunes  implements java.io.Serializable {
         this.unidad = unidad;
         this.fechaPago = fechaPago;
     }
-    public Gastoscomunes(GastoscomunesId id, Monto monto, Unidad unidad, Integer monto_1, Boolean isBonificacion, Integer estado, Date fechaPago, Integer periodo, Boolean activo) {
+    public Gastoscomunes(GastoscomunesId id, Monto monto, Unidad unidad, Integer monto_1, Boolean isBonificacion, Integer estado, Date fechaPago, Integer periodo,String descripcion, Boolean activo) {
        this.id = id;
        this.monto = monto;
        this.unidad = unidad;
@@ -39,6 +40,7 @@ public class Gastoscomunes  implements java.io.Serializable {
        this.estado = estado;
        this.fechaPago = fechaPago;
        this.periodo = periodo;
+       this.descripcion=descripcion;
        this.activo = activo;
     }
    
@@ -106,8 +108,13 @@ public class Gastoscomunes  implements java.io.Serializable {
         this.activo = activo;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
 }
 

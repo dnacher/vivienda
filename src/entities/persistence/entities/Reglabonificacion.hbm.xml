@@ -14,6 +14,15 @@
         <property name="diaApagar" type="java.lang.Integer">
             <column name="diaAPagar" />
         </property>
+        <property name="tipoBonificacion" type="java.lang.Integer">
+            <column name="tipoBonificacion" />
+        </property>
+        <property name="valor" type="java.lang.Integer">
+            <column name="valor" />
+        </property>
+        <many-to-one name="monto" class="entities.persistence.entities.Monto" fetch="select">
+            <column name="moneda" not-null="true" />
+        </many-to-one>
         <property name="activo" type="boolean">
             <column name="activo" not-null="true" />
         </property>
@@ -23,5 +32,6 @@
             </key>
             <one-to-many class="entities.persistence.entities.Convenio" />
         </set>
+         
     </class>
 </hibernate-mapping>

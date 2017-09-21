@@ -33,6 +33,9 @@
         <property name="periodo" type="java.lang.Integer">
             <column name="periodo" />
         </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="100" />
+        </property>
         <property name="activo" type="java.lang.Boolean">
             <column name="activo" />
         </property>

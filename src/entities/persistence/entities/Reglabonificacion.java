@@ -14,6 +14,9 @@ public class Reglabonificacion  implements java.io.Serializable {
      private int idreglaBonificacion;
      private String descripcion;
      private Integer diaApagar;
+     private Integer tipoBonificacion;
+     private Integer valor;
+     private Monto monto;     
      private boolean activo;
      private Set convenios = new HashSet(0);
 
@@ -67,6 +70,30 @@ public class Reglabonificacion  implements java.io.Serializable {
     
     public void setConvenios(Set convenios) {
         this.convenios = convenios;
+    }
+
+    public Integer getTipoBonificacion() {
+        return tipoBonificacion;
+    }
+
+    public void setTipoBonificacion(Integer tipoBonificacion) {
+        this.tipoBonificacion = tipoBonificacion;
+    }
+
+    public Integer getValor() {
+        return valor;
+    }
+
+    public void setValor(Integer valor) {
+        this.valor = valor;
+    }
+
+    public Monto getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Monto monto) {
+        this.monto = monto;
     }
 
     @Override

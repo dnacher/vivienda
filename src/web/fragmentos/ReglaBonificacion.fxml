@@ -15,10 +15,15 @@
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
             <TextField fx:id="TxtDescripcion" layoutX="193.0" layoutY="66.0" prefHeight="27.0" prefWidth="200.0" promptText="Descripcion" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Dia a Pagar" />
-            <TextField fx:id="TxtDiasaPagar" layoutX="193.0" layoutY="102.0" />
-            <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
-            <Label layoutX="148.0" layoutY="141.0" text="Activo" />
-            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="138.0" mnemonicParsing="false" selected="true" />
+            <TextField fx:id="TxtDiasaPagar" layoutX="193.0" layoutY="102.0" prefWidth="200.0" />
+            <Label layoutX="92.0" layoutY="141.0" text="Tipo Bonificacion" />
+            <ComboBox fx:id="cmbTipoBonificacion" layoutX="193.0" layoutY="137.0" prefWidth="200.0" />
+            <Label layoutX="155.0" layoutY="176.0" text="Valor" />
+            <TextField fx:id="txtValor" layoutX="193.0" layoutY="174.0" prefWidth="200.0" />
+            <Label layoutX="138.0" layoutY="211.0" text="Moneda" />
+            <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="209.0" prefWidth="200.0" />
+            <Label layoutX="146.0" layoutY="246.0" text="Activo" />
+            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="246.0" mnemonicParsing="false" selected="true" />
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#aksiSave" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#aksiBack" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>
