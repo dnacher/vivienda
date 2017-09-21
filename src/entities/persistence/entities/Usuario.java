@@ -15,6 +15,8 @@ public class Usuario  implements java.io.Serializable {
      private Tipousuario tipousuario;
      private String nombre;
      private String password;
+     private String hashedPassword;
+     private String salt;
      private boolean activo;
      private Set audits = new HashSet(0);
 
@@ -79,8 +81,21 @@ public class Usuario  implements java.io.Serializable {
         this.audits = audits;
     }
 
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
 
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
 }
 

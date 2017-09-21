@@ -76,6 +76,8 @@ public class UnidadBean implements UnidadLocal{
             tx.commit();
             session.close();
             correcto=true;
+            int ultId=lista.get(lista.size()-1).getIdUnidad()+1;
+            ConfiguracionControl.ActualizaIdXId(ConstantesEtiquetas.UNIDAD, ultId);
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());
@@ -195,7 +197,7 @@ public class UnidadBean implements UnidadLocal{
         return unidades;
     }
     
-    public int totalUnidades(String block, int torre){
+    public int totalUnidadesNoedificios(String block, int torre){
         int retorno=0;
         if(block.equals("") && torre==0){ 
             Query query = sc.useSession().createQuery("select count(*) from Unidad unidad");
@@ -208,7 +210,8 @@ public class UnidadBean implements UnidadLocal{
             if(block.equals("") && torre!=0){ 
                 Query query = sc.useSession().createQuery("select count(*) from Unidad unidad "
                                                         + "where unidad.torre=:laTorre "
-                                                        + "and unidad.activo=true");
+                                                        + "and unidad.activo=true "
+                                                        + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
                 query.setParameter("laTorre", torre);
                 Long count = (Long)query.uniqueResult();       
                 retorno=toIntExact(count);                
@@ -217,7 +220,8 @@ public class UnidadBean implements UnidadLocal{
             else if(!block.equals("") && torre==0){
                 Query query = sc.useSession().createQuery("select count(*) from Unidad unidad "
                                                         + "where unidad.block=:elBlock "
-                                                        + "and unidad.activo=true");
+                                                        + "and unidad.activo=true "
+                                                        + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
                 query.setParameter("elBlock", block);                
                 Long count = (Long)query.uniqueResult();       
                 retorno=toIntExact(count);                
@@ -227,7 +231,8 @@ public class UnidadBean implements UnidadLocal{
                 Query query = sc.useSession().createQuery("select count(*) from Unidad unidad "
                                                         + "where unidad.block=:elBlock "
                                                         + "and unidad.torre=:laTorre "
-                                                        + "and unidad.activo=true");
+                                                        + "and unidad.activo=true "
+                                                        + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
                 query.setParameter("elBlock", block);
                 query.setParameter("laTorre", torre);
                 Long count = (Long)query.uniqueResult();       
@@ -256,7 +261,8 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "SELECT gastoscomunes.unidad "
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
-                                                                  + "AND gastoscomunes.estado=:est)");
+                                                                  + "AND gastoscomunes.estado=:est) "
+                                       + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
             query.setParameter("est", 2);
             query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
             query.setParameter("elBlock", block);
@@ -276,7 +282,8 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "SELECT gastoscomunes.unidad "
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
-                                                                  + "AND gastoscomunes.estado=:est)");
+                                                                  + "AND gastoscomunes.estado=:est) "
+                                       + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
         query.setParameter("est", 2);
         query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         list= query.list();
@@ -300,7 +307,8 @@ public class UnidadBean implements UnidadLocal{
                                                                   + "FROM Gastoscomunes gastoscomunes "
                                                                   + "WHERE gastoscomunes.periodo=:periodo "
                                                                   + "AND (gastoscomunes.estado=:est "
-                                                                  + "OR gastoscomunes.estado=:est2))");
+                                                                  + "OR gastoscomunes.estado=:est2)) "
+                                       + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
         query.setParameter("est", Constantes.PAGO);
         query.setParameter("est2", Constantes.NO_PAGO);
         query.setParameter("periodo", ConfiguracionControl.traePeriodo(anio,mes));
@@ -344,7 +352,8 @@ public class UnidadBean implements UnidadLocal{
             consulta+="AND unidad.idUnidad NOT IN (SELECT gastoscomunes.unidad "
                                                                + "FROM Gastoscomunes gastoscomunes "
                                                                + "WHERE gastoscomunes.periodo=:periodo "
-                                                               + "AND gastoscomunes.estado=:est)";
+                                                               + "AND gastoscomunes.estado=:est) "
+                                                        + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
             Query query= sc.useSession().createQuery(consulta);
             if(!block.isEmpty()){
                 query.setParameter("block", block);
@@ -372,7 +381,8 @@ public class UnidadBean implements UnidadLocal{
                                                                       + "SELECT gastoscomunes.unidad "
                                                                       + "FROM Gastoscomunes gastoscomunes "
                                                                       + "WHERE gastoscomunes.periodo<:periodo "
-                                                                      + "AND gastoscomunes.estado=:est)");
+                                                                      + "AND gastoscomunes.estado=:est) "
+                                                        + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
 
             query.setParameter("est", Constantes.NO_PAGO);
             query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
@@ -413,7 +423,8 @@ public class UnidadBean implements UnidadLocal{
                              consulta+="SELECT gastoscomunes.unidad "
                                      + "FROM Gastoscomunes gastoscomunes "
                                      + "WHERE gastoscomunes.periodo<:periodo "
-                                     + "AND gastoscomunes.estado=:est)";
+                                     + "AND gastoscomunes.estado=:est) "
+                                     + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
         //Query query=session.createQuery(consulta);
         Query query=sc.useSession().createQuery(consulta);
         query.setParameter("est", Constantes.NO_PAGO);
@@ -459,7 +470,8 @@ public class UnidadBean implements UnidadLocal{
             }          
                              consulta+="SELECT convenio.unidad "
                                      + "FROM Convenio convenio "
-                                     + "WHERE convenio.activo=true)";
+                                     + "WHERE convenio.activo=true) "
+                                     + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
         Query query=sc.useSession().createQuery(consulta);
         if(!block.equals("")){
             query.setParameter("block", block);
@@ -484,7 +496,8 @@ public class UnidadBean implements UnidadLocal{
         Query query= sc.useSession().createQuery("SELECT sum(gc.monto_1) as total FROM Gastoscomunes gc "
                                        + "WHERE gc.unidad=:unidad "
                                        + "AND gc.periodo<:periodo "
-                                       + "AND gc.estado=:est)");
+                                       + "AND gc.estado=:est) "
+                                       + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
         query.setParameter("unidad", unidad);
         query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
         query.setParameter("est", Constantes.NO_PAGO);

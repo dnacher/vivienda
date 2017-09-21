@@ -14,8 +14,11 @@
         <property name="nombre" type="string">
             <column name="nombre" length="45" />
         </property>
-        <property name="password" type="string">
-            <column name="password" length="45" />
+        <property name="hashedPassword" type="string">
+            <column name="password" length="100" />
+        </property>
+        <property name="salt" type="string">
+            <column name="salt" length="100" />
         </property>
         <property name="activo" type="boolean">
             <column name="activo" not-null="true" />

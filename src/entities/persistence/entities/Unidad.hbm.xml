@@ -41,6 +41,9 @@
         <property name="activo" type="java.lang.Boolean">
             <column name="activo" />
         </property>
+        <property name="esEdificio" type="java.lang.Boolean">
+            <column name="esEdificio" />
+        </property>
         <set name="gastoscomuneses" table="gastoscomunes" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="unidad_idUnidad" not-null="true" />

@@ -42,5 +42,8 @@ public class ConstantesErrores {
     public static String PUERTA_NUMERICO="El numero de puerta debe ser un valor numerico";
     public static String SIN_TIPO_BONIFICACION="Verifique que existan tipo de bonbificaciones";
     public static String SOBREPASA_DEUDA="El monto sobrepasa el valor de la deuda";
-
+    public static String INGRESAR_PASS="Debe ingresar una contraseña.";
+    public static String INGRESAR_USU="Debe ingresar un nombre de usuario.";
+    public static String ERROR_USUARIO="Hubo un error con el usuario.";
+    public static String CONTACTE_ADMINISTRADOR="Contacte al administrador";
 }

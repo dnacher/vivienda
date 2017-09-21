@@ -123,7 +123,7 @@ public class Constantes {
     
     public static final String DECIMAL_FORMAT="####0.00";
     public static final String DECIMAL_FORMAT_SHORT="#.#";
-    public static final String PATH="C:/desarrollo/test.txt";
+    public static final String PATH="C:/Users/danie/test.txt";
     public static final String SOURCE_ENCUESTA_TEST="https://docs.google.com/forms/d/e/1FAIpQLSesUlcnT3x7pJUODIGWsis1czpXuUVOnMQnuT6DrI6zEOm_EQ/viewform?embedded=true";
     public static final String EXCEL="Libro Excel 97-2003";
     public static final String EXTENSION_EXCEL="*.xls";

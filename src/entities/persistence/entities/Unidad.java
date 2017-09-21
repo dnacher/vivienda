@@ -24,6 +24,7 @@ public class Unidad  implements java.io.Serializable {
      private Boolean propietarioInquilino;
      private Date fechaIngreso;
      private Boolean activo;
+     private Boolean esEdificio;
      private Set gastoscomuneses = new HashSet(0);
      private Set convenios = new HashSet(0);
      private Set otrosgastoses = new HashSet(0);
@@ -168,6 +169,15 @@ public class Unidad  implements java.io.Serializable {
     public void setTrabajos(Set trabajos) {
         this.trabajos = trabajos;
     }
+
+    public Boolean getEsEdificio() {
+        return esEdificio;
+    }
+
+    public void setEsEdificio(Boolean esEdificio) {
+        this.esEdificio = esEdificio;
+    }
+    
 
     @Override
     public String toString() {

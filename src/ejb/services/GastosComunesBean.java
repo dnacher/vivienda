@@ -52,7 +52,7 @@ public class GastosComunesBean implements GastosComunesLocal{
             tx.commit();
             sc.closeSession();
             int ind=lista.size()-1;
-            ultimoId = lista.get(ind).getId().getIdGastosComunes();
+            ultimoId = lista.get(ind).getId().getIdGastosComunes()+1;
             ConfiguracionControl.ActualizaIdXId(ConstantesEtiquetas.GASTOS_COMUNES,ultimoId);
             correcto = true;
         } catch (Exception ex) {

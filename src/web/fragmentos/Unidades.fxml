@@ -36,6 +36,8 @@
             <Label alignment="CENTER_RIGHT" layoutX="148.0" layoutY="389.0" text="Activo" />
             <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
             <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="390.0" mnemonicParsing="false" selected="true" />
+            <Label alignment="CENTER_RIGHT" layoutX="148.0" layoutY="424.0" text="Es Edificio" />
+            <CheckBox fx:id="ChkEsEdificio" layoutX="193.0" layoutY="425.0" mnemonicParsing="false" selected="false" />
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrarTabla" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>

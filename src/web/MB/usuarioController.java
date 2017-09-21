@@ -30,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
+import seguridad.Seguridad;
 
 
 public class usuarioController implements Initializable {
@@ -136,6 +137,7 @@ public class usuarioController implements Initializable {
                     usuario.setActivo(chkActivo.isSelected());
                     usuario.setNombre(txtNombre.getText());
                     usuario.setPassword(txtPass.getText());
+                    usuario=Seguridad.hashUserPassword(usuario);
                     UsuariosBean tb=new UsuariosBean();
                     tb.guardar(usuario);
                     cv.creaVentanaNotificacionCorrecto();

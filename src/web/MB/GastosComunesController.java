@@ -283,7 +283,7 @@ public class GastosComunesController implements Initializable {
     public void cargaGrafica(String block, int torre) {
         lblInfoPieChart.setText(ConstantesEtiquetas.VACIO);
         ub = new UnidadBean();
-        int total = ub.totalUnidades(block, torre);
+        int total = ub.totalUnidadesNoedificios(block, torre);
         int totalPago = total - unidadesGastosComunesNoPago.size();
         int totalNoPago = total - totalPago;
         ObservableList<PieChart.Data> lista = FXCollections.observableArrayList(

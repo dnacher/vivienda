@@ -59,6 +59,9 @@ public class UnidadesController implements Initializable {
     private CheckBox ChkActivo;
 
     @FXML
+    private CheckBox ChkEsEdificio;
+
+    @FXML
     private ComboBox<String> cmbPropietarioInquilino;
 
     @FXML
@@ -118,6 +121,28 @@ public class UnidadesController implements Initializable {
                 public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                     int i = (int) cmbHabitaciones.getValue();
                     lblHabitaciones.setText(String.valueOf(i));
+                }
+            });
+            ChkEsEdificio.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (ChkEsEdificio.isSelected()) {
+                        txtNombre.setDisable(true);
+                        txtApellido.setDisable(true);
+                        txtTelefono.setDisable(true);
+                        txtMail.setDisable(true);
+                        cmbFechaIngreso.setDisable(true);
+                        cmbPropietarioInquilino.setDisable(true);
+                        txtPuerta.setDisable(true);
+                    } else {
+                        txtNombre.setDisable(false);
+                        txtApellido.setDisable(false);
+                        txtTelefono.setDisable(false);
+                        txtMail.setDisable(false);
+                        cmbFechaIngreso.setDisable(false);
+                        cmbPropietarioInquilino.setDisable(false);
+                        txtPuerta.setDisable(false);
+                    }
                 }
             });
         } catch (ServiceException ex) {
@@ -266,6 +291,7 @@ public class UnidadesController implements Initializable {
         txtMail.setText(ConstantesEtiquetas.VACIO);
         txtTelefono.setText(ConstantesEtiquetas.VACIO);
         cmbFechaIngreso.setValue(null);
+        ChkEsEdificio.setSelected(false);
     }
 
     private void auto() {
@@ -279,19 +305,33 @@ public class UnidadesController implements Initializable {
         } else if (cmbTorre.getValue() == null) {
             i = 2;
         } else if (txtPuerta.getText().isEmpty()) {
-            i = 3;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 3;
+            }
         } else if (txtNombre.getText().isEmpty()) {
-            i = 4;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 4;
+            }
         } else if (txtApellido.getText().isEmpty()) {
-            i = 5;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 5;
+            }
         } else if (txtTelefono.getText().isEmpty()) {
-            i = 6;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 6;
+            }
         } else if (txtMail.getText().isEmpty()) {
-            i = 7;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 7;
+            }
         } else if (cmbPropietarioInquilino.getValue() == null) {
-            i = 8;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 8;
+            }
         } else if (cmbFechaIngreso.getValue() == null) {
-            i = 9;
+            if (!ChkEsEdificio.isSelected()) {
+                i = 9;
+            }
         }
         return i;
     }
@@ -301,41 +341,60 @@ public class UnidadesController implements Initializable {
         switch (validar()) {
             case 0:
                 try {
-                    if (ConfiguracionControl.esNumero(txtPuerta.getText())) {
-                        if (ConfiguracionControl.esNumero(txtTelefono.getText())) {
-                            Unidad unidad = new Unidad();
-                            unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
-                            unidad.setBlock(cmbBlock.getValue());
-                            unidad.setTorre(cmbTorre.getValue());
-                            unidad.setPuerta(Integer.valueOf(txtPuerta.getText()));
-                            unidad.setNombre(txtNombre.getText());
-                            unidad.setApellido(txtApellido.getText());
-                            unidad.setMail(txtMail.getText());
-                            unidad.setTelefono(Integer.valueOf(txtTelefono.getText()));
-                            unidad.setFechaIngreso(ConfiguracionControl.TraeFecha(cmbFechaIngreso.getValue()));
-                            unidad.setHabitaciones((int) cmbHabitaciones.getValue());
-                            if (cmbPropietarioInquilino.getValue().equals(ConstantesEtiquetas.PROPIETARIO)) {
-                                unidad.setPropietarioInquilino(true);
+                    if (!ChkEsEdificio.isSelected()) {
+                        if (ConfiguracionControl.esNumero(txtPuerta.getText())) {
+                            if (ConfiguracionControl.esNumero(txtTelefono.getText())) {
+                                Unidad unidad = new Unidad();
+                                unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
+                                unidad.setBlock(cmbBlock.getValue());
+                                unidad.setTorre(cmbTorre.getValue());
+                                unidad.setPuerta(Integer.valueOf(txtPuerta.getText()));
+                                unidad.setNombre(txtNombre.getText());
+                                unidad.setApellido(txtApellido.getText());
+                                unidad.setMail(txtMail.getText());
+                                unidad.setTelefono(Integer.valueOf(txtTelefono.getText()));
+                                unidad.setFechaIngreso(ConfiguracionControl.TraeFecha(cmbFechaIngreso.getValue()));
+                                unidad.setHabitaciones((int) cmbHabitaciones.getValue());
+                                unidad.setEsEdificio(ChkEsEdificio.isSelected());
+                                if (cmbPropietarioInquilino.getValue().equals(ConstantesEtiquetas.PROPIETARIO)) {
+                                    unidad.setPropietarioInquilino(true);
+                                } else {
+                                    unidad.setPropietarioInquilino(false);
+                                }
+                                UnidadValidationUnique uv = new UnidadValidationUnique();
+                                if (!uv.validarUnidad(unidad)) {
+                                    UnidadBean ub = new UnidadBean();
+                                    ub.guardar(unidad);
+                                    cv.creaVentanaNotificacionCorrecto();
+                                    recargarTabla();
+                                    clear();
+                                } else {
+                                    cv.creaVentanaNotificacionError(ConstantesErrores.YA_EXISTE_UNIDAD_APARTAMENTO);
+                                }
                             } else {
-                                unidad.setPropietarioInquilino(false);
-                            }
-                            UnidadValidationUnique uv = new UnidadValidationUnique();
-                            if (!uv.validarUnidad(unidad)) {
-                                UnidadBean ub = new UnidadBean();
-                                ub.guardar(unidad);
-                                cv.creaVentanaNotificacionCorrecto();
-                                recargarTabla();
-                                clear();
-                            } else {
-                                cv.creaVentanaNotificacionError(ConstantesErrores.YA_EXISTE_UNIDAD_APARTAMENTO);
+                                ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.TELEFONO_NUMERICO, Notification.WARNING_ICON));
                             }
                         } else {
-                            ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.TELEFONO_NUMERICO, Notification.WARNING_ICON));
+                            ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.PUERTA_NUMERICO, Notification.WARNING_ICON));
                         }
                     } else {
-                        ConfiguracionControl.notifier.notify(new Notification("Verificar", ConstantesErrores.PUERTA_NUMERICO, Notification.WARNING_ICON));
+                        Unidad unidad = new Unidad();
+                        unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
+                        unidad.setBlock(cmbBlock.getValue());
+                        unidad.setTorre(cmbTorre.getValue());                       
+                        unidad.setNombre(cmbBlock.getValue() + " " + cmbTorre.getValue());
+                        unidad.setEsEdificio(ChkEsEdificio.isSelected());
+                        UnidadValidationUnique uv = new UnidadValidationUnique();
+                        if (!uv.validarUnidad(unidad)) {
+                            UnidadBean ub = new UnidadBean();
+                            ub.guardar(unidad);
+                            cv.creaVentanaNotificacionCorrecto();
+                            recargarTabla();
+                            clear();
+                        } else {
+                            cv.creaVentanaNotificacionError(ConstantesErrores.YA_EXISTE_UNIDAD_APARTAMENTO);
+                        }
                     }
-
                 } catch (ServiceException ex) {
                     cv.creaVentanaNotificacionError(ex.getMessage());
                 } catch (Exception ex) {
