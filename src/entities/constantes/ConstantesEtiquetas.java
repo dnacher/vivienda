@@ -39,6 +39,10 @@ public class ConstantesEtiquetas {
     public static String TORRE_UPPER = "Torre";
     public static String PUERTA_UPPER = "Puerta";
     
+    /*
+    *        Columnas
+    */
+    public static String TIPO_BONIFICACION_COLUMNA = "tipoBonificacion";
     
     /*
     *        Informacion
@@ -47,6 +51,7 @@ public class ConstantesEtiquetas {
     public static String CUOTAS_APROX = "Numero de cuotas aproximadas: ";
     public static String CORRECTO="Correcto";
     public static String ERROR="Error";
+    public static String INFO="Información";
     
     public static String SECUENCIA_UPPER = "Secuencia";
     public static String HABITACIONES_UPPER = "Habitaciones";
@@ -68,6 +73,7 @@ public class ConstantesEtiquetas {
     public static String BLOCK = "Block";
     public static String TORRE = "Torre";
     public static String PUERTA = "Puerta";
+    public static String TIPO_BONIFICACION="Tipo Bonidificacion";
     public static String FECHA_INICIO = "Fecha de inicio";
     public static String FECHA_FIN = "Fecha fin";
     public static String OK = "tick";
@@ -128,6 +134,7 @@ public class ConstantesEtiquetas {
     public static String ID_CONCEPTO = "idconcepto";
     public static String ID_TIPO_DURACION = "idtipoDuracion";
     public static String DIA_A_PAGAR = "Dia a Pagar";
+    public static String VALOR="Valor";
     public static String DIAPAGAR = "diaApagar";
     public static String DECORATION_BUTTON_RESTORE = "decoration-button-restore";
     public static String ID_URGENCIA = "idurgencia";

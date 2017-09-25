@@ -18,7 +18,7 @@
             <TextField fx:id="TxtDiasaPagar" layoutX="193.0" layoutY="102.0" prefWidth="200.0" />
             <Label layoutX="92.0" layoutY="141.0" text="Tipo Bonificacion" />
             <ComboBox fx:id="cmbTipoBonificacion" layoutX="193.0" layoutY="137.0" prefWidth="200.0" />
-            <Label layoutX="155.0" layoutY="176.0" text="Valor" />
+            <Label fx:id="lblValor" layoutX="155.0" layoutY="176.0" text="Valor" />
             <TextField fx:id="txtValor" layoutX="193.0" layoutY="174.0" prefWidth="200.0" />
             <Label layoutX="138.0" layoutY="211.0" text="Moneda" />
             <ComboBox fx:id="cmbMoneda" layoutX="193.0" layoutY="209.0" prefWidth="200.0" />

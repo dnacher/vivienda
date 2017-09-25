@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -67,6 +70,9 @@ public class reglaBonificacionController implements Initializable {
     @FXML
     private TextField TxtDiasaPagar;
 
+    @FXML
+    private Label lblValor;
+
     public ObservableList<Reglabonificacion> lista;
 
     @Override
@@ -102,8 +108,13 @@ public class reglaBonificacionController implements Initializable {
         ControlVentana cv = new ControlVentana();
         if (!ConfiguracionControl.esNumero(TxtDiasaPagar.getText())) {
             ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.DIAS_A_PAGAR_NUMERICO, Notification.ERROR_ICON));
-        } else {
+        } else if (!ConfiguracionControl.esNumero(txtValor.getText())) {
+            ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.INFO, ConstantesErrores.VALOR_NUMERICO, Notification.ERROR_ICON));
+        } else if (Integer.valueOf(TxtDiasaPagar.getText()) > 0 && Integer.valueOf(TxtDiasaPagar.getText()) < 32) {
             try {
+                if (Integer.valueOf(TxtDiasaPagar.getText()) > 29) {
+                    ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.MESES_29, Notification.INFO_ICON));
+                }
                 Reglabonificacion reglaBonificacion = new Reglabonificacion();
                 int ind = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.REGLA_BONIFICACION);
                 reglaBonificacion.setIdreglaBonificacion(ind);
@@ -121,6 +132,8 @@ public class reglaBonificacionController implements Initializable {
             } catch (Exception ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
             }
+        } else {
+            ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.FECHA_INCORRECTA, Notification.ERROR_ICON));
         }
     }
 
@@ -128,8 +141,10 @@ public class reglaBonificacionController implements Initializable {
         switch (cmbTipoBonificacion.getValue()) {
             case "Valor":
                 return 0;
-            default:
+            case "Porcentaje":
                 return 1;
+            default:
+                return 2;
         }
     }
 
@@ -140,20 +155,28 @@ public class reglaBonificacionController implements Initializable {
     }
 
     public void cargaTabla() {
-        TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
-        TableColumn DiaAPagar = new TableColumn(ConstantesEtiquetas.DIA_A_PAGAR);
-        TableColumn Activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);
+        TableColumn descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+        TableColumn diaAPagar = new TableColumn(ConstantesEtiquetas.DIA_A_PAGAR);
+        TableColumn tipoBonidifcacion = new TableColumn(ConstantesEtiquetas.TIPO_BONIFICACION);
+        TableColumn valor = new TableColumn(ConstantesEtiquetas.VALOR);
+        TableColumn activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);
 
-        Descripcion.setMinWidth(150);
-        Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
+        descripcion.setMinWidth(150);
+        descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
 
-        DiaAPagar.setMinWidth(150);
-        DiaAPagar.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DIAPAGAR));
+        diaAPagar.setMinWidth(150);
+        diaAPagar.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DIAPAGAR));
 
-        Activo.setMinWidth(100);
-        Activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
+        tipoBonidifcacion.setMinWidth(50);
+        tipoBonidifcacion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TIPO_BONIFICACION_COLUMNA));
 
-        tableData.getColumns().addAll(Descripcion, DiaAPagar, Activo);
+        valor.setMinWidth(150);
+        valor.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.VALOR));
+
+        activo.setMinWidth(100);
+        activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
+
+        tableData.getColumns().addAll(descripcion, diaAPagar, tipoBonidifcacion, valor, activo);
         tableData.setItems(lista);
     }
 
@@ -178,9 +201,31 @@ public class reglaBonificacionController implements Initializable {
         List<String> tipoBonificaciones = new ArrayList<>();
         tipoBonificaciones.add("Valor");
         tipoBonificaciones.add("Porcentaje");
+        tipoBonificaciones.add("Habitaciones");
         ObservableList<String> montos = FXCollections.observableArrayList(tipoBonificaciones);
         cmbTipoBonificacion.setItems(montos);
         cmbTipoBonificacion.getSelectionModel().selectFirst();
+        cmbTipoBonificacion.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue ov, String t, String t1) {
+                if (cmbTipoBonificacion.getValue() != null) {
+                    switch (cmbTipoBonificacion.getValue()) {
+                        case "Valor":
+                            lblValor.setLayoutX(155.0);
+                            lblValor.setText("Valor");
+                            break;
+                        case "Porcentaje":
+                            lblValor.setLayoutX(155.0);
+                            lblValor.setText("%");
+                            break;
+                        case "Habitaciones":
+                            lblValor.setLayoutX(110.0);
+                            lblValor.setText("Habitaciones");
+                            break;
+                    }
+                }
+            }
+        });
     }
 
 }

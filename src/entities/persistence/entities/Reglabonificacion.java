@@ -101,9 +101,6 @@ public class Reglabonificacion  implements java.io.Serializable {
         return descripcion;
     }
 
-
-
-
 }
 
 
