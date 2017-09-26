@@ -45,6 +45,9 @@ public class ConstantesErrores {
     public static String TELEFONO_NUMERICO="El Telefono debe ser un valor numerico";
     public static String PUERTA_NUMERICO="El numero de puerta debe ser un valor numerico";
     public static String SIN_TIPO_BONIFICACION="Verifique que existan tipo de bonbificaciones";
+    public static String SIN_TIPO_CONVENIO="Debe elegir un tipo de convenio";
+    public static String SIN_CUOTA="Debe elegir un valor";
+    public static String SIN_FECHA="Debe elegir una fecha";
     public static String SOBREPASA_DEUDA="El monto sobrepasa el valor de la deuda";
     public static String INGRESAR_PASS="Debe ingresar una contraseña.";
     public static String INGRESAR_USU="Debe ingresar un nombre de usuario.";

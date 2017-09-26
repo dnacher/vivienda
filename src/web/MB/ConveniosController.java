@@ -37,8 +37,6 @@ import javafx.scene.text.Text;
 import web.animations.FadeInUpTransition;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
-import entities.persistence.entities.Tipobonificacion;
-import ejb.services.TipoBonificacionBean;
 import ejb.services.ConvenioBean;
 import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
@@ -88,9 +86,8 @@ public class ConveniosController implements Initializable {
     @FXML
     private Button btnStepAdelante;
 
-    @FXML
-    private ComboBox<Tipobonificacion> cmbTipoBonificacion;
-
+    /*  @FXML
+    private ComboBox<Tipobonificacion> cmbTipoBonificacion;*/
     @FXML
     private ComboBox<Integer> cmbTorre;
 
@@ -140,7 +137,6 @@ public class ConveniosController implements Initializable {
     Long deudaPesos = 0L;
     Monto monto = null;
     Reglabonificacion reglaBonificacion = null;
-    Tipobonificacion tipoBonificacion = null;
     double deudaOtraMoneda = 0;
     double cuotas = 0;
     int saldoInicial = 0;
@@ -159,9 +155,7 @@ public class ConveniosController implements Initializable {
         try {
             cargaComboMonto();
             cargaComboReglaBonificacion();
-            cargaComboTipoBonificacion();
             cmbReglaBonificacion.getSelectionModel().selectFirst();
-            cmbTipoBonificacion.getSelectionModel().selectFirst();
         } catch (ServiceException ex) {
             Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -272,7 +266,7 @@ public class ConveniosController implements Initializable {
         }
     }
 
-    public void cargaComboTipoBonificacion() throws ServiceException {
+    /*public void cargaComboTipoBonificacion() throws ServiceException {
         try {
             TipoBonificacionBean tb = new TipoBonificacionBean();
             List<Tipobonificacion> listaTipoBonificacion = tb.traerTodos();
@@ -288,7 +282,7 @@ public class ConveniosController implements Initializable {
         } catch (Exception ex) {
             ConfiguracionControl.notifier.notify(new Notification("Error", ConstantesErrores.SIN_TIPO_BONIFICACION, Notification.ERROR_ICON));
         }
-    }
+    }*/
 
     public void cargarComboTorre() {
         ObservableList<Integer> listaTorres;
@@ -495,35 +489,54 @@ public class ConveniosController implements Initializable {
 
     public void guardaConvenio() {
         ControlVentana cv = new ControlVentana();
+        boolean correcto=true;
         try {
-            Convenio convenio = new Convenio();
-            convenio.setActivo(chkActivo.isSelected());
-            convenio.setCuotas((int) cuotas);
-            if (!txtDescripcion.getText().isEmpty()) {
-                convenio.setDescripcion(txtDescripcion.getText());
-            }
-            if (cmbMoneda.getValue().getSimbolo().equals(ConstantesEtiquetas.PESOS)) {
-                double deu = deudaPesos;
-                convenio.setDeudaTotal((int) deu);
+            if (cmbTipoConvenio.getSelectionModel().getSelectedItem() != null) {
+                if (cmbTipoConvenio.getSelectionModel().getSelectedItem().equals("Limite Cuotas") || cmbTipoConvenio.getSelectionModel().getSelectedItem().equals("Limite Monto")) {
+                    if (txtTipoConvenio.getText().isEmpty()) {
+                        correcto=false;
+                        ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.SIN_CUOTA, Notification.ERROR_ICON));
+                    }
+                }else{
+                    if(cmbFechaTipoConvenio.getValue()==null){
+                        correcto=false;
+                        ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.SIN_FECHA, Notification.ERROR_ICON));
+                    }
+                }
+                if (correcto) {
+                    calculaTipoConveniotext();
+                    Convenio convenio = new Convenio();
+                    convenio.setActivo(chkActivo.isSelected());
+                    convenio.setCuotas((int) cuotas);
+                    if (!txtDescripcion.getText().isEmpty()) {
+                        convenio.setDescripcion(txtDescripcion.getText());
+                    }
+                    if (cmbMoneda.getValue().getSimbolo().equals(ConstantesEtiquetas.PESOS)) {
+                        double deu = deudaPesos;
+                        convenio.setDeudaTotal((int) deu);
+                    } else {
+                        convenio.setDeudaTotal((int) deudaOtraMoneda);
+                    }
+                    ConvenioId convenioId = new ConvenioId();
+                    convenioId.setUnidadIdUnidad(unidad.getIdUnidad());
+                    convenioId.setIdconvenio(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.CONVENIO_UPPER));
+                    convenio.setId(convenioId);
+                    convenio.setMonto(monto);
+                    convenio.setReglabonificacion(reglaBonificacion);
+                    convenio.setSaldoInicial(saldoInicial);
+                    convenio.setUnidad(unidad);
+                    ConvenioBean cb = new ConvenioBean();
+                    cb.guardar(convenio);
+                    ConfiguracionControl cc = new ConfiguracionControl();
+                    HashMap parameters = new HashMap();
+                    parameters.put(ConstantesEtiquetas.ID_USUARIO, convenio.getUnidad().getIdUnidad());
+                    cc.generarReporteConParametros(ConstantesEtiquetas.CONVENIO_IMPRESION, parameters);
+                    cv.creaVentanaNotificacionCorrecto();
+                } 
             } else {
-                convenio.setDeudaTotal((int) deudaOtraMoneda);
+                ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.SIN_TIPO_CONVENIO, Notification.ERROR_ICON));
             }
-            ConvenioId convenioId = new ConvenioId();
-            convenioId.setUnidadIdUnidad(unidad.getIdUnidad());
-            convenioId.setIdconvenio(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.CONVENIO_UPPER));
-            convenio.setId(convenioId);
-            convenio.setMonto(monto);
-            convenio.setReglabonificacion(reglaBonificacion);
-            convenio.setSaldoInicial(saldoInicial);
-            convenio.setTipobonificacion(tipoBonificacion);
-            convenio.setUnidad(unidad);
-            ConvenioBean cb = new ConvenioBean();
-            cb.guardar(convenio);
-            ConfiguracionControl cc = new ConfiguracionControl();
-            HashMap parameters = new HashMap();
-            parameters.put(ConstantesEtiquetas.ID_USUARIO, convenio.getUnidad().getIdUnidad());
-            cc.generarReporteConParametros(ConstantesEtiquetas.CONVENIO_IMPRESION, parameters);
-            cv.creaVentanaNotificacionCorrecto();
+
         } catch (ServiceException ex) {
             cv.creaVentanaNotificacionError(ex.getMessage());
             Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);

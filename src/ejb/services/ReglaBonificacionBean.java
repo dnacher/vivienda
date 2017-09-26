@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Reglabonificacion;
 import exceptions.ServiceException;
@@ -33,7 +34,7 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal {
             tx.commit();
             sc.closeSession();
             correcto = true;
-            ConfiguracionControl.ActualizaId("ReglaBonificacion");
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.REGLA_BONIFICACION);
         } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
@@ -72,7 +73,6 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal {
         try {
             Query query = sc.useSession().createQuery("from Reglabonificacion");
             List<Reglabonificacion> reglaBonificacion = query.list();
-            //session.close();        
             sc.closeSession();
             return reglaBonificacion;
         } catch (Exception ex) {
@@ -84,23 +84,23 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal {
         try {
             Query query = sc.useSession().createQuery("from Reglabonificacion rb where rb.habitaciones=:habitacion");
             query.setParameter("habitacion", habitacion);
-            Reglabonificacion reglaBonificacion = (Reglabonificacion)query.uniqueResult();
+            Reglabonificacion reglaBonificacion = (Reglabonificacion) query.uniqueResult();
             sc.closeSession();
             return reglaBonificacion;
         } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
-    
-    public boolean verificaUnicoHabitaciones(Reglabonificacion rb) throws ServiceException{
-        try {            
+
+    public boolean verificaUnicoHabitaciones(Reglabonificacion rb) throws ServiceException {
+        try {
             Query query = sc.useSession().createQuery("from Reglabonificacion rb where rb.habitaciones=:id");
             query.setParameter("id", rb.getHabitaciones());
-            Reglabonificacion reglaBonificacion = (Reglabonificacion)query.uniqueResult();
+            Reglabonificacion reglaBonificacion = (Reglabonificacion) query.uniqueResult();
             sc.closeSession();
-            if(reglaBonificacion!=null){
+            if (reglaBonificacion != null) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         } catch (Exception ex) {
@@ -113,7 +113,6 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal {
         Query query = sc.useSession().createQuery("from Reglabonificacion reglaBonificacion where reglaBonificacion.IdReglaBonificacion=:id");
         query.setParameter("id", Id);
         Reglabonificacion reglaBonificacion = (Reglabonificacion) query.uniqueResult();
-        //session.close();
         sc.closeSession();
         return reglaBonificacion;
     }

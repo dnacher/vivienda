@@ -15,6 +15,7 @@ public class Gastoscomunes  implements java.io.Serializable {
      private Unidad unidad;
      private Integer monto_1;
      private Boolean isBonificacion;
+     private Integer descuento;
      private Integer estado;
      private Date fechaPago;
      private Integer periodo;
@@ -115,6 +116,15 @@ public class Gastoscomunes  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public Integer getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(Integer descuento) {
+        this.descuento = descuento;
+    }
+     
 
 }
 

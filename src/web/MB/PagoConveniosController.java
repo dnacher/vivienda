@@ -146,13 +146,42 @@ public class PagoConveniosController implements Initializable {
         } catch (ServiceException ex) {
             Logger.getLogger(PagoConveniosController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cmbMonedaListener();
+        cmbMoneda.getSelectionModel().selectFirst();
+    }
 
+    public void cmbMonedaListener() {
         cmbMoneda.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 monedaCombo();
             }
 
+        });
+    }
+
+    public void listenerChkBonificacion() {
+        chkBonificacion.selectedProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                int montoAprox = ((convenio.getDeudaTotal() - convenio.getSaldoInicial()) / convenio.getCuotas());
+                if (chkBonificacion.isSelected() && convenio.getReglabonificacion() != null) {
+                    if (ConfiguracionControl.tieneBonificacion(convenio.getReglabonificacion())) {
+                        int descuento = ConfiguracionControl.calculaBonificacion(convenio.getReglabonificacion(), montoAprox);
+                        int total = montoAprox - descuento;
+                        if (total > montoAprox) {
+                            txtMonto.setText(String.valueOf(total));
+                        } else {
+                            txtMonto.setText("0");
+                        }
+
+                    } else {
+                        txtMonto.setText(String.valueOf(montoAprox));
+                    }
+                } else {
+                    txtMonto.setText(String.valueOf(montoAprox));
+                }
+            }
         });
         cmbMoneda.getSelectionModel().selectFirst();
     }
@@ -213,13 +242,14 @@ public class PagoConveniosController implements Initializable {
             unidad = tableGastosComunes.getSelectionModel().getSelectedItem();
             CuotaConvenioBean cb = new CuotaConvenioBean();
             convenio = cb.traerConvenioXUnidad(unidad);
+            listenerChkBonificacion();
             lblPeriodo.setText(String.valueOf(periodo));
             lblUnidadNombre.setText(unidad.getNombre() + ConstantesEtiquetas.ESPACIO
                     + unidad.getApellido());
             lblUnidadDireccion.setText(unidad.getBlock()
                     + unidad.getTorre() + "/ "
                     + unidad.getPuerta());
-            chkBonificacion.setSelected(tieneBonificacion());
+            chkBonificacion.setSelected(ConfiguracionControl.esBonificacion(convenio.getReglabonificacion()));
             cargaGraficaCuotas();
             calculaRestante();
             if (saldoRestante > 0) {
@@ -239,14 +269,14 @@ public class PagoConveniosController implements Initializable {
                 if (sugerido < saldoRestante) {
                     txtMonto.setText(String.valueOf(sugerido));
                 } else {
-                    txtMonto.setText(String.valueOf((int)saldoRestante));
+                    txtMonto.setText(String.valueOf((int) saldoRestante));
                 }
             } else if (convenio != null) {
                 int montoAprox = ((convenio.getDeudaTotal() - convenio.getSaldoInicial()) / convenio.getCuotas());
                 if (montoAprox < saldoRestante) {
                     txtMonto.setText(String.valueOf(montoAprox));
                 } else {
-                    txtMonto.setText(String.valueOf((int)saldoRestante));
+                    txtMonto.setText(String.valueOf((int) saldoRestante));
                 }
 
             }

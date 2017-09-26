@@ -15,12 +15,23 @@ public class ConstantesEtiquetas {
     *        Tablas
     */
     public static String UNIDAD = "Unidad";
+    public static String USUARIO = "Usuario";
     public static String OTROS_GASTOS = "OtrosGastos";
     public static String CUOTA_CONVENIO = "CuotaConvenio";
     public static String GASTOS_COMUNES = "GastosComunes";
     public static String TRABAJO_UPPER = "Trabajo";
     public static String MATERIAL_UPPER = "Material";
-    public static String HISTORIAL_TRABAJO = "HistorialTrabajo";    
+    public static String HISTORIAL_TRABAJO = "HistorialTrabajo";  
+    public static String HISTORIAL_MONTO = "HistorialMonto";  
+    public static String URGENCIA = "Urgencia";
+    public static String TIPO_DURACION = "TipoDuracion";
+    public static String TIPO_USUARIO = "TipoUsuario";
+    public static String TECNICO = "Tecnico";    
+    public static String REGLA_BONIFICACION = "ReglaBonificacion";
+    public static String MONTO = "Monto";
+    public static String LISTA_PRECIOS = "ListaPrecios";
+    public static String CONVENIO_UPPER = "Convenio";
+    public static String CONCEPTO = "Concepto";
     
     /*
     *        Formularios
@@ -62,8 +73,7 @@ public class ConstantesEtiquetas {
     public static String ESTADO = "estado";
     public static String ESTADO_UPPER = "Estado";
     public static String FECHA_INICIO_ESTADO = "fechaInicioEstado";
-    public static String FECHA_FIN_ESTADO = "fechaFinEstado";
-    public static String CONVENIO_UPPER = "Convenio";
+    public static String FECHA_FIN_ESTADO = "fechaFinEstado";    
     public static String LICENCIA = "Licencia";
     public static String BAJA = "Baja";
     public static String CONFIRMA_BAJA = "Confirmar Baja";
@@ -79,8 +89,7 @@ public class ConstantesEtiquetas {
     public static String OK = "tick";
     public static String CUOTAS = "Cuotas";
     public static String FECHA_UPPER = "Fecha";
-    public static String FECHA = "fecha";
-    public static String MONTO = "Monto";
+    public static String FECHA = "fecha";    
     public static String MONTO_1 = "Monto_1";
     public static String MONEDA = "Moneda";
     public static String PRONTO = "Pronto";
@@ -110,25 +119,17 @@ public class ConstantesEtiquetas {
     public static String INQUILINO = "Inquilino";
     public static String ADMINISTRACION = "Administracion";
     public static String BAJA_LICENCIA = "BajaLicencia";
-    public static String CARGAR_MASIVAS = "CargarMasivas";
-    public static String CONCEPTO = "Concepto";
+    public static String CARGAR_MASIVAS = "CargarMasivas";    
     public static String CONFIGURACION = "Configuracion";
     public static String CONVENIOS = "Convenios";
     public static String COTIZACION = "Cotizacion";
     public static String GRUPO = "Grupo";
-    public static String INICIO = "Inicio";
-    public static String LISTA_PRECIOS = "ListaPrecios";
+    public static String INICIO = "Inicio";    
     public static String MANTENIMIENTO = "Mantenimiento";
-    public static String PAGO_CONVENIOS = "PagoConvenios";
-    public static String REGLA_BONIFICACION = "ReglaBonificacion";
+    public static String PAGO_CONVENIOS = "PagoConvenios";    
     public static String REPORTES = "Reportes";
-    public static String SEGURIDAD = "Seguridad";
-    public static String TECNICO = "Tecnico";
-    public static String TIPO_DURACION = "TipoDuracion";
-    public static String TIPO_USUARIO = "TipoUsuario";
-    public static String UNIDADES = "Unidades";
-    public static String URGENCIA = "Urgencia";
-    public static String USUARIO = "Usuario";
+    public static String SEGURIDAD = "Seguridad";   
+    public static String UNIDADES = "Unidades";    
     public static String ID_UPPER = "Id";
     public static String ID = "id";
     public static String ID_CONCEPTO = "idconcepto";

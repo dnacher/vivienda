@@ -13,52 +13,42 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class GrupoBean implements GrupoLocal{
-    
-    //public Session session;
+public class GrupoBean implements GrupoLocal {
+
     SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
-    
-    public GrupoBean(){
-        //session = SessionConnection.getConnection().useSession();
-        sc=new SessionConnection();
-        //session = sc.useSession();
-        //tx= session.beginTransaction();
+
+    public GrupoBean() {
+        sc = new SessionConnection();
         tx = sc.useSession().beginTransaction();
-        correcto=false;
+        correcto = false;
     }
 
     @Override
     public boolean guardar(Grupo grupo) throws ServiceException {
-        correcto=false;
-        try{            
-            //session.save(grupo);
+        correcto = false;
+        try {
             sc.useSession().save(grupo);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
+            correcto = true;
             ConfiguracionControl.ActualizaId(ConstantesEtiquetas.GRUPO);
-        }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
         return correcto;
     }
 
     @Override
     public boolean eliminar(Grupo grupo) throws ServiceException {
-        try{
+        try {
             grupo.setActivo(false);
-            //session.update(grupo);
             sc.useSession().update(grupo);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -66,15 +56,12 @@ public class GrupoBean implements GrupoLocal{
 
     @Override
     public boolean modificar(Grupo grupo) throws ServiceException {
-        try{            
-            //session.update(grupo);
+        try {
             sc.useSession().update(grupo);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -82,27 +69,22 @@ public class GrupoBean implements GrupoLocal{
 
     @Override
     public List<Grupo> traerTodos() throws ServiceException {
-        try{
-            //Query query= session.createQuery("from Grupo");         
-            Query query= sc.useSession().createQuery("from Grupo");
-            List<Grupo> grupos=query.list();
-            //session.close();
+        try {
+            Query query = sc.useSession().createQuery("from Grupo");
+            List<Grupo> grupos = query.list();
             sc.closeSession();
             return grupos;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
     public Grupo traerGrupoXId(int Id) throws ServiceException {
-        //Query query= session.createQuery("from Grupo grupo where grupo.IdGrupo=:id");            
-        Query query= sc.useSession().createQuery("from Grupo grupo where grupo.IdGrupo=:id");
-        query.setParameter("id", Id);        
-        Grupo grupo=(Grupo) query.uniqueResult();
-        //session.close();
+        Query query = sc.useSession().createQuery("from Grupo grupo where grupo.IdGrupo=:id");
+        query.setParameter("id", Id);
+        Grupo grupo = (Grupo) query.uniqueResult();
         sc.closeSession();
         return grupo;
-    }    
+    }
 }

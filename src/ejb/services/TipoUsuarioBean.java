@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Tipousuario;
 import exceptions.ServiceException;
@@ -12,52 +13,44 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class TipoUsuarioBean implements TipoUsuariosLocal{
-    
-    //public Session session;
+public class TipoUsuarioBean implements TipoUsuariosLocal {
+
     SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
-    
-    public TipoUsuarioBean(){
-        //session = SessionConnection.getConnection().useSession();
-        sc=new SessionConnection();
-        //session = sc.useSession();        
-        //tx= session.beginTransaction();
-        tx= sc.useSession().beginTransaction();
-        correcto=false;
+
+    public TipoUsuarioBean() {
+        sc = new SessionConnection();
+        tx = sc.useSession().beginTransaction();
+        correcto = false;
     }
 
     @Override
     public boolean guardar(Tipousuario tipoUsuario) throws ServiceException {
-        correcto=false;
-        try{            
-            //session.save(tipoUsuario);
+        correcto = false;
+        try {
             sc.useSession().save(tipoUsuario);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-            ConfiguracionControl.ActualizaId("TipoUsuario");
-        }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
+            correcto = true;
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.TIPO_USUARIO);
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
         return correcto;
     }
 
     @Override
     public boolean eliminar(Tipousuario tipoUsuario) throws ServiceException {
-        try{
+        try {
             tipoUsuario.setActivo(false);
             //session.update(tipoUsuario);
             sc.useSession().update(tipoUsuario);
             tx.commit();
             //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -65,15 +58,14 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
 
     @Override
     public boolean modificar(Tipousuario tipoUsuario) throws ServiceException {
-        try{            
+        try {
             //session.update(tipoUsuario);
             sc.useSession().update(tipoUsuario);
             tx.commit();
             //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -81,15 +73,14 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
 
     @Override
     public List<Tipousuario> traerTodos() throws ServiceException {
-        try{
+        try {
             //Query query= session.createQuery("from Tipousuario");         
-            Query query= sc.useSession().createQuery("from Tipousuario");         
-            List<Tipousuario> tipoUsuario=query.list();
+            Query query = sc.useSession().createQuery("from Tipousuario");
+            List<Tipousuario> tipoUsuario = query.list();
             //session.close();        
             sc.closeSession();
             return tipoUsuario;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
@@ -97,12 +88,12 @@ public class TipoUsuarioBean implements TipoUsuariosLocal{
     @Override
     public Tipousuario traerTipousuarioXId(int Id) throws ServiceException {
         //Query query= session.createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");            
-        Query query= sc.useSession().createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");
-        query.setParameter("id", Id);        
-        Tipousuario tipoUsuario=(Tipousuario) query.uniqueResult();
+        Query query = sc.useSession().createQuery("from Tipousuario tipoUsuario where tipoUsuario.IdTipoUsuario=:id");
+        query.setParameter("id", Id);
+        Tipousuario tipoUsuario = (Tipousuario) query.uniqueResult();
         //session.close();
         sc.closeSession();
         return tipoUsuario;
     }
-    
+
 }

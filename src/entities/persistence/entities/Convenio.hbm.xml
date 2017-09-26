@@ -17,10 +17,7 @@
         </many-to-one>
         <many-to-one name="reglabonificacion" class="entities.persistence.entities.Reglabonificacion" fetch="select">
             <column name="reglaBonificacion_idreglaBonificacion" not-null="true" />
-        </many-to-one>
-        <many-to-one name="tipobonificacion" class="entities.persistence.entities.Tipobonificacion" fetch="select">
-            <column name="tipoBonificacion" />
-        </many-to-one>
+        </many-to-one>        
         <many-to-one name="unidad" class="entities.persistence.entities.Unidad" update="false" insert="false" fetch="select">
             <column name="unidad_idUnidad" not-null="true" />
         </many-to-one>

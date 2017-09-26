@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Permisosusuario;
 import entities.persistence.entities.Tipousuario;
@@ -41,7 +42,7 @@ public class UsuariosBean implements UsuariosLocal {
             tx.commit();
             sc.closeSession();
             correcto = true;
-            ConfiguracionControl.ActualizaId("Usuario");
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.USUARIO);
         } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }

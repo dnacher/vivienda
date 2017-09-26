@@ -4,7 +4,6 @@
   <schema-selection match-catalog="vivienda"/>
   <table-filter match-name="gastoscomunes"/>
   <table-filter match-name="estado"/>
-  <table-filter match-name="tipobonificacion"/>
   <table-filter match-name="tipoduracion"/>
   <table-filter match-name="urgencia"/>
   <table-filter match-name="grupo"/>

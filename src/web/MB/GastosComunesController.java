@@ -119,15 +119,17 @@ public class GastosComunesController implements Initializable {
     @FXML
     private DatePicker cmbFechaMes;
 
-    List<Configuracion> habitaciones;
-    List<Reglabonificacion> bonificaciones;
-    int periodo;
-    Unidad unidad;
-    UnidadBean ub;
-    GastosComunesBean gcb;
-    boolean guardado = false;
+    public List<Configuracion> habitaciones;
+    public List<Reglabonificacion> bonificaciones;
+    public int periodo;
+    public Unidad unidad;
+    public UnidadBean ub;
+    public GastosComunesBean gcb;
+    public boolean guardado = false;
     public ObservableList<Unidad> unidadesGastosComunesNoPago;
-    Notification.Notifier notifier = Notification.Notifier.INSTANCE;
+    public Notification.Notifier notifier = Notification.Notifier.INSTANCE;
+    public Reglabonificacion rb;
+    public Configuracion configuracion;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -137,16 +139,41 @@ public class GastosComunesController implements Initializable {
             cargarComboBlock();
             cargarComboTorre();
             cargaHoy();
-            ConfiguracionBean cb= new ConfiguracionBean();           
-            habitaciones=cb.traerValorHabitaciones();
+            ConfiguracionBean cb = new ConfiguracionBean();
+            habitaciones = cb.traerValorHabitaciones();
         } catch (ServiceException ex) {
             Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        listenerComboMoneda();
+        listenerChkBonificacion();
+    }
+
+    public void listenerComboMoneda() {
         cmbMoneda.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 monedaCombo();
+            }
+
+        });
+        cmbMoneda.getSelectionModel().selectFirst();
+    }
+
+    public void listenerChkBonificacion() {
+        chkBonificacion.selectedProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                if (configuracion != null && configuracion.getId() > 0) {                    
+                    if (rb == null) {
+                        txtMonto.setText(configuracion.getId().toString());
+                    } else if (chkBonificacion.isSelected() && rb!=null) {
+                        Integer total = configuracion.getId() - rb.getValor();
+                        txtMonto.setText(total.toString());
+                    }else{
+                        txtMonto.setText(configuracion.getId().toString());
+                    }
+                }
             }
 
         });
@@ -209,13 +236,10 @@ public class GastosComunesController implements Initializable {
             unidad = tableGastosComunes.getSelectionModel().getSelectedItem();
             if (unidad != null && unidad.getHabitaciones() != null) {
                 ConfiguracionBean cb = new ConfiguracionBean();
-                Configuracion configuracion = cb.traerConfiguracionXTabla(unidad.getHabitaciones().toString());
-                ReglaBonificacionBean rbb=new ReglaBonificacionBean();
-                Reglabonificacion rb=rbb.traeBonificacionesHabitaciones(unidad.getHabitaciones());
+                configuracion = cb.traerConfiguracionXTabla(unidad.getHabitaciones().toString());
+                ReglaBonificacionBean rbb = new ReglaBonificacionBean();
+                rb = rbb.traeBonificacionesHabitaciones(unidad.getHabitaciones());
                 chkBonificacion.setSelected(ConfiguracionControl.esBonificacion(rb));
-                if (configuracion != null && configuracion.getId() > 0) {
-                    txtMonto.setText(configuracion.getId().toString());
-                }
             }
             lblPeriodo.setText(String.valueOf(periodo));
             lblUnidadNombre.setText(unidad.getNombre() + ConstantesEtiquetas.ESPACIO
@@ -443,6 +467,9 @@ public class GastosComunesController implements Initializable {
                 gc.setMonto_1(Integer.valueOf(txtMonto.getText()));
                 gc.setPeriodo(periodo);
                 gc.setUnidad(unidad);
+                if (rb != null) {
+                    gc.setDescuento(rb.getValor());
+                }
                 gcb = new GastosComunesBean();
                 gcb.guardar(gc);
                 ConfiguracionControl cc = new ConfiguracionControl();
@@ -473,13 +500,13 @@ public class GastosComunesController implements Initializable {
     }
 
     private Integer traeHabitacionValor(Integer habitaciones) {
-        int valor=-1;
-        for(Configuracion c: this.habitaciones){
-            if(Objects.equals(Integer.valueOf(c.getNombreTabla()), habitaciones)){
-                valor= c.getId();
+        int valor = -1;
+        for (Configuracion c : this.habitaciones) {
+            if (Objects.equals(Integer.valueOf(c.getNombreTabla()), habitaciones)) {
+                valor = c.getId();
             }
         }
         return valor;
     }
-    
+
 }

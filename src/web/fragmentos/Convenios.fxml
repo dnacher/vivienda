@@ -51,8 +51,8 @@
             <TextField fx:id="txtSaldoInicial" layoutX="193.0" layoutY="138.0" />
             <Label layoutX="62.0" layoutY="177.0" maxWidth="100.0" minWidth="65.0" text="Regla bonificacion" />
             <ComboBox fx:id="cmbReglaBonificacion" layoutX="193.0" layoutY="174.0" prefWidth="177.0" />
-            <Label layoutX="62.0" layoutY="212.0" maxWidth="0.0" minWidth="94.0" prefWidth="94.0" text="Tipo bonificacion" />
-            <ComboBox fx:id="cmbTipoBonificacion" layoutX="193.0" layoutY="210.0" prefWidth="150.0" />
+<!--            <Label layoutX="62.0" layoutY="212.0" maxWidth="0.0" minWidth="94.0" prefWidth="94.0" text="Tipo bonificacion" />
+            <ComboBox fx:id="cmbTipoBonificacion" layoutX="193.0" layoutY="210.0" prefWidth="150.0" />-->
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneStep3" layoutY="91.0" prefHeight="560.0" prefWidth="1225.0">

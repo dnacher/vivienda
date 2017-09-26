@@ -48,19 +48,14 @@ public class ConfiguracionControl {
         Configuracion c;
         if (i != -1) {
             SessionConnection sc = new SessionConnection();
-            //Session session = sc.useSession();
-            // Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
             Query query = sc.useSession().createQuery("from Configuracion where NombreTabla=:name");
             query.setParameter("name", tabla);
             c = (Configuracion) query.uniqueResult();
             i++;
             c.setId(i);
-            // Transaction tx= session.beginTransaction(); 
             Transaction tx = sc.useSession().beginTransaction();
-            // session.update(c);
             sc.useSession().update(c);
             tx.commit();
-            //session.close();
             sc.closeSession();
         }
     }
@@ -176,7 +171,7 @@ public class ConfiguracionControl {
         return cuotas;
     }
 
-    public boolean tieneBonificacion(Reglabonificacion rb) {
+    public static boolean tieneBonificacion(Reglabonificacion rb) {
         boolean tiene = false;
         int day = Calendar.getInstance().get(Calendar.DATE);
         if (day <= rb.getDiaApagar()) {
@@ -233,14 +228,28 @@ public class ConfiguracionControl {
         }
         return mesEscrito;
     }
-    
-    public static boolean esBonificacion(Reglabonificacion rb){
-        boolean esBonificacion=false;
-        int dia=Calendar.getInstance().get(Calendar.DATE);
-        if(rb.getDiaApagar()==dia){
-            esBonificacion=true;
+
+    public static boolean esBonificacion(Reglabonificacion rb) {
+        boolean esBonificacion = false;
+        int dia = Calendar.getInstance().get(Calendar.DATE);
+        if (rb.getDiaApagar() == dia) {
+            esBonificacion = true;
         }
         return esBonificacion;
+    }
+
+    public static int calculaBonificacion(Reglabonificacion rb, int subTotal) {
+        int total = 0;
+        switch (rb.getTipoBonificacion()) {
+            case 0: //Valor
+            case 2: //Habitaciones
+                total = rb.getValor();
+                break;
+            case 1: //Porcentaje
+                total = subTotal * (rb.getValor() / 100);
+                break;
+        }
+        return total;
     }
     /*  public static void actualizaBonificacion(String tabla, int bonificacion){
         Configuracion c;

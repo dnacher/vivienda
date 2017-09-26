@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Otrosgastos;
 import exceptions.ServiceException;
@@ -12,49 +13,42 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class OtrosGastosBean implements OtrosGastosLocal{
-    
-    //public Session session;
+public class OtrosGastosBean implements OtrosGastosLocal {
+
     public Transaction tx;
     public boolean correcto;
     SessionConnection sc;
-    
-    public OtrosGastosBean(){
-        //session = SessionConnection.getConnection().useSession();
-        sc=new SessionConnection();
-        //session = sc.useSession();
-        tx= sc.useSession().beginTransaction();
-        correcto=false;
+
+    public OtrosGastosBean() {
+        sc = new SessionConnection();
+        tx = sc.useSession().beginTransaction();
+        correcto = false;
     }
 
     @Override
     public boolean guardar(Otrosgastos otrosGastos) throws ServiceException {
-        correcto=false;
-        try{            
+        correcto = false;
+        try {
             sc.useSession().save(otrosGastos);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-            ConfiguracionControl.ActualizaId("OtrosGastos");
+            correcto = true;
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.OTROS_GASTOS);
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
-        }
-        return correcto; 
+        return correcto;
     }
 
     @Override
     public boolean eliminar(Otrosgastos otrosGastos) throws ServiceException {
-        try{
+        try {
             otrosGastos.setActivo(false);
             sc.useSession().update(otrosGastos);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -62,14 +56,12 @@ public class OtrosGastosBean implements OtrosGastosLocal{
 
     @Override
     public boolean modificar(Otrosgastos otrosGastos) throws ServiceException {
-        try{            
+        try {
             sc.useSession().update(otrosGastos);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -77,26 +69,23 @@ public class OtrosGastosBean implements OtrosGastosLocal{
 
     @Override
     public List<Otrosgastos> traerTodos() throws ServiceException {
-        try{
-            Query query= sc.useSession().createQuery("from Otrosgastos");         
-            List<Otrosgastos> otrosGastos=query.list();
-            //session.close();        
+        try {
+            Query query = sc.useSession().createQuery("from Otrosgastos");
+            List<Otrosgastos> otrosGastos = query.list();
             sc.closeSession();
             return otrosGastos;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
     public Otrosgastos traerOtrosgastosXId(int Id) throws ServiceException {
-        Query query= sc.useSession().createQuery("from Otrosgastos otrosGastos where otrosGastos.IdOtrosgastos=:id");            
-        query.setParameter("id", Id);        
-        Otrosgastos otrosGastos=(Otrosgastos) query.uniqueResult();
-        //session.close();
+        Query query = sc.useSession().createQuery("from Otrosgastos otrosGastos where otrosGastos.IdOtrosgastos=:id");
+        query.setParameter("id", Id);
+        Otrosgastos otrosGastos = (Otrosgastos) query.uniqueResult();
         sc.closeSession();
         return otrosGastos;
     }
-    
+
 }

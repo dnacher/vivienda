@@ -170,7 +170,7 @@ public class reglaBonificacionController implements Initializable {
                     boolean unico = false;
                     if (cmbTipoBonificacion.getValue().equals("Habitaciones")) {
                         ReglaBonificacionBean reg = new ReglaBonificacionBean();
-                        unico = reg.verificaUnicoHabitaciones(rb);
+                        unico = reg.verificaUnicoHabitaciones(reglaBonificacion);
                     }
                     if (unico) {
                         int ind = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.REGLA_BONIFICACION);

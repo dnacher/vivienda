@@ -95,7 +95,6 @@ public class ImportarDatosExcel {
             case 9:
                 uni.setMail(dato);
                 contador++;
-                System.out.println("mail>>>>>>" + dato);
                 break;
             case 10:
                 if (dato.equals("1")) {
@@ -105,8 +104,8 @@ public class ImportarDatosExcel {
                 }
                 contador++;
                 break;
-            case 11:
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            case 11:                
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 uni.setFechaIngreso(formatter.parse(dato));
                 contador++;
                 break;

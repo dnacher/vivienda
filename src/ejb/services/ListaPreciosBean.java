@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Listaprecios;
 import exceptions.ServiceException;
@@ -14,15 +15,12 @@ import org.hibernate.Transaction;
  */
 public class ListaPreciosBean implements ListaPreciosLocal{
     
-    //public Session session;
     public Transaction tx;
     public boolean correcto;
     SessionConnection sc;
     
     public ListaPreciosBean(){
-        //session = SessionConnection.getConnection().useSession();
         sc=new SessionConnection();
-        //session = sc.useSession();
         tx= sc.useSession().beginTransaction();
         correcto=false;
     }
@@ -33,10 +31,9 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         try{            
             sc.useSession().save(listaPrecios);
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto=true;
-            ConfiguracionControl.ActualizaId("ListaPrecios");
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.LISTA_PRECIOS);
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
@@ -50,7 +47,6 @@ public class ListaPreciosBean implements ListaPreciosLocal{
             listaPrecios.setActivo(false);
             sc.useSession().update(listaPrecios);
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto=true;
         }
@@ -65,7 +61,6 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         try{            
             sc.useSession().update(listaPrecios);
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto=true;
         }
@@ -80,7 +75,6 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         try{
             Query query= sc.useSession().createQuery("from Listaprecios");         
             List<Listaprecios> listaPrecios=query.list();
-            //session.close();        
             sc.closeSession();
             return listaPrecios;
         }
@@ -94,7 +88,6 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         Query query= sc.useSession().createQuery("from Listaprecios listaPrecios where listaPrecios.IdListaprecios=:id");            
         query.setParameter("id", Id);        
         Listaprecios listaPrecios=(Listaprecios) query.uniqueResult();
-        //session.close();
         sc.closeSession();
         return listaPrecios;
     }

@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Trabajo;
 import entities.persistence.entities.Trabajoxmaterial;
@@ -17,16 +18,12 @@ import org.hibernate.Transaction;
  */
 public class TrabajoBean implements TrabajoLocal{
     
-    //public Session session;
     public Transaction tx;
     public boolean correcto;
     SessionConnection sc;
     
     public TrabajoBean(){
-        //session = SessionConnection.getConnection().useSession();
         sc=new SessionConnection();
-        //session = sc.useSession();
-        //tx= session.beginTransaction();
         tx= sc.useSession().beginTransaction();
         correcto=false;
     }
@@ -35,13 +32,11 @@ public class TrabajoBean implements TrabajoLocal{
     public boolean guardar(Trabajo trabajo) throws ServiceException {
         correcto=false;
         try{            
-            //session.save(trabajo);
             sc.useSession().save(trabajo);
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto=true;
-            ConfiguracionControl.ActualizaId("Trabajo");
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.TRABAJO_UPPER);
         }
         catch(Exception ex){
             throw new ServiceException(ex.getMessage());                    
@@ -51,11 +46,9 @@ public class TrabajoBean implements TrabajoLocal{
 
     @Override
     public boolean modificar(Trabajo trabajo) throws ServiceException {
-        try{            
-            //session.update(trabajo);
+        try{       
             sc.useSession().update(trabajo);
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto=true;
         }

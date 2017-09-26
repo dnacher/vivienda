@@ -14,7 +14,6 @@ public class Convenio  implements java.io.Serializable {
      private ConvenioId id;
      private Monto monto;
      private Reglabonificacion reglabonificacion;
-     private Tipobonificacion tipobonificacion;
      private Unidad unidad;
      private Integer deudaTotal;
      private Integer cuotas;
@@ -27,11 +26,10 @@ public class Convenio  implements java.io.Serializable {
     }
 
 	
-    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Tipobonificacion tipobonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo) {
+    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo) {
        this.id = id;
        this.monto = monto;
        this.reglabonificacion = reglabonificacion;
-       this.tipobonificacion = tipobonificacion;
        this.unidad = unidad;
        this.deudaTotal = deudaTotal;
        this.cuotas = cuotas;
@@ -40,11 +38,10 @@ public class Convenio  implements java.io.Serializable {
        this.activo = activo;
     }
     
-    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Tipobonificacion tipobonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo, Set cuotaconvenios) {
+    public Convenio(ConvenioId id, Monto monto, Reglabonificacion reglabonificacion, Unidad unidad, Integer deudaTotal, Integer cuotas, Integer saldoInicial, String descripcion, Boolean activo, Set cuotaconvenios) {
        this.id = id;
        this.monto = monto;
        this.reglabonificacion = reglabonificacion;
-       this.tipobonificacion = tipobonificacion;
        this.unidad = unidad;
        this.deudaTotal = deudaTotal;
        this.cuotas = cuotas;
@@ -74,13 +71,6 @@ public class Convenio  implements java.io.Serializable {
     
     public void setReglabonificacion(Reglabonificacion reglabonificacion) {
         this.reglabonificacion = reglabonificacion;
-    }
-    public Tipobonificacion getTipobonificacion() {
-        return this.tipobonificacion;
-    }
-    
-    public void setTipobonificacion(Tipobonificacion tipobonificacion) {
-        this.tipobonificacion = tipobonificacion;
     }
     public Unidad getUnidad() {
         return this.unidad;

@@ -24,6 +24,9 @@
         <property name="isBonificacion" type="java.lang.Boolean">
             <column name="isBonificacion" />
         </property>
+        <property name="descuento" type="java.lang.Integer">
+            <column name="descuento" />
+        </property>
         <property name="estado" type="java.lang.Integer">
             <column name="estado" />
         </property>

@@ -1,6 +1,7 @@
 package ejb.services;
 
 import UtilsGeneral.ConfiguracionControl;
+import entities.constantes.ConstantesEtiquetas;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Concepto;
 import exceptions.ServiceException;
@@ -12,52 +13,42 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class ConceptoBean implements ConceptoLocal{
-    
-    //public Session session;
+public class ConceptoBean implements ConceptoLocal {
+
     SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
-    
-    public ConceptoBean(){
-        sc=new SessionConnection();
-        //session = sc.useSession();
-        //session = SessionConnection.getConnection().useSession();
-        //tx= session.beginTransaction();
-        tx= sc.useSession().beginTransaction();
-        correcto=false;
+
+    public ConceptoBean() {
+        sc = new SessionConnection();
+        tx = sc.useSession().beginTransaction();
+        correcto = false;
     }
 
     @Override
     public boolean guardar(Concepto concepto) throws ServiceException {
-        correcto=false;
-        try{            
-            //session.save(concepto);
+        correcto = false;
+        try {
             sc.useSession().save(concepto);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-            ConfiguracionControl.ActualizaId("Concepto");
-        }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
+            correcto = true;
+            ConfiguracionControl.ActualizaId(ConstantesEtiquetas.CONCEPTO);
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
         return correcto;
     }
 
     @Override
     public boolean eliminar(Concepto concepto) throws ServiceException {
-        try{
+        try {
             concepto.setActivo(false);
-            //session.update(concepto);
             sc.useSession().update(concepto);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -65,15 +56,13 @@ public class ConceptoBean implements ConceptoLocal{
 
     @Override
     public boolean modificar(Concepto concepto) throws ServiceException {
-        try{            
-            //session.update(concepto);
+        try {
             sc.useSession().update(concepto);
             tx.commit();
             //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -81,28 +70,23 @@ public class ConceptoBean implements ConceptoLocal{
 
     @Override
     public List<Concepto> traerTodos() throws ServiceException {
-        try{
-            //Query query= session.createQuery("from Concepto");         
-            Query query= sc.useSession().createQuery("from Concepto");
-            List<Concepto> conceptos=query.list();
-            //session.close();        
+        try {
+            Query query = sc.useSession().createQuery("from Concepto");
+            List<Concepto> conceptos = query.list();
             sc.closeSession();
             return conceptos;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
     public Concepto traerConceptoXId(int Id) throws ServiceException {
-        //Query query= session.createQuery("from Concepto concepto where concepto.IdConcepto=:id");            
-        Query query= sc.useSession().createQuery("from Concepto concepto where concepto.IdConcepto=:id");
-        query.setParameter("id", Id);        
-        Concepto concepto=(Concepto) query.uniqueResult();
-        //session.close();        
+        Query query = sc.useSession().createQuery("from Concepto concepto where concepto.IdConcepto=:id");
+        query.setParameter("id", Id);
+        Concepto concepto = (Concepto) query.uniqueResult();
         sc.closeSession();
         return concepto;
     }
-    
+
 }

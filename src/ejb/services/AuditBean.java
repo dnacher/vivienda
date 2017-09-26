@@ -19,7 +19,6 @@ public class AuditBean implements AuditLocal{
     public AuditBean(){
         SessionConnection sc=new SessionConnection();
         session = sc.useSession();
-        //session = SessionConnection.getConnection().useSession();
         tx= session.beginTransaction();
         correcto=false;
     }
