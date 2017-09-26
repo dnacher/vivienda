@@ -28,6 +28,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -73,7 +74,15 @@ public class reglaBonificacionController implements Initializable {
     @FXML
     private Label lblValor;
 
+    @FXML
+    private Label lblHabitaciones;
+
+    @FXML
+    private Slider cmbHabitaciones;
+
     public ObservableList<Reglabonificacion> lista;
+    Reglabonificacion rb;
+    public boolean editar = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,19 +96,49 @@ public class reglaBonificacionController implements Initializable {
         } catch (ServiceException ex) {
             Logger.getLogger(reglaBonificacionController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cmbHabitaciones.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int i = (int) cmbHabitaciones.getValue();
+                lblHabitaciones.setText(String.valueOf(i));
+            }
+        });
     }
 
     private void clear() {
-        TxtDiasaPagar.clear();
+        TxtDescripcion.setDisable(false);
         TxtDescripcion.clear();
+        TxtDiasaPagar.clear();
+        txtValor.clear();
+        cmbHabitaciones.setValue((double) 1);
     }
 
     @FXML
     private void aksiNew(ActionEvent event) {
+        if (tableData.getSelectionModel().getSelectedItem() != null) {
+            rb = tableData.getSelectionModel().getSelectedItem();
+            if (rb.getHabitaciones() != null && rb.getHabitaciones() > 0) {
+                editar = true;
+                TxtDescripcion.setText(rb.getDescripcion());
+                TxtDiasaPagar.setText(rb.getDiaApagar().toString());
+                cmbTipoBonificacion.setValue(traeValorTipoBonificacion(rb.getTipoBonificacion()));
+                txtValor.setText(rb.getValor().toString());
+                cmbMoneda.setValue(rb.getMonto());
+                ChkActivo.setSelected(true);
+                cmbHabitaciones.setValue((double) rb.getHabitaciones());
+            } else {
+                editar = false;
+            }
+        } else {
+            editar = false;
+        }
+        TxtDescripcion.setDisable(editar);
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
-            clear();
+            if (!editar) {
+                clear();
+            }
         });
     }
 
@@ -116,20 +155,37 @@ public class reglaBonificacionController implements Initializable {
                     ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.MESES_29, Notification.INFO_ICON));
                 }
                 Reglabonificacion reglaBonificacion = new Reglabonificacion();
-                int ind = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.REGLA_BONIFICACION);
-                reglaBonificacion.setIdreglaBonificacion(ind);
                 reglaBonificacion.setDescripcion(TxtDescripcion.getText());
                 reglaBonificacion.setDiaApagar(Integer.valueOf(TxtDiasaPagar.getText()));
                 reglaBonificacion.setTipoBonificacion(traeTipoBonificacion());
                 reglaBonificacion.setValor(Integer.valueOf(txtValor.getText()));
                 reglaBonificacion.setMonto(cmbMoneda.getValue());
                 reglaBonificacion.setActivo(ChkActivo.isSelected());
-                ReglaBonificacionBean rb = new ReglaBonificacionBean();
-                rb.guardar(reglaBonificacion);
+                reglaBonificacion.setHabitaciones((int) cmbHabitaciones.getValue());
+                ReglaBonificacionBean rbb = new ReglaBonificacionBean();
+                if (editar) {
+                    reglaBonificacion.setIdreglaBonificacion(rb.getIdreglaBonificacion());
+                    rbb.modificar(reglaBonificacion);
+                } else {
+                    boolean unico = false;
+                    if (cmbTipoBonificacion.getValue().equals("Habitaciones")) {
+                        ReglaBonificacionBean reg = new ReglaBonificacionBean();
+                        unico = reg.verificaUnicoHabitaciones(rb);
+                    }
+                    if (unico) {
+                        int ind = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.REGLA_BONIFICACION);
+                        reglaBonificacion.setIdreglaBonificacion(ind);
+                        rbb.guardar(reglaBonificacion);
+                    } else {
+                        ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.YA_EXISTE_HABITACION, Notification.ERROR_ICON));
+                    }
+
+                }
                 cv.creaVentanaNotificacionCorrecto();
                 clear();
                 llenaTabla();
-            } catch (Exception ex) {
+                aksiBack(null);
+            } catch (ServiceException | NumberFormatException ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
             }
         } else {
@@ -145,6 +201,16 @@ public class reglaBonificacionController implements Initializable {
                 return 1;
             default:
                 return 2;
+        }
+    }
+
+    public String traeValorTipoBonificacion(int tipo) {
+        if (tipo == 0) {
+            return "Valor";
+        } else if (tipo == 1) {
+            return "Porcentaje";
+        } else {
+            return "Habitaciones";
         }
     }
 
@@ -218,10 +284,10 @@ public class reglaBonificacionController implements Initializable {
                             lblValor.setLayoutX(155.0);
                             lblValor.setText("%");
                             break;
-                        case "Habitaciones":
+                        /*case "Habitaciones":
                             lblValor.setLayoutX(110.0);
                             lblValor.setText("Habitaciones");
-                            break;
+                            break;*/
                     }
                 }
             }

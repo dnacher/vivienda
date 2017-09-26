@@ -12,49 +12,43 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class ReglaBonificacionBean implements ReglaBonificacionLocal{
-    
+public class ReglaBonificacionBean implements ReglaBonificacionLocal {
+
     //public Session session;
     public Transaction tx;
     public boolean correcto;
     SessionConnection sc;
-    
-    public ReglaBonificacionBean(){
-        //session = SessionConnection.getConnection().useSession();
-        sc=new SessionConnection();
-        //session = sc.useSession();
-        tx= sc.useSession().beginTransaction();
-        correcto=false;
+
+    public ReglaBonificacionBean() {
+        sc = new SessionConnection();
+        tx = sc.useSession().beginTransaction();
+        correcto = false;
     }
 
     @Override
     public boolean guardar(Reglabonificacion reglaBonificacion) throws ServiceException {
-        correcto=false;
-        try{            
+        correcto = false;
+        try {
             sc.useSession().save(reglaBonificacion);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
+            correcto = true;
             ConfiguracionControl.ActualizaId("ReglaBonificacion");
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());                    
-        }
-        return correcto; 
+        return correcto;
     }
 
     @Override
     public boolean eliminar(Reglabonificacion reglaBonificacion) throws ServiceException {
-        try{
+        try {
             reglaBonificacion.setActivo(false);
             sc.useSession().update(reglaBonificacion);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -62,14 +56,12 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
 
     @Override
     public boolean modificar(Reglabonificacion reglaBonificacion) throws ServiceException {
-        try{            
+        try {
             sc.useSession().update(reglaBonificacion);
             tx.commit();
-            //session.close();
             sc.closeSession();
-            correcto=true;
-        }
-        catch(Exception ex){
+            correcto = true;
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
         return correcto;
@@ -77,26 +69,53 @@ public class ReglaBonificacionBean implements ReglaBonificacionLocal{
 
     @Override
     public List<Reglabonificacion> traerTodos() throws ServiceException {
-        try{
-            Query query= sc.useSession().createQuery("from Reglabonificacion");         
-            List<Reglabonificacion> reglaBonificacion=query.list();
+        try {
+            Query query = sc.useSession().createQuery("from Reglabonificacion");
+            List<Reglabonificacion> reglaBonificacion = query.list();
             //session.close();        
             sc.closeSession();
             return reglaBonificacion;
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
         }
-        catch(Exception ex){
+    }
+
+    public Reglabonificacion traeBonificacionesHabitaciones(int habitacion) throws ServiceException {
+        try {
+            Query query = sc.useSession().createQuery("from Reglabonificacion rb where rb.habitaciones=:habitacion");
+            query.setParameter("habitacion", habitacion);
+            Reglabonificacion reglaBonificacion = (Reglabonificacion)query.uniqueResult();
+            sc.closeSession();
+            return reglaBonificacion;
+        } catch (Exception ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+    
+    public boolean verificaUnicoHabitaciones(Reglabonificacion rb) throws ServiceException{
+        try {            
+            Query query = sc.useSession().createQuery("from Reglabonificacion rb where rb.habitaciones=:id");
+            query.setParameter("id", rb.getHabitaciones());
+            Reglabonificacion reglaBonificacion = (Reglabonificacion)query.uniqueResult();
+            sc.closeSession();
+            if(reglaBonificacion!=null){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (Exception ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
     public Reglabonificacion traerReglabonificacionXId(int Id) throws ServiceException {
-        Query query= sc.useSession().createQuery("from Reglabonificacion reglaBonificacion where reglaBonificacion.IdReglaBonificacion=:id");            
-        query.setParameter("id", Id);        
-        Reglabonificacion reglaBonificacion=(Reglabonificacion) query.uniqueResult();
+        Query query = sc.useSession().createQuery("from Reglabonificacion reglaBonificacion where reglaBonificacion.IdReglaBonificacion=:id");
+        query.setParameter("id", Id);
+        Reglabonificacion reglaBonificacion = (Reglabonificacion) query.uniqueResult();
         //session.close();
         sc.closeSession();
         return reglaBonificacion;
     }
-    
+
 }

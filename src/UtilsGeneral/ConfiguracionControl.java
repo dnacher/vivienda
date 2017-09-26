@@ -233,6 +233,15 @@ public class ConfiguracionControl {
         }
         return mesEscrito;
     }
+    
+    public static boolean esBonificacion(Reglabonificacion rb){
+        boolean esBonificacion=false;
+        int dia=Calendar.getInstance().get(Calendar.DATE);
+        if(rb.getDiaApagar()==dia){
+            esBonificacion=true;
+        }
+        return esBonificacion;
+    }
     /*  public static void actualizaBonificacion(String tabla, int bonificacion){
         Configuracion c;
             /*SessionFactory sf= NewHibernateUtil.getSessionFactory();

@@ -5,6 +5,7 @@ import control.ControlVentana;
 import ejb.services.ConfiguracionBean;
 import ejb.services.GastosComunesBean;
 import ejb.services.MontoBean;
+import ejb.services.ReglaBonificacionBean;
 import ejb.services.UnidadBean;
 import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
@@ -16,6 +17,7 @@ import entities.persistence.entities.Monto;
 import entities.persistence.entities.Unidad;
 import entities.persistence.entities.Gastoscomunes;
 import entities.persistence.entities.GastoscomunesId;
+import entities.persistence.entities.Reglabonificacion;
 import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
 import java.math.RoundingMode;
@@ -118,6 +120,7 @@ public class GastosComunesController implements Initializable {
     private DatePicker cmbFechaMes;
 
     List<Configuracion> habitaciones;
+    List<Reglabonificacion> bonificaciones;
     int periodo;
     Unidad unidad;
     UnidadBean ub;
@@ -134,8 +137,8 @@ public class GastosComunesController implements Initializable {
             cargarComboBlock();
             cargarComboTorre();
             cargaHoy();
-            ConfiguracionBean cb= new ConfiguracionBean();            
-            habitaciones=cb.traerValorHabitaciones();            
+            ConfiguracionBean cb= new ConfiguracionBean();           
+            habitaciones=cb.traerValorHabitaciones();
         } catch (ServiceException ex) {
             Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -207,6 +210,9 @@ public class GastosComunesController implements Initializable {
             if (unidad != null && unidad.getHabitaciones() != null) {
                 ConfiguracionBean cb = new ConfiguracionBean();
                 Configuracion configuracion = cb.traerConfiguracionXTabla(unidad.getHabitaciones().toString());
+                ReglaBonificacionBean rbb=new ReglaBonificacionBean();
+                Reglabonificacion rb=rbb.traeBonificacionesHabitaciones(unidad.getHabitaciones());
+                chkBonificacion.setSelected(ConfiguracionControl.esBonificacion(rb));
                 if (configuracion != null && configuracion.getId() > 0) {
                     txtMonto.setText(configuracion.getId().toString());
                 }
@@ -220,6 +226,7 @@ public class GastosComunesController implements Initializable {
             paneGastosComunes.setOpacity(0);
             new FadeInUpTransition(paneFormulario).play();
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
         }
     }

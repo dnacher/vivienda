@@ -37,6 +37,7 @@ public class ConstantesErrores {
     public static String VALOR_NUMERICO = "El campo valor debe ser numerico";
     public static String MESES_29 = "Si el mes no tiene el dia especificado se tomara el último día como bonificación";
     public static String FECHA_INCORRECTA= "El valor debe ser entre 1 y 31";
+    public static String YA_EXISTE_HABITACION= "Ya existe valor para habitaciones";
     public static String PASS_NO_COINCIDE = "Las contraseñas no coinciden";
     public static String DEBE_SELCCIONAR_VALOR="Debe Seleccionar una fecha para Cerrar";
     public static String TODOS_LOS_DATOS_PROCESADOS="Todos los datos para este mes ya estan procesados";
