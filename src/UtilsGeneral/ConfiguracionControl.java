@@ -231,10 +231,13 @@ public class ConfiguracionControl {
 
     public static boolean esBonificacion(Reglabonificacion rb) {
         boolean esBonificacion = false;
-        int dia = Calendar.getInstance().get(Calendar.DATE);
-        if (rb.getDiaApagar() == dia) {
-            esBonificacion = true;
-        }
+        if (rb!= null) {
+            int dia = Calendar.getInstance().get(Calendar.DATE);
+            if (rb.getDiaApagar() <= dia) {
+                esBonificacion = true;
+            }
+        } 
+
         return esBonificacion;
     }
 

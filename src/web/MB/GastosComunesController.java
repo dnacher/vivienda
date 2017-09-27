@@ -240,6 +240,13 @@ public class GastosComunesController implements Initializable {
                 ReglaBonificacionBean rbb = new ReglaBonificacionBean();
                 rb = rbb.traeBonificacionesHabitaciones(unidad.getHabitaciones());
                 chkBonificacion.setSelected(ConfiguracionControl.esBonificacion(rb));
+                if(!chkBonificacion.isSelected()){
+                    txtMonto.setText(configuracion.getId().toString());
+                }else{
+                    int descuento = ConfiguracionControl.calculaBonificacion(rb, configuracion.getId());
+                    int total = configuracion.getId() - descuento;
+                    txtMonto.setText(String.valueOf(total));
+                }
             }
             lblPeriodo.setText(String.valueOf(periodo));
             lblUnidadNombre.setText(unidad.getNombre() + ConstantesEtiquetas.ESPACIO

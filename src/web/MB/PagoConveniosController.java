@@ -134,6 +134,7 @@ public class PagoConveniosController implements Initializable {
     int cuotasRestantes;
     int sugerido = -1;
     double saldoRestante = 0.0;
+    public int descuento;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -167,7 +168,7 @@ public class PagoConveniosController implements Initializable {
                 int montoAprox = ((convenio.getDeudaTotal() - convenio.getSaldoInicial()) / convenio.getCuotas());
                 if (chkBonificacion.isSelected() && convenio.getReglabonificacion() != null) {
                     if (ConfiguracionControl.tieneBonificacion(convenio.getReglabonificacion())) {
-                        int descuento = ConfiguracionControl.calculaBonificacion(convenio.getReglabonificacion(), montoAprox);
+                        descuento = ConfiguracionControl.calculaBonificacion(convenio.getReglabonificacion(), montoAprox);
                         int total = montoAprox - descuento;
                         if (total > montoAprox) {
                             txtMonto.setText(String.valueOf(total));
@@ -463,6 +464,9 @@ public class PagoConveniosController implements Initializable {
             if (!txtMonto.getText().isEmpty()) {
                 if (ConfiguracionControl.esNumero(txtMonto.getText())) {
                     int mont = Integer.valueOf(txtMonto.getText());
+                    if(chkBonificacion.isSelected()){
+                        mont+=descuento;
+                    }
                     double total = (saldoRestante - mont);
                     if (total >= 0) {
                         Cuotaconvenio cuotaConvenio = new Cuotaconvenio();
