@@ -171,6 +171,12 @@ public class ConfiguracionControl {
         return cuotas;
     }
 
+    /**
+     * Esta funcion sirve para saber si a la fecha tiene o no bonificacion
+     *
+     * @param rb Reglabonificacion
+     * @return boolean true or false
+     */
     public static boolean tieneBonificacion(Reglabonificacion rb) {
         boolean tiene = false;
         int day = Calendar.getInstance().get(Calendar.DATE);
@@ -180,12 +186,25 @@ public class ConfiguracionControl {
         return tiene;
     }
 
+    /**
+     * Esta funcion devuelve un objeto Monto con moneda pesos
+     *
+     * @return boolean true or false
+     * @throws exceptions.ServiceException
+     */
     public Monto traeMontoPesos() throws ServiceException {
         MontoBean mb = new MontoBean();
         Monto monto = mb.traerMontoXId(1);
         return monto;
     }
 
+    /**
+     * Esta funcion devuelve el mes escrito en funcion del numero Ej. 1 devuelve
+     * Enero.
+     *
+     * @param mes
+     * @return String true or false
+     */
     public static String devuelveMesEscrito(int mes) {
         String mesEscrito;
         switch (mes) {
@@ -229,18 +248,31 @@ public class ConfiguracionControl {
         return mesEscrito;
     }
 
+    /**
+     * Esta funcion devuelve Verdadero si la Regla cumple el dia a pagar
+     *
+     * @param rb
+     * @return Boolean true or false
+     */
     public static boolean esBonificacion(Reglabonificacion rb) {
         boolean esBonificacion = false;
-        if (rb!= null) {
+        if (rb != null) {
             int dia = Calendar.getInstance().get(Calendar.DATE);
-            if (rb.getDiaApagar() <= dia) {
+            if (dia <= rb.getDiaApagar()) {
                 esBonificacion = true;
             }
-        } 
-
+        }
         return esBonificacion;
     }
 
+    /**
+     * Esta funcion devuelve el valor de descuento de acuerdo al tipo de
+     * bonificacion
+     *
+     * @param rb
+     * @param subTotal
+     * @return Boolean true or false
+     */
     public static int calculaBonificacion(Reglabonificacion rb, int subTotal) {
         int total = 0;
         switch (rb.getTipoBonificacion()) {

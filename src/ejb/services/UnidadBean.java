@@ -375,6 +375,29 @@ public class UnidadBean implements UnidadLocal {
         return list;
     }
 
+    public Integer TraeUnidadesConvenioCount() {
+        Integer cantidad=-1;
+        try {
+            Query query = sc.useSession().createQuery("SELECT count(*) FROM Unidad unidad "
+                    + "WHERE unidad.idUnidad IN ("
+                    + "SELECT gastoscomunes.unidad "
+                    + "FROM Gastoscomunes gastoscomunes "
+                    + "WHERE gastoscomunes.periodo<:periodo "
+                    + "AND gastoscomunes.estado=:est) "
+                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
+
+            query.setParameter("est", Constantes.NO_PAGO);
+            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
+            Long count = (Long) query.uniqueResult();
+            cantidad = toIntExact(count);           
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            sc.closeSession();
+        }
+        return cantidad;
+    }
+
     public List<Unidad> TraeUnidadesConvenioXBlockTorre(String block, int torre) {
         List<Unidad> list = new ArrayList<>();
         String consulta = "";

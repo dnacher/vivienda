@@ -86,8 +86,6 @@ public class ConveniosController implements Initializable {
     @FXML
     private Button btnStepAdelante;
 
-    /*  @FXML
-    private ComboBox<Tipobonificacion> cmbTipoBonificacion;*/
     @FXML
     private ComboBox<Integer> cmbTorre;
 
