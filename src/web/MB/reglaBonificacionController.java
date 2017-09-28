@@ -21,7 +21,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -86,16 +89,11 @@ public class reglaBonificacionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        aksiBack(null);
-        ReglaBonificacionBean rbb = new ReglaBonificacionBean();
-        try {
-            lista = FXCollections.observableArrayList(rbb.traerTodos());
-            cargaTabla();
-            cargaComboMonto();
-            cargaTipoBonificacion();
-        } catch (ServiceException ex) {
-            Logger.getLogger(reglaBonificacionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        task();
+        listenerHabitaciones();
+    }
+
+    public void listenerHabitaciones() {
         cmbHabitaciones.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -103,6 +101,41 @@ public class reglaBonificacionController implements Initializable {
                 lblHabitaciones.setText(String.valueOf(i));
             }
         });
+    }
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                aksiBack(null);
+                ReglaBonificacionBean rbb = new ReglaBonificacionBean();
+                try {
+                    lista = FXCollections.observableArrayList(rbb.traerTodos());
+                    cargaTabla();
+                    cargaComboMonto();
+                    cargaTipoBonificacion();
+                } catch (ServiceException ex) {
+                    Logger.getLogger(reglaBonificacionController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
     }
 
     private void clear() {

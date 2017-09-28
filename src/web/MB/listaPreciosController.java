@@ -30,10 +30,12 @@ import entities.constantes.ConstantesEtiquetas;
 import exceptions.ServiceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 
 public class listaPreciosController implements Initializable {
-    
-     @FXML
+
+    @FXML
     private CheckBox ChkActivo;
 
     @FXML
@@ -53,138 +55,142 @@ public class listaPreciosController implements Initializable {
 
     @FXML
     private TextField txtCantidad;
-    
+
     @FXML
     private AnchorPane paneTable;
 
     @FXML
     private AnchorPane paneForm;
-    
+
     public ObservableList<ListaPreciosTable> lista;
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lista=FXCollections.observableArrayList(ListaPreciosTable.devuelveTodosPrecios());
-        cargaTabla();
-        cargarComboMaterial();
         task();
         atras();
     }
-    
-    public void cargarComboMaterial(){
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                lista = FXCollections.observableArrayList(ListaPreciosTable.devuelveTodosPrecios());
+                cargaTabla();
+                cargarComboMaterial();
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
+
+    }
+
+    public void cargarComboMaterial() {
         try {
             ObservableList<Material> listaMaterial;
-            MaterialBean mb= new MaterialBean();
-            listaMaterial= FXCollections.observableArrayList(mb.traerTodos());
+            MaterialBean mb = new MaterialBean();
+            listaMaterial = FXCollections.observableArrayList(mb.traerTodos());
             cmbMaterial.setItems(listaMaterial);
         } catch (ServiceException ex) {
             Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void clear(){
+
+    private void clear() {
         txtPrecio.clear();
-        txtCantidad.clear(); 
+        txtCantidad.clear();
     }
-    
-    public void atras() {            
-       paneForm.setOpacity(0);       
-       new FadeInUpTransition(paneTable).play();       
+
+    public void atras() {
+        paneForm.setOpacity(0);
+        new FadeInUpTransition(paneTable).play();
     }
-  
+
     public void nuevaListaPrecios() {
         paneTable.setOpacity(0);
-        new FadeInUpTransition(paneForm).play();         
+        new FadeInUpTransition(paneForm).play();
     }
 
-    public void guardar(){       
-        ControlVentana cv=new ControlVentana();
-            
-            if(!ConfiguracionControl.esNumero(txtCantidad.getText()) && !ConfiguracionControl.esNumero(txtPrecio.getText())){                
-                cv.creaVentanaNotificacionError(ConstantesErrores.CAMPO_NUMERICO);
+    public void guardar() {
+        ControlVentana cv = new ControlVentana();
+
+        if (!ConfiguracionControl.esNumero(txtCantidad.getText()) && !ConfiguracionControl.esNumero(txtPrecio.getText())) {
+            cv.creaVentanaNotificacionError(ConstantesErrores.CAMPO_NUMERICO);
+        } else {
+            try {
+                Material material = cmbMaterial.getSelectionModel().getSelectedItem();
+                material.setEntrada(material.getEntrada() + Integer.valueOf(txtCantidad.getText()));
+                material.setCantidad(material.getEntrada() - material.getSalida());
+                MaterialBean mb = new MaterialBean();
+                mb.modificar(material);
+                Listaprecios listaPrecios = new Listaprecios();
+                listaPrecios.setActivo(ChkActivo.isSelected());
+                listaPrecios.setCantidad(Integer.valueOf(txtCantidad.getText()));
+                listaPrecios.setFecha(ConfiguracionControl.TraeFecha(cmbFechaCompra.getValue()));
+                ListapreciosId preciosId = new ListapreciosId();
+                preciosId.setIdlistaPrecios(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.LISTA_PRECIOS));
+                preciosId.setMaterialIdmaterial(material.getIdmaterial());
+                listaPrecios.setId(preciosId);
+                listaPrecios.setMaterial(cmbMaterial.getSelectionModel().getSelectedItem());
+                listaPrecios.setPrecio(Integer.valueOf(txtPrecio.getText()));
+                ListaPreciosBean lpb = new ListaPreciosBean();
+                lpb.guardar(listaPrecios);
+                clear();
+                llenaTabla();
+                cv.creaVentanaNotificacionCorrecto();
+            } catch (Exception ex) {
+                cv.creaVentanaNotificacionError(ex.getMessage());
+                cv.creaVentanaNotificacionError(ex.getMessage());
             }
-            else{
-                try{
-                    Material material=cmbMaterial.getSelectionModel().getSelectedItem();
-                    material.setEntrada(material.getEntrada()+Integer.valueOf(txtCantidad.getText()));
-                    material.setCantidad(material.getEntrada()-material.getSalida());
-                    MaterialBean mb=new MaterialBean();
-                    mb.modificar(material);
-                    Listaprecios listaPrecios=new Listaprecios();
-                    listaPrecios.setActivo(ChkActivo.isSelected());
-                    listaPrecios.setCantidad(Integer.valueOf(txtCantidad.getText()));
-                    listaPrecios.setFecha(ConfiguracionControl.TraeFecha(cmbFechaCompra.getValue()));
-                    ListapreciosId preciosId=new ListapreciosId();
-                    preciosId.setIdlistaPrecios(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.LISTA_PRECIOS));
-                    preciosId.setMaterialIdmaterial(material.getIdmaterial());
-                    listaPrecios.setId(preciosId);
-                    listaPrecios.setMaterial(cmbMaterial.getSelectionModel().getSelectedItem());
-                    listaPrecios.setPrecio(Integer.valueOf(txtPrecio.getText()));
-                    ListaPreciosBean lpb=new ListaPreciosBean();
-                    lpb.guardar(listaPrecios);
-                    clear();
-                    llenaTabla();
-                    cv.creaVentanaNotificacionCorrecto();
-                }
-                catch(Exception ex){
-                    cv.creaVentanaNotificacionError(ex.getMessage());
-                    cv.creaVentanaNotificacionError(ex.getMessage());
-                }       
-            }       
-        }       
-    
-        public void task(){
-            Task longTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    int max = 50;
-                    for (int i = 1; i <= max; i++) {
-                        if (isCancelled()) {
-                            break;
-                        }
-                        updateProgress(i, max);                    
-                        Thread.sleep(20);
-                    }
-                    return null;
-                }
-            };        
         }
-        
-        
-      public void cargaTabla(){
-       TableColumn Material = new TableColumn(ConstantesEtiquetas.MATERIAL);
-       TableColumn Precio = new TableColumn(ConstantesEtiquetas.PRECIO);
-       TableColumn Cantidad = new TableColumn(ConstantesEtiquetas.CANTIDAD);
-       TableColumn Fecha = new TableColumn(ConstantesEtiquetas.FECHA);
-       
-       
-       Material.setMinWidth(150);
-       Material.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MATERIAL));
-
-       Precio.setMinWidth(150);
-       Precio.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PRECIO));
-
-       Cantidad.setMinWidth(100);
-       Cantidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CANTIDAD));
-
-       Fecha.setMinWidth(100);
-       Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA));
-      
-       tableListaPrecios.getColumns().addAll(Material, Precio, Cantidad,Fecha);
-       tableListaPrecios.setItems(lista);    
     }
-    
-    public void llenaTabla(){
-        //lblInfo.setText("Se muestran " + lista.size() + " registros.");        
-        lista=FXCollections.observableArrayList(ListaPreciosTable.devuelveTodosPrecios());
+
+    public void cargaTabla() {
+        TableColumn Material = new TableColumn(ConstantesEtiquetas.MATERIAL);
+        TableColumn Precio = new TableColumn(ConstantesEtiquetas.PRECIO);
+        TableColumn Cantidad = new TableColumn(ConstantesEtiquetas.CANTIDAD);
+        TableColumn Fecha = new TableColumn(ConstantesEtiquetas.FECHA);
+
+        Material.setMinWidth(150);
+        Material.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MATERIAL));
+
+        Precio.setMinWidth(150);
+        Precio.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PRECIO));
+
+        Cantidad.setMinWidth(100);
+        Cantidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CANTIDAD));
+
+        Fecha.setMinWidth(100);
+        Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA));
+
+        tableListaPrecios.getColumns().addAll(Material, Precio, Cantidad, Fecha);
         tableListaPrecios.setItems(lista);
-    }  
-        
-        
+    }
+
+    public void llenaTabla() {
+        //lblInfo.setText("Se muestran " + lista.size() + " registros.");        
+        lista = FXCollections.observableArrayList(ListaPreciosTable.devuelveTodosPrecios());
+        tableListaPrecios.setItems(lista);
+    }
+
 }

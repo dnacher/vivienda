@@ -14,7 +14,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -27,9 +29,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
-
 public class MaterialController implements Initializable {
-        
+
     @FXML
     private AnchorPane paneCrud;
 
@@ -47,57 +48,84 @@ public class MaterialController implements Initializable {
 
     @FXML
     private TextArea txtDescripcion;
-    
+
     @FXML
     private TextField txtCantidad;
 
     @FXML
     private Label LblNombre;
-    
+
     public ObservableList<Material> lista;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             task();
-            MaterialBean mb=new MaterialBean();
-            lista=FXCollections.observableArrayList(mb.traerTodos());
-            cargaTabla();
-            task();
             atras(null);
-        } catch (ServiceException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
-    }   
-    
-    private void clear(){
-        try{
+
+    }
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                try {
+                    MaterialBean mb = new MaterialBean();
+                    lista = FXCollections.observableArrayList(mb.traerTodos());
+                    cargaTabla();
+                } catch (ServiceException ex) {
+                    Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
+    }
+
+    private void clear() {
+        try {
             txtNombre.clear();
             txtCantidad.clear();
-            txtDescripcion.clear();       
-        }
-        catch(Exception ex){
+            txtDescripcion.clear();
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-    }    
+    }
 
     @FXML
     private void nuevoMaterial(ActionEvent event) {
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
-            clear();           
+            clear();
         });
     }
-    
+
     @FXML
-    private void guardar(ActionEvent event){
+    private void guardar(ActionEvent event) {
         LblNombre.setText(ConstantesEtiquetas.VACIO);
-        ControlVentana cv=new ControlVentana();      
-        try{
-            Material material=new Material();
-            int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.MATERIAL_UPPER);
+        ControlVentana cv = new ControlVentana();
+        try {
+            Material material = new Material();
+            int ind = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.MATERIAL_UPPER);
             material.setIdmaterial(ind);
             material.setActivo(true);
             material.setNombre(txtNombre.getText());
@@ -105,81 +133,61 @@ public class MaterialController implements Initializable {
             material.setEntrada(Integer.valueOf(txtCantidad.getText()));
             material.setSalida(0);
             material.setCantidad(material.getEntrada());
-            MaterialBean mb=new MaterialBean();
-            mb.guardar(material);                
+            MaterialBean mb = new MaterialBean();
+            mb.guardar(material);
             cv.creaVentanaNotificacionCorrecto();
             clear();
             llenaTabla();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             cv.creaVentanaNotificacionError(ex.getMessage());
-        }                 
+        }
     }
 
-        @FXML
-        private void atras(ActionEvent event) {
-            paneCrud.setOpacity(0);
-            new FadeInUpTransition(paneTabel).play();
-        }
-    
-        public void task(){
-            Task longTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    int max = 50;
-                    for (int i = 1; i <= max; i++) {
-                        if (isCancelled()) {
-                            break;
-                        }
-                        updateProgress(i, max);                    
-                        Thread.sleep(20);
-                    }
-                    return null;
-                }
-            };        
-        }
-        
-        
-      public void cargaTabla(){
-       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
-       TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
-       TableColumn Cantidad = new TableColumn(ConstantesEtiquetas.CANTIDAD_UPPER);
-       TableColumn Entrada = new TableColumn(ConstantesEtiquetas.ENTRADA_UPPER);
-       TableColumn Salida = new TableColumn(ConstantesEtiquetas.SALIDA_UPPER);
-       TableColumn Activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);
-       
-       Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
-
-       Descripcion.setMinWidth(150);
-       Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
-      
-       Entrada.setMinWidth(100);
-       Entrada.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ENTRADA));
-       
-       Salida.setMinWidth(100);
-       Salida.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.SALIDA));
-       
-       Cantidad.setMinWidth(100);
-       Cantidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CANTIDAD));
-
-       Activo.setMinWidth(100);
-       Activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
-      
-       tableData.getColumns().addAll(Nombre, Descripcion,Entrada,Salida,Cantidad,Activo);
-       tableData.setItems(lista);
-    
+    @FXML
+    private void atras(ActionEvent event) {
+        paneCrud.setOpacity(0);
+        new FadeInUpTransition(paneTabel).play();
     }
-    
-    public void llenaTabla(){
+
+    public void cargaTabla() {
+        TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+        TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+        TableColumn Cantidad = new TableColumn(ConstantesEtiquetas.CANTIDAD_UPPER);
+        TableColumn Entrada = new TableColumn(ConstantesEtiquetas.ENTRADA_UPPER);
+        TableColumn Salida = new TableColumn(ConstantesEtiquetas.SALIDA_UPPER);
+        TableColumn Activo = new TableColumn(ConstantesEtiquetas.ACTIVO_UPPER);
+
+        Nombre.setMinWidth(150);
+        Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
+
+        Descripcion.setMinWidth(150);
+        Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION));
+
+        Entrada.setMinWidth(100);
+        Entrada.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ENTRADA));
+
+        Salida.setMinWidth(100);
+        Salida.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.SALIDA));
+
+        Cantidad.setMinWidth(100);
+        Cantidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.CANTIDAD));
+
+        Activo.setMinWidth(100);
+        Activo.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.ACTIVO));
+
+        tableData.getColumns().addAll(Nombre, Descripcion, Entrada, Salida, Cantidad, Activo);
+        tableData.setItems(lista);
+
+    }
+
+    public void llenaTabla() {
         try {
-            MaterialBean mb=new MaterialBean();
-            lista=FXCollections.observableArrayList(mb.traerTodos());       
+            MaterialBean mb = new MaterialBean();
+            lista = FXCollections.observableArrayList(mb.traerTodos());
             tableData.setItems(lista);
         } catch (ServiceException ex) {
             Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }  
-        
-        
+    }
+
 }

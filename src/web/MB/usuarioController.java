@@ -17,7 +17,10 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -32,10 +35,9 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import seguridad.Seguridad;
 
-
 public class usuarioController implements Initializable {
 
-     @FXML
+    @FXML
     private PasswordField txtPass;
 
     @FXML
@@ -49,7 +51,7 @@ public class usuarioController implements Initializable {
 
     @FXML
     private TableView<Usuario> tableData;
-   
+
     @FXML
     private TextField txtNombre;
 
@@ -63,49 +65,74 @@ public class usuarioController implements Initializable {
     private ComboBox<Tipousuario> cmbTipoUsuario;
     ObservableList<Tipousuario> listaTipoUsuarioO;
     ObservableList<Usuario> listaUsuariosO;
-    
-   
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        aksiNew(null);        
-        List<Tipousuario> listaTipoUsuarios;
-        List<Usuario> listaUsuarios;
-         try {
-             TipoUsuarioBean tb=new TipoUsuarioBean();
-             listaTipoUsuarios = tb.traerTodos();
-             UsuariosBean ub= new UsuariosBean();
-             listaUsuarios=ub.traerTodos();
-             listaTipoUsuarioO = FXCollections.observableList(listaTipoUsuarios);
-             listaUsuariosO = FXCollections.observableList(listaUsuarios);
-             cmbTipoUsuario.setItems(listaTipoUsuarioO);
-             cargaTabla();
-         } catch (ServiceException ex) {
-             Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
-         }             
+        task();
+        aksiBack(null); 
     }
-    
-    public void cargaTabla(){       
-       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
-            
-       Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
-       tableData.getColumns().addAll(Nombre);     
-       tableData.setItems(listaUsuariosO);
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                aksiNew(null);
+                List<Tipousuario> listaTipoUsuarios;
+                List<Usuario> listaUsuarios;
+                try {
+                    TipoUsuarioBean tb = new TipoUsuarioBean();
+                    listaTipoUsuarios = tb.traerTodos();
+                    UsuariosBean ub = new UsuariosBean();
+                    listaUsuarios = ub.traerTodos();
+                    listaTipoUsuarioO = FXCollections.observableList(listaTipoUsuarios);
+                    listaUsuariosO = FXCollections.observableList(listaUsuarios);
+                    cmbTipoUsuario.setItems(listaTipoUsuarioO);
+                    cargaTabla();                                       
+                } catch (ServiceException ex) {
+                    Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
     }
-    
-    public void llenaTabla(){
-         try {
-             UsuariosBean ub= new UsuariosBean();
-             List<Usuario> listaUsuarios;
-             listaUsuarios=ub.traerTodos();
-             listaUsuariosO = FXCollections.observableList(listaUsuarios);
-             tableData.setItems(listaUsuariosO);
-         } catch (ServiceException ex) {
-             Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+
+    public void cargaTabla() {
+        TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+        Nombre.setMinWidth(150);
+        Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
+        tableData.getColumns().addAll(Nombre);
+        tableData.setItems(listaUsuariosO);
     }
-    
-    private void clear(){
+
+    public void llenaTabla() {
+        try {
+            UsuariosBean ub = new UsuariosBean();
+            List<Usuario> listaUsuarios;
+            listaUsuarios = ub.traerTodos();
+            listaUsuariosO = FXCollections.observableList(listaUsuarios);
+            tableData.setItems(listaUsuariosO);
+        } catch (ServiceException ex) {
+            Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void clear() {
         txtNombre.clear();
         txtPass.clear();
         txtPass2.clear();
@@ -117,41 +144,39 @@ public class usuarioController implements Initializable {
         paneTabel.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
-            clear();      
+            clear();
         });
     }
-    
+
     @FXML
-    private void aksiSave(ActionEvent event){
-        ControlVentana cv=new ControlVentana();
-        if(txtNombre.getText().isEmpty()){
-           cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_NOMBRE);
-        }
-        else{
-            try{
-                if(txtPass.getText().equals(txtPass2.getText())){
-                    Usuario usuario=new Usuario();
-                    int ind=ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.USUARIO);
+    private void aksiSave(ActionEvent event) {
+        ControlVentana cv = new ControlVentana();
+        if (txtNombre.getText().isEmpty()) {
+            cv.creaVentanaNotificacionError(ConstantesErrores.FALTA_NOMBRE);
+        } else {
+            try {
+                if (txtPass.getText().equals(txtPass2.getText())) {
+                    Usuario usuario = new Usuario();
+                    int ind = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.USUARIO);
                     usuario.setIdUsuario(ind);
                     usuario.setTipousuario(cmbTipoUsuario.getSelectionModel().getSelectedItem());
                     usuario.setActivo(chkActivo.isSelected());
                     usuario.setNombre(txtNombre.getText());
                     usuario.setPassword(txtPass.getText());
-                    usuario=Seguridad.hashUserPassword(usuario);
-                    UsuariosBean tb=new UsuariosBean();
+                    usuario = Seguridad.hashUserPassword(usuario);
+                    UsuariosBean tb = new UsuariosBean();
                     tb.guardar(usuario);
                     cv.creaVentanaNotificacionCorrecto();
                     clear();
                     llenaTabla();
                     aksiBack(null);
-                }else{
+                } else {
                     cv.creaVentanaNotificacionError(ConstantesErrores.PASS_NO_COINCIDE);
                 }
-                
-            }
-            catch(Exception ex){
+
+            } catch (Exception ex) {
                 cv.creaVentanaNotificacionError(ex.getMessage());
-            }       
+            }
         }
     }
 

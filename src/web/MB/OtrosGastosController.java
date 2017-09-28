@@ -40,13 +40,16 @@ import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.constantes.ConstantesMensajes;
 import entities.persistence.entities.OtrosgastosId;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import web.animations.FadeInUpTransition;
 
 public class OtrosGastosController implements Initializable {
-    
+
     @FXML
     private TextField txtMonto;
 
@@ -55,7 +58,7 @@ public class OtrosGastosController implements Initializable {
 
     @FXML
     private AnchorPane paneTabel;
-    
+
     @FXML
     private AnchorPane paneUnidades;
 
@@ -79,150 +82,176 @@ public class OtrosGastosController implements Initializable {
 
     @FXML
     private ComboBox<Concepto> cmbConcepto;
-    
+
     @FXML
     private ComboBox<Integer> cmbTorre;
 
     @FXML
     private ComboBox<String> cmbBlock;
-    
+
     @FXML
     private TableView<Unidad> tableUnidades;
-    
+
     @FXML
     private Label lblInfo;
-    
+
     @FXML
     private Label lblUnidad;
-    
+
     @FXML
     private TextArea txtDescripcion;
-    
+
     ObservableList<Unidad> listaUnidad;
     Unidad unidad;
     ObservableList<Otrosgastos> otrosGastos;
-    
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {
         try {
-            UnidadBean ub=new UnidadBean();
-            listaUnidad=FXCollections.observableArrayList(ub.traerTodos());
-            cargaTablaUnidades();
-            OtrosGastosBean og=new OtrosGastosBean();
-            otrosGastos=FXCollections.observableArrayList(og.traerTodos());
-            cargaTabla();        
-            cargarComboTipoMoneda();
-            cmbTipoMoneda.getSelectionModel().selectFirst();
-            cargarComboConcepto();
-            cargaHoy();
-            mostrarTabla();
-        } catch (ServiceException ex) {
+            task();
+        } catch (Exception ex) {
             Logger.getLogger(OtrosGastosController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }     
-    
-    public void UnidadSeleccionada(){
-        try{
+    }
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                try {
+                    UnidadBean ub = new UnidadBean();
+                    listaUnidad = FXCollections.observableArrayList(ub.traerTodos());
+                    cargaTablaUnidades();
+                    OtrosGastosBean og = new OtrosGastosBean();
+                    otrosGastos = FXCollections.observableArrayList(og.traerTodos());
+                    cargaTabla();
+                    cargarComboTipoMoneda();
+                    cmbTipoMoneda.getSelectionModel().selectFirst();
+                    cargarComboConcepto();
+                    cargaHoy();
+                    mostrarTabla();
+                } catch (ServiceException ex) {
+                    Logger.getLogger(OtrosGastosController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
+    }
+
+    public void UnidadSeleccionada() {
+        try {
             lblInfo.setText(ConstantesEtiquetas.VACIO);
-            unidad=tableUnidades.getSelectionModel().getSelectedItem();
+            unidad = tableUnidades.getSelectionModel().getSelectedItem();
             nuevaUnidad();
             lblUnidad.setText(unidad.toString());
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
         }
     }
-    
-    public void cargaHoy(){
-        Date date= new Date();
+
+    public void cargaHoy() {
+        Date date = new Date();
         LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         cmbFecha.setValue(ld);
         ChkActivo.setSelected(true);
     }
-    
-    public void cargaTabla(){
-       TableColumn Secuencia = new TableColumn(ConstantesEtiquetas.SECUENCIA_UPPER);
-       TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
-       TableColumn Monto = new TableColumn(ConstantesEtiquetas.MONEDA);
-       TableColumn Monto1 = new TableColumn(ConstantesEtiquetas.MONTO);
-       TableColumn Unidad = new TableColumn(ConstantesEtiquetas.UNIDAD);
-       TableColumn Fecha= new TableColumn(ConstantesEtiquetas.FECHA_UPPER);
 
-       Secuencia.setMinWidth(150);
-       Secuencia.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.SECUENCIA_UPPER));
+    public void cargaTabla() {
+        TableColumn Secuencia = new TableColumn(ConstantesEtiquetas.SECUENCIA_UPPER);
+        TableColumn Descripcion = new TableColumn(ConstantesEtiquetas.DESCRIPCION_UPPER);
+        TableColumn Monto = new TableColumn(ConstantesEtiquetas.MONEDA);
+        TableColumn Monto1 = new TableColumn(ConstantesEtiquetas.MONTO);
+        TableColumn Unidad = new TableColumn(ConstantesEtiquetas.UNIDAD);
+        TableColumn Fecha = new TableColumn(ConstantesEtiquetas.FECHA_UPPER);
 
-       Descripcion.setMinWidth(150);
-       Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION_UPPER));
+        Secuencia.setMinWidth(150);
+        Secuencia.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.SECUENCIA_UPPER));
 
-       Monto.setMinWidth(100);
-       Monto.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MONTO));
+        Descripcion.setMinWidth(150);
+        Descripcion.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.DESCRIPCION_UPPER));
 
-       Monto1.setMinWidth(100);
-       Monto1.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MONTO_1));
+        Monto.setMinWidth(100);
+        Monto.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MONTO));
 
-       
-       Unidad.setMinWidth(100);
-       Unidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.UNIDAD));
+        Monto1.setMinWidth(100);
+        Monto1.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.MONTO_1));
 
-       Fecha.setMinWidth(110);
-       Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_UPPER));
+        Unidad.setMinWidth(100);
+        Unidad.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.UNIDAD));
 
-       tableData.getColumns().addAll(Secuencia,Unidad,Monto,Monto1,Descripcion,Fecha);
-       tableData.setItems(otrosGastos);
-      
+        Fecha.setMinWidth(110);
+        Fecha.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.FECHA_UPPER));
+
+        tableData.getColumns().addAll(Secuencia, Unidad, Monto, Monto1, Descripcion, Fecha);
+        tableData.setItems(otrosGastos);
+
     }
-    
-    public void cargarComboTipoMoneda(){
-        try{
-            MontoBean mb=new MontoBean();
-            List<Monto>lista=mb.traerTodos();
+
+    public void cargarComboTipoMoneda() {
+        try {
+            MontoBean mb = new MontoBean();
+            List<Monto> lista = mb.traerTodos();
             ObservableList<Monto> listaMonto;
-            listaMonto=FXCollections.observableArrayList(lista);
+            listaMonto = FXCollections.observableArrayList(lista);
             cmbTipoMoneda.setItems(listaMonto);
-        }
-        catch(ServiceException se){            
+        } catch (ServiceException se) {
         }
     }
-    
-    public void cargarComboConcepto(){
-        try{
-            ConceptoBean cb=new ConceptoBean();
-            List<Concepto>lista=cb.traerTodos();
+
+    public void cargarComboConcepto() {
+        try {
+            ConceptoBean cb = new ConceptoBean();
+            List<Concepto> lista = cb.traerTodos();
             ObservableList<Concepto> listaConcepto;
-            listaConcepto=FXCollections.observableArrayList(lista);
+            listaConcepto = FXCollections.observableArrayList(lista);
             cmbConcepto.setItems(listaConcepto);
-        }
-        catch(ServiceException se){            
+        } catch (ServiceException se) {
         }
     }
-    
-    public void nuevaUnidad(){
+
+    public void nuevaUnidad() {
         paneTabel.setOpacity(0);
         paneUnidades.setOpacity(0);
         new FadeInUpTransition(paneCrud).play();
         Platform.runLater(() -> {
         });
     }
-    
-    public void mostrarUnidad(){
+
+    public void mostrarUnidad() {
         paneTabel.setOpacity(0);
         paneCrud.setOpacity(0);
         new FadeInUpTransition(paneUnidades).play();
     }
-    
-    public void mostrarTabla(){
+
+    public void mostrarTabla() {
         paneCrud.setOpacity(0);
         paneUnidades.setOpacity(0);
         new FadeInUpTransition(paneTabel).play();
     }
-     
-    public void guardar(){
-        ControlVentana cv=new ControlVentana();
-        switch(OtrosGastosViewValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto,unidad)){
+
+    public void guardar() {
+        ControlVentana cv = new ControlVentana();
+        switch (OtrosGastosViewValidation.validar(txtSecuencia, cmbTipoMoneda, txtMonto, cmbFecha, cmbConcepto, unidad)) {
             case 0:
-                try{                    
-                    Otrosgastos og=new Otrosgastos();
-                    OtrosgastosId ogI=new OtrosgastosId();
+                try {
+                    Otrosgastos og = new Otrosgastos();
+                    OtrosgastosId ogI = new OtrosgastosId();
                     ogI.setIdotrosGastos(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.OTROS_GASTOS));
                     ogI.setUnidadIdUnidad(unidad.getIdUnidad());
                     og.setId(ogI);
@@ -235,14 +264,13 @@ public class OtrosGastosController implements Initializable {
                     og.setPago(true);
                     og.setSecuencia(Integer.valueOf(txtSecuencia.getText()));
                     og.setUnidad(unidad);
-                    OtrosGastosBean oga=new OtrosGastosBean();
+                    OtrosGastosBean oga = new OtrosGastosBean();
                     oga.guardar(og);
                     cv.creaVentanaNotificacionCorrecto();
                     limpiarForm();
                     llenaTablaGastos();
                     mostrarTabla();
-                }
-                catch(Exception ex){
+                } catch (Exception ex) {
                     cv.creaVentanaNotificacionError(ex.getMessage());
                 }
                 break;
@@ -263,87 +291,86 @@ public class OtrosGastosController implements Initializable {
                 break;
             case 6:
                 cv.creaVentanaNotificacionError(errores.FALTA_UNIDAD.getError());
-                break;             
-         }
-     }
-    
-    public void limpiarForm(){
-        unidad=null;
+                break;
+        }
+    }
+
+    public void limpiarForm() {
+        unidad = null;
         txtSecuencia.setText(ConstantesEtiquetas.VACIO);
         txtMonto.setText(ConstantesEtiquetas.VACIO);
         tableUnidades.getSelectionModel().clearSelection();
     }
-    
-    public void cargarComboBlock(){
-       ObservableList<String> options = 
-       FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
-       cmbBlock.setItems(options);
+
+    public void cargarComboBlock() {
+        ObservableList<String> options
+                = FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
+        cmbBlock.setItems(options);
     }
-    
-    public void cargarComboTorre(){
+
+    public void cargarComboTorre() {
         ObservableList<Integer> listaTorres;
-        listaTorres=FXCollections.observableArrayList(1,2,3,4,5,6);
+        listaTorres = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6);
         cmbTorre.setItems(listaTorres);
     }
-    
-    public void cargaTablaUnidades(){
-       TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
-       TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
-       TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
-       TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
-       TableColumn Puerta= new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
 
-       Nombre.setMinWidth(150);
-       Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
+    public void cargaTablaUnidades() {
+        TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+        TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+        TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
+        TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
+        TableColumn Puerta = new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
 
-       Apellido.setMinWidth(150);
-       Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
+        Nombre.setMinWidth(150);
+        Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
-       Block.setMinWidth(100);
-       Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
+        Apellido.setMinWidth(150);
+        Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
-       Torre.setMinWidth(100);
-       Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
+        Block.setMinWidth(100);
+        Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
 
-       Puerta.setMinWidth(110);
-       Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
+        Torre.setMinWidth(100);
+        Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
 
-       tableUnidades.getColumns().addAll(Nombre, Apellido, Block,Torre,Puerta);
-       tableUnidades.setItems(listaUnidad);
+        Puerta.setMinWidth(110);
+        Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
+
+        tableUnidades.getColumns().addAll(Nombre, Apellido, Block, Torre, Puerta);
+        tableUnidades.setItems(listaUnidad);
     }
-    
-    public void llenaTabla(){
+
+    public void llenaTabla() {
         lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + listaUnidad.size() + ConstantesMensajes.REGISTROS);
         tableUnidades.setItems(listaUnidad);
     }
-    
-    public void llenaTablaGastos(){
+
+    public void llenaTablaGastos() {
         try {
-            OtrosGastosBean ogb=new OtrosGastosBean();
-            otrosGastos=FXCollections.observableArrayList(ogb.traerTodos());
+            OtrosGastosBean ogb = new OtrosGastosBean();
+            otrosGastos = FXCollections.observableArrayList(ogb.traerTodos());
             tableData.setItems(otrosGastos);
         } catch (ServiceException ex) {
             Logger.getLogger(OtrosGastosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void mostrar(ActionEvent event) {       
-            try{
+
+    public void mostrar(ActionEvent event) {
+        try {
             lblInfo.setText(ConstantesEtiquetas.VACIO);
-            UnidadBean ub= new UnidadBean();
-            List<Unidad> listaTorreBlock=ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());        
+            UnidadBean ub = new UnidadBean();
+            List<Unidad> listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
             listaUnidad = FXCollections.observableList(listaTorreBlock);
-            llenaTabla();            
-            }
-            catch(Exception ex){
-                lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
-            }
+            llenaTabla();
+        } catch (Exception ex) {
+            lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
         }
-       
-        public void mostrarTodos() {
-            UnidadBean ub=new UnidadBean();
-            List<Unidad> listaTotal=ub.TraeUnidadesGastosComunesNoPago();            
-            listaUnidad = FXCollections.observableList(listaTotal);
-            llenaTabla();           
-        }
+    }
+
+    public void mostrarTodos() {
+        UnidadBean ub = new UnidadBean();
+        List<Unidad> listaTotal = ub.TraeUnidadesGastosComunesNoPago();
+        listaUnidad = FXCollections.observableList(listaTotal);
+        llenaTabla();
+    }
 }

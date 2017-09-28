@@ -24,7 +24,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -108,46 +111,84 @@ public class UnidadesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            UnidadBean ub = new UnidadBean();
-            unidades = FXCollections.observableArrayList(ub.traerTodos());
-            cargaTabla();
-            cargarComboBlock();
-            cargarComboTorre();
-            cargarPropietarioInquilino();
-            cargaHoy();
-            mostrarTabla();
-            cmbHabitaciones.valueProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    int i = (int) cmbHabitaciones.getValue();
-                    lblHabitaciones.setText(String.valueOf(i));
-                }
-            });
-            ChkEsEdificio.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if (ChkEsEdificio.isSelected()) {
-                        txtNombre.setDisable(true);
-                        txtApellido.setDisable(true);
-                        txtTelefono.setDisable(true);
-                        txtMail.setDisable(true);
-                        cmbFechaIngreso.setDisable(true);
-                        cmbPropietarioInquilino.setDisable(true);
-                        txtPuerta.setDisable(true);
-                    } else {
-                        txtNombre.setDisable(false);
-                        txtApellido.setDisable(false);
-                        txtTelefono.setDisable(false);
-                        txtMail.setDisable(false);
-                        cmbFechaIngreso.setDisable(false);
-                        cmbPropietarioInquilino.setDisable(false);
-                        txtPuerta.setDisable(false);
-                    }
-                }
-            });
-        } catch (ServiceException ex) {
+            task();
+            cmbHabitacionesListener();
+            chkEsEdificioListener();
+        } catch (Exception ex) {
             Logger.getLogger(UnidadesController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void chkEsEdificioListener() {
+        ChkEsEdificio.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (ChkEsEdificio.isSelected()) {
+                    txtNombre.setDisable(true);
+                    txtApellido.setDisable(true);
+                    txtTelefono.setDisable(true);
+                    txtMail.setDisable(true);
+                    cmbFechaIngreso.setDisable(true);
+                    cmbPropietarioInquilino.setDisable(true);
+                    txtPuerta.setDisable(true);
+                } else {
+                    txtNombre.setDisable(false);
+                    txtApellido.setDisable(false);
+                    txtTelefono.setDisable(false);
+                    txtMail.setDisable(false);
+                    cmbFechaIngreso.setDisable(false);
+                    cmbPropietarioInquilino.setDisable(false);
+                    txtPuerta.setDisable(false);
+                }
+            }
+        });
+    }
+
+    public void cmbHabitacionesListener() {
+        cmbHabitaciones.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int i = (int) cmbHabitaciones.getValue();
+                lblHabitaciones.setText(String.valueOf(i));
+            }
+        });
+    }
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                try {
+                    UnidadBean ub = new UnidadBean();
+                    unidades = FXCollections.observableArrayList(ub.traerTodos());
+                    cargaTabla();
+                    cargarComboBlock();
+                    cargarComboTorre();
+                    cargarPropietarioInquilino();
+                    cargaHoy();
+                    mostrarTabla();
+                } catch (ServiceException ex) {
+                    Logger.getLogger(UnidadesController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
     }
 
     public void recargarTabla() {
@@ -381,7 +422,7 @@ public class UnidadesController implements Initializable {
                         Unidad unidad = new Unidad();
                         unidad.setIdUnidad(ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.UNIDAD));
                         unidad.setBlock(cmbBlock.getValue());
-                        unidad.setTorre(cmbTorre.getValue());                       
+                        unidad.setTorre(cmbTorre.getValue());
                         unidad.setNombre(cmbBlock.getValue() + " " + cmbTorre.getValue());
                         unidad.setEsEdificio(ChkEsEdificio.isSelected());
                         UnidadValidationUnique uv = new UnidadValidationUnique();

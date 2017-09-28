@@ -55,7 +55,6 @@ public class controllLogin implements Initializable {
     private Label lblVersion;
 
     Stage stage;
-    private UsuariosLocal ul;
 
     /**
      * Initializes the controller class.
@@ -69,7 +68,6 @@ public class controllLogin implements Initializable {
         Platform.runLater(() -> {
             new FadeInRightTransition(lblUserLogin).play();
             new FadeInLeftTransition(lblWelcome).play();
-            // new FadeInLeftTransition1(lblPassword).play();
             new FadeInLeftTransition1(lblVersion).play();
             new FadeInLeftTransition1(txtUsername).play();
             new FadeInLeftTransition1(txtPassword).play();

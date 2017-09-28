@@ -15,7 +15,10 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -45,7 +48,8 @@ public class ValorGastosComunesController implements Initializable {
     private TextField txtValor;
 
     @FXML
-    private Label lblHabitaciones;;
+    private Label lblHabitaciones;
+    ;
 
     public ObservableList<Configuracion> lista;
     Notification.Notifier notifier = Notification.Notifier.INSTANCE;
@@ -54,14 +58,44 @@ public class ValorGastosComunesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            task();
             aksiBack(null);
-            ConfiguracionBean cb = new ConfiguracionBean();
-            List<Configuracion> listaConf = cb.traerValorGastosComunes();
-            lista = FXCollections.observableArrayList(listaConf);
-            cargaTabla();
-        } catch (ServiceException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ValorGastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
+
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                try {                    
+                    ConfiguracionBean cb = new ConfiguracionBean();
+                    List<Configuracion> listaConf = cb.traerValorGastosComunes();
+                    lista = FXCollections.observableArrayList(listaConf);
+                    cargaTabla();
+                } catch (ServiceException ex) {
+                    Logger.getLogger(ValorGastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
     }
 
     private void clear() {
@@ -77,10 +111,10 @@ public class ValorGastosComunesController implements Initializable {
                 new FadeInUpTransition(paneCrud).play();
                 Platform.runLater(() -> {
                     clear();
-                });                
-                lblHabitaciones.setText(configuracion.getNombreTabla());               
+                });
+                lblHabitaciones.setText(configuracion.getNombreTabla());
                 txtValor.setText(configuracion.getId().toString());
-            }else{
+            } else {
                 notifier.notify(new Notification("Verificar", ConstantesErrores.DEBE_SELECIONAR, Notification.WARNING_ICON));
             }
         } catch (Exception ex) {
