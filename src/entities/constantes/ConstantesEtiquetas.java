@@ -93,6 +93,11 @@ public class ConstantesEtiquetas {
     public static String MONTO_1 = "Monto_1";
     public static String MONEDA = "Moneda";
     public static String PRONTO = "Pronto";
+    public static String SUBTOTAL = "Sugerido        :";
+    public static String DESCUENTO = "Descuento      :";
+    public static String TOTAL_A_PAGAR = "Total a pagar  :";
+    
+    
     
     /*
     *        Parametros Reporte
@@ -141,6 +146,7 @@ public class ConstantesEtiquetas {
     public static String ID_URGENCIA = "idurgencia";
     public static String CERRAR_MES="Cerrar Mes";
     public static String ESTA_SEGURO="Esta seguro que desea cerrar el mes de ";
+    public static String ESTA_SEGURO_GC="Esta seguro que desea anular los gastos comunes seleccionados ";
     public static String ACEPTAR="Aceptar";
     public static String CANCELAR="Cancelar";
 

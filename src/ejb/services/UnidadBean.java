@@ -270,7 +270,7 @@ public class UnidadBean implements UnidadLocal {
                     + "WHERE gastoscomunes.periodo=:periodo "
                     + "AND gastoscomunes.estado=:est) "
                     + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
-            query.setParameter("est", 2);
+            query.setParameter("est", Constantes.NO_PAGO);
             query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
             list = query.list();
 
@@ -376,7 +376,7 @@ public class UnidadBean implements UnidadLocal {
     }
 
     public Integer TraeUnidadesConvenioCount() {
-        Integer cantidad=-1;
+        Integer cantidad = -1;
         try {
             Query query = sc.useSession().createQuery("SELECT count(*) FROM Unidad unidad "
                     + "WHERE unidad.idUnidad IN ("
@@ -389,7 +389,7 @@ public class UnidadBean implements UnidadLocal {
             query.setParameter("est", Constantes.NO_PAGO);
             query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
             Long count = (Long) query.uniqueResult();
-            cantidad = toIntExact(count);           
+            cantidad = toIntExact(count);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         } finally {

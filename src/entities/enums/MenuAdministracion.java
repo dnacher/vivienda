@@ -9,6 +9,7 @@ public enum MenuAdministracion {
     Inicio("Inicio", "Inicio"),
     Unidades("Unidades", "Unidades"),
     GastosComunes("GastosComunes", "Gastos Comunes"),
+    NotaCreditoGC("NotaCreditoGC","Nota Credito GC"),
     OtrosGastos("OtrosGastos", "Otros Gastos"),
     Convenios("Convenios", "Convenios"),
     PagoConvenios("PagoConvenios", "Pago Convenios"),

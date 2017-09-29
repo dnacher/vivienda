@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="652.0" prefWidth="1225.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="web.MB.NotaCreditoGCController">
+   <children>
+      <AnchorPane fx:id="paneGastosComunes" layoutY="91.0" opacity="1.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
+         <children>            
+            <ComboBox fx:id="cmbBlock" layoutX="80.0" layoutY="13.0" prefWidth="150.0" promptText="Block" />
+            <ComboBox fx:id="cmbTorre" layoutX="80.0" layoutY="48.0" prefWidth="150.0" promptText="Torre" />
+            <Button fx:id="btnMostrar" layoutX="240.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrar" prefHeight="62.0" prefWidth="110.0" styleClass="btn" text="Mostrar" />
+            <Button layoutX="370.0" layoutY="13.0" mnemonicParsing="false" onAction="#mostrarTodos" prefHeight="62.0" prefWidth="151.0" styleClass="btn" text="Mostrar Todos" />
+            <PieChart fx:id="chartGastosComunes" layoutX="700.0" layoutY="92.0" maxHeight="396.0" />
+            <Label fx:id="lblInfoPieChart" layoutX="700.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>               
+            <TableView fx:id="tableGastosComunes" layoutX="29.0" layoutY="92.0" prefHeight="396.0" prefWidth="633.0" />
+            <Label fx:id="lblInfo" layoutX="29.0" layoutY="508.0" maxHeight="0.0" prefHeight="30.0" prefWidth="500.0" textFill="#c60000">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>            
+         </children>
+      </AnchorPane>
+      <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nota Credito GC">
+         <font>
+            <Font name="Segoe UI Semilight" size="48.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#agregarGastosComunes" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Anular" />
+      <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/301.GIF" />
+         </image>
+      </ImageView>
+      <ProgressBar fx:id="bar" layoutY="82.0" prefHeight="3.0" prefWidth="1225.0" progress="0.0" />
+   </children>
+</AnchorPane>

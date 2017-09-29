@@ -173,13 +173,18 @@ public class PagoConveniosController implements Initializable {
         });
     }
 
+    public int devuelveDeudaTotal() {
+        CuotaConvenioBean ccb = new CuotaConvenioBean();
+        totalPagado = Double.valueOf(ccb.devuelveTotalCuotas(unidad));
+        int deudaTotal = (int) ((convenio.getDeudaTotal() - convenio.getSaldoInicial() - totalPagado));
+        return deudaTotal;
+    }
+
     public void listenerChkBonificacion() {
         chkBonificacion.selectedProperty().addListener(new ChangeListener() {
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                CuotaConvenioBean ccb = new CuotaConvenioBean();
-                totalPagado = Double.valueOf(ccb.devuelveTotalCuotas(unidad));
-                int deudaTotal = (int) ((convenio.getDeudaTotal() - convenio.getSaldoInicial() - totalPagado));
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {                
+                int deudaTotal = devuelveDeudaTotal();
                 sugerido = (int) ((convenio.getDeudaTotal() - convenio.getSaldoInicial() - totalPagado) / convenio.getCuotas());
                 if (chkBonificacion.isSelected()) {
                     descuento = ConfiguracionControl.calculaBonificacion(convenio.getReglabonificacion(), sugerido);
@@ -187,10 +192,10 @@ public class PagoConveniosController implements Initializable {
                     descuento = 0;
                 }
                 totalAPagar = sugerido - descuento;
-                lblSugerido.setText("Sugerido        :" + sugerido);
+                lblSugerido.setText(ConstantesEtiquetas.SUBTOTAL + sugerido);
                 txtMonto.setText(sugerido.toString());
-                lblDescuento.setText("Descuento      :" + descuento);
-                lblTotalPago.setText("Total a pagar  :" + totalAPagar);
+                lblDescuento.setText(ConstantesEtiquetas.DESCUENTO + descuento);
+                lblTotalPago.setText(ConstantesEtiquetas.TOTAL_A_PAGAR + totalAPagar);
                 lblSaldoRestante.setText(ConstantesMensajes.SALDO_RESTANTE + deudaTotal);
 
                 /* int montoAprox = ((convenio.getDeudaTotal() - convenio.getSaldoInicial()) / convenio.getCuotas());
@@ -517,9 +522,10 @@ public class PagoConveniosController implements Initializable {
             if (!txtMonto.getText().isEmpty()) {
                 if (ConfiguracionControl.esNumero(txtMonto.getText())) {
                     int mont = Integer.valueOf(txtMonto.getText());
-                    if (chkBonificacion.isSelected()) {
+                    /*if (chkBonificacion.isSelected()) {
                         mont += descuento;
-                    }
+                    }*/
+                    saldoRestante = Double.valueOf(devuelveDeudaTotal());                    
                     double total = (saldoRestante - mont);
                     if (total >= 0) {
                         Cuotaconvenio cuotaConvenio = new Cuotaconvenio();
