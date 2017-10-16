@@ -140,5 +140,11 @@ public class Constantes {
     public static final int PAGO = 2;
     public static final int CONVENIO = 3;
     public static final int NOTA_CREDITO = 4;
+    
+    public static final int COMPARA_EQUAL = 0;
+    public static final int COMPARA_MORE_THAN = 1;
+    public static final int COMPARA_LESS_THAN = 2;
+    public static final int COMPARA_MORE_EQUAL = 3;
+    public static final int COMPARA_LESS_EQUAL = 4;
 
 }

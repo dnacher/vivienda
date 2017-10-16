@@ -264,24 +264,6 @@ public class ConveniosController implements Initializable {
         }
     }
 
-    /*public void cargaComboTipoBonificacion() throws ServiceException {
-        try {
-            TipoBonificacionBean tb = new TipoBonificacionBean();
-            List<Tipobonificacion> listaTipoBonificacion = tb.traerTodos();
-            ObservableList<Tipobonificacion> options = FXCollections.observableArrayList();
-            cmbTipoBonificacion.setItems(options);
-            cmbTipoBonificacion.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                @Override
-                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                    tipoBonificacion = cmbTipoBonificacion.getValue();
-                }
-
-            });
-        } catch (Exception ex) {
-            ConfiguracionControl.notifier.notify(new Notification("Error", ConstantesErrores.SIN_TIPO_BONIFICACION, Notification.ERROR_ICON));
-        }
-    }*/
-
     public void cargarComboTorre() {
         ObservableList<Integer> listaTorres;
         listaTorres = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6);
