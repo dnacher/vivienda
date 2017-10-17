@@ -399,47 +399,47 @@ public class UnidadBean implements UnidadLocal {
         return cantidad;
     }
 
-    public List<Unidad> TraeUnidadesConvenioXBlockTorre(String block, int torre) {
-        List<Unidad> list = new ArrayList<>();
-        String consulta = "";
-        try {
-            consulta = "SELECT unidad "
-                    + "FROM Unidad unidad ";
-            if (!block.isEmpty()) {
-                consulta += "WHERE unidad.block=:block ";
-                if (torre != 0) {
-                    consulta += "AND unidad.torre=:torre ";
-                }
-            } else if (torre != 0) {
-                consulta += "WHERE unidad.torre=:torre ";
-            }
-            if (block.isEmpty() && torre == 0) {
-                consulta += "WHERE unidad IN (";
-            } else {
-                consulta += "AND unidad IN (";
-            }
-            consulta += "SELECT gastoscomunes.unidad "
-                    + "FROM Gastoscomunes gastoscomunes "
-                    + "WHERE gastoscomunes.periodo<:periodo "
-                    + "AND gastoscomunes.estado=:est) "
-                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
-            Query query = sc.useSession().createQuery(consulta);
-            query.setParameter("est", Constantes.NO_PAGO);
-            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
-            if (!block.equals("")) {
-                query.setParameter("block", block);
-            }
-            if (torre != 0) {
-                query.setParameter("torre", torre);
-            }
-            list = query.list();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            sc.closeSession();
-        }
-        return list;
-    }
+//    public List<Unidad> TraeUnidadesConvenioXBlockTorre(String block, int torre) {
+//        List<Unidad> list = new ArrayList<>();
+//        String consulta = "";
+//        try {
+//            consulta = "SELECT unidad "
+//                    + "FROM Unidad unidad ";
+//            if (!block.isEmpty()) {
+//                consulta += "WHERE unidad.block=:block ";
+//                if (torre != 0) {
+//                    consulta += "AND unidad.torre=:torre ";
+//                }
+//            } else if (torre != 0) {
+//                consulta += "WHERE unidad.torre=:torre ";
+//            }
+//            if (block.isEmpty() && torre == 0) {
+//                consulta += "WHERE unidad IN (";
+//            } else {
+//                consulta += "AND unidad IN (";
+//            }
+//            consulta += "SELECT gastoscomunes.unidad "
+//                    + "FROM Gastoscomunes gastoscomunes "
+//                    + "WHERE gastoscomunes.periodo<:periodo "
+//                    + "AND gastoscomunes.estado=:est) "
+//                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
+//            Query query = sc.useSession().createQuery(consulta);
+//            query.setParameter("est", Constantes.NO_PAGO);
+//            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
+//            if (!block.equals("")) {
+//                query.setParameter("block", block);
+//            }
+//            if (torre != 0) {
+//                query.setParameter("torre", torre);
+//            }
+//            list = query.list();
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//        } finally {
+//            sc.closeSession();
+//        }
+//        return list;
+//    }
 
     /**
      * Trae las unidades en base a los datos que se ingresen
@@ -448,11 +448,12 @@ public class UnidadBean implements UnidadLocal {
      * @param torre si en null trae todas las torres
      * @param estado si es null trae todos los estados
      * @param in si es true verifica los in de GC
-     * @param comparaPeriodo constantes.COMPARA_*
+     * @param comparaPeriodo constantes.COMPARA_
+     *
      * @param periodo si en null trae todos los periodos
      * @param edificios si es true trae con edificios
      */
-    public List<Unidad> traeUnidadesXEstadoXBlockXTorre(String block, Integer torre, boolean in, Integer estado, Integer periodo, Integer comparaPeriodo,boolean edificios ) {
+    public List<Unidad> traeUnidadesXEstadoXBlockXTorre(String block, Integer torre, boolean in, Integer estado, Integer periodo, Integer comparaPeriodo, boolean edificios) {
         List<Unidad> list = new ArrayList<>();
         String consulta;
         try {
@@ -464,20 +465,22 @@ public class UnidadBean implements UnidadLocal {
                 if (torre != 0) {
                     consulta += "AND unidad.torre=:torre ";
                 }
-            } else if (torre != 0) {
+            } else if (torre != null) {
                 consulta += "WHERE unidad.torre=:torre ";
             }
             //verifica el in
             if (in) {
-                if (block != null && torre == 0) {
-                    consulta += "WHERE unidad IN (";
+                if (block != null || torre != null) {
+                    consulta += "AND unidad IN (";                    
                 } else {
-                    consulta += "AND unidad IN (";
+                    consulta += "WHERE unidad IN (";
                 }
-            } else if (block != null && torre == 0) {
-                consulta += "WHERE unidad NOT IN (";
             } else {
-                consulta += "AND unidad NOT IN (";
+                if (block != null || torre != null) {
+                    consulta += "AND unidad NOT IN (";
+                } else {
+                    consulta += "WHERE unidad NOT IN (";
+                }
             }
 
             consulta += "SELECT gastoscomunes.unidad "
@@ -491,10 +494,10 @@ public class UnidadBean implements UnidadLocal {
             } else if (comparaPeriodo != null && periodo != null) {
                 consulta += "WHERE gastoscomunes.periodo" + devuelveComprarador(comparaPeriodo) + ":periodo)";
             }
-            if(edificios){
-                consulta +="AND unidad.esEdificio = true";
-            }else{
-                consulta +="AND unidad.esEdificio = false OR unidad.esEdificio = NULL";                
+            if (edificios) {
+                consulta += "AND unidad.esEdificio = true";
+            } else {
+                consulta += "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
             }
             Query query = sc.useSession().createQuery(consulta);
             if (block != null) {

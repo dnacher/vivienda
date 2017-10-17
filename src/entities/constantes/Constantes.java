@@ -146,5 +146,8 @@ public class Constantes {
     public static final int COMPARA_LESS_THAN = 2;
     public static final int COMPARA_MORE_EQUAL = 3;
     public static final int COMPARA_LESS_EQUAL = 4;
+    
+    public static final boolean NOT_IN = false;
+    public static final boolean IN = true;
 
 }

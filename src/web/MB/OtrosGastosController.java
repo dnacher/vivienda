@@ -99,7 +99,7 @@ public class OtrosGastosController implements Initializable {
     private Label lblUnidad;
 
     @FXML
-    private TextArea txtDescripcion;
+    private TextArea txtDescripcion;   
 
     ObservableList<Unidad> listaUnidad;
     Unidad unidad;
@@ -134,6 +134,8 @@ public class OtrosGastosController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                 try {
+                    cargarComboBlock();
+                    cargarComboTorre();
                     UnidadBean ub = new UnidadBean();
                     listaUnidad = FXCollections.observableArrayList(ub.traerTodos());
                     cargaTablaUnidades();

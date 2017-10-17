@@ -417,6 +417,7 @@ public class ConveniosController implements Initializable {
         UnidadBean ub = new UnidadBean();
         List<Unidad> lista = ub.TraeUnidadesConvenio();
         listaUnidades = FXCollections.observableList(lista);
+        lblInfo.setText(String.valueOf(listaUnidades.size()));
         tblUnidades.setItems(listaUnidades);
     }
 
@@ -441,17 +442,22 @@ public class ConveniosController implements Initializable {
             UnidadBean ub = new UnidadBean();
             if (cmbBlock.getValue() != null) {
                 if (cmbTorre.getValue() != null) {
-                    listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
+                 listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+                //listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
                 } else {
-                    listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), 0);
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+//                    listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), 0);
                 }
             } else if (cmbTorre.getValue() != null) {
-                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+//                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
             } else {
-                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+//                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
             }
             listaUnidades = FXCollections.observableList(listaTorreBlock);
             tblUnidades.setItems(null);
+            lblInfo.setText(String.valueOf(listaUnidades.size()));
             tblUnidades.setItems(listaUnidades);
         } catch (Exception ex) {
             lblInfo.setText(ConstantesErrores.BLOCKYTORRE);
@@ -461,8 +467,10 @@ public class ConveniosController implements Initializable {
     public void mostrarTodos() {
         lblInfo.setText(ConstantesEtiquetas.VACIO);
         UnidadBean ub = new UnidadBean();
-        List<Unidad> listaTotal = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
+        List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+        //List<Unidad> listaTotal = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
         listaUnidades = FXCollections.observableList(listaTotal);
+        lblInfo.setText(String.valueOf(listaUnidades.size()));
         tblUnidades.setItems(null);
         tblUnidades.setItems(listaUnidades);
     }
