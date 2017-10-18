@@ -149,5 +149,8 @@ public class Constantes {
     
     public static final boolean NOT_IN = false;
     public static final boolean IN = true;
+    
+    public static final boolean CON_EDIFICIO = true;
+    public static final boolean SIN_EDIFICIO = false;
 
 }

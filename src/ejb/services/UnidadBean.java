@@ -293,8 +293,8 @@ public class UnidadBean implements UnidadLocal {
                     + "WHERE gastoscomunes.periodo=:periodo "
                     + "AND (gastoscomunes.estado=:est "
                     + "OR gastoscomunes.estado=:est2)) "
-                    + "AND unidad.esEdificio = false "
-                    + "OR unidad.esEdificio = NULL");
+                    + "AND (unidad.esEdificio = false "
+                    + "OR unidad.esEdificio = NULL)");
             query.setParameter("est", Constantes.PAGO);
             query.setParameter("est2", Constantes.NO_PAGO);
             query.setParameter("periodo", ConfiguracionControl.traePeriodo(anio, mes));
@@ -308,73 +308,73 @@ public class UnidadBean implements UnidadLocal {
         return list;
     }
 
-    public List<Unidad> TraeUnidadesXBlockTorreNoPago(String block, int torre) {
-        List<Unidad> lista = new ArrayList<>();
-        String consulta = "SELECT unidad FROM Unidad unidad ";
-        int sinFiltro = 0;
-        try {
-            if (torre == 0) {
-                if (!block.isEmpty()) {
-                    consulta += "WHERE Block=:block ";
-                    sinFiltro = 1;
-                }
-            } else if (block.isEmpty()) {
-                consulta += "WHERE Torre=:torre ";
-                sinFiltro = 1;
-            } else {
-                consulta += "WHERE Block=:block "
-                        + "AND Torre=:torre ";
-                sinFiltro = 1;
-            }
-            if (sinFiltro == 0) {
-                consulta += "WHERE unidad.activo=true ";
-            } else {
-                consulta += "AND unidad.activo=true ";
-            }
-            consulta += "AND unidad.idUnidad NOT IN (SELECT gastoscomunes.unidad "
-                    + "FROM Gastoscomunes gastoscomunes "
-                    + "WHERE gastoscomunes.periodo=:periodo "
-                    + "AND gastoscomunes.estado=:est) "
-                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
-            Query query = sc.useSession().createQuery(consulta);
-            if (!block.isEmpty()) {
-                query.setParameter("block", block);
-            }
-            if (torre != 0) {
-                query.setParameter("torre", torre);
-            }
-            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
-            //estado 2 pago al estar en el "not in" trae los que estan pagos
-            query.setParameter("est", Constantes.PAGO);
-            lista = query.list();
-            sc.closeSession();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        return lista;
-    }
+//    public List<Unidad> TraeUnidadesXBlockTorreNoPago(String block, int torre) {
+//        List<Unidad> lista = new ArrayList<>();
+//        String consulta = "SELECT unidad FROM Unidad unidad ";
+//        int sinFiltro = 0;
+//        try {
+//            if (torre == 0) {
+//                if (!block.isEmpty()) {
+//                    consulta += "WHERE Block=:block ";
+//                    sinFiltro = 1;
+//                }
+//            } else if (block.isEmpty()) {
+//                consulta += "WHERE Torre=:torre ";
+//                sinFiltro = 1;
+//            } else {
+//                consulta += "WHERE Block=:block "
+//                        + "AND Torre=:torre ";
+//                sinFiltro = 1;
+//            }
+//            if (sinFiltro == 0) {
+//                consulta += "WHERE unidad.activo=true ";
+//            } else {
+//                consulta += "AND unidad.activo=true ";
+//            }
+//            consulta += "AND unidad.idUnidad NOT IN (SELECT gastoscomunes.unidad "
+//                    + "FROM Gastoscomunes gastoscomunes "
+//                    + "WHERE gastoscomunes.periodo=:periodo "
+//                    + "AND gastoscomunes.estado=:est) "
+//                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL";
+//            Query query = sc.useSession().createQuery(consulta);
+//            if (!block.isEmpty()) {
+//                query.setParameter("block", block);
+//            }
+//            if (torre != 0) {
+//                query.setParameter("torre", torre);
+//            }
+//            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
+//            //estado 2 pago al estar en el "not in" trae los que estan pagos
+//            query.setParameter("est", Constantes.PAGO);
+//            lista = query.list();
+//            sc.closeSession();
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//        return lista;
+//    }
 
-    public List<Unidad> TraeUnidadesConvenio() {
-        List<Unidad> list = new ArrayList<>();
-        try {
-            Query query = sc.useSession().createQuery("SELECT unidad FROM Unidad unidad "
-                    + "WHERE unidad.idUnidad IN ("
-                    + "SELECT gastoscomunes.unidad "
-                    + "FROM Gastoscomunes gastoscomunes "
-                    + "WHERE gastoscomunes.periodo<:periodo "
-                    + "AND gastoscomunes.estado=:est) "
-                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
-
-            query.setParameter("est", Constantes.NO_PAGO);
-            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
-            list = query.list();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            sc.closeSession();
-        }
-        return list;
-    }
+//    public List<Unidad> TraeUnidadesConvenio() {
+//        List<Unidad> list = new ArrayList<>();
+//        try {
+//            Query query = sc.useSession().createQuery("SELECT unidad FROM Unidad unidad "
+//                    + "WHERE unidad.idUnidad IN ("
+//                    + "SELECT gastoscomunes.unidad "
+//                    + "FROM Gastoscomunes gastoscomunes "
+//                    + "WHERE gastoscomunes.periodo<:periodo "
+//                    + "AND gastoscomunes.estado=:est) "
+//                    + "AND unidad.esEdificio = false OR unidad.esEdificio = NULL");
+//
+//            query.setParameter("est", Constantes.NO_PAGO);
+//            query.setParameter("periodo", ConfiguracionControl.devuelvePeriodoActual());
+//            list = query.list();
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//        } finally {
+//            sc.closeSession();
+//        }
+//        return list;
+//    }
 
     public Integer TraeUnidadesConvenioCount() {
         Integer cantidad = -1;
@@ -440,7 +440,6 @@ public class UnidadBean implements UnidadLocal {
 //        }
 //        return list;
 //    }
-
     /**
      * Trae las unidades en base a los datos que se ingresen
      *
@@ -459,10 +458,11 @@ public class UnidadBean implements UnidadLocal {
         try {
             consulta = "SELECT unidad "
                     + "FROM Unidad unidad ";
+
             //verifica block y torre
             if (block != null) {
                 consulta += "WHERE unidad.block=:block ";
-                if (torre != 0) {
+                if (torre != null) {
                     consulta += "AND unidad.torre=:torre ";
                 }
             } else if (torre != null) {
@@ -471,7 +471,7 @@ public class UnidadBean implements UnidadLocal {
             //verifica el in
             if (in) {
                 if (block != null || torre != null) {
-                    consulta += "AND unidad IN (";                    
+                    consulta += "AND unidad IN (";
                 } else {
                     consulta += "WHERE unidad IN (";
                 }

@@ -351,20 +351,24 @@ public class GastosComunesController implements Initializable {
             ub = new UnidadBean();
             if (cmbBlock.getValue() != null) {
                 if (cmbTorre.getValue() != null) {
-                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
+//                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
                     block = cmbBlock.getValue();
                     torre = cmbTorre.getValue();
                 } else {
-                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), 0);
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
+//                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), 0);
                     block = cmbBlock.getValue();
                     torre = 0;
                 }
             } else if (cmbTorre.getValue() != null) {
-                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
+//                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
                 block = ConstantesEtiquetas.VACIO;
                 torre = cmbTorre.getValue();
             } else {
-                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, 0);
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
+//                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, 0);
                 block = ConstantesEtiquetas.VACIO;
                 torre = 0;
             }

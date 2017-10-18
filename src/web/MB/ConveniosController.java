@@ -415,7 +415,8 @@ public class ConveniosController implements Initializable {
 
         tblUnidades.getColumns().addAll(Nombre, Apellido, Block, Torre, Puerta);
         UnidadBean ub = new UnidadBean();
-        List<Unidad> lista = ub.TraeUnidadesConvenio();
+//        List<Unidad> lista = ub.TraeUnidadesConvenio();
+        List<Unidad> lista = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, Constantes.SIN_EDIFICIO);
         listaUnidades = FXCollections.observableList(lista);
         lblInfo.setText(String.valueOf(listaUnidades.size()));
         tblUnidades.setItems(listaUnidades);
@@ -442,17 +443,17 @@ public class ConveniosController implements Initializable {
             UnidadBean ub = new UnidadBean();
             if (cmbBlock.getValue() != null) {
                 if (cmbTorre.getValue() != null) {
-                 listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
-                //listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
+                    //listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
                 } else {
-                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
 //                    listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), 0);
                 }
             } else if (cmbTorre.getValue() != null) {
-                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
 //                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
             } else {
-                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
 //                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
             }
             listaUnidades = FXCollections.observableList(listaTorreBlock);
@@ -467,7 +468,7 @@ public class ConveniosController implements Initializable {
     public void mostrarTodos() {
         lblInfo.setText(ConstantesEtiquetas.VACIO);
         UnidadBean ub = new UnidadBean();
-        List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(),Constantes.COMPARA_LESS_THAN, false);
+        List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
         //List<Unidad> listaTotal = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
         listaUnidades = FXCollections.observableList(listaTotal);
         lblInfo.setText(String.valueOf(listaUnidades.size()));
@@ -477,17 +478,17 @@ public class ConveniosController implements Initializable {
 
     public void guardaConvenio() {
         ControlVentana cv = new ControlVentana();
-        boolean correcto=true;
+        boolean correcto = true;
         try {
             if (cmbTipoConvenio.getSelectionModel().getSelectedItem() != null) {
                 if (cmbTipoConvenio.getSelectionModel().getSelectedItem().equals("Limite Cuotas") || cmbTipoConvenio.getSelectionModel().getSelectedItem().equals("Limite Monto")) {
                     if (txtTipoConvenio.getText().isEmpty()) {
-                        correcto=false;
+                        correcto = false;
                         ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.SIN_CUOTA, Notification.ERROR_ICON));
                     }
-                }else{
-                    if(cmbFechaTipoConvenio.getValue()==null){
-                        correcto=false;
+                } else {
+                    if (cmbFechaTipoConvenio.getValue() == null) {
+                        correcto = false;
                         ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.SIN_FECHA, Notification.ERROR_ICON));
                     }
                 }
@@ -520,7 +521,7 @@ public class ConveniosController implements Initializable {
                     parameters.put(ConstantesEtiquetas.ID_USUARIO, convenio.getUnidad().getIdUnidad());
                     cc.generarReporteConParametros(ConstantesEtiquetas.CONVENIO_IMPRESION, parameters);
                     cv.creaVentanaNotificacionCorrecto();
-                } 
+                }
             } else {
                 ConfiguracionControl.notifier.notify(new Notification(ConstantesEtiquetas.ERROR, ConstantesErrores.SIN_TIPO_CONVENIO, Notification.ERROR_ICON));
             }

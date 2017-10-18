@@ -361,7 +361,8 @@ public class OtrosGastosController implements Initializable {
         try {
             lblInfo.setText(ConstantesEtiquetas.VACIO);
             UnidadBean ub = new UnidadBean();
-            List<Unidad> listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
+            List<Unidad> listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
+//            List<Unidad> listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
             listaUnidad = FXCollections.observableList(listaTorreBlock);
             llenaTabla();
         } catch (Exception ex) {
