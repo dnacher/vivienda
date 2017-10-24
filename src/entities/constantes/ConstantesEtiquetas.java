@@ -158,6 +158,8 @@ public class ConstantesEtiquetas {
     public static String PESOS = "$";
     public static String ESPACIO = " ";
     public static String VACIO = "";
+	public static String NULL_STRING= null;
+	public static Integer NULL_INTEGER= null;
     public static String PUNTOS = ": ";
     public static String PARENTESIS_ABIERTO = " (";
     public static String APROX = " % aprox.)";

@@ -187,16 +187,15 @@ public class UnidadBean implements UnidadLocal {
         return unidades;
     }
 
-    public int totalUnidadesNoedificios(String block, int torre) {
+    public int totalUnidadesNoedificios(String block, Integer torre) {
         int retorno = 0;
-        if (block.equals("") && torre == 0) {
+        if (block == null && torre == null) {
             Query query = sc.useSession().createQuery("SELECT COUNT(*) FROM Unidad unidad");
             Long count = (Long) query.uniqueResult();
             retorno = toIntExact(count);
             sc.closeSession();
             return retorno;
-        } else {
-            if (block.equals("") && torre != 0) {
+        } else if (block == null && torre != null) {
                 Query query = sc.useSession().createQuery("SELECT COUNT(*) FROM Unidad unidad "
                         + "WHERE unidad.torre=:laTorre "
                         + "AND unidad.activo=true "
@@ -206,7 +205,7 @@ public class UnidadBean implements UnidadLocal {
                 Long count = (Long) query.uniqueResult();
                 retorno = toIntExact(count);
                 sc.closeSession();
-            } else if (!block.equals("") && torre == 0) {
+            } else if (block != null && torre == null) {
                 Query query = sc.useSession().createQuery("SELECT COUNT(*) FROM Unidad unidad "
                         + "WHERE unidad.block=:elBlock "
                         + "AND unidad.activo=true "
@@ -228,8 +227,7 @@ public class UnidadBean implements UnidadLocal {
                 retorno = toIntExact(count);
                 sc.closeSession();
             }
-            return retorno;
-        }
+            return retorno;        
     }
 
     public int totalUnidadesNoPago(String block, int torre) {
