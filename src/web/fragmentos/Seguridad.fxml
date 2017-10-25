@@ -13,14 +13,24 @@
       <AnchorPane fx:id="paneCrud" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Tipo Usuario" />
-            <ComboBox fx:id="cmbTipoUsuario" layoutX="193.0" layoutY="66.0" prefWidth="200.0" />
+			<Label fx:id="lblTIpoUsuario" alignment="CENTER_LEFT" layoutX="193.0" layoutY="72.0" prefHeight="17.0" prefWidth="200.0" />            
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Pagina" />
 			<ComboBox fx:id="cmbPagina" layoutX="193.0" layoutY="102.0" prefWidth="200.0" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="140.0" prefHeight="17.0" prefWidth="122.0" text="Permisos" />
             <CheckBox fx:id="chkAdministrador" layoutX="193.0" layoutY="140.0" mnemonicParsing="false" text="Administrador" />
-            <CheckBox fx:id="chkAgregar" layoutX="300.0" layoutY="140.0" mnemonicParsing="false" text="Agregar/modificar" />
-            <CheckBox fx:id="chkVer" layoutX="435.0" layoutY="142.0" mnemonicParsing="false" text="Ver" />
-            <Button fx:id="btnAgregar" layoutX="500.0" layoutY="80.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Agregar" />
+            <CheckBox fx:id="chkAgregar" layoutX="320.0" layoutY="140.0" mnemonicParsing="false" text="Agregar/modificar" />
+            <CheckBox fx:id="chkVer" layoutX="475.0" layoutY="140.0" mnemonicParsing="false" text="Ver" />
+            <Button fx:id="btnAgregar" layoutX="650.0" layoutY="180.0" mnemonicParsing="false" onAction="#agregar" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="Agregar" />
+			<Button fx:id="btnAgregarTodos" layoutX="650.0" layoutY="220.0" mnemonicParsing="false" onAction="#agregarTodos" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="Agregas Todos" />
+			<Button fx:id="btnAgregarEliminar" layoutX="650.0" layoutY="260.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="Eliminar" />
+			<Button fx:id="btnAgregarEliminarTodos" layoutX="650.0" layoutY="300.0" mnemonicParsing="false" onAction="#eliminarTodos" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="Eliminar Todos" />
+			
+			<Label fx:id="lblInicio" alignment="CENTER_LEFT" layoutX="650.0" layoutY="330.0" prefHeight="17.0" prefWidth="200.0" text="* Inicio"/> 
+			<Label fx:id="lblAdministracion" alignment="CENTER_LEFT" layoutX="650.0" layoutY="360.0" prefHeight="17.0" prefWidth="200.0" text="* Administracion"/> 	
+			<Label fx:id="lblMantenimiento" alignment="CENTER_LEFT" layoutX="650.0" layoutY="390.0" prefHeight="17.0" prefWidth="200.0" text="* Mantenimiento"/> 	
+			<Label fx:id="lblReportes" alignment="CENTER_LEFT" layoutX="650.0" layoutY="420.0" prefHeight="17.0" prefWidth="200.0" text="* Reportes"/> 	
+			<Label fx:id="lblConfiguracion" alignment="CENTER_LEFT" layoutX="650.0" layoutY="450.0" prefHeight="17.0" prefWidth="200.0" text="* Configuracion"/> 			
+			
             <TableView fx:id="tblPermisos" layoutX="115.0" layoutY="180.0" prefHeight="260.0" prefWidth="500.0" />
             <Label layoutX="148.0" layoutY="450.0" text="Activo" />
             <CheckBox fx:id="chkActivo" layoutX="203.0" layoutY="450.0" mnemonicParsing="false" selected="true" />
@@ -37,7 +47,7 @@
       </AnchorPane>
       <AnchorPane fx:id="paneTabel" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0">
          <children>
-            <TableView fx:id="tableData" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
+            <TableView fx:id="tableData" onMouseClicked="#nuevoGrupo" layoutX="7.0" layoutY="7.0" prefHeight="546.0" prefWidth="1226.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -45,8 +55,7 @@
          <font>
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
-      </Text>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#nuevoGrupo" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      </Text>      
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />

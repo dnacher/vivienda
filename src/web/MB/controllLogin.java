@@ -29,7 +29,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import ejb.services.UsuariosBean;
-import ejb.services.UsuariosLocal;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import eu.hansolo.enzo.notification.Notification;
@@ -104,6 +103,8 @@ public class controllLogin implements Initializable {
                         Viviendas.user.setPassword(txtPassword.getText());
                         if (Viviendas.user.getNombre().equals(txtUsername.getText())
                                 && Seguridad.verifyPassword(Viviendas.user)) {
+							ub = new UsuariosBean();
+							Viviendas.listaPermisos=ub.TraePermisos(Viviendas.getTipoUsuario());
                             logueoVerificado();
                         } else {
                             ConfiguracionControl.notifier.notify(new Notification("Error", "Credenciales incorrectas", Notification.ERROR_ICON));
@@ -131,7 +132,6 @@ public class controllLogin implements Initializable {
         ConfiguracionBean cb = new ConfiguracionBean();
         listaConfiguracion = cb.traerTodos();
         ConfiguracionControl.notifier.notify(new Notification("Correcto", "Se logueo Correctamente", Notification.SUCCESS_ICON));
-        //cv.creaVentanaNotificacionCorrecto();
         Stage st = new Stage();
         stage = (Stage) lblClose.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource(Constantes.PAGINA_FORM_MENU));

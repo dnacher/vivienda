@@ -14,7 +14,9 @@ public class ConstantesMensajes {
     public static String STOCK_ES="El stock del item es: ";
     public static String ELIMINAR_CONVENIO="¿Confirma que desea eliminar el Convenio?";
     public static String DESEA_CONFIRMAR_LICENCIA="¿Desea confirmar la licencia?";
+	public static String CONFIRMAR_CAMBIO_TIPO_USUARIO="Ya tiene permisos seleccionados, si cambia se borraran";
     public static String CONFIRMA_LICENCIA="Confirmar Licencia";
+	public static String CONFIRMA_CAMBIO_TIPO_USUARIO="Confirmar cambio tipo usuario";
     public static String DESEA_CONFIRMAR_BAJA="¿Desea confirmar la baja?";
     public static String BAJA_CORRECTO="Se ha dado de baja correctamente. ";
     public static String SE_MUESTRAN="Se muestran ";

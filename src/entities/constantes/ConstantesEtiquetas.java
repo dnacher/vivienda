@@ -49,6 +49,9 @@ public class ConstantesEtiquetas {
     public static String BLOCK_UPPER = "Block";
     public static String TORRE_UPPER = "Torre";
     public static String PUERTA_UPPER = "Puerta";
+	public static String PAGINA_UPPER = "Pagina";
+	public static String PERMISO_UPPER = "Permiso";
+	public static String LBL_TIPO_USUARIO = "Tipo Usuario";
     
     /*
     *        Columnas
@@ -74,7 +77,7 @@ public class ConstantesEtiquetas {
     public static String ESTADO_UPPER = "Estado";
     public static String FECHA_INICIO_ESTADO = "fechaInicioEstado";
     public static String FECHA_FIN_ESTADO = "fechaFinEstado";    
-    public static String LICENCIA = "Licencia";
+    public static String LICENCIA = "Licencia";	
     public static String BAJA = "Baja";
     public static String CONFIRMA_BAJA = "Confirmar Baja";
     public static String MY_DIALOG = "myDialog";
@@ -83,6 +86,8 @@ public class ConstantesEtiquetas {
     public static String BLOCK = "Block";
     public static String TORRE = "Torre";
     public static String PUERTA = "Puerta";
+	public static String PAGINA = "pagina";
+	public static String PERMISO = "permiso";
     public static String TIPO_BONIFICACION="Tipo Bonidificacion";
     public static String FECHA_INICIO = "Fecha de inicio";
     public static String FECHA_FIN = "Fecha fin";
@@ -164,3 +169,4 @@ public class ConstantesEtiquetas {
     public static String PARENTESIS_ABIERTO = " (";
     public static String APROX = " % aprox.)";
 }
+
