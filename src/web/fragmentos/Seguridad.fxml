@@ -12,14 +12,18 @@
    <children>
       <AnchorPane fx:id="paneCrud" layoutY="91.0" opacity="0.0" prefHeight="560.0" prefWidth="1225.0" style="-fx-background-color: white;">
          <children>
-            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="*Nombre" />
-            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
-            <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
-            <Label layoutX="148.0" layoutY="243.0" text="Activo" />
-            <TextField fx:id="txtNombre" layoutX="193.0" layoutY="66.0" prefHeight="27.0" prefWidth="200.0" promptText="Nombre" />
-			<ComboBox fx:id="cmbTipoUsuario" layoutX="90.0" layoutY="55.0" prefWidth="150.0" />
-			<ComboBox fx:id="cmbPagina" layoutX="193.0" layoutY="102.0" prefWidth="150.0" promptText="Block" />
-            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="239.0" mnemonicParsing="false" selected="true" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="72.0" prefHeight="17.0" prefWidth="122.0" text="Tipo Usuario" />
+            <ComboBox fx:id="cmbTipoUsuario" layoutX="193.0" layoutY="66.0" prefWidth="200.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Pagina" />
+			<ComboBox fx:id="cmbPagina" layoutX="193.0" layoutY="102.0" prefWidth="200.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="140.0" prefHeight="17.0" prefWidth="122.0" text="Permisos" />
+            <CheckBox fx:id="chkAdministrador" layoutX="193.0" layoutY="140.0" mnemonicParsing="false" text="Administrador" />
+            <CheckBox fx:id="chkAgregar" layoutX="300.0" layoutY="140.0" mnemonicParsing="false" text="Agregar/modificar" />
+            <CheckBox fx:id="chkVer" layoutX="435.0" layoutY="142.0" mnemonicParsing="false" text="Ver" />
+            <Button fx:id="btnAgregar" layoutX="500.0" layoutY="80.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Agregar" />
+            <TableView fx:id="tblPermisos" layoutX="115.0" layoutY="180.0" prefHeight="260.0" prefWidth="500.0" />
+            <Label layoutX="148.0" layoutY="450.0" text="Activo" />
+            <CheckBox fx:id="chkActivo" layoutX="203.0" layoutY="450.0" mnemonicParsing="false" selected="true" />
             <Button fx:id="btnGuardar" layoutX="507.0" layoutY="507.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="98.0" styleClass="btn" text="Guardar" />
             <Button fx:id="btnBack" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" onAction="#atras" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircleBlack.css">
                <graphic>
@@ -37,7 +41,7 @@
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grupo">
+      <Text fill="#2b579a" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seguridad">
          <font>
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
