@@ -25,13 +25,17 @@ import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 import UtilsGeneral.ListaPreciosTable;
 import ejb.services.MaterialBean;
+import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
+import entities.enums.MenuAdministracion;
+import entities.enums.MenuMantenimiento;
 import exceptions.ServiceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 
 public class listaPreciosController implements Initializable {
 
@@ -61,6 +65,9 @@ public class listaPreciosController implements Initializable {
 
     @FXML
     private AnchorPane paneForm;
+	
+	@FXML
+	private Button btnAgregar;
 
     public ObservableList<ListaPreciosTable> lista;
 
@@ -72,6 +79,7 @@ public class listaPreciosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+		btnAgregar.setDisable(ConfiguracionControl.traePermisos(MenuMantenimiento.ListaPrecios.getPagina(), Constantes.PERMISO_OPERADOR));
         task();
         atras();
     }

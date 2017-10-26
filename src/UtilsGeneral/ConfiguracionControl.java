@@ -5,6 +5,7 @@ import entities.hibernate.NewHibernateUtil;
 import entities.hibernate.SessionConnection;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Monto;
+import entities.persistence.entities.Permisosusuario;
 import entities.persistence.entities.Reglabonificacion;
 import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
@@ -23,6 +24,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
+import viviendas.Viviendas;
 
 public class ConfiguracionControl {
 
@@ -286,73 +288,19 @@ public class ConfiguracionControl {
         }
         return total;
     }
-    /*  public static void actualizaBonificacion(String tabla, int bonificacion){
-        Configuracion c;
-            /*SessionFactory sf= NewHibernateUtil.getSessionFactory();
-            Session session;*/
- /*        Session session = SessionConnection.getConnection().useSession();
-            Query query= session.createQuery("from Configuracion where NombreTabla=:name");            
-            query.setParameter("name", tabla);
-            c=(Configuracion)query.uniqueResult();             
-            c.setId(bonificacion);
-            Transaction tx= session.beginTransaction(); 
-            session.update(c);
-            tx.commit();        
-    }
-    
-    public static int StringAInt(String numero){
-        int num=-1;
-        try{
-            num=Integer.parseInt(numero);
-        }
-        catch(Exception ex){
-            ex.getMessage();
-        }
-        return num;
-    }
-    
- 
-    
-    public static List<String> mesesLista(Unidad uni){
-        List<String>retorno= new ArrayList<String>();
-        Date d=uni.getFechaIngreso();
-        String str=d.toString();
-        String[] list=str.split("-");
-        int YearInicial=Integer.parseInt(list[0]);
-        int MonthInicial=Integer.parseInt(list[1]);
-        int yearNow = Calendar.getInstance().get(Calendar.YEAR);
-        int monthNow=Calendar.getInstance().get(Calendar.MONTH)+1;
-       while(YearInicial!=yearNow || MonthInicial!=monthNow){       
-           retorno.add(YearInicial + "/" + MonthInicial);
-           if(MonthInicial==12){
-           YearInicial++;           
-           MonthInicial=1;
-           retorno.add(YearInicial + "/" + MonthInicial);
-           }           
-           MonthInicial++;
-       }
-       return retorno;
-    }
-    
-    public static String mesesString(Unidad uni){        
-        String ret="";
-        Date d=uni.getFechaIngreso();
-        String str=d.toString();
-        String[] list=str.split("-");
-        int YearInicial=Integer.parseInt(list[0]);
-        int MonthInicial=Integer.parseInt(list[1]);
-        int yearNow = Calendar.getInstance().get(Calendar.YEAR);
-        int monthNow=Calendar.getInstance().get(Calendar.MONTH)+1;
-       while(YearInicial!=yearNow || MonthInicial!=monthNow -1){           
-           ret= ret + "\"" + YearInicial + "/" + MonthInicial + "\"" + ",";          
-           if(MonthInicial==12){
-           YearInicial++;           
-           MonthInicial=1;
-           ret= ret + YearInicial + "/" + MonthInicial + ",";          
-           }           
-           MonthInicial++;
-       }
-       ret=ret + "\"" + yearNow + "/" + MonthInicial + "\"";
-       return ret;
-    }*/
+  
+	public static boolean traePermisos(String pagina,int permiso){
+		boolean tiene=true;
+		for(Permisosusuario pu: Viviendas.listaPermisos){
+			if(pu.getPagina().equals(pagina)){
+				if(pu.getPermiso()>=permiso){
+					tiene=false;
+				}
+				break;				
+			}
+		}
+		return tiene;
+	}
+	
+	
 }

@@ -18,7 +18,7 @@ public enum MenuConfiguracion {
     Usuarios("Usuario", "Usuario", "Configuracion"),
     TipoUsuario("TipoUsuario", "Tipo Usuario", "Configuracion"),
     TipoDuracion("TipoDuracion", "Tipo Duracion", "Configuracion"),
-    CargarMasivas("CargarMasivas", "Cargar Masivas", "Configuracion"),
+    //CargarMasivas("CargarMasivas", "Cargar Masivas", "Configuracion"),
     ImportardeExcel("ImportarExcel", "Importar Excel", "Configuracion"),
     Seguridad("Seguridad", "Seguridad", "Configuracion");
 

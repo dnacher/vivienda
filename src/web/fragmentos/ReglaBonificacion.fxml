@@ -80,7 +80,7 @@
             <Font name="Segoe UI Semilight" size="48.0" />
          </font>
       </Text>
-      <Button fx:id="btnNew" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#aksiNew" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
+      <Button fx:id="btnAgregar" defaultButton="true" layoutX="1101.0" layoutY="46.0" mnemonicParsing="false" onAction="#aksiNew" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Agregar" />
       <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/301.GIF" />

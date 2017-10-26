@@ -11,6 +11,8 @@ import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.constantes.ConstantesMensajes;
+import entities.enums.MenuAdministracion;
+import entities.enums.MenuMantenimiento;
 import entities.enums.errores;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Monto;
@@ -48,6 +50,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -118,6 +121,12 @@ public class GastosComunesController implements Initializable {
 
 	@FXML
 	private DatePicker cmbFechaMes;
+	
+	@FXML
+	private Button btnPagar;
+	
+	@FXML
+	private Button btnCerrarMes;
 
 	public List<Configuracion> habitaciones;
 	public List<Reglabonificacion> bonificaciones;
@@ -133,6 +142,8 @@ public class GastosComunesController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		btnPagar.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.GastosComunes.getPagina(), Constantes.PERMISO_OPERADOR));
+		btnCerrarMes.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.GastosComunes.getPagina(), Constantes.PERMISO_ADMIN));
 		task();
 		try {
 			cargaComboMonto();

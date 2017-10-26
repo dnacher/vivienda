@@ -3,8 +3,11 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.GrupoBean;
+import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
+import entities.enums.MenuAdministracion;
+import entities.enums.MenuMantenimiento;
 import entities.persistence.entities.Grupo;
 import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
@@ -21,8 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -56,7 +59,7 @@ public class grupoController implements Initializable {
     private CheckBox ChkActivo;
 
     @FXML
-    private Label LblNombre;
+	private Button btnAgregar;
 
     public ObservableList<Grupo> lista;
 
@@ -69,6 +72,7 @@ public class grupoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+			btnAgregar.setDisable(ConfiguracionControl.traePermisos(MenuMantenimiento.Grupo.getPagina(), Constantes.PERMISO_OPERADOR));
             task();
             atras(null);
         } catch (Exception ex) {

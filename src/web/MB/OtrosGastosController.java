@@ -39,11 +39,14 @@ import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.constantes.ConstantesMensajes;
+import entities.enums.MenuAdministracion;
+import entities.enums.MenuMantenimiento;
 import entities.persistence.entities.OtrosgastosId;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import web.animations.FadeInUpTransition;
@@ -100,6 +103,9 @@ public class OtrosGastosController implements Initializable {
 
     @FXML
     private TextArea txtDescripcion;   
+	
+	@FXML
+	private Button btnAgregar;
 
     ObservableList<Unidad> listaUnidad;
     Unidad unidad;
@@ -108,6 +114,7 @@ public class OtrosGastosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+			btnAgregar.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.OtrosGastos.getPagina(), Constantes.PERMISO_OPERADOR));
             task();
         } catch (Exception ex) {
             Logger.getLogger(OtrosGastosController.class.getName()).log(Level.SEVERE, null, ex);

@@ -3,10 +3,12 @@ package web.MB;
 import UtilsGeneral.ConfiguracionControl;
 import ejb.services.TipoUsuarioBean;
 import ejb.services.UsuariosBean;
+import entities.constantes.Constantes;
 import entities.constantes.ConstantesEtiquetas;
 import entities.enums.MenuAdministracion;
 import entities.enums.MenuConfiguracion;
 import entities.enums.MenuMantenimiento;
+import entities.enums.MenuPrincipal;
 import entities.persistence.entities.Permisosusuario;
 import entities.persistence.entities.Tipousuario;
 import eu.hansolo.enzo.notification.Notification;
@@ -94,6 +96,12 @@ public class SeguridadController implements Initializable {
 	public List<Permisosusuario> listaPermisosUsuario;
 	public Tipousuario tu;
 
+	Permisosusuario administracion;
+	Permisosusuario inicio;
+	Permisosusuario mantenimiento;
+	Permisosusuario configuracion;
+	Permisosusuario reportes;
+
 	/**
 	 * Initializes the controller class.
 	 *
@@ -103,6 +111,7 @@ public class SeguridadController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
+			tableData.setDisable(ConfiguracionControl.traePermisos(MenuConfiguracion.Seguridad.getPagina(), Constantes.PERMISO_ADMIN));
 			lblnoVisibles(false);
 			task();
 			atras(null);
@@ -198,8 +207,6 @@ public class SeguridadController implements Initializable {
 		if (listaPaginas == null) {
 			listaPaginas = FXCollections.observableArrayList(new ArrayList());
 		}
-//		UsuariosBean ub = new UsuariosBean();
-//		List<Permisosusuario> listaSeguridad = ub.TraePermisos(Viviendas.getTipoUsuario());
 		for (Permisosusuario pu : Viviendas.listaPermisos) {
 			if (pu.getPermiso() == 7) {
 				if (noEs(pu.getPagina())) {
@@ -224,6 +231,11 @@ public class SeguridadController implements Initializable {
 	}
 
 	public void nuevoGrupo() {
+		administracion= new Permisosusuario(MenuPrincipal.Administracion.getPagina(), tu, 7);
+		inicio= new Permisosusuario(MenuPrincipal.Inicio.getPagina(), tu, 7);
+		mantenimiento= new Permisosusuario(MenuPrincipal.Mantenimiento.getPagina(), tu, 7);
+		configuracion= new Permisosusuario(MenuPrincipal.Configuracion.getPagina(), tu, 7);
+		reportes= new Permisosusuario(MenuPrincipal.Reportes.getPagina(), tu, 7);
 		if (tableData.getSelectionModel().getSelectedItem() != null) {
 			tu = tableData.getSelectionModel().getSelectedItem();
 			lblTIpoUsuario.setText(tu.getNombre());
@@ -237,12 +249,12 @@ public class SeguridadController implements Initializable {
 			UsuariosBean ub = new UsuariosBean();
 			listaPermisosUsuario = ub.TraePermisos(tu);
 			listaPermisos = FXCollections.observableArrayList(listaPermisosUsuario);
-			for(Permisosusuario pu: listaPermisos){
+			for (Permisosusuario pu : listaPermisos) {
 				verificaCarpeta(pu.getPagina(), true);
 			}
 			tblPermisos.setItems(listaPermisos);
 			paneTabel.setOpacity(0);
-			new FadeInUpTransition(paneCrud).play();			
+			new FadeInUpTransition(paneCrud).play();
 		}
 	}
 
@@ -261,6 +273,7 @@ public class SeguridadController implements Initializable {
 	}
 
 	public void agregar() {
+
 		if (cmbPagina.getSelectionModel().getSelectedItem() != null) {
 			if (listaPermisosUsuario == null) {
 				listaPermisosUsuario = new ArrayList<>();
@@ -371,7 +384,22 @@ public class SeguridadController implements Initializable {
 				UsuariosBean ub = new UsuariosBean();
 				ub.EliminaPermisos(tu);
 				ub = new UsuariosBean();
-				ub.guardaPermisos(listaPermisos);
+				if(lblAdministracion.isVisible()){					
+					listaPermisos.add(administracion);
+				}
+				if(lblConfiguracion.isVisible()){					
+					listaPermisos.add(configuracion);
+				}
+				if(lblInicio.isVisible()){					
+					listaPermisos.add(inicio);
+				}
+				if(lblMantenimiento.isVisible()){					
+					listaPermisos.add(mantenimiento);
+				}
+				if(lblReportes.isVisible()){					
+					listaPermisos.add(reportes);
+				}				
+				ub.guardaPermisos(listaPermisos);				
 				tu = null;
 				atras(null);
 			} catch (ServiceException ex) {

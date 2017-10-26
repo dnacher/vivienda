@@ -53,7 +53,7 @@
             <ComboBox fx:id="cmbBajaLicencia" layoutX="335.0" layoutY="443.0" prefHeight="27.0" prefWidth="177.0" />
             <DatePicker fx:id="cmbFechaDesde" layoutX="335.0" layoutY="476.0" />
             <DatePicker fx:id="cmbFechaHasta" layoutX="335.0" layoutY="513.0" />
-            <Button defaultButton="true" layoutX="543.0" layoutY="468.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Guardar" />
+            <Button fx:id="btnGuardar" defaultButton="true" layoutX="543.0" layoutY="468.0" mnemonicParsing="false" onAction="#guardar" prefHeight="27.0" prefWidth="108.0" styleClass="btn" text="Guardar" />
          </children>
       </AnchorPane>
       <Separator layoutY="89.0" prefHeight="0.0" prefWidth="1225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

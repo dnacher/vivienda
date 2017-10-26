@@ -48,6 +48,7 @@ import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.constantes.ConstantesMensajes;
+import entities.enums.MenuMantenimiento;
 import entities.persistence.entities.Historialtrabajo;
 import entities.persistence.entities.HistorialtrabajoId;
 import java.time.LocalDateTime;
@@ -156,6 +157,12 @@ public class CotizacionController implements Initializable {
     
     @FXML
     private Button btnSecond;
+	
+	@FXML
+    private Button btnAdd;
+	
+	@FXML
+    private Button btnEdit;
  
     ObservableList listaUnidades;
     Unidad unidad;
@@ -167,6 +174,8 @@ public class CotizacionController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+		btnAdd.setDisable(ConfiguracionControl.traePermisos(MenuMantenimiento.CotizacionTrabajo.getPagina(), Constantes.PERMISO_OPERADOR));
+		btnEdit.setDisable(ConfiguracionControl.traePermisos(MenuMantenimiento.CotizacionTrabajo.getPagina(), Constantes.PERMISO_OPERADOR));
         lblInfoMaterial.setText(ConstantesEtiquetas.VACIO);
         cargaTabla();
         cargaTablaMateriales();

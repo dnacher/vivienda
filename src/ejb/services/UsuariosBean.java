@@ -108,11 +108,9 @@ public class UsuariosBean implements UsuariosLocal {
 
     public List<Permisosusuario> TraePermisos(Tipousuario tipoUsuario) {
         List<Permisosusuario> lista = new ArrayList<>();
-        //Query query= session.createQuery("from Permisosusuario pu where pu.tipousuario=:tipoUsuario");
         Query query = sc.useSession().createQuery("from Permisosusuario pu where pu.tipousuario=:tipoUsuario");
         query.setParameter("tipoUsuario", tipoUsuario);
         lista = query.list();
-        //session.close();
         sc.closeSession();
         return lista;
     }
@@ -143,10 +141,6 @@ public class UsuariosBean implements UsuariosLocal {
                 }
             }
             tx.commit();
-            /*Query query= sc.useSession().createQuery(consulta);
-            query.setParameter("tipoUsuario", tipoUsuario);
-            query.executeUpdate();*/
-            //session.close();
             sc.closeSession();
             correcto = true;
         } catch (Exception ex) {

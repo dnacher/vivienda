@@ -153,7 +153,8 @@ public class Constantes {
     public static final boolean CON_EDIFICIO = true;
     public static final boolean SIN_EDIFICIO = false;
 	
-//	public static final Integer ADMIN=15;
-	
+	public static final Integer PERMISO_ADMIN=7;
+	public static final Integer PERMISO_OPERADOR=3;
+	public static final Integer PERMISO_VER=1;	
 
 }

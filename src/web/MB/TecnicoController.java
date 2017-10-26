@@ -4,7 +4,10 @@ import UtilsGeneral.ConfiguracionControl;
 import control.ControlVentana;
 import ejb.services.TecnicoBean;
 import ejb.utils.TecnicoImage;
+import entities.constantes.Constantes;
 import entities.constantes.ConstantesEtiquetas;
+import entities.enums.MenuAdministracion;
+import entities.enums.MenuMantenimiento;
 import entities.persistence.entities.Tecnico;
 import exceptions.ServiceException;
 import java.net.URL;
@@ -19,6 +22,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -67,12 +71,16 @@ public class TecnicoController implements Initializable {
 
     @FXML
     private Label lblTelefono;
+	
+	@FXML
+	private Button btnAgregar;
 
     public ObservableList<TecnicoImage> lista;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+			btnAgregar.setDisable(ConfiguracionControl.traePermisos(MenuMantenimiento.Tecnico.getPagina(), Constantes.PERMISO_OPERADOR));
             task();
             atras();
         } catch (Exception ex) {
