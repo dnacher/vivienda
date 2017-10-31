@@ -124,6 +124,7 @@ public class Constantes {
     public static final String EXCEL = "Libro Excel 97-2003";
     public static final String EXTENSION_EXCEL = "*.xls";
     public static final String TRABAJANDO_ESPERE = "trabajando, espere por favor";
+    public static final String ELEGIR_ARCHIVO = "Debe elegir un archivo";
     public static final String PRONTO_CARGAR = "Pronto para cargar";
     public static final String CARGANDO = "Cargando...";
 
@@ -140,21 +141,21 @@ public class Constantes {
     public static final int PAGO = 2;
     public static final int CONVENIO = 3;
     public static final int NOTA_CREDITO = 4;
-    
+
     public static final int COMPARA_EQUAL = 0;
     public static final int COMPARA_MORE_THAN = 1;
     public static final int COMPARA_LESS_THAN = 2;
     public static final int COMPARA_MORE_EQUAL = 3;
     public static final int COMPARA_LESS_EQUAL = 4;
-    
+
     public static final boolean NOT_IN = false;
     public static final boolean IN = true;
-    
+
     public static final boolean CON_EDIFICIO = true;
     public static final boolean SIN_EDIFICIO = false;
-	
-	public static final Integer PERMISO_ADMIN=7;
-	public static final Integer PERMISO_OPERADOR=3;
-	public static final Integer PERMISO_VER=1;	
+
+    public static final Integer PERMISO_ADMIN = 7;
+    public static final Integer PERMISO_OPERADOR = 3;
+    public static final Integer PERMISO_VER = 1;
 
 }

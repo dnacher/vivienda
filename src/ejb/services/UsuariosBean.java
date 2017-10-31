@@ -118,11 +118,9 @@ public class UsuariosBean implements UsuariosLocal {
     public boolean guardaPermisos(List<Permisosusuario> lista) throws ServiceException {
         try {
             for (Permisosusuario pu : lista) {
-                //session.save(pu);
                 sc.useSession().save(pu);
             }
             tx.commit();
-            //session.close();
             sc.closeSession();
             correcto = true;
         } catch (Exception ex) {

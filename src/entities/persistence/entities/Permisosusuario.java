@@ -1,5 +1,5 @@
 package entities.persistence.entities;
-// Generated 03-feb-2017 21:29:15 by Hibernate Tools 4.3.1
+// Generated 26-oct-2017 20:25:54 by Hibernate Tools 4.3.1
 
 
 
@@ -9,25 +9,25 @@ package entities.persistence.entities;
 public class Permisosusuario  implements java.io.Serializable {
 
 
-     private String pagina;
+     private PermisosusuarioId id;
      private Tipousuario tipousuario;
      private int permiso;
 
     public Permisosusuario() {
     }
 
-    public Permisosusuario(String pagina, Tipousuario tipousuario, int permiso) {
-       this.pagina = pagina;
+    public Permisosusuario(PermisosusuarioId id, Tipousuario tipousuario, int permiso) {
+       this.id = id;
        this.tipousuario = tipousuario;
        this.permiso = permiso;
     }
    
-    public String getPagina() {
-        return this.pagina;
+    public PermisosusuarioId getId() {
+        return this.id;
     }
     
-    public void setPagina(String pagina) {
-        this.pagina = pagina;
+    public void setId(PermisosusuarioId id) {
+        this.id = id;
     }
     public Tipousuario getTipousuario() {
         return this.tipousuario;
@@ -44,7 +44,9 @@ public class Permisosusuario  implements java.io.Serializable {
         this.permiso = permiso;
     }
 
-
+    public String getPagina(){
+        return this.id.getPagina();
+    }
 
 
 }

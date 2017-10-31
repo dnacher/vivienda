@@ -26,11 +26,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
-
 public class ImportarExcelController implements Initializable {
-  
-     @FXML
+
+    @FXML
     private Text lblArchivo;
 
     @FXML
@@ -44,49 +42,54 @@ public class ImportarExcelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargaComboImportar();
-        
-    }     
-           
-    public void cargaComboImportar(){
-        ObservableList<String> lista=FXCollections.observableArrayList(Constantes.LISTA_TIPO_ARCHIVO_IMPORTAR);
+
+    }
+
+    public void cargaComboImportar() {
+        ObservableList<String> lista = FXCollections.observableArrayList(Constantes.LISTA_TIPO_ARCHIVO_IMPORTAR);
         cmbImportar.setItems(lista);
         cmbImportar.valueProperty().addListener(new ChangeListener<String>() {
-        @Override public void changed(ObservableValue ov, String t, String t1) {
-                switch(cmbImportar.getValue()){
+            @Override
+            public void changed(ObservableValue ov, String t, String t1) {
+                switch (cmbImportar.getValue()) {
                     case "Unidad":
                         Importar();
                         break;
                     default:
                 }
-            }    
-        });  
+            }
+        });
     }
-            
-    public void Importar(){
-         try {
-             final FileChooser fileChooser = new FileChooser();
-             lblArchivo.setText(Constantes.TRABAJANDO_ESPERE);
-             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(Constantes.EXCEL, Constantes.EXTENSION_EXCEL));
-             Stage stage = (Stage) lblClose.getScene().getWindow();
-             File file = fileChooser.showOpenDialog(stage);
-             ImportarDatosExcel ide=new ImportarDatosExcel();
-             unidades=ide.ImportarUnidadesDeExcel(file);
-             lblArchivo.setText(Constantes.PRONTO_CARGAR);
-         } catch (ImportarExcelException ex) {
-             Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+
+    public void Importar() {
+        try {
+            final FileChooser fileChooser = new FileChooser();
+            lblArchivo.setText(Constantes.TRABAJANDO_ESPERE);
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(Constantes.EXCEL, Constantes.EXTENSION_EXCEL));
+            Stage stage = (Stage) lblClose.getScene().getWindow();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                ImportarDatosExcel ide = new ImportarDatosExcel();
+                unidades = ide.ImportarUnidadesDeExcel(file);
+                lblArchivo.setText(Constantes.PRONTO_CARGAR);
+            } else {
+                lblArchivo.setText(Constantes.ELEGIR_ARCHIVO);
+            }
+        } catch (ImportarExcelException ex) {
+            Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public void cargar(){
-         try {
-             lblArchivo.setText(Constantes.CARGANDO);
-             UnidadBean ub=new UnidadBean();
-             ub.guardarUnidades(unidades);
-             lblArchivo.setText(ConstantesEtiquetas.PRONTO);
-         } catch (ServiceException ex) {
-             Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (IOException ex) {
-             Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+
+    public void cargar() {
+        try {
+            lblArchivo.setText(Constantes.CARGANDO);
+            UnidadBean ub = new UnidadBean();
+            ub.guardarUnidades(unidades);
+            lblArchivo.setText(ConstantesEtiquetas.PRONTO);
+        } catch (ServiceException ex) {
+            Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

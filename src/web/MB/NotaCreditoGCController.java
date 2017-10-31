@@ -100,7 +100,7 @@ public class NotaCreditoGCController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                 ub = new UnidadBean();
-                unidadesGastosComunesNoPago = FXCollections.observableArrayList(ub.TraeUnidadesGastosComunesNoPago());
+                unidadesGastosComunesNoPago = FXCollections.observableArrayList(ub.traeUnidadesXEstadoXBlockXTorre(null, null, true, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, false));
                 cargaTabla();
                 cargarComboBlock();
                 cargarComboTorre();
@@ -178,25 +178,25 @@ public class NotaCreditoGCController implements Initializable {
 
         tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block, Torre, Puerta);
         tableGastosComunes.setItems(unidadesGastosComunesNoPago);
-        cargaGrafica(ConstantesEtiquetas.VACIO, 0);
+        cargaGrafica(null, null);
     }
 
     public void llenaTabla() {
         lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + unidadesGastosComunesNoPago.size() + ConstantesMensajes.REGISTROS);
         tableGastosComunes.setItems(unidadesGastosComunesNoPago);
         if (guardado) {
-            cargaGrafica(ConstantesEtiquetas.VACIO, 0);
+            cargaGrafica(null, null);
         } else if (cmbBlock.getValue() != null && cmbTorre.getValue() != null) {
             cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
         } else {
-            cargaGrafica(ConstantesEtiquetas.VACIO, 0);
+            cargaGrafica(null, null);
         }
     }
 
-    public void cargaGrafica(String block, int torre) {
+    public void cargaGrafica(String block, Integer torre) {
         lblInfoPieChart.setText(ConstantesEtiquetas.VACIO);
         ub = new UnidadBean();
-        int total = ub.totalUnidadesNoedificios(block, torre);
+        int total = ub.traeUnidadesXEstadoXBlockXTorre(block, torre, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO).size();
         int totalPago = total - unidadesGastosComunesNoPago.size();
         int totalNoPago = total - totalPago;
         ObservableList<PieChart.Data> lista = FXCollections.observableArrayList(
@@ -221,31 +221,27 @@ public class NotaCreditoGCController implements Initializable {
         try {
             lblInfo.setText(ConstantesEtiquetas.VACIO);
             String block;
-            int torre;
+            Integer torre;
             List<Unidad> listaTorreBlock;
             ub = new UnidadBean();
             if (cmbBlock.getValue() != null) {
                 if (cmbTorre.getValue() != null) {
-                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
-//                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), true, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, false);
                     block = cmbBlock.getValue();
                     torre = cmbTorre.getValue();
                 } else {
-                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
-//                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), 0);
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, true, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, false);
                     block = cmbBlock.getValue();
-                    torre = 0;
+                    torre = null;
                 }
             } else if (cmbTorre.getValue() != null) {
-                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
-//                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
-                block = ConstantesEtiquetas.VACIO;
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), true, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, false);
+                block = null;
                 torre = cmbTorre.getValue();
             } else {
-                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL,Constantes.SIN_EDIFICIO);
-//                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, 0);
-                block = ConstantesEtiquetas.VACIO;
-                torre = 0;
+                listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, true, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, false);
+                block = null;
+                torre = null;
             }
             unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
             tableGastosComunes.setItems(null);
@@ -260,7 +256,7 @@ public class NotaCreditoGCController implements Initializable {
     public void mostrarTodos() {
         try {
             ub = new UnidadBean();
-            List<Unidad> listaTotal = ub.TraeUnidadesGastosComunesNoPago();
+            List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, true, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, false);
             unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
             guardado = true;
             llenaTabla();

@@ -449,30 +449,30 @@ public class Seguridad21Controller implements Initializable {
                 UsuariosBean ub=new UsuariosBean();                
                 ub.EliminaPermisos(tu);
                 Permisosusuario pu;
-                if(Administracion!=-1){ pu= new Permisosusuario(ConstantesEtiquetas.ADMINISTRACION, tu, Administracion); listaPermisos.add(pu);}
-                if(BajaLicencia!=-1){pu= new Permisosusuario(ConstantesEtiquetas.BAJA_LICENCIA, tu, BajaLicencia); listaPermisos.add(pu);}
-                if(CargarMasivas!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CARGAR_MASIVAS, tu, CargarMasivas); listaPermisos.add(pu);}
-                if(Concepto!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CONCEPTO, tu, Concepto); listaPermisos.add(pu);}
-                if(Configuracion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CONFIGURACION, tu, Configuracion); listaPermisos.add(pu);}
-                if(Convenios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CONVENIOS, tu, Convenios); listaPermisos.add(pu);}
-                if(Cotizacion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.COTIZACION, tu, Cotizacion); listaPermisos.add(pu);}
-                if(Estado!=-1){pu= new Permisosusuario(ConstantesEtiquetas.ESTADO_UPPER, tu, Estado); listaPermisos.add(pu);}
-                if(GastosComunes!=-1){pu= new Permisosusuario(ConstantesEtiquetas.GASTOS_COMUNES, tu, GastosComunes); listaPermisos.add(pu);}
-                if(Grupo!=-1){pu= new Permisosusuario(ConstantesEtiquetas.GRUPO, tu, Grupo); listaPermisos.add(pu);}
-                if(Inicio!=-1){pu= new Permisosusuario(ConstantesEtiquetas.INICIO, tu, Inicio); listaPermisos.add(pu);}
-                if(ListaPrecios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.LISTA_PRECIOS, tu, ListaPrecios); listaPermisos.add(pu);}
-                if(Mantenimiento!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MANTENIMIENTO, tu, Mantenimiento); listaPermisos.add(pu);}
-                if(Material!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MATERIAL_UPPER, tu, Material); listaPermisos.add(pu);}
-                if(PagoConvenios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.PAGO_CONVENIOS, tu, PagoConvenios); listaPermisos.add(pu);}
-                if(ReglaBonificacion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.REGLA_BONIFICACION, tu, ReglaBonificacion); listaPermisos.add(pu);}
-                if(Reportes!=-1){pu= new Permisosusuario(ConstantesEtiquetas.REPORTES, tu, Reportes); listaPermisos.add(pu);}
-                if(Seguridad!=-1){pu= new Permisosusuario(ConstantesEtiquetas.SEGURIDAD, tu, Seguridad); listaPermisos.add(pu);}
-                if(Tecnico!=-1){pu= new Permisosusuario(ConstantesEtiquetas.TECNICO, tu, Tecnico); listaPermisos.add(pu);}
-                if(TipoDuracion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.TIPO_DURACION, tu, TipoDuracion); listaPermisos.add(pu);}
-                if(TipoUsuario!=-1){pu= new Permisosusuario(ConstantesEtiquetas.TIPO_USUARIO, tu, TipoUsuario); listaPermisos.add(pu);}
-                if(Unidades!=-1){pu= new Permisosusuario(ConstantesEtiquetas.UNIDADES, tu, Unidades); listaPermisos.add(pu);}
-                if(Urgencia!=-1){pu= new Permisosusuario(ConstantesEtiquetas.URGENCIA, tu, Urgencia); listaPermisos.add(pu);}
-                if(Usuario!=-1){pu= new Permisosusuario(ConstantesEtiquetas.USUARIO, tu, Usuario); listaPermisos.add(pu);}
+////                if(Administracion!=-1){ pu= new Permisosusuario(ConstantesEtiquetas.ADMINISTRACION, tu, Administracion); listaPermisos.add(pu);}
+//                if(BajaLicencia!=-1){pu= new Permisosusuario(ConstantesEtiquetas.BAJA_LICENCIA, tu, BajaLicencia); listaPermisos.add(pu);}
+//                if(CargarMasivas!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CARGAR_MASIVAS, tu, CargarMasivas); listaPermisos.add(pu);}
+//                if(Concepto!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CONCEPTO, tu, Concepto); listaPermisos.add(pu);}
+//                if(Configuracion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CONFIGURACION, tu, Configuracion); listaPermisos.add(pu);}
+//                if(Convenios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.CONVENIOS, tu, Convenios); listaPermisos.add(pu);}
+//                if(Cotizacion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.COTIZACION, tu, Cotizacion); listaPermisos.add(pu);}
+//                if(Estado!=-1){pu= new Permisosusuario(ConstantesEtiquetas.ESTADO_UPPER, tu, Estado); listaPermisos.add(pu);}
+//                if(GastosComunes!=-1){pu= new Permisosusuario(ConstantesEtiquetas.GASTOS_COMUNES, tu, GastosComunes); listaPermisos.add(pu);}
+//                if(Grupo!=-1){pu= new Permisosusuario(ConstantesEtiquetas.GRUPO, tu, Grupo); listaPermisos.add(pu);}
+//                if(Inicio!=-1){pu= new Permisosusuario(ConstantesEtiquetas.INICIO, tu, Inicio); listaPermisos.add(pu);}
+//                if(ListaPrecios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.LISTA_PRECIOS, tu, ListaPrecios); listaPermisos.add(pu);}
+//                if(Mantenimiento!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MANTENIMIENTO, tu, Mantenimiento); listaPermisos.add(pu);}
+//                if(Material!=-1){pu= new Permisosusuario(ConstantesEtiquetas.MATERIAL_UPPER, tu, Material); listaPermisos.add(pu);}
+//                if(PagoConvenios!=-1){pu= new Permisosusuario(ConstantesEtiquetas.PAGO_CONVENIOS, tu, PagoConvenios); listaPermisos.add(pu);}
+//                if(ReglaBonificacion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.REGLA_BONIFICACION, tu, ReglaBonificacion); listaPermisos.add(pu);}
+//                if(Reportes!=-1){pu= new Permisosusuario(ConstantesEtiquetas.REPORTES, tu, Reportes); listaPermisos.add(pu);}
+//                if(Seguridad!=-1){pu= new Permisosusuario(ConstantesEtiquetas.SEGURIDAD, tu, Seguridad); listaPermisos.add(pu);}
+//                if(Tecnico!=-1){pu= new Permisosusuario(ConstantesEtiquetas.TECNICO, tu, Tecnico); listaPermisos.add(pu);}
+//                if(TipoDuracion!=-1){pu= new Permisosusuario(ConstantesEtiquetas.TIPO_DURACION, tu, TipoDuracion); listaPermisos.add(pu);}
+//                if(TipoUsuario!=-1){pu= new Permisosusuario(ConstantesEtiquetas.TIPO_USUARIO, tu, TipoUsuario); listaPermisos.add(pu);}
+//                if(Unidades!=-1){pu= new Permisosusuario(ConstantesEtiquetas.UNIDADES, tu, Unidades); listaPermisos.add(pu);}
+//                if(Urgencia!=-1){pu= new Permisosusuario(ConstantesEtiquetas.URGENCIA, tu, Urgencia); listaPermisos.add(pu);}
+//                if(Usuario!=-1){pu= new Permisosusuario(ConstantesEtiquetas.USUARIO, tu, Usuario); listaPermisos.add(pu);}
                 ub=new UsuariosBean();
                 ub.guardaPermisos(listaPermisos);
                 cv.creaVentanaNotificacionCorrecto();
@@ -734,67 +734,67 @@ public class Seguridad21Controller implements Initializable {
         public void recorreListaSeguridad(List<Permisosusuario> listaSeguridad){
         for(Permisosusuario pu:listaSeguridad){
             if(pu.getPermiso()==15){
-                switch(pu.getPagina()){                    
-                    case "BajaLicencia":
-                        seguridadBajaLicencia(true);
-                        break;
-                    case "CargarMasivas":
-                        seguridadMasivas(true);
-                        break;
-                    case "Concepto":
-                        seguridadConcepto(true);                    
-                        break;
-                    case "Convenios":
-                        seguridadConvenios(true);
-                        break;
-                    case "Cotizacion":
-                        seguridadCotizacion(true);
-                        break;
-                    case "Estado":
-                        seguridadEstado(true);
-                        break;
-                    case "GastosComunes":
-                        seguridadGastosComunes(true);
-                        break;
-                    case "Grupo":
-                        seguridadGrupo(true);
-                        break;
-                    case "ListaPrecios":
-                        seguridadListaPrecios(true);
-                        break;
-                    case "Material":
-                        seguridadMaterial(true);
-                        break;
-                    case "PagoConvenios":
-                        seguridadPagoConvenio(true);
-                        break;
-                    case "ReglaBonificacion":
-                        seguridadReglaBonificacion(true);
-                        break;
-                    case "Tecnico":
-                        seguridadTecnico(true);
-                        break;
-                    case "TipoDuracion":
-                        seguridadTipoDuracion(true);
-                        break;
-                    case "TipoUsuario":
-                        seguridadTipoUsuario(true);
-                        break;
-                    case "Unidades":
-                        seguridadUnidades(true);
-                        break;
-                    case "Urgencia":
-                        seguridadUrgencia(true);
-                        break;
-                    case "Usuario":
-                        seguridadUsuario(true);
-                        break;
-                    case "Seguridad":
-                        seguridadSeguridad(true);
-                        break;
-                    default:
-                        break;
-                }
+//                switch(pu.getPagina()){                    
+//                    case "BajaLicencia":
+//                        seguridadBajaLicencia(true);
+//                        break;
+//                    case "CargarMasivas":
+//                        seguridadMasivas(true);
+//                        break;
+//                    case "Concepto":
+//                        seguridadConcepto(true);                    
+//                        break;
+//                    case "Convenios":
+//                        seguridadConvenios(true);
+//                        break;
+//                    case "Cotizacion":
+//                        seguridadCotizacion(true);
+//                        break;
+//                    case "Estado":
+//                        seguridadEstado(true);
+//                        break;
+//                    case "GastosComunes":
+//                        seguridadGastosComunes(true);
+//                        break;
+//                    case "Grupo":
+//                        seguridadGrupo(true);
+//                        break;
+//                    case "ListaPrecios":
+//                        seguridadListaPrecios(true);
+//                        break;
+//                    case "Material":
+//                        seguridadMaterial(true);
+//                        break;
+//                    case "PagoConvenios":
+//                        seguridadPagoConvenio(true);
+//                        break;
+//                    case "ReglaBonificacion":
+//                        seguridadReglaBonificacion(true);
+//                        break;
+//                    case "Tecnico":
+//                        seguridadTecnico(true);
+//                        break;
+//                    case "TipoDuracion":
+//                        seguridadTipoDuracion(true);
+//                        break;
+//                    case "TipoUsuario":
+//                        seguridadTipoUsuario(true);
+//                        break;
+//                    case "Unidades":
+//                        seguridadUnidades(true);
+//                        break;
+//                    case "Urgencia":
+//                        seguridadUrgencia(true);
+//                        break;
+//                    case "Usuario":
+//                        seguridadUsuario(true);
+//                        break;
+//                    case "Seguridad":
+//                        seguridadSeguridad(true);
+//                        break;
+//                    default:
+//                        break;
+//                }
             }
         }
     }

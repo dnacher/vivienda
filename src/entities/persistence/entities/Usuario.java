@@ -18,8 +18,7 @@ public class Usuario  implements java.io.Serializable {
      private String hashedPassword;
      private String salt;
      private boolean activo;
-     private Set audits = new HashSet(0);
-
+    
     public Usuario() {
     }
 
@@ -29,13 +28,12 @@ public class Usuario  implements java.io.Serializable {
         this.tipousuario = tipousuario;
         this.activo = activo;
     }
-    public Usuario(int idUsuario, Tipousuario tipousuario, String nombre, String password, boolean activo, Set audits) {
+    public Usuario(int idUsuario, Tipousuario tipousuario, String nombre, String password, boolean activo) {
        this.idUsuario = idUsuario;
        this.tipousuario = tipousuario;
        this.nombre = nombre;
        this.password = password;
-       this.activo = activo;
-       this.audits = audits;
+       this.activo = activo;       
     }
    
     public int getIdUsuario() {
@@ -73,14 +71,7 @@ public class Usuario  implements java.io.Serializable {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    public Set getAudits() {
-        return this.audits;
-    }
     
-    public void setAudits(Set audits) {
-        this.audits = audits;
-    }
-
     public String getHashedPassword() {
         return hashedPassword;
     }

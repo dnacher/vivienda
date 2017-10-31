@@ -12,7 +12,6 @@ import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.constantes.ConstantesMensajes;
 import entities.enums.MenuAdministracion;
-import entities.enums.MenuMantenimiento;
 import entities.enums.errores;
 import entities.persistence.entities.Configuracion;
 import entities.persistence.entities.Monto;
@@ -68,446 +67,438 @@ import web.animations.FadeInUpTransition;
 
 public class GastosComunesController implements Initializable {
 
-	@FXML
-	private TextField txtMonto;
+    @FXML
+    private TextField txtMonto;
 
-	@FXML
-	private ComboBox<Monto> cmbMoneda;
+    @FXML
+    private ComboBox<Monto> cmbMoneda;
 
-	@FXML
-	private Label lblSimbolo;
+    @FXML
+    private Label lblSimbolo;
 
-	@FXML
-	private TableView<Unidad> tableGastosComunes;
+    @FXML
+    private TableView<Unidad> tableGastosComunes;
 
-	@FXML
-	private DatePicker cmbFecha;
+    @FXML
+    private DatePicker cmbFecha;
 
-	@FXML
-	private AnchorPane paneFormulario;
+    @FXML
+    private AnchorPane paneFormulario;
 
-	@FXML
-	private PieChart chartGastosComunes;
+    @FXML
+    private PieChart chartGastosComunes;
 
-	@FXML
-	private ProgressBar bar;
+    @FXML
+    private ProgressBar bar;
 
-	@FXML
-	private ComboBox<Integer> cmbTorre;
+    @FXML
+    private ComboBox<Integer> cmbTorre;
 
-	@FXML
-	private AnchorPane paneGastosComunes;
+    @FXML
+    private AnchorPane paneGastosComunes;
 
-	@FXML
-	private CheckBox chkBonificacion;
+    @FXML
+    private CheckBox chkBonificacion;
 
-	@FXML
-	private ComboBox<String> cmbBlock;
+    @FXML
+    private ComboBox<String> cmbBlock;
 
-	@FXML
-	private Label lblInfoPieChart;
+    @FXML
+    private Label lblInfoPieChart;
 
-	@FXML
-	private Label lblInfo;
+    @FXML
+    private Label lblInfo;
 
-	@FXML
-	private Label lblPeriodo;
+    @FXML
+    private Label lblPeriodo;
 
-	@FXML
-	private Label lblUnidadNombre;
+    @FXML
+    private Label lblUnidadNombre;
 
-	@FXML
-	private Label lblUnidadDireccion;
+    @FXML
+    private Label lblUnidadDireccion;
 
-	@FXML
-	private DatePicker cmbFechaMes;
-	
-	@FXML
-	private Button btnPagar;
-	
-	@FXML
-	private Button btnCerrarMes;
+    @FXML
+    private DatePicker cmbFechaMes;
 
-	public List<Configuracion> habitaciones;
-	public List<Reglabonificacion> bonificaciones;
-	public int periodo;
-	public Unidad unidad;
-	public UnidadBean ub;
-	public GastosComunesBean gcb;
-	public boolean guardado = false;
-	public ObservableList<Unidad> unidadesGastosComunesNoPago;
-	public Notification.Notifier notifier = Notification.Notifier.INSTANCE;
-	public Reglabonificacion rb;
-	public Configuracion configuracion;
+    @FXML
+    private Button btnPagar;
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		btnPagar.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.GastosComunes.getPagina(), Constantes.PERMISO_OPERADOR));
-		btnCerrarMes.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.GastosComunes.getPagina(), Constantes.PERMISO_ADMIN));
-		task();
-		try {
-			cargaComboMonto();
-			cargarComboBlock();
-			cargarComboTorre();
-			cargaHoy();
-			ConfiguracionBean cb = new ConfiguracionBean();
-			habitaciones = cb.traerValorHabitaciones();
-		} catch (ServiceException ex) {
-			Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
-		}
+    @FXML
+    private Button btnCerrarMes;
 
-		listenerComboMoneda();
-		listenerChkBonificacion();
-	}
+    public List<Configuracion> habitaciones;
+    public List<Reglabonificacion> bonificaciones;
+    public int periodo;
+    public Unidad unidad;
+    public UnidadBean ub;
+    public GastosComunesBean gcb;
+    public boolean guardado = false;
+    public ObservableList<Unidad> unidadesGastosComunesNoPago;
+    public Notification.Notifier notifier = Notification.Notifier.INSTANCE;
+    public Reglabonificacion rb;
+    public Configuracion configuracion;
 
-	public void listenerComboMoneda() {
-		cmbMoneda.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-			@Override
-			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-				monedaCombo();
-			}
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        btnPagar.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.GastosComunes.getPagina(), Constantes.PERMISO_OPERADOR));
+        btnCerrarMes.setDisable(ConfiguracionControl.traePermisos(MenuAdministracion.GastosComunes.getPagina(), Constantes.PERMISO_ADMIN));
+        task();
+        try {
+            cargaComboMonto();
+            cargarComboBlock();
+            cargarComboTorre();
+            cargaHoy();
+            ConfiguracionBean cb = new ConfiguracionBean();
+            habitaciones = cb.traerValorHabitaciones();
+        } catch (ServiceException ex) {
+            Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-		});
-		cmbMoneda.getSelectionModel().selectFirst();
-	}
+        listenerComboMoneda();
+        listenerChkBonificacion();
+    }
 
-	public void listenerChkBonificacion() {
-		chkBonificacion.selectedProperty().addListener(new ChangeListener() {
-			@Override
-			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-				if (configuracion != null && configuracion.getId() > 0) {
-					if (rb == null) {
-						txtMonto.setText(configuracion.getId().toString());
-					} else if (chkBonificacion.isSelected() && rb != null) {
-						Integer total = configuracion.getId() - rb.getValor();
-						txtMonto.setText(total.toString());
-					} else {
-						txtMonto.setText(configuracion.getId().toString());
-					}
-				}
-			}
+    public void listenerComboMoneda() {
+        cmbMoneda.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                monedaCombo();
+            }
 
-		});
-		cmbMoneda.getSelectionModel().selectFirst();
-	}
+        });
+        cmbMoneda.getSelectionModel().selectFirst();
+    }
 
-	public void task() {
-		Task longTask = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				int max = 50;
-				for (int i = 1; i <= max; i++) {
-					if (isCancelled()) {
-						break;
-					}
-					updateProgress(i, max);
-					Thread.sleep(20);
-				}
-				return null;
-			}
-		};
+    public void listenerChkBonificacion() {
+        chkBonificacion.selectedProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                if (configuracion != null && configuracion.getId() > 0) {
+                    if (rb == null) {
+                        txtMonto.setText(configuracion.getId().toString());
+                    } else if (chkBonificacion.isSelected() && rb != null) {
+                        Integer total = configuracion.getId() - rb.getValor();
+                        txtMonto.setText(total.toString());
+                    } else {
+                        txtMonto.setText(configuracion.getId().toString());
+                    }
+                }
+            }
 
-		longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-			@Override
-			public void handle(WorkerStateEvent t) {
-				ub = new UnidadBean();
-				unidadesGastosComunesNoPago = FXCollections.observableArrayList(ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO));
-				cargaTabla();
-				atras();
-			}
-		});
-		bar.progressProperty().bind(longTask.progressProperty());
-		new Thread(longTask).start();
-	}
+        });
+        cmbMoneda.getSelectionModel().selectFirst();
+    }
 
-	public void cargaComboMonto() throws ServiceException {
-		MontoBean mb = new MontoBean();
-		ObservableList<Monto> montos = FXCollections.observableArrayList(mb.traerTodos());
-		cmbMoneda.setItems(montos);
-	}
+    public void task() {
+        Task longTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 50;
+                for (int i = 1; i <= max; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    updateProgress(i, max);
+                    Thread.sleep(20);
+                }
+                return null;
+            }
+        };
 
-	public void cargaHoy() {
-		Date date = new Date();
-		LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		cmbFecha.setValue(ld);
-	}
+        longTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                ub = new UnidadBean();
+                unidadesGastosComunesNoPago = FXCollections.observableArrayList(ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO));
+                cargaTabla();
+                atras();
+            }
+        });
+        bar.progressProperty().bind(longTask.progressProperty());
+        new Thread(longTask).start();
+    }
 
-	public void monedaCombo() {
-		Monto monto = cmbMoneda.getSelectionModel().getSelectedItem();
-		lblSimbolo.setText(monto.getSimbolo());
-	}
+    public void cargaComboMonto() throws ServiceException {
+        MontoBean mb = new MontoBean();
+        ObservableList<Monto> montos = FXCollections.observableArrayList(mb.traerTodos());
+        cmbMoneda.setItems(montos);
+    }
 
-	public void agregarGastosComunes() {
-		try {
-			txtMonto.setText(ConstantesEtiquetas.VACIO);
-			lblPeriodo.setText(ConstantesEtiquetas.VACIO);
-			lblUnidadNombre.setText(ConstantesEtiquetas.VACIO);
-			lblUnidadDireccion.setText(ConstantesEtiquetas.VACIO);
-			periodo = ConfiguracionControl.devuelvePeriodoActual();
-			unidad = tableGastosComunes.getSelectionModel().getSelectedItem();
-			if (unidad != null && unidad.getHabitaciones() != null) {
-				ConfiguracionBean cb = new ConfiguracionBean();
-				configuracion = cb.traerConfiguracionXTabla(unidad.getHabitaciones().toString());
-				ReglaBonificacionBean rbb = new ReglaBonificacionBean();
-				rb = rbb.traeBonificacionesHabitaciones(unidad.getHabitaciones());
-				chkBonificacion.setSelected(ConfiguracionControl.esBonificacion(rb));
-				if (!chkBonificacion.isSelected()) {
-					txtMonto.setText(configuracion.getId().toString());
-				} else {
-					int descuento = ConfiguracionControl.calculaBonificacion(rb, configuracion.getId());
-					int total = configuracion.getId() - descuento;
-					txtMonto.setText(String.valueOf(total));
-				}
-			}
-			lblPeriodo.setText(String.valueOf(periodo));
-			lblUnidadNombre.setText(unidad.getNombre() + ConstantesEtiquetas.ESPACIO
-				+ unidad.getApellido());
-			lblUnidadDireccion.setText(unidad.getBlock()
-				+ unidad.getTorre() + "/ "
-				+ unidad.getPuerta());
-			paneGastosComunes.setOpacity(0);
-			new FadeInUpTransition(paneFormulario).play();
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
-		}
-	}
+    public void cargaHoy() {
+        Date date = new Date();
+        LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        cmbFecha.setValue(ld);
+    }
 
-	public void atras() {
-		paneFormulario.setOpacity(0);
-		new FadeInUpTransition(paneGastosComunes).play();
-	}
+    public void monedaCombo() {
+        Monto monto = cmbMoneda.getSelectionModel().getSelectedItem();
+        lblSimbolo.setText(monto.getSimbolo());
+    }
 
-	public void cargarComboBlock() {
-		ObservableList<String> options
-			= FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
-		cmbBlock.setItems(options);
-	}
+    public void agregarGastosComunes() {
+        try {
+            txtMonto.setText(ConstantesEtiquetas.VACIO);
+            lblPeriodo.setText(ConstantesEtiquetas.VACIO);
+            lblUnidadNombre.setText(ConstantesEtiquetas.VACIO);
+            lblUnidadDireccion.setText(ConstantesEtiquetas.VACIO);
+            periodo = ConfiguracionControl.devuelvePeriodoActual();
+            unidad = tableGastosComunes.getSelectionModel().getSelectedItem();
+            if (unidad != null && unidad.getHabitaciones() != null) {
+                ConfiguracionBean cb = new ConfiguracionBean();
+                configuracion = cb.traerConfiguracionXTabla(unidad.getHabitaciones().toString());
+                ReglaBonificacionBean rbb = new ReglaBonificacionBean();
+                rb = rbb.traeBonificacionesHabitaciones(unidad.getHabitaciones());
+                chkBonificacion.setSelected(ConfiguracionControl.esBonificacion(rb));
+                if (!chkBonificacion.isSelected()) {
+                    txtMonto.setText(configuracion.getId().toString());
+                } else {
+                    int descuento = ConfiguracionControl.calculaBonificacion(rb, configuracion.getId());
+                    int total = configuracion.getId() - descuento;
+                    txtMonto.setText(String.valueOf(total));
+                }
+            }
+            lblPeriodo.setText(String.valueOf(periodo));
+            lblUnidadNombre.setText(unidad.getNombre() + ConstantesEtiquetas.ESPACIO
+                    + unidad.getApellido());
+            lblUnidadDireccion.setText(unidad.getBlock()
+                    + unidad.getTorre() + "/ "
+                    + unidad.getPuerta());
+            paneGastosComunes.setOpacity(0);
+            new FadeInUpTransition(paneFormulario).play();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            lblInfo.setText(ConstantesErrores.DEBE_SELECCIONAR_UNIDAD);
+        }
+    }
 
-	public void cargarComboTorre() {
-		ObservableList<Integer> listaTorres;
-		listaTorres = FXCollections.observableArrayList(Constantes.LISTA_TORRES);
-		cmbTorre.setItems(listaTorres);
-	}
+    public void atras() {
+        paneFormulario.setOpacity(0);
+        new FadeInUpTransition(paneGastosComunes).play();
+    }
 
-	public void cargaTabla() {
-		TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
-		TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
-		TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
-		TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
-		TableColumn Puerta = new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
+    public void cargarComboBlock() {
+        ObservableList<String> options
+                = FXCollections.observableArrayList(Constantes.LISTA_BLOCKS);
+        cmbBlock.setItems(options);
+    }
 
-		Nombre.setMinWidth(150);
-		Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
+    public void cargarComboTorre() {
+        ObservableList<Integer> listaTorres;
+        listaTorres = FXCollections.observableArrayList(Constantes.LISTA_TORRES);
+        cmbTorre.setItems(listaTorres);
+    }
 
-		Apellido.setMinWidth(150);
-		Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
+    public void cargaTabla() {
+        TableColumn Nombre = new TableColumn(ConstantesEtiquetas.NOMBRE_UPPER);
+        TableColumn Apellido = new TableColumn(ConstantesEtiquetas.APELLIDO_UPPER);
+        TableColumn Block = new TableColumn(ConstantesEtiquetas.BLOCK_UPPER);
+        TableColumn Torre = new TableColumn(ConstantesEtiquetas.TORRE_UPPER);
+        TableColumn Puerta = new TableColumn(ConstantesEtiquetas.PUERTA_UPPER);
 
-		Block.setMinWidth(100);
-		Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
+        Nombre.setMinWidth(150);
+        Nombre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.NOMBRE));
 
-		Torre.setMinWidth(100);
-		Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
+        Apellido.setMinWidth(150);
+        Apellido.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.APELLIDO));
 
-		Puerta.setMinWidth(110);
-		Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
+        Block.setMinWidth(100);
+        Block.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.BLOCK_UPPER));
 
-		tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block, Torre, Puerta);
-		tableGastosComunes.setItems(unidadesGastosComunesNoPago);
-		cargaGrafica(null, null);
-	}
+        Torre.setMinWidth(100);
+        Torre.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.TORRE_UPPER));
 
-	public void llenaTabla() {
-		lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + unidadesGastosComunesNoPago.size() + ConstantesMensajes.REGISTROS);
-		tableGastosComunes.setItems(unidadesGastosComunesNoPago);
-		if (guardado) {
-			cargaGrafica(ConstantesEtiquetas.NULL_STRING, ConstantesEtiquetas.NULL_INTEGER);
-		} else if (cmbBlock.getValue() != null && cmbTorre.getValue() != null) {
-			cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
-		} else {
-			cargaGrafica(ConstantesEtiquetas.NULL_STRING, ConstantesEtiquetas.NULL_INTEGER);
-		}
-	}
+        Puerta.setMinWidth(110);
+        Puerta.setCellValueFactory(new PropertyValueFactory<>(ConstantesEtiquetas.PUERTA_UPPER));
 
-	public void cargaGrafica(String block, Integer torre) {
-		lblInfoPieChart.setText(ConstantesEtiquetas.VACIO);
-		ub = new UnidadBean();
-		int total = ub.totalUnidadesNoedificios(block, torre);
-		int totalPago = total - unidadesGastosComunesNoPago.size();
-		int totalNoPago = total - totalPago;
-		ObservableList<PieChart.Data> lista = FXCollections.observableArrayList(
-			new PieChart.Data(ConstantesMensajes.NO_PAGO, totalNoPago),
-			new PieChart.Data(ConstantesMensajes.PAGO, totalPago)
-		);
-		chartGastosComunes.setData(lista);
+        tableGastosComunes.getColumns().addAll(Nombre, Apellido, Block, Torre, Puerta);
+        tableGastosComunes.setItems(unidadesGastosComunesNoPago);
+        cargaGrafica(null, null);
+    }
 
-		for (final PieChart.Data data : chartGastosComunes.getData()) {
-			data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-				int num = (int) data.getPieValue();
-				double porc = (((double) num * (double) 100) / total);
-				DecimalFormat df = new DecimalFormat("#.#");
-				df.setRoundingMode(RoundingMode.CEILING);
-				String porcent = df.format(porc);
-				lblInfoPieChart.setText(data.getName() + ": " + num + " (" + porcent + " % aprox.)");
-			});
-		}
-	}
+    public void llenaTabla() {
+        lblInfo.setText(ConstantesMensajes.SE_MUESTRAN + unidadesGastosComunesNoPago.size() + ConstantesMensajes.REGISTROS);
+        tableGastosComunes.setItems(unidadesGastosComunesNoPago);
+        if (guardado) {
+            cargaGrafica(ConstantesEtiquetas.NULL_STRING, ConstantesEtiquetas.NULL_INTEGER);
+        } else if (cmbBlock.getValue() != null && cmbTorre.getValue() != null) {
+            cargaGrafica(cmbBlock.getValue(), cmbTorre.getValue());
+        } else {
+            cargaGrafica(ConstantesEtiquetas.NULL_STRING, ConstantesEtiquetas.NULL_INTEGER);
+        }
+    }
 
-	public void mostrar(ActionEvent event) {
-		try {
-			lblInfo.setText(ConstantesEtiquetas.VACIO);
-			String block;
-			Integer torre;
-			List<Unidad> listaTorreBlock;
-			ub = new UnidadBean();
-			if (cmbBlock.getValue() != null) {
-				if (cmbTorre.getValue() != null) {
-					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
-//                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), cmbTorre.getValue());
-					block = cmbBlock.getValue();
-					torre = cmbTorre.getValue();
-				} else {
-					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
-//                    listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(cmbBlock.getValue(), 0);
-					block = cmbBlock.getValue();
-					torre = null;
-				}
-			} else {
-				if (cmbTorre.getValue() != null) {
-					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
-//                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
-					block = null;
-					torre = cmbTorre.getValue();
-				} else {
-					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
-//                listaTorreBlock = ub.TraeUnidadesXBlockTorreNoPago(ConstantesEtiquetas.VACIO, 0);
-					block = null;
-					torre = null;
-				}
-			}
-			unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
-			tableGastosComunes.setItems(null);
-			tableGastosComunes.setItems(unidadesGastosComunesNoPago);
-			cargaGrafica(block, torre);
-			lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " unidades");
-		} catch (Exception ex) {
-			lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
-		}
-	}
+    public void cargaGrafica(String block, Integer torre) {
+        lblInfoPieChart.setText(ConstantesEtiquetas.VACIO);
+        ub = new UnidadBean();
+        int total = ub.totalUnidadesNoedificios(block, torre);
+        int totalPago = total - unidadesGastosComunesNoPago.size();
+        int totalNoPago = total - totalPago;
+        ObservableList<PieChart.Data> lista = FXCollections.observableArrayList(
+                new PieChart.Data(ConstantesMensajes.NO_PAGO, totalNoPago),
+                new PieChart.Data(ConstantesMensajes.PAGO, totalPago)
+        );
+        chartGastosComunes.setData(lista);
 
-	public void mostrarTodos() {
-		try {
-			ub = new UnidadBean();
-			List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
-			unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
-			guardado = true;
-			llenaTabla();
-			guardado = false;
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		}
-	}
+        for (final PieChart.Data data : chartGastosComunes.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+                int num = (int) data.getPieValue();
+                double porc = (((double) num * (double) 100) / total);
+                DecimalFormat df = new DecimalFormat("#.#");
+                df.setRoundingMode(RoundingMode.CEILING);
+                String porcent = df.format(porc);
+                lblInfoPieChart.setText(data.getName() + ": " + num + " (" + porcent + " % aprox.)");
+            });
+        }
+    }
 
-	public boolean validar() {
-		boolean correcto = false;
-		if (!txtMonto.getText().isEmpty()) {
-			correcto = true;
-		}
-		return correcto;
-	}
+    public void mostrar(ActionEvent event) {
+        try {
+            lblInfo.setText(ConstantesEtiquetas.VACIO);
+            String block;
+            Integer torre;
+            List<Unidad> listaTorreBlock;
+            ub = new UnidadBean();
+            if (cmbBlock.getValue() != null) {
+                if (cmbTorre.getValue() != null) {
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
+                    block = cmbBlock.getValue();
+                    torre = cmbTorre.getValue();
+                } else {
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
+                    block = cmbBlock.getValue();
+                    torre = null;
+                }
+            } else {
+                if (cmbTorre.getValue() != null) {
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
+                    block = null;
+                    torre = cmbTorre.getValue();
+                } else {
+                    listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
+                    block = null;
+                    torre = null;
+                }
+            }
+            unidadesGastosComunesNoPago = FXCollections.observableList(listaTorreBlock);
+            tableGastosComunes.setItems(null);
+            tableGastosComunes.setItems(unidadesGastosComunesNoPago);
+            cargaGrafica(block, torre);
+            lblInfo.setText("Se muestran " + unidadesGastosComunesNoPago.size() + " unidades");
+        } catch (Exception ex) {
+            lblInfo.setText(ConstantesErrores.VALORES_BLOCK_TORRE);
+        }
+    }
 
-	public void cerrarMes() {
-		if (cmbFechaMes.getValue() != null) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle(ConstantesEtiquetas.CERRAR_MES);
-			alert.setHeaderText("¿" + ConstantesEtiquetas.ESTA_SEGURO + ConfiguracionControl.devuelveMesEscrito(cmbFechaMes.getValue().getMonth().getValue()) + "?");
+    public void mostrarTodos() {
+        try {
+            ub = new UnidadBean();
+            List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.NOT_IN, Constantes.PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_EQUAL, Constantes.SIN_EDIFICIO);
+            unidadesGastosComunesNoPago = FXCollections.observableList(listaTotal);
+            guardado = true;
+            llenaTabla();
+            guardado = false;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
-			ButtonType btnAceptar = new ButtonType(ConstantesEtiquetas.ACEPTAR);
-			ButtonType btnCancelar = new ButtonType(ConstantesEtiquetas.CANCELAR, ButtonData.CANCEL_CLOSE);
+    public boolean validar() {
+        boolean correcto = false;
+        if (!txtMonto.getText().isEmpty()) {
+            correcto = true;
+        }
+        return correcto;
+    }
 
-			alert.getButtonTypes().setAll(btnAceptar, btnCancelar);
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == btnAceptar) {
-				try {
-					int mes = cmbFechaMes.getValue().getMonth().getValue();
-					int anio = cmbFechaMes.getValue().getYear();
-					int periodoCerrar = ConfiguracionControl.traePeriodo(anio, mes);
-					ub = new UnidadBean();
-					List<Unidad> unis = ub.TraeUnidadesGastosComunesNoCargadas(anio, mes);
-					List<Gastoscomunes> listaGastos = new ArrayList<>();
-					int id = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.GASTOS_COMUNES);
-					if (unis != null && unis.size() > 0) {
-						for (Unidad u : unis) {
-							Gastoscomunes gc = new Gastoscomunes();
-							GastoscomunesId gcId = new GastoscomunesId();
-							gcId.setIdGastosComunes(id);
-							gcId.setUnidadIdUnidad(u.getIdUnidad());
-							gc.setId(gcId);
-							gc.setUnidad(u);
-							gc.setMonto_1(traeHabitacionValor(u.getHabitaciones()));
-							gc.setActivo(true);
-							gc.setEstado(1);
-							gc.setIsBonificacion(false);
-							gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
-							gc.setPeriodo(periodoCerrar);
-							listaGastos.add(gc);
-							id++;
-						}
-						gcb = new GastosComunesBean();
-						gcb.guardarGastos(listaGastos);
-					} else {
-						notifier.notify(new Notification("Error", ConstantesErrores.DEBE_SELCCIONAR_VALOR, Notification.ERROR_ICON));
-					}
+    public void cerrarMes() {
+        if (cmbFechaMes.getValue() != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle(ConstantesEtiquetas.CERRAR_MES);
+            alert.setHeaderText("¿" + ConstantesEtiquetas.ESTA_SEGURO + ConfiguracionControl.devuelveMesEscrito(cmbFechaMes.getValue().getMonth().getValue()) + "?");
 
-					notifier.notify(new Notification("Correcto", ConstantesMensajes.CERRAR_MES_OK, Notification.SUCCESS_ICON));
-				} catch (ServiceException ex) {
-					notifier.notify(new Notification("Error", errores.ERROR_CERRAR_MES.getError() + " Codigo " + errores.ERROR_CERRAR_MES.getErrorNumero(), Notification.ERROR_ICON));
-					Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
-				}
-			}
-		} else {
-			notifier.notify(new Notification("Error", ConstantesErrores.DEBE_SELCCIONAR_VALOR, Notification.ERROR_ICON));
-		}
+            ButtonType btnAceptar = new ButtonType(ConstantesEtiquetas.ACEPTAR);
+            ButtonType btnCancelar = new ButtonType(ConstantesEtiquetas.CANCELAR, ButtonData.CANCEL_CLOSE);
 
-		/* 
-            
-        } */
-	}
+            alert.getButtonTypes().setAll(btnAceptar, btnCancelar);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == btnAceptar) {
+                try {
+                    int mes = cmbFechaMes.getValue().getMonth().getValue();
+                    int anio = cmbFechaMes.getValue().getYear();
+                    int periodoCerrar = ConfiguracionControl.traePeriodo(anio, mes);
+                    ub = new UnidadBean();
+                    List<Unidad> unis = ub.TraeUnidadesGastosComunesNoCargadas(anio, mes);
+                    List<Gastoscomunes> listaGastos = new ArrayList<>();
+                    int id = ConfiguracionControl.traeUltimoId(ConstantesEtiquetas.GASTOS_COMUNES);
+                    if (unis != null && unis.size() > 0) {
+                        for (Unidad u : unis) {
+                            Gastoscomunes gc = new Gastoscomunes();
+                            GastoscomunesId gcId = new GastoscomunesId();
+                            gcId.setIdGastosComunes(id);
+                            gcId.setUnidadIdUnidad(u.getIdUnidad());
+                            gc.setId(gcId);
+                            gc.setUnidad(u);
+                            gc.setMonto_1(traeHabitacionValor(u.getHabitaciones()));
+                            gc.setActivo(true);
+                            gc.setEstado(1);
+                            gc.setIsBonificacion(false);
+                            gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
+                            gc.setPeriodo(periodoCerrar);
+                            listaGastos.add(gc);
+                            id++;
+                        }
+                        gcb = new GastosComunesBean();
+                        gcb.guardarGastos(listaGastos);
+                    } else {
+                        notifier.notify(new Notification("Error", ConstantesErrores.DEBE_SELCCIONAR_VALOR, Notification.ERROR_ICON));
+                    }
 
-	public void guardar() {
-		ControlVentana cv = new ControlVentana();
-		if (validar()) {
-			try {
-				GastoscomunesId gcId = new GastoscomunesId();
-				gcId.setIdGastosComunes(ConfiguracionControl.traeUltimoId("GastosComunes"));
-				gcId.setUnidadIdUnidad(unidad.getIdUnidad());
-				Gastoscomunes gc = new Gastoscomunes();
-				gc.setActivo(true);
-				gc.setEstado(2);
-				gc.setFechaPago(ConfiguracionControl.TraeFecha(cmbFecha.getValue()));
-				gc.setId(gcId);
-				gc.setIsBonificacion(chkBonificacion.isSelected());
-				gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
-				gc.setMonto_1(Integer.valueOf(txtMonto.getText()));
-				gc.setPeriodo(periodo);
-				gc.setUnidad(unidad);
-				if (rb != null) {
-					gc.setDescuento(rb.getValor());
-				}
-				gcb = new GastosComunesBean();
-				gcb.guardar(gc);
-				ConfiguracionControl cc = new ConfiguracionControl();
-				HashMap parameters = new HashMap();
-				SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-				String str = format1.format(gc.getFechaPago());
-				parameters.put("fechaGasto", str);
-				parameters.put("idUnidad", gc.getUnidad().getIdUnidad());
-				parameters.put("periodo", gc.getPeriodo());
-				cc.generarReporteConParametros("GastosComunesImpresion", parameters);
-				guardado = true;
-				mostrarTodos();
-				atras();
-				/*   Mail mail=new Mail();
+                    notifier.notify(new Notification("Correcto", ConstantesMensajes.CERRAR_MES_OK, Notification.SUCCESS_ICON));
+                } catch (ServiceException ex) {
+                    notifier.notify(new Notification("Error", errores.ERROR_CERRAR_MES.getError() + " Codigo " + errores.ERROR_CERRAR_MES.getErrorNumero(), Notification.ERROR_ICON));
+                    Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            notifier.notify(new Notification("Error", ConstantesErrores.DEBE_SELCCIONAR_VALOR, Notification.ERROR_ICON));
+        }
+    }
+
+    public void guardar() {
+        ControlVentana cv = new ControlVentana();
+        if (validar()) {
+            try {
+                GastoscomunesId gcId = new GastoscomunesId();
+                gcId.setIdGastosComunes(ConfiguracionControl.traeUltimoId("GastosComunes"));
+                gcId.setUnidadIdUnidad(unidad.getIdUnidad());
+                Gastoscomunes gc = new Gastoscomunes();
+                gc.setActivo(true);
+                gc.setEstado(2);
+                gc.setFechaPago(ConfiguracionControl.TraeFecha(cmbFecha.getValue()));
+                gc.setId(gcId);
+                gc.setIsBonificacion(chkBonificacion.isSelected());
+                gc.setMonto(cmbMoneda.getSelectionModel().getSelectedItem());
+                gc.setMonto_1(Integer.valueOf(txtMonto.getText()));
+                gc.setPeriodo(periodo);
+                gc.setUnidad(unidad);
+                if (rb != null) {
+                    gc.setDescuento(rb.getValor());
+                }
+                gcb = new GastosComunesBean();
+                gcb.guardar(gc);
+                ConfiguracionControl cc = new ConfiguracionControl();
+                HashMap parameters = new HashMap();
+                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                String str = format1.format(gc.getFechaPago());
+                parameters.put("fechaGasto", str);
+                parameters.put("idUnidad", gc.getUnidad().getIdUnidad());
+                parameters.put("periodo", gc.getPeriodo());
+                cc.generarReporteConParametros("GastosComunesImpresion", parameters);
+                guardado = true;
+                mostrarTodos();
+                atras();
+                /*   Mail mail=new Mail();
                 String mimail="";
                 mimail+="Nombre: " + gc.getUnidad().getNombre() + " " + gc.getUnidad().getApellido() + "\n";
                 mimail+="Valor: " + "$" + gc.getMonto_1() + "\n";
@@ -516,21 +507,21 @@ public class GastosComunesController implements Initializable {
                 mimail+="https://docs.google.com/forms/d/1s9lU03xaVxu2L0VIlrQ4Qj_cBpDO3o-CPsHy2IAIuTw/prefill" + "\n";
                 
                 mail.SendMail(mimail);*/
-				cv.creaVentanaNotificacionCorrecto();
-			} catch (Exception ex) {
-				ex.getMessage();
-			}
-		}
-	}
+                cv.creaVentanaNotificacionCorrecto();
+            } catch (Exception ex) {
+                ex.getMessage();
+            }
+        }
+    }
 
-	private Integer traeHabitacionValor(Integer habitaciones) {
-		int valor = -1;
-		for (Configuracion c : this.habitaciones) {
-			if (Objects.equals(Integer.valueOf(c.getNombreTabla()), habitaciones)) {
-				valor = c.getId();
-			}
-		}
-		return valor;
-	}
+    private Integer traeHabitacionValor(Integer habitaciones) {
+        int valor = -1;
+        for (Configuracion c : this.habitaciones) {
+            if (Objects.equals(Integer.valueOf(c.getNombreTabla()), habitaciones)) {
+                valor = c.getId();
+            }
+        }
+        return valor;
+    }
 
 }

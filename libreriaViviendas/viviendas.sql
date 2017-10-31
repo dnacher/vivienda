@@ -13,39 +13,7 @@
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `audit`
---
-
-DROP TABLE IF EXISTS `audit`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `audit` (
-  `idaudit` int(11) NOT NULL,
-  `fechaAudit` date DEFAULT NULL,
-  `accion` varchar(45) DEFAULT NULL,
-  `tablaNombre` varchar(45) DEFAULT NULL,
-  `usuario_idUsuario` int(11) NOT NULL,
-  PRIMARY KEY (`idaudit`),
-  KEY `fk_audit_usuario1_idx` (`usuario_idUsuario`),
-  CONSTRAINT `fk_audit_usuario1` FOREIGN KEY (`usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `audit`
---
-
-LOCK TABLES `audit` WRITE;
-/*!40000 ALTER TABLE `audit` DISABLE KEYS */;
-/*!40000 ALTER TABLE `audit` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `concepto`
---
 
 DROP TABLE IF EXISTS `concepto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

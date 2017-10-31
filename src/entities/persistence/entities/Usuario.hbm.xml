@@ -22,12 +22,6 @@
         </property>
         <property name="activo" type="boolean">
             <column name="activo" not-null="true" />
-        </property>
-        <set name="audits" table="audit" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="usuario_idUsuario" not-null="true" />
-            </key>
-            <one-to-many class="entities.persistence.entities.Audit" />
-        </set>
+        </property>       
     </class>
 </hibernate-mapping>

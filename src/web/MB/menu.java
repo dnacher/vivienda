@@ -241,7 +241,7 @@ public class menu implements Initializable {
             case "MenuAdministracion":
                 for (MenuAdministracion p : MenuAdministracion.values()) {
                     for (Permisosusuario pu : listaPermisos) {
-                        if (pu.getPagina().equals(p.getPagina())) {
+                        if (pu.getId().getPagina().equals(p.getPagina())) {
                             lista.add(p.getMenu());
                         }
                     }
@@ -250,7 +250,7 @@ public class menu implements Initializable {
             case "MenuConfiguracion":
                 for (MenuConfiguracion p : MenuConfiguracion.values()) {
                     for (Permisosusuario pu : listaPermisos) {
-                        if (pu.getPagina().equals(p.getPagina())) {
+                        if (pu.getId().getPagina().equals(p.getPagina())) {
                             lista.add(p.getMenu());
                         }
                     }
@@ -259,7 +259,7 @@ public class menu implements Initializable {
             case "MenuMantenimiento":
                 for (MenuMantenimiento p : MenuMantenimiento.values()) {
                     for (Permisosusuario pu : listaPermisos) {
-                        if (pu.getPagina().equals(p.getPagina())) {
+                        if (pu.getId().getPagina().equals(p.getPagina())) {
                             lista.add(p.getMenu());
                         }
                     }
@@ -268,7 +268,7 @@ public class menu implements Initializable {
             case "MenuPrincipal":
                 for (MenuPrincipal p : MenuPrincipal.values()) {
                     for (Permisosusuario pu : listaPermisos) {
-                        if (pu.getPagina().equals(p.getPagina())) {
+                        if (pu.getId().getPagina().equals(p.getPagina())) {
                             lista.add(p.getMenu());
                         }
                     }
