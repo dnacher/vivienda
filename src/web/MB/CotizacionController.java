@@ -55,6 +55,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
@@ -316,7 +317,7 @@ public class CotizacionController implements Initializable {
         ControlVentana cv=new ControlVentana();
         try{
             Historialtrabajo ht=new Historialtrabajo();
-            ht.setDescripcion(txtDescripcionEnEdicion.getText());
+            ht.setDescripcion(txtDescripcionEnEdicion.getText());            
             ht.setEstado(cmbEstadoEnEdicion.getValue());
             ht.setFecha(ConfiguracionControl.TraeFecha(cmbFechaEnEdicion.getValue()));
             ht.setTecnico(cmbTecnicoEnEdicion.getValue());
