@@ -72,6 +72,6 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal {
         Historialtrabajo historialTrabajo = (Historialtrabajo) query.uniqueResult();
         sc.closeSession();
         return historialTrabajo;
-    }
+    }   
 
 }

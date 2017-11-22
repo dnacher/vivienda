@@ -11,6 +11,7 @@ public class Configuracion  implements java.io.Serializable {
 
      private String nombreTabla;
      private Integer id;
+     private String descripcion;
 
     public Configuracion() {
     }
@@ -39,9 +40,13 @@ public class Configuracion  implements java.io.Serializable {
         this.id = id;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-
-
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }
 
 

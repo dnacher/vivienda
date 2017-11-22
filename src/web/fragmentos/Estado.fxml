@@ -16,9 +16,11 @@
             <TextField fx:id="txtNombre" layoutX="193.0" layoutY="66.0" prefHeight="27.0" prefWidth="200.0" promptText="Nombre" />
             <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="107.0" prefHeight="17.0" prefWidth="122.0" text="Descripcion" />
             <TextArea fx:id="TxtDescripcion" layoutX="193.0" layoutY="102.0" prefHeight="128.0" prefWidth="256.0" />
-            <Label fx:id="LblNombre" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
-            <Label layoutX="148.0" layoutY="243.0" text="Activo" />
-            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="239.0" mnemonicParsing="false" selected="true" />
+            <Label fx:id="LblUltimoEstado" layoutX="413.0" layoutY="72.0" prefWidth="100.0" textFill="#c30202" />
+            <Label layoutX="107.0" layoutY="243.0" text="Ultimo Estado" />
+            <CheckBox fx:id="ChkUltimoEstado" layoutX="193.0" layoutY="242.0" mnemonicParsing="false" selected="false" />
+            <Label layoutX="148.0" layoutY="320.0" text="Activo" />
+            <CheckBox fx:id="ChkActivo" layoutX="193.0" layoutY="320.0" mnemonicParsing="false" selected="true" />
             <Label layoutX="148.0" layoutY="278.0" text="Orden" />
             <Label fx:id="LblOrden" layoutX="413.0" layoutY="278.0" prefWidth="300.0" textFill="#c30202" />
             <TextField fx:id="TxtOrden" layoutX="193.0" layoutY="275.0" promptText="Ej 1" />

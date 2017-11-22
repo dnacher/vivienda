@@ -15,6 +15,7 @@ public class Estado  implements java.io.Serializable {
      private String nombre;
      private String descripcion;
      private Integer orden;
+     private boolean ultimoEstado;
      private boolean activo;
      private Set trabajos = new HashSet(0);
 
@@ -77,6 +78,16 @@ public class Estado  implements java.io.Serializable {
     public void setTrabajos(Set trabajos) {
         this.trabajos = trabajos;
     }
+
+    public boolean getUltimoEstado() {
+        return ultimoEstado;
+    }
+
+    public void setUltimoEstado(boolean ultimoEstado) {
+        this.ultimoEstado = ultimoEstado;
+    }
+    
+    
 
     @Override
     public String toString() {

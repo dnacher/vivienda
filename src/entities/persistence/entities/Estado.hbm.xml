@@ -20,6 +20,9 @@
         <property name="activo" type="boolean">
             <column name="activo" not-null="true" />
         </property>
+        <property name="ultimoEstado" type="boolean">
+            <column name="ultimoEstado" not-null="false" />
+        </property>
         <set name="trabajos" table="trabajo" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="estado_idestado" not-null="true" />
