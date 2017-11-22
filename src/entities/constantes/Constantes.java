@@ -132,6 +132,7 @@ public class Constantes {
      *                             VERSION
      */
     public static final String VER = "5.2.4";
+	public static final String VER_ERORES = "524-";
     public static final String VERSION = "Versión: " + VER;
 
     /*

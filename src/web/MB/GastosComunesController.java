@@ -456,7 +456,7 @@ public class GastosComunesController implements Initializable {
 
                     notifier.notify(new Notification("Correcto", ConstantesMensajes.CERRAR_MES_OK, Notification.SUCCESS_ICON));
                 } catch (ServiceException ex) {
-                    notifier.notify(new Notification("Error", errores.ERROR_CERRAR_MES.getError() + " Codigo " + errores.ERROR_CERRAR_MES.getErrorNumero(), Notification.ERROR_ICON));
+                    notifier.notify(new Notification("Error", errores.ERROR_CERRAR_MES.getError() + " Codigo " + errores.ERROR_CERRAR_MES.getCodigo(), Notification.ERROR_ICON));
                     Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

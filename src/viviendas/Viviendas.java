@@ -7,7 +7,6 @@ import entities.persistence.entities.Tipousuario;
 import entities.persistence.entities.Usuario;
 import exceptions.ServiceException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

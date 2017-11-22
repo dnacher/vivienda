@@ -21,27 +21,27 @@ public class OtrosGastosViewValidation {
     public static int validar(TextField txtSecuencia,ComboBox<Monto> cmbTipoMoneda,TextField txtMonto,DatePicker cmbFecha,ComboBox<Concepto> cmbConcepto,Unidad unidad){
         int i=0;
         if(txtSecuencia.getText().isEmpty()){            
-            i=errores.FALTA_SECUENCIA.getErrorNumero();
+            i=errores.FALTA_SECUENCIA.getCodigo();
         } 
         else{
             if(cmbTipoMoneda.getValue()==null){
-                i=errores.FALTA_TIPO_MONEDA.getErrorNumero();
+                i=errores.FALTA_TIPO_MONEDA.getCodigo();
             } 
             else{
                 if(txtMonto.getText().isEmpty()){
-                    i=errores.FALTA_MONTO.getErrorNumero();
+                    i=errores.FALTA_MONTO.getCodigo();
                 }
                 else{
                     if(cmbFecha.getValue()==null){
-                        i=errores.FALTA_FECHA.getErrorNumero();
+                        i=errores.FALTA_FECHA.getCodigo();
                     }
                     else{
                         if(cmbConcepto.getValue()==null){
-                            i=errores.FALTA_CONCEPTO.getErrorNumero();
+                            i=errores.FALTA_CONCEPTO.getCodigo();
                         }
                         else{
                             if(unidad==null){
-                                i=errores.FALTA_UNIDAD.getErrorNumero();
+                                i=errores.FALTA_UNIDAD.getCodigo();
                             }                            
                         }
                     }
