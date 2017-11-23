@@ -26,7 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ImportarExcelController implements Initializable {
+public class ImportarExcelMB implements Initializable {
 
     @FXML
     private Text lblArchivo;
@@ -76,7 +76,7 @@ public class ImportarExcelController implements Initializable {
                 lblArchivo.setText(Constantes.ELEGIR_ARCHIVO);
             }
         } catch (ImportarExcelException ex) {
-            Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImportarExcelMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,9 +87,9 @@ public class ImportarExcelController implements Initializable {
             ub.guardarUnidades(unidades);
             lblArchivo.setText(ConstantesEtiquetas.PRONTO);
         } catch (ServiceException ex) {
-            Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImportarExcelMB.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ImportarExcelController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImportarExcelMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

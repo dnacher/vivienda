@@ -78,7 +78,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.BorderPane;
 
-public class CotizacionController implements Initializable {
+public class CotizacionMB implements Initializable {
 
     @FXML
     private AnchorPane paneFirst;
@@ -388,7 +388,7 @@ public class CotizacionController implements Initializable {
             listaTipoDuracion = FXCollections.observableArrayList(tdb.traerTodos());
             cmbTipoDuracion.setItems(listaTipoDuracion);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -399,7 +399,7 @@ public class CotizacionController implements Initializable {
             listaGrupo = FXCollections.observableArrayList(gb.traerTodos());
             cmbGrupo.setItems(listaGrupo);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -410,7 +410,7 @@ public class CotizacionController implements Initializable {
             listaUrgencia = FXCollections.observableArrayList(ub.traerTodos());
             cmbUrgencia.setItems(listaUrgencia);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -423,7 +423,7 @@ public class CotizacionController implements Initializable {
             cmbEstado.setItems(listaEstado);
             cmbEstado.getSelectionModel().selectFirst();
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -435,7 +435,7 @@ public class CotizacionController implements Initializable {
             cmbTecnico.setItems(listaTecnico);
             cmbTecnicoEnEdicion.setItems(listaTecnico);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -446,7 +446,7 @@ public class CotizacionController implements Initializable {
             listaMaterial = FXCollections.observableArrayList(mb.traerTodos());
             cmbMaterial.setItems(listaMaterial);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -485,7 +485,7 @@ public class CotizacionController implements Initializable {
             tblUnidades.setItems(null);
             tblUnidades.setItems(listaUnidades);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -519,7 +519,7 @@ public class CotizacionController implements Initializable {
             listaUnidades = FXCollections.observableList(lista);
             tblUnidades.setItems(listaUnidades);
         } catch (Exception ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

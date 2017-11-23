@@ -33,7 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
-public class MaterialController implements Initializable {
+public class MaterialMB implements Initializable {
 
 	@FXML
 	private AnchorPane paneCrud;
@@ -71,7 +71,7 @@ public class MaterialController implements Initializable {
 			task();
 			atras(null);
 		} catch (Exception ex) {
-			Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(MaterialMB.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 	}
@@ -100,7 +100,7 @@ public class MaterialController implements Initializable {
 					lista = FXCollections.observableArrayList(mb.traerTodos());
 					cargaTabla();
 				} catch (ServiceException ex) {
-					Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger(MaterialMB.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
 		});
@@ -194,7 +194,7 @@ public class MaterialController implements Initializable {
 			lista = FXCollections.observableArrayList(mb.traerTodos());
 			tableData.setItems(lista);
 		} catch (ServiceException ex) {
-			Logger.getLogger(MaterialController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(MaterialMB.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 

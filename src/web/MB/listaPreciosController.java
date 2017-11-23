@@ -120,7 +120,7 @@ public class listaPreciosController implements Initializable {
             listaMaterial = FXCollections.observableArrayList(mb.traerTodos());
             cmbMaterial.setItems(listaMaterial);
         } catch (ServiceException ex) {
-            Logger.getLogger(CotizacionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -65,7 +65,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import web.animations.FadeInUpTransition;
 
-public class GastosComunesController implements Initializable {
+public class GastosComunesMB implements Initializable {
 
     @FXML
     private TextField txtMonto;
@@ -152,7 +152,7 @@ public class GastosComunesController implements Initializable {
             ConfiguracionBean cb = new ConfiguracionBean();
             habitaciones = cb.traerValorHabitaciones();
         } catch (ServiceException ex) {
-            Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GastosComunesMB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         listenerComboMoneda();
@@ -457,7 +457,7 @@ public class GastosComunesController implements Initializable {
                     notifier.notify(new Notification("Correcto", ConstantesMensajes.CERRAR_MES_OK, Notification.SUCCESS_ICON));
                 } catch (ServiceException ex) {
                     notifier.notify(new Notification("Error", errores.ERROR_CERRAR_MES.getError() + " Codigo " + errores.ERROR_CERRAR_MES.getCodigo(), Notification.ERROR_ICON));
-                    Logger.getLogger(GastosComunesController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GastosComunesMB.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {

@@ -50,7 +50,7 @@ import entities.persistence.entities.ConvenioId;
 import eu.hansolo.enzo.notification.Notification;
 import java.util.HashMap;
 
-public class ConveniosController implements Initializable {
+public class ConveniosMB implements Initializable {
 
 	@FXML
 	private ComboBox<Monto> cmbMoneda;
@@ -158,7 +158,7 @@ public class ConveniosController implements Initializable {
 			cargaComboReglaBonificacion();
 			cmbReglaBonificacion.getSelectionModel().selectFirst();
 		} catch (ServiceException ex) {
-			Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(ConveniosMB.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -531,7 +531,7 @@ public class ConveniosController implements Initializable {
 
 		} catch (ServiceException ex) {
 			cv.creaVentanaNotificacionError(ex.getMessage());
-			Logger.getLogger(ConveniosController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(ConveniosMB.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 }

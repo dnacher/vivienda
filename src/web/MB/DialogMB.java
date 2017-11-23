@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import viviendas.Viviendas;
 
-public class DialogController implements Initializable {
+public class DialogMB implements Initializable {
     
     @FXML
     private Button btnAceptar;

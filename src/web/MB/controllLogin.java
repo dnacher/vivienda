@@ -1,7 +1,6 @@
 package web.MB;
 
 import UtilsGeneral.ConfiguracionControl;
-import ejb.services.ConfiguracionBean;
 import entities.constantes.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,7 +28,6 @@ import javafx.scene.Scene;
 import ejb.validaciones.LoginValidation;
 import eu.hansolo.enzo.notification.Notification;
 import exceptions.ServiceException;
-import static viviendas.Viviendas.listaConfiguracion;
 
 public class controllLogin implements Initializable {
 

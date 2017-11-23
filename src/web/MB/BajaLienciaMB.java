@@ -48,7 +48,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-public class BajaLienciaController implements Initializable {
+public class BajaLienciaMB implements Initializable {
 
 	@FXML
 	private TableView<TecnicoImage> tableData;
@@ -92,7 +92,7 @@ public class BajaLienciaController implements Initializable {
 			btnAgregar.setDisable(ConfiguracionControl.traePermisos(MenuMantenimiento.TecnicoModificacion.getPagina(), Constantes.PERMISO_OPERADOR));
 			task();
 		} catch (Exception ex) {
-			Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(BajaLienciaMB.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class BajaLienciaController implements Initializable {
 					cargaTabla();
 					cargaComboBajaLicencia();
 				} catch (ServiceException ex) {
-					Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger(BajaLienciaMB.class.getName()).log(Level.SEVERE, null, ex);
 				}
 
 			}
@@ -167,7 +167,7 @@ public class BajaLienciaController implements Initializable {
 						cv.creaVentanaNotificacionCorrecto();
 					} catch (ServiceException ex) {
 						cv.creaVentanaNotificacionError(ex.getMessage());
-						Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+						Logger.getLogger(BajaLienciaMB.class.getName()).log(Level.SEVERE, null, ex);
 					}
 				}
 			}
@@ -192,7 +192,7 @@ public class BajaLienciaController implements Initializable {
 					cv.creaVentanaNotificacion(ConstantesEtiquetas.BAJA, ConstantesMensajes.BAJA_CORRECTO + cmbFechaHasta.getValue(), 3, ConstantesEtiquetas.OK);
 				} catch (ServiceException ex) {
 					cv.creaVentanaNotificacionError(ex.getMessage());
-					Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger(BajaLienciaMB.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
 		}
@@ -255,7 +255,7 @@ public class BajaLienciaController implements Initializable {
 			lista = FXCollections.observableArrayList(TecnicoImage.devuelveTecnicoConImagenEstado());
 			tableData.setItems(lista);
 		} catch (ServiceException ex) {
-			Logger.getLogger(BajaLienciaController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(BajaLienciaMB.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 	}
