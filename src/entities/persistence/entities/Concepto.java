@@ -33,6 +33,8 @@ public class Concepto  implements java.io.Serializable {
        this.otrosgastoses = otrosgastoses;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdconcepto() {
         return this.idconcepto;
     }
@@ -68,14 +70,13 @@ public class Concepto  implements java.io.Serializable {
     public void setOtrosgastoses(Set otrosgastoses) {
         this.otrosgastoses = otrosgastoses;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {
         return nombre;
     }
-
-
-
 
 }
 

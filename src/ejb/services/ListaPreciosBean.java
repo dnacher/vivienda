@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class ListaPreciosBean implements ListaPreciosLocal{
+public class ListaPreciosBean {
     
     public Transaction tx;
     public boolean correcto;
@@ -25,7 +25,7 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         correcto=false;
     }
 
-    @Override
+    
     public boolean guardar(Listaprecios listaPrecios) throws ServiceException {
         correcto=false;
         try{            
@@ -41,7 +41,7 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         return correcto;   
     }
 
-    @Override
+    
     public boolean eliminar(Listaprecios listaPrecios) throws ServiceException {
         try{
             listaPrecios.setActivo(false);
@@ -56,7 +56,7 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Listaprecios listaPrecios) throws ServiceException {
         try{            
             sc.useSession().update(listaPrecios);
@@ -70,7 +70,7 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         return correcto;
     }
 
-    @Override
+    
     public List<Listaprecios> traerTodos() throws ServiceException {
         try{
             Query query= sc.useSession().createQuery("from Listaprecios");         
@@ -83,7 +83,7 @@ public class ListaPreciosBean implements ListaPreciosLocal{
         }
     }
 
-    @Override
+    
     public Listaprecios traerListapreciosXId(int Id) throws ServiceException {
         Query query= sc.useSession().createQuery("from Listaprecios listaPrecios where listaPrecios.IdListaprecios=:id");            
         query.setParameter("id", Id);        

@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class TipoDuracionBean implements TipoDuracionLocal {
+public class TipoDuracionBean {
 
     public Transaction tx;
     public boolean correcto;
@@ -25,7 +25,7 @@ public class TipoDuracionBean implements TipoDuracionLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Tipoduracion tipoDuracion) throws ServiceException {
         correcto = false;
         try {
@@ -40,7 +40,7 @@ public class TipoDuracionBean implements TipoDuracionLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Tipoduracion tipoDuracion) throws ServiceException {
         try {
             tipoDuracion.setActivo(false);
@@ -55,7 +55,7 @@ public class TipoDuracionBean implements TipoDuracionLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Tipoduracion tipoDuracion) throws ServiceException {
         try {
             sc.useSession().update(tipoDuracion);
@@ -69,7 +69,7 @@ public class TipoDuracionBean implements TipoDuracionLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Tipoduracion> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Tipoduracion");
@@ -81,7 +81,7 @@ public class TipoDuracionBean implements TipoDuracionLocal {
         }
     }
 
-    @Override
+    
     public Tipoduracion traerTipoduracionXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Tipoduracion tipoduracion where tipoduracion.IdTipoduracion=:id");
         query.setParameter("id", Id);

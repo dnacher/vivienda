@@ -28,6 +28,8 @@ public class Trabajoxmaterial  implements java.io.Serializable {
        this.cantidad = cantidad;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getTrabajoIdTrabajo() {
         return this.trabajoIdTrabajo;
     }
@@ -56,5 +58,7 @@ public class Trabajoxmaterial  implements java.io.Serializable {
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
+	
+	// </editor-fold>
 }
 

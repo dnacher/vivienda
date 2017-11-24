@@ -33,6 +33,8 @@ public class Grupo  implements java.io.Serializable {
        this.trabajos = trabajos;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdgrupo() {
         return this.idgrupo;
     }
@@ -68,15 +70,14 @@ public class Grupo  implements java.io.Serializable {
     public void setTrabajos(Set trabajos) {
         this.trabajos = trabajos;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {
         return nombre;
     }
-
-    
-
-
+	
 }
 
 

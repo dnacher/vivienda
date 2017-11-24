@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class CuotaConvenioBean implements CuotaConvenioLocal {
+public class CuotaConvenioBean{
 
     public Transaction tx;
     public boolean correcto;
@@ -28,7 +28,7 @@ public class CuotaConvenioBean implements CuotaConvenioLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Cuotaconvenio cuotaConvenio) throws ServiceException {
         correcto = false;
         try {
@@ -43,7 +43,7 @@ public class CuotaConvenioBean implements CuotaConvenioLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Cuotaconvenio cuotaConvenio) throws ServiceException {
         try {
             sc.useSession().update(cuotaConvenio);
@@ -56,7 +56,7 @@ public class CuotaConvenioBean implements CuotaConvenioLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Cuotaconvenio> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Cuotaconvenio");
@@ -68,7 +68,7 @@ public class CuotaConvenioBean implements CuotaConvenioLocal {
         }
     }
 
-    @Override
+    
     public Cuotaconvenio traerCuotaconvenioXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Cuotaconvenio cuotaConvenio where cuotaConvenio.IdCuotaconvenio=:id");
         query.setParameter("id", Id);

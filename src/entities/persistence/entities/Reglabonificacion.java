@@ -37,6 +37,8 @@ public class Reglabonificacion  implements java.io.Serializable {
        this.convenios = convenios;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdreglaBonificacion() {
         return this.idreglaBonificacion;
     }
@@ -104,6 +106,8 @@ public class Reglabonificacion  implements java.io.Serializable {
     public void setHabitaciones(Integer habitaciones) {
         this.habitaciones = habitaciones;
     }   
+	
+	// </editor-fold>
 
     @Override
     public String toString() {

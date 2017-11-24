@@ -22,6 +22,8 @@ public class Permisosusuario  implements java.io.Serializable {
        this.permiso = permiso;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public PermisosusuarioId getId() {
         return this.id;
     }
@@ -48,6 +50,7 @@ public class Permisosusuario  implements java.io.Serializable {
         return this.id.getPagina();
     }
 
+	// </editor-fold>
 
 }
 

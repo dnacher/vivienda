@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class HistorialTrabajoBean implements HistorialTrabajoLocal {
+public class HistorialTrabajoBean {
 
     public Transaction tx;
     public boolean correcto;
@@ -25,7 +25,7 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Historialtrabajo historialTrabajo) throws ServiceException {
         correcto = false;
         try {
@@ -40,7 +40,7 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Historialtrabajo historialTrabajo) throws ServiceException {
         try {
             sc.useSession().update(historialTrabajo);
@@ -53,7 +53,7 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Historialtrabajo> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Historialtrabajo");
@@ -65,7 +65,7 @@ public class HistorialTrabajoBean implements HistorialTrabajoLocal {
         }
     }
 
-    @Override
+    
     public Historialtrabajo traerHistorialtrabajoXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Historialtrabajo historialTrabajo where historialTrabajo.IdHistorialtrabajo=:id");
         query.setParameter("id", Id);

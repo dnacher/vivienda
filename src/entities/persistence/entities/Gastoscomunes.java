@@ -45,6 +45,8 @@ public class Gastoscomunes  implements java.io.Serializable {
        this.activo = activo;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public GastoscomunesId getId() {
         return this.id;
     }
@@ -124,7 +126,8 @@ public class Gastoscomunes  implements java.io.Serializable {
     public void setDescuento(Integer descuento) {
         this.descuento = descuento;
     }
-     
+
+	// </editor-fold>
 
 }
 

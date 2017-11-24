@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class OtrosGastosBean implements OtrosGastosLocal {
+public class OtrosGastosBean {
 
     public Transaction tx;
     public boolean correcto;
@@ -25,7 +25,7 @@ public class OtrosGastosBean implements OtrosGastosLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Otrosgastos otrosGastos) throws ServiceException {
         correcto = false;
         try {
@@ -40,7 +40,7 @@ public class OtrosGastosBean implements OtrosGastosLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Otrosgastos otrosGastos) throws ServiceException {
         try {
             otrosGastos.setActivo(false);
@@ -54,7 +54,7 @@ public class OtrosGastosBean implements OtrosGastosLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Otrosgastos otrosGastos) throws ServiceException {
         try {
             sc.useSession().update(otrosGastos);
@@ -67,7 +67,7 @@ public class OtrosGastosBean implements OtrosGastosLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Otrosgastos> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Otrosgastos");
@@ -79,7 +79,7 @@ public class OtrosGastosBean implements OtrosGastosLocal {
         }
     }
 
-    @Override
+    
     public Otrosgastos traerOtrosgastosXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Otrosgastos otrosGastos where otrosGastos.IdOtrosgastos=:id");
         query.setParameter("id", Id);

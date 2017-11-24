@@ -41,6 +41,8 @@ public class Cuotaconvenio  implements java.io.Serializable {
        this.fechaPago=fechaPago;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public CuotaconvenioId getId() {
         return this.id;
     }
@@ -99,8 +101,7 @@ public class Cuotaconvenio  implements java.io.Serializable {
         this.fechaPago = fechaPago;
     }
 
-
-
+	// </editor-fold>
 
 }
 

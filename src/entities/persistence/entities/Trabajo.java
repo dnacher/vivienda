@@ -59,6 +59,8 @@ public class Trabajo  implements java.io.Serializable {
        this.historialtrabajos = historialtrabajos;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdTrabajo() {
         return this.idTrabajo;
     }
@@ -164,5 +166,7 @@ public class Trabajo  implements java.io.Serializable {
     public void setHistorialtrabajos(Set historialtrabajos) {
         this.historialtrabajos = historialtrabajos;
     }
+	
+	// </editor-fold>
 
 }

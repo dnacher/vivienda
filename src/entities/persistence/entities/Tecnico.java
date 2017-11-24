@@ -45,6 +45,8 @@ public class Tecnico  implements java.io.Serializable {
        this.historialtrabajos = historialtrabajos;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdTecnico() {
         return this.idTecnico;
     }
@@ -122,6 +124,8 @@ public class Tecnico  implements java.io.Serializable {
     public void setHistorialtrabajos(Set historialtrabajos) {
         this.historialtrabajos = historialtrabajos;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {

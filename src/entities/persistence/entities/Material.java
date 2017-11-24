@@ -41,6 +41,8 @@ public class Material  implements java.io.Serializable {
        this.trabajoxmaterials = trabajoxmaterials;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdmaterial() {
         return this.idmaterial;
     }
@@ -104,6 +106,8 @@ public class Material  implements java.io.Serializable {
     public void setTrabajoxmaterials(Set trabajoxmaterials) {
         this.trabajoxmaterials = trabajoxmaterials;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {

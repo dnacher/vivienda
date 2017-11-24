@@ -32,6 +32,8 @@ public class Historialmonto  implements java.io.Serializable {
        this.activo = activo;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public HistorialmontoId getId() {
         return this.id;
     }
@@ -68,7 +70,7 @@ public class Historialmonto  implements java.io.Serializable {
         this.activo = activo;
     }
 
-
+	// </editor-fold>
 
 
 }

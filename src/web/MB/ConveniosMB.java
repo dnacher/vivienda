@@ -42,7 +42,6 @@ import entities.constantes.Constantes;
 import entities.constantes.ConstantesErrores;
 import entities.constantes.ConstantesEtiquetas;
 import entities.enums.MenuAdministracion;
-import entities.enums.MenuMantenimiento;
 import entities.persistence.entities.Convenio;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
@@ -447,17 +446,13 @@ public class ConveniosMB implements Initializable {
 			if (cmbBlock.getValue() != null) {
 				if (cmbTorre.getValue() != null) {
 					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
-					//listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
 				} else {
 					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
-//                    listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(cmbBlock.getValue(), 0);
 				}
 			} else if (cmbTorre.getValue() != null) {
 				listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
-//                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, cmbTorre.getValue());
 			} else {
 				listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
-//                listaTorreBlock = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
 			}
 			listaUnidades = FXCollections.observableList(listaTorreBlock);
 			tblUnidades.setItems(null);
@@ -472,7 +467,6 @@ public class ConveniosMB implements Initializable {
 		lblInfo.setText(ConstantesEtiquetas.VACIO);
 		UnidadBean ub = new UnidadBean();
 		List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
-		//List<Unidad> listaTotal = ub.TraeUnidadesConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0);
 		listaUnidades = FXCollections.observableList(listaTotal);
 		lblInfo.setText(String.valueOf(listaUnidades.size()));
 		tblUnidades.setItems(null);

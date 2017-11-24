@@ -55,6 +55,8 @@ public class Unidad  implements java.io.Serializable {
        this.trabajos = trabajos;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdUnidad() {
         return this.idUnidad;
     }
@@ -177,7 +179,7 @@ public class Unidad  implements java.io.Serializable {
     public void setEsEdificio(Boolean esEdificio) {
         this.esEdificio = esEdificio;
     }
-    
+    // </editor-fold>
 
     @Override
     public String toString() {

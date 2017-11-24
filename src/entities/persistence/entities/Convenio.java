@@ -51,6 +51,8 @@ public class Convenio  implements java.io.Serializable {
        this.cuotaconvenios = cuotaconvenios;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public ConvenioId getId() {
         return this.id;
     }
@@ -121,6 +123,8 @@ public class Convenio  implements java.io.Serializable {
     public void setCuotaconvenios(Set cuotaconvenios) {
         this.cuotaconvenios = cuotaconvenios;
     }
+	
+	// </editor-fold>
     
 }
 

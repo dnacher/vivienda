@@ -61,11 +61,8 @@ import com.calendarfx.model.Calendar.Style;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.view.CalendarView;
 import java.util.Optional;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 
 //import java.util.Map;
 //import java.util.TreeMap;

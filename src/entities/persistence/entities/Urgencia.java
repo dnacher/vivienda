@@ -33,6 +33,8 @@ public class Urgencia  implements java.io.Serializable {
        this.trabajos = trabajos;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdurgencia() {
         return this.idurgencia;
     }
@@ -68,6 +70,8 @@ public class Urgencia  implements java.io.Serializable {
     public void setTrabajos(Set trabajos) {
         this.trabajos = trabajos;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {

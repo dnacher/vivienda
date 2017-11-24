@@ -36,6 +36,8 @@ public class Estado  implements java.io.Serializable {
        this.trabajos = trabajos;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdestado() {
         return this.idestado;
     }
@@ -87,16 +89,14 @@ public class Estado  implements java.io.Serializable {
         this.ultimoEstado = ultimoEstado;
     }
     
+	// </editor-fold>
     
 
     @Override
     public String toString() {
         return nombre;
     }
-
-    
-
-
+	
 }
 
 

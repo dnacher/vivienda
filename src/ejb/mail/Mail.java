@@ -5,7 +5,6 @@
  */
 package ejb.mail;
 
-import entities.constantes.Constantes;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;

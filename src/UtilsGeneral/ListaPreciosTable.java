@@ -31,6 +31,9 @@ public class ListaPreciosTable {
      
      }
 
+	 
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	// </editor-fold> 
     public int getId() {
         return id;
     }

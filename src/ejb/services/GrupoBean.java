@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class GrupoBean implements GrupoLocal {
+public class GrupoBean{
 
     SessionConnection sc;
     public Transaction tx;
@@ -25,7 +25,7 @@ public class GrupoBean implements GrupoLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Grupo grupo) throws ServiceException {
         correcto = false;
         try {
@@ -40,7 +40,7 @@ public class GrupoBean implements GrupoLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Grupo grupo) throws ServiceException {
         try {
             grupo.setActivo(false);
@@ -54,7 +54,7 @@ public class GrupoBean implements GrupoLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Grupo grupo) throws ServiceException {
         try {
             sc.useSession().update(grupo);
@@ -67,7 +67,7 @@ public class GrupoBean implements GrupoLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Grupo> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Grupo");
@@ -79,7 +79,7 @@ public class GrupoBean implements GrupoLocal {
         }
     }
 
-    @Override
+    
     public Grupo traerGrupoXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Grupo grupo where grupo.IdGrupo=:id");
         query.setParameter("id", Id);

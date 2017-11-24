@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  *
  * @author Dani-Fla-Mathi
  */
-public class UsuariosBean implements UsuariosLocal {
+public class UsuariosBean {
 
     SessionConnection sc;
     public Transaction tx;
@@ -34,7 +34,7 @@ public class UsuariosBean implements UsuariosLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Usuario usuario) throws ServiceException {
         correcto = false;
         try {
@@ -49,7 +49,7 @@ public class UsuariosBean implements UsuariosLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Usuario usuario) throws ServiceException {
         try {
             usuario.setActivo(false);
@@ -63,7 +63,7 @@ public class UsuariosBean implements UsuariosLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Usuario usuario) throws ServiceException {
         try {
             sc.useSession().update(usuario);
@@ -76,7 +76,7 @@ public class UsuariosBean implements UsuariosLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Usuario> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Usuario");
@@ -88,7 +88,7 @@ public class UsuariosBean implements UsuariosLocal {
         }
     }
 
-    @Override
+    
     public Usuario traerUsuarioXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Usuario usuario where usuario.IdUsuario=:id");
         query.setParameter("id", Id);
@@ -97,7 +97,7 @@ public class UsuariosBean implements UsuariosLocal {
         return usuario;
     }
 
-    @Override
+    
     public Usuario traerUsuarioXNombre(String nombre) throws ServiceException {
         Query query = sc.useSession().createQuery("from Usuario usuario where usuario.nombre=:nombre");
         query.setParameter("nombre", nombre);

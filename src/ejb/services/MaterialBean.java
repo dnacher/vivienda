@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class MaterialBean implements MaterialLocal {
+public class MaterialBean {
 
     public Transaction tx;
     public boolean correcto;
@@ -25,7 +25,7 @@ public class MaterialBean implements MaterialLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Material material) throws ServiceException {
         correcto = false;
         try {
@@ -40,7 +40,7 @@ public class MaterialBean implements MaterialLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Material material) throws ServiceException {
         try {
             material.setActivo(false);
@@ -54,7 +54,7 @@ public class MaterialBean implements MaterialLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Material material) throws ServiceException {
         try {
             sc.useSession().update(material);
@@ -81,7 +81,7 @@ public class MaterialBean implements MaterialLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Material> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Material");
@@ -93,7 +93,7 @@ public class MaterialBean implements MaterialLocal {
         }
     }
 
-    @Override
+    
     public Material traerMaterialXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Material material where material.IdMaterial=:id");
         query.setParameter("id", Id);

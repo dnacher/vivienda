@@ -20,7 +20,7 @@ import java.io.IOException;
  *
  * @author Daniel
  */
-public class UnidadBean implements UnidadLocal {
+public class UnidadBean {
 
     public Transaction tx;
     public boolean correcto;
@@ -37,7 +37,7 @@ public class UnidadBean implements UnidadLocal {
 
     }
 
-    @Override
+    
     public boolean guardar(Unidad unidad) throws ServiceException {
         correcto = false;
         try {
@@ -82,7 +82,7 @@ public class UnidadBean implements UnidadLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Unidad unidad) throws ServiceException {
         try {
             unidad.setActivo(false);
@@ -96,7 +96,7 @@ public class UnidadBean implements UnidadLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Unidad unidad) throws ServiceException {
         try {
             sc.useSession().update(unidad);
@@ -109,7 +109,7 @@ public class UnidadBean implements UnidadLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Unidad> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("FROM Unidad");
@@ -178,7 +178,7 @@ public class UnidadBean implements UnidadLocal {
         return uni;
     }
 
-    @Override
+    
     public Unidad traerUnidadXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("FROM Unidad unidad WHERE unidad.IdUnidad=:id");
         query.setParameter("id", Id);

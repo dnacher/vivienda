@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class UrgenciaBean implements UrgenciaLocal {
+public class UrgenciaBean {
 
     //public Session session;
     public Transaction tx;
@@ -26,7 +26,7 @@ public class UrgenciaBean implements UrgenciaLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Urgencia urgencia) throws ServiceException {
         correcto = false;
         try {
@@ -41,7 +41,7 @@ public class UrgenciaBean implements UrgenciaLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Urgencia urgencia) throws ServiceException {
         try {
             urgencia.setActivo(false);
@@ -57,7 +57,7 @@ public class UrgenciaBean implements UrgenciaLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Urgencia urgencia) throws ServiceException {
         try {
             //session.update(urgencia);
@@ -72,7 +72,7 @@ public class UrgenciaBean implements UrgenciaLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Urgencia> traerTodos() throws ServiceException {
         try {
             //Query query= session.createQuery("from Urgencia");         
@@ -86,7 +86,7 @@ public class UrgenciaBean implements UrgenciaLocal {
         }
     }
 
-    @Override
+    
     public Urgencia traerUrgenciaXId(int Id) throws ServiceException {
         //Query query= session.createQuery("from Urgencia urgencia where urgencia.IdUrgencia=:id");            
         Query query = sc.useSession().createQuery("from Urgencia urgencia where urgencia.IdUrgencia=:id");

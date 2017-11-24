@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class TrabajoBean implements TrabajoLocal{
+public class TrabajoBean {
     
     public Transaction tx;
     public boolean correcto;
@@ -28,7 +28,7 @@ public class TrabajoBean implements TrabajoLocal{
         correcto=false;
     }
 
-    @Override
+    
     public boolean guardar(Trabajo trabajo) throws ServiceException {
         correcto=false;
         try{            
@@ -44,7 +44,7 @@ public class TrabajoBean implements TrabajoLocal{
         return correcto;
     }   
 
-    @Override
+    
     public boolean modificar(Trabajo trabajo) throws ServiceException {
         try{       
             sc.useSession().update(trabajo);
@@ -58,7 +58,7 @@ public class TrabajoBean implements TrabajoLocal{
         return correcto;
     }
 
-    @Override
+    
     public List<Trabajo> traerTodos() throws ServiceException {
         try{
             //Query query= session.createQuery("from Trabajo");         
@@ -73,7 +73,7 @@ public class TrabajoBean implements TrabajoLocal{
         }
     }
 
-    @Override
+    
     public Trabajo traerTrabajoXId(int Id) throws ServiceException {
         //Query query= session.createQuery("from Trabajo trabajo where trabajo.IdTrabajo=:id");            
         Query query= sc.useSession().createQuery("from Trabajo trabajo where trabajo.IdTrabajo=:id");            

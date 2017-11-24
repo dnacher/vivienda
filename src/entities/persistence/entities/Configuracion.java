@@ -25,6 +25,8 @@ public class Configuracion  implements java.io.Serializable {
        this.id = id;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public String getNombreTabla() {
         return this.nombreTabla;
     }
@@ -47,6 +49,9 @@ public class Configuracion  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+	
+	// </editor-fold>
+	
 }
 
 

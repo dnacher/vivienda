@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class TecnicoBean implements TecnicoLocal {
+public class TecnicoBean {
 
     public Transaction tx;
     public boolean correcto;
@@ -26,7 +26,7 @@ public class TecnicoBean implements TecnicoLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Tecnico tecnico) throws ServiceException {
         correcto = false;
         try {
@@ -42,7 +42,7 @@ public class TecnicoBean implements TecnicoLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Tecnico tecnico) throws ServiceException {
         try {
             tecnico.setActivo(false);
@@ -56,7 +56,7 @@ public class TecnicoBean implements TecnicoLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Tecnico tecnico) throws ServiceException {
         try {
             sc.useSession().update(tecnico);
@@ -69,7 +69,7 @@ public class TecnicoBean implements TecnicoLocal {
         return correcto;
     }
 
-    @Override
+    
     public List<Tecnico> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Tecnico");
@@ -81,7 +81,7 @@ public class TecnicoBean implements TecnicoLocal {
         }
     }
 
-    @Override
+    
     public Tecnico traerTecnicoXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Tecnico tecnico where tecnico.idTecnico=:id");
         query.setParameter("id", Id);

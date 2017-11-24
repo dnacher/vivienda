@@ -41,7 +41,9 @@ public class Monto  implements java.io.Serializable {
        this.descripcion=descripcion;
        this.simbolo=simbolo;
     }
-   
+   	
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdmonto() {
         return this.idmonto;
     }
@@ -135,8 +137,7 @@ public class Monto  implements java.io.Serializable {
         return descripcion;
     }
 
-    
-
+    // </editor-fold>
 
 }
 

@@ -35,6 +35,8 @@ public class Tipousuario  implements java.io.Serializable {
        this.usuarios = usuarios;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getId() {
         return this.id;
     }
@@ -77,6 +79,8 @@ public class Tipousuario  implements java.io.Serializable {
     public void setUsuarios(Set usuarios) {
         this.usuarios = usuarios;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {

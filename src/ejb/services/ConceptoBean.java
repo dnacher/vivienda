@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class ConceptoBean implements ConceptoLocal {
+public class ConceptoBean{
 
     SessionConnection sc;
     public Transaction tx;
@@ -25,7 +25,6 @@ public class ConceptoBean implements ConceptoLocal {
         correcto = false;
     }
 
-    @Override
     public boolean guardar(Concepto concepto) throws ServiceException {
         correcto = false;
         try {
@@ -40,7 +39,6 @@ public class ConceptoBean implements ConceptoLocal {
         return correcto;
     }
 
-    @Override
     public boolean eliminar(Concepto concepto) throws ServiceException {
         try {
             concepto.setActivo(false);
@@ -54,7 +52,6 @@ public class ConceptoBean implements ConceptoLocal {
         return correcto;
     }
 
-    @Override
     public boolean modificar(Concepto concepto) throws ServiceException {
         try {
             sc.useSession().update(concepto);
@@ -68,7 +65,6 @@ public class ConceptoBean implements ConceptoLocal {
         return correcto;
     }
 
-    @Override
     public List<Concepto> traerTodos() throws ServiceException {
         try {
             Query query = sc.useSession().createQuery("from Concepto");
@@ -80,7 +76,6 @@ public class ConceptoBean implements ConceptoLocal {
         }
     }
 
-    @Override
     public Concepto traerConceptoXId(int Id) throws ServiceException {
         Query query = sc.useSession().createQuery("from Concepto concepto where concepto.IdConcepto=:id");
         query.setParameter("id", Id);

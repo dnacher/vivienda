@@ -32,7 +32,9 @@ public class Tipoduracion  implements java.io.Serializable {
        this.descripcion = descripcion;
        this.trabajos = trabajos;
     }
-   
+   	
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public int getIdtipoDuracion() {
         return this.idtipoDuracion;
     }
@@ -68,6 +70,8 @@ public class Tipoduracion  implements java.io.Serializable {
     public void setTrabajos(Set trabajos) {
         this.trabajos = trabajos;
     }
+	
+	// </editor-fold>
 
     @Override
     public String toString() {

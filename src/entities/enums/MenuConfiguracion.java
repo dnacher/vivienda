@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities.enums;
 
 /**
@@ -18,7 +13,6 @@ public enum MenuConfiguracion {
     Usuarios("Usuario", "Usuario", "Configuracion"),
     TipoUsuario("TipoUsuario", "Tipo Usuario", "Configuracion"),
     TipoDuracion("TipoDuracion", "Tipo Duracion", "Configuracion"),
-    //CargarMasivas("CargarMasivas", "Cargar Masivas", "Configuracion"),
     ImportardeExcel("ImportarExcel", "Importar Excel", "Configuracion"),
     Seguridad("Seguridad", "Seguridad", "Configuracion");
 

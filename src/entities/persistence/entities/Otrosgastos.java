@@ -45,6 +45,8 @@ public class Otrosgastos  implements java.io.Serializable {
        this.activo = activo;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public OtrosgastosId getId() {
         return this.id;
     }
@@ -116,7 +118,7 @@ public class Otrosgastos  implements java.io.Serializable {
         this.activo = activo;
     }
 
-
+	// </editor-fold>
 
 
 }

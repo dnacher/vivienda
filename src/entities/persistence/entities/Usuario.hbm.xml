@@ -8,7 +8,7 @@
             <column name="idUsuario" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="tipousuario" class="entities.persistence.entities.Tipousuario" fetch="select">
+        <many-to-one name="tipousuario" class="entities.persistence.entities.Tipousuario" lazy="false">
             <column name="tipoUsuario_id" not-null="true" />
         </many-to-one>
         <property name="nombre" type="string">

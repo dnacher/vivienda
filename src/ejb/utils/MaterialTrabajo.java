@@ -19,6 +19,9 @@ public class MaterialTrabajo {
         this.descripcion=descripcion;
     }
 
+	
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	// </editor-fold>
     public String getNombre() {
         return nombre;
     }

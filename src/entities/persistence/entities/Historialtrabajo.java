@@ -34,6 +34,8 @@ public class Historialtrabajo  implements java.io.Serializable {
        this.fecha = fecha;
     }
    
+	// <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+	
     public HistorialtrabajoId getId() {
         return this.id;
     }
@@ -77,6 +79,8 @@ public class Historialtrabajo  implements java.io.Serializable {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+	
+	// </editor-fold>
 
 }
 

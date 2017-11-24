@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class ConfiguracionBean implements ConfiguracionLocal {
+public class ConfiguracionBean{
 
     //public Session session;
     public Transaction tx;
@@ -24,7 +24,7 @@ public class ConfiguracionBean implements ConfiguracionLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Configuracion configuracion) throws ServiceException {
         correcto = false;
         try {
@@ -38,7 +38,7 @@ public class ConfiguracionBean implements ConfiguracionLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Configuracion configuracion) throws ServiceException {
         try {
             sc.useSession().update(configuracion);

@@ -14,7 +14,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class GastosComunesBean implements GastosComunesLocal {
+public class GastosComunesBean{
 
     public Transaction tx;
     public boolean correcto;
@@ -26,7 +26,7 @@ public class GastosComunesBean implements GastosComunesLocal {
         correcto = false;
     }
 
-    @Override
+    
     public boolean guardar(Gastoscomunes gastosComunes) throws ServiceException {
         correcto = false;
         try {
@@ -59,7 +59,7 @@ public class GastosComunesBean implements GastosComunesLocal {
         return correcto;
     }
 
-    @Override
+    
     public boolean eliminar(Gastoscomunes gastosComunes) throws ServiceException {
         /*    try{
             gastosComunes.setActivo(false);
@@ -75,7 +75,7 @@ public class GastosComunesBean implements GastosComunesLocal {
         return true;
     }
 
-    @Override
+    
     public boolean modificar(Gastoscomunes gastosComunes) throws ServiceException {
         correcto = false;
         try {
@@ -90,19 +90,19 @@ public class GastosComunesBean implements GastosComunesLocal {
         return correcto;
     }
 
-    @Override
-    public List<Gastoscomunes> traerTodos() throws ServiceException {
-        /*  try{
-            Query query= session.createQuery("from Gastoscomunes");         
-            List<Gastoscomunes> gastosComunes=query.list();
-            session.close();        
-            return gastosComunes;
-        }
-        catch(Exception ex){
-            throw new ServiceException(ex.getMessage());
-        }*/
-        return null;
-    }
+    
+//    public List<Gastoscomunes> traerTodos() throws ServiceException {
+//        /*  try{
+//            Query query= session.createQuery("from Gastoscomunes");         
+//            List<Gastoscomunes> gastosComunes=query.list();
+//            session.close();        
+//            return gastosComunes;
+//        }
+//        catch(Exception ex){
+//            throw new ServiceException(ex.getMessage());
+//        }*/
+//        return null;
+//    }
     
     public Gastoscomunes traerGCXUnidad(Unidad unidad, int periodo) throws ServiceException {
         try {
@@ -117,14 +117,14 @@ public class GastosComunesBean implements GastosComunesLocal {
         }
     }
 
-    @Override
-    public Gastoscomunes traerUsuarioXId(int Id) throws ServiceException {
-        /* Query query= session.createQuery("from Gastoscomunes gastosComunes where gastosComunes.IdGastoscomunes=:id");            
-        query.setParameter("id", Id);        
-        Gastoscomunes gastosComunes=(Gastoscomunes) query.uniqueResult();
-        session.close();
-        return gastosComunes;*/
-        return null;
-    }
+    
+//    public Gastoscomunes traerUsuarioXId(int Id) throws ServiceException {
+//        /* Query query= session.createQuery("from Gastoscomunes gastosComunes where gastosComunes.IdGastoscomunes=:id");            
+//        query.setParameter("id", Id);        
+//        Gastoscomunes gastosComunes=(Gastoscomunes) query.uniqueResult();
+//        session.close();
+//        return gastosComunes;*/
+//        return null;
+//    }
 
 }

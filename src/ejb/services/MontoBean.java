@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author Daniel
  */
-public class MontoBean implements MontoLocal{
+public class MontoBean {
     
     public Transaction tx;
     public boolean correcto;
@@ -25,7 +25,7 @@ public class MontoBean implements MontoLocal{
         correcto=false;
     }
 
-    @Override
+    
     public boolean guardar(Monto monto) throws ServiceException {
         correcto=false;
         try{            
@@ -41,7 +41,7 @@ public class MontoBean implements MontoLocal{
         return correcto;   
     }
 
-    @Override
+    
     public boolean eliminar(Monto monto) throws ServiceException {
         try{
             monto.setActivo(false);
@@ -56,7 +56,7 @@ public class MontoBean implements MontoLocal{
         return correcto;
     }
 
-    @Override
+    
     public boolean modificar(Monto monto) throws ServiceException {
         try{            
             sc.useSession().update(monto);
@@ -70,7 +70,7 @@ public class MontoBean implements MontoLocal{
         return correcto;
     }
 
-    @Override
+    
     public List<Monto> traerTodos() throws ServiceException {
         try{
             Query query= sc.useSession().createQuery("from Monto");         
@@ -83,7 +83,7 @@ public class MontoBean implements MontoLocal{
         }
     }
 
-    @Override
+    
     public Monto traerMontoXId(int Id) throws ServiceException {
         Query query= sc.useSession().createQuery("from Monto monto where monto.idmonto=:id");            
         query.setParameter("id", Id);        
