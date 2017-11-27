@@ -105,8 +105,15 @@ public class Constantes {
 	/*
      *                             VERSION
 	 */
-	public static final String VER = "5.2.4";
-	public static final String VER_ERORES = "524-";
+	
+	//main de version
+	public static final String MAIN_VER="4";
+	//revision de version
+	public static final String REVI_VER="7";
+	//incidentes version
+	public static final String INCI_VER="9";
+	public static final String VER = MAIN_VER + "." + REVI_VER + "." + INCI_VER;
+	public static final String VER_ERORES = MAIN_VER + REVI_VER + INCI_VER + "-";
 	public static final String VERSION = "Versión: " + VER;
 
 	/*

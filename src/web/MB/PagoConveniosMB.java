@@ -231,7 +231,7 @@ public class PagoConveniosMB implements Initializable {
 			@Override
 			public void handle(WorkerStateEvent t) {
 				UnidadBean ub = new UnidadBean();
-				unidadConvenios = FXCollections.observableArrayList(ub.TraeUnidadesConConvenioXBlockTorre(ConstantesEtiquetas.VACIO, 0));
+				unidadConvenios = FXCollections.observableArrayList(ub.TraeUnidadesConConvenioActivoXBlockTorre(null,null));
 				cargaTabla();
 				atras();
 
@@ -427,20 +427,20 @@ public class PagoConveniosMB implements Initializable {
 			UnidadBean ub = new UnidadBean();
 			if (cmbBlock.getValue() != null) {
 				if (cmbTorre.getValue() != null) {
-					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
+					listaTorreBlock = ub.TraeUnidadesConConvenioActivoXBlockTorre(cmbBlock.getValue(), cmbTorre.getValue());
 					block = cmbBlock.getValue();
 					torre = cmbTorre.getValue();
 				} else {
-					listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(cmbBlock.getValue(), null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
+					listaTorreBlock = ub.TraeUnidadesConConvenioActivoXBlockTorre(cmbBlock.getValue(), null);
 					block = cmbBlock.getValue();
 					torre = 0;
 				}
 			} else if (cmbTorre.getValue() != null) {
-				listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, cmbTorre.getValue(), Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
+				listaTorreBlock = ub.TraeUnidadesConConvenioActivoXBlockTorre(null, cmbTorre.getValue());
 				block = ConstantesEtiquetas.VACIO;
 				torre = cmbTorre.getValue();
 			} else {
-				listaTorreBlock = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
+				listaTorreBlock = ub.TraeUnidadesConConvenioActivoXBlockTorre(null, null);
 				block = ConstantesEtiquetas.VACIO;
 				torre = 0;
 			}
@@ -455,7 +455,7 @@ public class PagoConveniosMB implements Initializable {
 
 	public void mostrarTodos() {
 		UnidadBean ub = new UnidadBean();
-		List<Unidad> listaTotal = ub.traeUnidadesXEstadoXBlockXTorre(null, null, Constantes.IN, Constantes.NO_PAGO, ConfiguracionControl.devuelvePeriodoActual(), Constantes.COMPARA_LESS_THAN, false);
+		List<Unidad> listaTotal = ub.TraeUnidadesConConvenioActivoXBlockTorre(null,null);
 		unidadConvenios = FXCollections.observableList(listaTotal);
 		llenaTabla();
 	}
