@@ -1,4 +1,3 @@
-
 package ejb.mail;
 
 import java.util.Properties;
