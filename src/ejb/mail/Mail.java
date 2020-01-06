@@ -43,7 +43,6 @@ public class Mail {
                         return new PasswordAuthentication(Username, PassWord);
                     }
                 });
-
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(Username));
