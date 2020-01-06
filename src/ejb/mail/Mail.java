@@ -24,8 +24,8 @@ public class Mail {
     
     public boolean SendMail(String mensage) {
         boolean enviado=false;
-        String Username="danielnacher@gmail.com";
-        String PassWord="Punknotdead123.";
+        String Username="***********************";
+        String PassWord="***********************";
         String Subject="test mail";
         String To=Username;
         Properties props = new Properties();
