@@ -6,6 +6,7 @@ package ejb.utils;
  */
 public class MaterialTrabajo {
     
+	
     private String nombre;
     private String descripcion;
     private int cantidad;
