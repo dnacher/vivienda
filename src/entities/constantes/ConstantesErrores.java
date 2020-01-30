@@ -5,6 +5,7 @@ package entities.constantes;
  */
 public class ConstantesErrores {
 
+    
     /*
      *                          ERRORES
      */
