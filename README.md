@@ -1,6 +1,5 @@
 # README #
 
-
 JDK 1.8
 se necesita el trayNotification.jar
 
