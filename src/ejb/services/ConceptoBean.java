@@ -15,6 +15,7 @@ import org.hibernate.Transaction;
  */
 public class ConceptoBean{
 
+    
     SessionConnection sc;
     public Transaction tx;
     public boolean correcto;
