@@ -15,7 +15,6 @@ import javax.mail.internet.MimeMessage;
  */
 public class Mail {
     
-    
     public Mail(){}
     
     public boolean SendMail(String mensage) {
