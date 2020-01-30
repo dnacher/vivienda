@@ -3,6 +3,7 @@ package entities.constantes;
 import java.util.Arrays;
 import java.util.List;
 
+
 /*
  * @author Dani-Fla-Mathi
  */
