@@ -6,6 +6,7 @@ package entities.constantes;
  */
 public class ConstantesEtiquetas {
     
+	
     /*
     *        Tablas
     */
